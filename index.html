@@ -216,83 +216,6 @@
 
 
   
-    <article id="post-【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/" class="archive-article-date">
-  	<time datetime="2017-12-13T01:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>###一、基本要求<br>    使用jieba对垃圾短信数据集进行分词，然后统计其中的单词出现的个数，找到出现频次最高的top100个词。</p>
-<p>###二、完整代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"><span class="keyword">import</span> jieba.analyse</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment">#分词模板</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut_word</span><span class="params">(datapath)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(datapath, <span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> fr:</span><br><span class="line">        string=fr.read()</span><br><span class="line">        print(type(string))</span><br><span class="line">        <span class="comment">#对文件中的非法字符进行过滤</span></span><br><span class="line">        data=re.sub(<span class="string">r"[\s+\.\!\/_,$%^*(【】：\]\[\-:;+\"\']+|[+——！，。？、~@#￥%……&amp;*（）]+|[0-9]+"</span>,<span class="string">""</span>,string)</span><br><span class="line">        word_list= jieba.cut(data)</span><br><span class="line">        print(word_list)</span><br><span class="line">        <span class="keyword">return</span> word_list</span><br><span class="line"><span class="comment">#词频统计模块</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">statistic_top_word</span><span class="params">(word_list,top=<span class="number">100</span>)</span>:</span></span><br><span class="line">    <span class="comment">#统计每个单词出现的次数，别将结果转化为键值对（即字典）</span></span><br><span class="line">    result= dict(Counter(word_list))</span><br><span class="line">    print(result)</span><br><span class="line">    <span class="comment">#sorted对可迭代对象进行排序</span></span><br><span class="line">    <span class="comment">#items()方法将字典的元素转化为了元组，而这里key参数对应的lambda表达式的意思则是选取元组中的第二个元素作为比较参数</span></span><br><span class="line">    <span class="comment">#排序厚的结果是一个列表，列表中的每个元素是一个将原字典中的键值对转化为的元祖</span></span><br><span class="line">    sortlist=sorted(result.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">1</span>],reverse=<span class="keyword">True</span>)</span><br><span class="line">    resultlist=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,top):</span><br><span class="line">        resultlist.append(sortlist[i])</span><br><span class="line">    <span class="keyword">return</span> resultlist</span><br><span class="line"></span><br><span class="line"><span class="comment">#主函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment">#设置数据集地址</span></span><br><span class="line">    datapath=<span class="string">'F:\\python3\\nlp\\data\\spam.txt'</span></span><br><span class="line">    <span class="comment">#对文本进行分词</span></span><br><span class="line">    word_list=cut_word(datapath)</span><br><span class="line">    <span class="comment">#统计文本中的词频</span></span><br><span class="line">    statistic_result=statistic_top_word(word_list,<span class="number">100</span>)</span><br><span class="line">    <span class="comment">#输出统计结果</span></span><br><span class="line">    print(statistic_result)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
-<p>###三、相关知识点<br>    1、jieba分词：三种模式，详见<a href="http://www.jianshu.com/p/c434be968dee" target="_blank" rel="noopener">相关介绍</a><br>    2、对字典进行排序：字典可以实现对键和值分别排序。详见<a href="http://blog.csdn.net/tangtanghao511/article/details/47810729" target="_blank" rel="noopener">原文链接</a><br>    3、python 过滤中文、英文标点特殊符号：在进行分词前，主要是利用正则表达式对欲分词文本进行过滤，利用re.sub（）函数对“非法”字符进行空字符替换。详见<a href="http://blog.csdn.net/mach_learn/article/details/41744487" target="_blank" rel="noopener">原文链接</a></p>
-<p>###四、相关参考<br>    1、<a href="http://www.linuxyw.com/810.html" target="_blank" rel="noopener">python数据分析：jieba模块对数据进行切词并统计出现每个词的次数</a><br>    2、<a href="http://blog.csdn.net/tangtanghao511/article/details/47810729" target="_blank" rel="noopener">python的sorted函数对字典按key排序和按value排序</a><br>    3、<a href="http://blog.csdn.net/mach_learn/article/details/41744487" target="_blank" rel="noopener">python 过滤中文、英文标点特殊符号</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">自然语言处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -397,10 +320,6 @@ MathJax.Hub.Queue(function() {
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">自然语言处理</a>
-              </li>
             
             <div class="clearfix"></div>
           </ul>
