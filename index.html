@@ -168,25 +168,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-创建工程项目的简单步骤"><a href="#1-创建工程项目的简单步骤" class="headerlink" title="1 创建工程项目的简单步骤"></a>1 创建工程项目的简单步骤</h3><p>（1）开始一个爬虫项目<br>进入一个你要创建爬虫的目录下面，在命令行窗口中执行如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject 项目名</span><br></pre></td></tr></table></figure>
-<p>其中项目名改成你将要创建的项目的名称<br>项目创建好了以后，进入该项目，可以看到如下的目录结构（其中tutorial是创建的项目名）<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E5%9B%BE%E7%89%8720171216191210.png" alt="image"><br>（2）创建一个spider文件模板<br>首先进入项目文件里，在项目文件里用命令行执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider abc_spider www.baidu.com</span><br></pre></td></tr></table></figure>
-<p>命令行的第三个串是要创建的spider的名字，第四个是要爬取网页的链接地址。<br>这时，进入项目文件下的spider目录里面，就会发现一个abc_spider.py文件，这个就是创建的文件模板，用IDE打开，修改其内容。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class AbcSpiderSpider(scrapy.Spider):</span><br><span class="line">    name = &apos;abc_spider&apos;</span><br><span class="line">    allowed_domains = [&apos;www.baidu.com&apos;]</span><br><span class="line">    start_urls = [&apos;http://www.baidu.com/&apos;]</span><br><span class="line"></span><br><span class="line">    def parse(self, response):</span><br><span class="line">        #定义文件名</span><br><span class="line">        filename=response.url.split(&apos;/&apos;)[-2]+&quot;html&quot;</span><br><span class="line">        #打开文件并写入源代码</span><br><span class="line">        with open(filename,&quot;wb&quot;) as fp:</span><br><span class="line">            fp.write(response.body)</span><br></pre></td></tr></table></figure>
-<p>（3）运行爬虫</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl 爬虫名</span><br></pre></td></tr></table></figure>
-<p>于是就能看到一个html的文件。</p>
-<h3 id="2-自定义抓取项"><a href="#2-自定义抓取项" class="headerlink" title="2 自定义抓取项"></a>2 自定义抓取项</h3><p>（1）打开项目中的item.py文件，按照说明进行改写。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class FirstspiderItem(scrapy.Item):</span><br><span class="line">    # define the fields for your item here like:</span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    desc = scrapy.Field()</span><br><span class="line">    link=scrapy.Field()</span><br></pre></td></tr></table></figure>
-<p>（2）改写parse函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import scrapy</span><br><span class="line">from firstspider.items import FirstspiderItem</span><br><span class="line"></span><br><span class="line">class AbcSpiderSpider(scrapy.Spider):</span><br><span class="line">    name = &apos;abc_spider&apos;</span><br><span class="line">    allowed_domains = [&apos;www.baidu.com&apos;]</span><br><span class="line">    start_urls = [&apos;http://www.baidu.com/&apos;]</span><br><span class="line"></span><br><span class="line">    def parse(self, response):</span><br><span class="line">        # #定义文件名</span><br><span class="line">        # filename=response.url.split(&apos;/&apos;)[-2]+&quot;html&quot;</span><br><span class="line">        # #打开文件并写入源代码</span><br><span class="line">        # with open(filename,&quot;wb&quot;) as fp:</span><br><span class="line">        #     fp.write(response.body)</span><br><span class="line">        #通过xpath获取要抓取的内容</span><br><span class="line">        lis=response.xpath(&apos;//*[@id=&quot;head&quot;]&apos;)</span><br><span class="line">        for li in lis:</span><br><span class="line">            #在这之前需要引入</span><br><span class="line">            item=FirstspiderItem()</span><br><span class="line">            #xpath百度首页不好举例</span><br><span class="line">            item[&apos;title&apos;]=li.xpath(&apos;xpath路径&apos;).extract()</span><br><span class="line">            item[&apos;link&apos;]=li.xpath(&apos;xpath路径&apos;).extract()</span><br><span class="line">            item[&apos;desc&apos;] = li.xpath(&apos;xpath路径&apos;).extract()</span><br><span class="line">            #返回item</span><br><span class="line">            yield item</span><br></pre></td></tr></table></figure>
-<p>（3）改写pipeline文件<br>这里不做修改，只是返回item即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class FirstspiderPipeline(object):</span><br><span class="line">    def process_item(self, item, spider):</span><br><span class="line">        return item</span><br></pre></td></tr></table></figure>
-<p>（4）运行爬虫<br>可以通过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy list</span><br></pre></td></tr></table></figure>
-<p>来获取项目里面所包含的爬虫，然后运行你要执行的爬虫。抓取得结果一般情况下是存放在数据库中。</p>
-
+        <p>前面看了一个爬虫的小例子，那么接下来就；来看看创建一个爬虫的步骤有哪些。<br>
+        
+          <a class="article-more-a" href="/2017/12/16/scrapy-02：使用步骤/#more">more >></a>
+        
       
 
       
@@ -210,6 +195,83 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/16/scrapy-02：使用步骤/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-scrapy-01：简单实列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/16/scrapy-01：简单实列/">scrapy-01：简单实列</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/16/scrapy-01：简单实列/" class="archive-article-date">
+  	<time datetime="2017-12-16T01:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="scrapy-01：简单实列"><a href="#scrapy-01：简单实列" class="headerlink" title="scrapy-01：简单实列"></a>scrapy-01：简单实列</h3><blockquote>
+<p>最近开始学习自然语言处理，在自然语言处理的过程中，获取语料，处理语料都是非常重要的一部，因此在开始入门学习自然语言处理的同时，也开始练习一些爬虫，暑假时学过一点，但是也忘得差不多了，于是重新开始，并记录下来、
+        
+          <a class="article-more-a" href="/2017/12/16/scrapy-01：简单实列/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">scrapy</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/16/scrapy-01：简单实列/">展开全文 >></a>
         </p>
       
 
@@ -322,159 +384,6 @@
 
 
   
-    <article id="post-【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/" class="archive-article-date">
-  	<time datetime="2017-12-13T01:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="一、基本要求"><a href="#一、基本要求" class="headerlink" title="一、基本要求"></a>一、基本要求</h3><p>使用jieba对垃圾短信数据集进行分词，然后统计其中的单词出现的个数，找到出现频次最高的top100个词。<br>
-        
-          <a class="article-more-a" href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">自然语言处理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-scrapy-01：简单实列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/13/scrapy-01：简单实列/">scrapy=01：简单实列</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/13/scrapy-01：简单实列/" class="archive-article-date">
-  	<time datetime="2017-12-13T01:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="scrapy-01：简单实列"><a href="#scrapy-01：简单实列" class="headerlink" title="scrapy-01：简单实列"></a>scrapy-01：简单实列</h3><blockquote>
-<p>最近开始学习自然语言处理，在自然语言处理的过程中，获取语料，处理语料都是非常重要的一部，因此在开始入门学习自然语言处理的同时，也开始练习一些爬虫，暑假时学过一点，但是也忘得差不多了，于是重新开始，并记录下来、
-        
-          <a class="article-more-a" href="/2017/12/13/scrapy-01：简单实列/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">scrapy</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/13/scrapy-01：简单实列/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-《统计学习方法》-感知机模型学习笔记(1)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -523,6 +432,82 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/13/《统计学习方法》-感知机模型学习笔记(1)/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/" class="archive-article-date">
+  	<time datetime="2017-12-13T01:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、基本要求"><a href="#一、基本要求" class="headerlink" title="一、基本要求"></a>一、基本要求</h3><p>使用jieba对垃圾短信数据集进行分词，然后统计其中的单词出现的个数，找到出现频次最高的top100个词。<br>
+        
+          <a class="article-more-a" href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">自然语言处理</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">展开全文 >></a>
         </p>
       
 
@@ -666,11 +651,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">自然语言处理</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color2">自然语言处理</a>
               </li>
             
             <div class="clearfix"></div>
