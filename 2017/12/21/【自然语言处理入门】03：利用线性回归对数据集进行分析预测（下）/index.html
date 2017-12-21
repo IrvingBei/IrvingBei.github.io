@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>【自然语言处理入门】02：Kenlm语料库的制作与模型的训练 | 山不过来，我就过去</title>
+  <title>【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下） | 山不过来，我就过去</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文是《从自然语言处理到机器学习入门》系列课程的第二次作业，由于我的作业环境没有配好（配了n次了还是不行T_T），但是为了保证这一系列作业的完整性，于是经罗曜强律师同意，人工智能A7论坛授权，转载他的作业笔记。">
+  <meta name="description" content="上一篇中我们简单的介绍了利用线性回归分析并预测波士顿房价数据集，那么在这一篇中，将使用相同的模型来对红酒数据集进行分析。">
 <meta name="keywords" content="自然语言处理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【自然语言处理入门】02：Kenlm语料库的制作与模型的训练">
-<meta property="og:url" content="http://yoursite.com/2017/12/18/【自然语言处理入门】02：Kenlm语料库的制作与模型的训练/index.html">
+<meta property="og:title" content="【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）">
+<meta property="og:url" content="http://yoursite.com/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）/index.html">
 <meta property="og:site_name" content="山不过来，我就过去">
-<meta property="og:description" content="本文是《从自然语言处理到机器学习入门》系列课程的第二次作业，由于我的作业环境没有配好（配了n次了还是不行T_T），但是为了保证这一系列作业的完整性，于是经罗曜强律师同意，人工智能A7论坛授权，转载他的作业笔记。">
+<meta property="og:description" content="上一篇中我们简单的介绍了利用线性回归分析并预测波士顿房价数据集，那么在这一篇中，将使用相同的模型来对红酒数据集进行分析。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-12-18T08:50:43.349Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E5%9B%BE%E7%89%8720171221191054.png">
+<meta property="og:updated_time" content="2017-12-21T11:21:46.200Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【自然语言处理入门】02：Kenlm语料库的制作与模型的训练">
-<meta name="twitter:description" content="本文是《从自然语言处理到机器学习入门》系列课程的第二次作业，由于我的作业环境没有配好（配了n次了还是不行T_T），但是为了保证这一系列作业的完整性，于是经罗曜强律师同意，人工智能A7论坛授权，转载他的作业笔记。">
+<meta name="twitter:title" content="【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）">
+<meta name="twitter:description" content="上一篇中我们简单的介绍了利用线性回归分析并预测波士顿房价数据集，那么在这一篇中，将使用相同的模型来对红酒数据集进行分析。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E5%9B%BE%E7%89%8720171221191054.png">
   
     <link rel="alternative" href="/atom.xml" title="山不过来，我就过去" type="application/atom+xml">
   
@@ -151,20 +153,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-【自然语言处理入门】02：Kenlm语料库的制作与模型的训练" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      【自然语言处理入门】02：Kenlm语料库的制作与模型的训练
+      【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）
     </h1>
   
 
         
-        <a href="/2017/12/18/【自然语言处理入门】02：Kenlm语料库的制作与模型的训练/" class="archive-article-date">
-  	<time datetime="2017-12-18T07:43:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
+        <a href="/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）/" class="archive-article-date">
+  	<time datetime="2017-12-21T11:03:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
 </a>
         
       </header>
@@ -172,19 +174,14 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>本文是《从自然语言处理到机器学习入门》系列课程的第二次作业，由于我的作业环境没有配好（配了n次了还是不行T_T），但是为了保证这一系列作业的完整性，于是经罗曜强律师同意，<a href="www.aqinet.cn">人工智能A7论坛</a>授权，转载他的作业笔记。<br><a id="more"></a></p>
-<h3 id="1-基本要求"><a href="#1-基本要求" class="headerlink" title="1 基本要求"></a>1 基本要求</h3><p>通过自己训练的语言模型编程，判断每句话中是否存在a an用错的问题(所谓用错 指a an用反了 比如 i have a apple是错误的； i have an apple  是正确的)</p>
-<h3 id="2-准备工作"><a href="#2-准备工作" class="headerlink" title="2 准备工作"></a>2 准备工作</h3></blockquote>
-<p>（1）实验的环境Ubuntu16.04，Python 版本 2.7</p>
-<p>（2）使用kenlm训练一个语言模型，首先要准备kenlm所需要的语料，按照<a href="http://kheafield.com/code/kenlm/官方文档上使用说明，训练的文件会被训练成.arpa的格式。" target="_blank" rel="noopener">http://kheafield.com/code/kenlm/官方文档上使用说明，训练的文件会被训练成.arpa的格式。</a></p>
-<p>（3）训练模型：例如:我有名为test.txt的文件需要训练成kenlm指定的.arpa格式文件,训练后的文件为text.arpa，我需要在Ubuntu的Teminal终端使用如下命令进行训练：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/lmplz -o 5 &lt;test.txt  &gt; text.arpa</span><br></pre></td></tr></table></figure>
-<p>-o   Required. Order of the language model to estimate<br>-o 5 代表使用5ngram</p>
-<p>将arpa文件转换为binary文件，这样可以对arpa文件进行压缩，提高后续在python中加载的速度。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/build_binary -s text.arpa text.bin</span><br></pre></td></tr></table></figure>
-<h3 id="3-具体实验"><a href="#3-具体实验" class="headerlink" title="3 具体实验"></a>3 具体实验</h3><p>做好上述前置准备工作后，接着就是在Python下运行text.arpa<br>主要分为以下几个步骤：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">#导入训练所需要的包</span><br><span class="line">import kenlm</span><br><span class="line">import nltk</span><br><span class="line">from itertools import combinations, permutations</span><br><span class="line"></span><br><span class="line">#将文件导入kenlm语言模型</span><br><span class="line">model = kenlm.LanuageModel(text.bin)</span><br><span class="line"></span><br><span class="line">#判断a或者an在互换前的得分和互换后的得分，如果互换前的得分高于互换后的得分，则说明a或an没有错误，如果互换后的得分高于互换前的得分则说明a或者an语法错误</span><br><span class="line">def judge_a_or_an(sentence):</span><br><span class="line">#创建一个空list，用于存放sentence</span><br><span class="line">s = [] </span><br><span class="line">#将句子进行分词</span><br><span class="line">“””</span><br><span class="line">Model.score函数输出的是对数概率，bos=False, eos=False意思是不自动添加句首和句末标记符</span><br><span class="line">“””</span><br><span class="line">pre_score = model.score(‘ ’.join(sentence), bos = True,  eos = True)</span><br><span class="line">#通过循环的方式替换a或an然后进行评分对比</span><br><span class="line">for word in sentence:</span><br><span class="line">#如果word里面有a，则把a换成an</span><br><span class="line">If word == ‘a’:</span><br><span class="line">s.append(‘an’)</span><br><span class="line">#如果word里面有an，则把an换成a</span><br><span class="line">elif word == ‘an’:</span><br><span class="line">s.append(‘a’)</span><br><span class="line">#如果word里面没有a或者an，按照原句输出</span><br><span class="line">else:</span><br><span class="line">s.append(word)</span><br><span class="line">after_score = model.score(‘ ’.join(s), bos = True, eos = True)</span><br><span class="line"></span><br><span class="line">#对话置换前，置换后的得分，如果置换前得分高于置换后，则返回0，否则返回1</span><br><span class="line">if pre_score &gt; after_score</span><br><span class="line">return 0</span><br><span class="line">else:</span><br><span class="line">return 1</span><br><span class="line"></span><br><span class="line">#打开文件</span><br><span class="line">inputs = open(‘text.arpa’, ’r’)</span><br><span class="line">outputs = open(‘text_after.txt’, ‘r’)</span><br><span class="line">for line in inputs:</span><br><span class="line">data = nltk.tokenize.word_tokenize(line)</span><br><span class="line">#调用judge_a_or_an函数</span><br><span class="line">label = judge_a_or_an(data)</span><br><span class="line">#格式化输出0或1</span><br><span class="line">print(line + ‘\t%d’ %(label))</span><br><span class="line">#关闭IO流</span><br><span class="line">outputs.close()</span><br><span class="line">inputs.close()</span><br></pre></td></tr></table></figure>
-<h3 id="4-常见错误"><a href="#4-常见错误" class="headerlink" title="4 常见错误"></a>4 常见错误</h3><p>（1）ModuleNotFoundError: No module named ‘kenlm’<br>Kenlm安装错误，导致无法正常调用kenlm、<br>（2）打开文件后未关闭IO流致使文件无法正常输出<br>（3）其他语法错误</p>
+<p>上一篇中我们简单的介绍了<a href="https://xiongzongyang.github.io/2017/12/21/%E3%80%90%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%85%A5%E9%97%A8%E3%80%9103%EF%BC%9A%E5%88%A9%E7%94%A8%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E5%AF%B9%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%86%E6%9E%90%E9%A2%84%E6%B5%8B%EF%BC%88%E4%B8%8A%EF%BC%89/" target="_blank" rel="noopener">利用线性回归分析并预测波士顿房价数据集</a>，那么在这一篇中，将使用相同的模型来对红酒数据集进行分析。<br><a id="more"></a></p>
+</blockquote>
+<h3 id="1-基本要求"><a href="#1-基本要求" class="headerlink" title="1 基本要求"></a>1 基本要求</h3><p>利用线性回归，对红酒数据集进行分析。数据集<a href="https://github.com/xiongzongyang/hexo_photo" target="_blank" rel="noopener">下载地址</a>。</p>
+<h3 id="2-完整代码"><a href="#2-完整代码" class="headerlink" title="2 完整代码"></a>2 完整代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding: UTF-8 -*-</span><br><span class="line"># @Time    : 2017/12/21 9:29</span><br><span class="line"># @Author  : xiongzongyang</span><br><span class="line"># @Software: PyCharm</span><br><span class="line"></span><br><span class="line">import pandas as pd</span><br><span class="line">from pandas import Series, DataFrame</span><br><span class="line">import numpy as np</span><br><span class="line">from sklearn.linear_model import LinearRegression #线性回归</span><br><span class="line">from sklearn.metrics import mean_squared_error</span><br><span class="line">import matplotlib as mpl</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line">#读取数据</span><br><span class="line">def read_data(data_path=&quot;./data/&quot;):</span><br><span class="line">    test_data = pd.read_csv(data_path+&quot;test.csv&quot;, header=None)</span><br><span class="line">    train_data = pd.read_csv(data_path+&quot;train.csv&quot;, header=None)</span><br><span class="line">    return train_data,test_data</span><br><span class="line">#数据处理</span><br><span class="line">def deal_data(pd_data):</span><br><span class="line">    #获取数据的行数,因为要出去字段名，所以要-1</span><br><span class="line">    row_cnt = pd_data.shape[0]-1</span><br><span class="line">    #计算列数，因为在读入数据时，没有指定分隔符，所以所有列数据都是作为一列数据来读入的，因此在计算列数时，将读入的每一行按照;来分开</span><br><span class="line">    column_cnt = len(pd_data.iloc[0, 0].split(&quot;;&quot;))</span><br><span class="line">    #empty 会创建一个没有使用特定值来初始化的数组。给这些方法传递一个元组作为形状来创建高维数组：</span><br><span class="line">    X = np.empty((row_cnt, column_cnt - 1))</span><br><span class="line">    Y = np.empty((row_cnt, 1))</span><br><span class="line">    column_name=pd_data.iloc[0, 0].split(&quot;;&quot;)</span><br><span class="line">    #开始获取数据</span><br><span class="line">    for i in range(0, row_cnt):</span><br><span class="line">        #逐一将每一行进行分割（按;空格分割）</span><br><span class="line">        row_array = pd_data.iloc[i+1, 0].split(&quot;;&quot;)</span><br><span class="line">        #x取前13个数据，X[i]是一个一维数组，则X相当于一个二维数组，Y同理</span><br><span class="line">        X[i] = np.array(row_array[0:-1])</span><br><span class="line">        #y取最后一个数据</span><br><span class="line">        Y[i] = np.array(row_array[-1])</span><br><span class="line">    return X, Y,column_name</span><br><span class="line">#把特征标准化为均匀分布</span><br><span class="line">def uniform_norm(X):</span><br><span class="line">    X_max = X.max(axis=0)</span><br><span class="line">    X_min = X.min(axis=0)</span><br><span class="line">    return (X - X_min) / (X_max - X_min), X_max, X_min</span><br><span class="line"></span><br><span class="line">#实现线性回归</span><br><span class="line">#画图</span><br><span class="line">def draw(pred,test_Y):</span><br><span class="line">    t = np.arange(len(pred))</span><br><span class="line">    mpl.rcParams[&apos;font.sans-serif&apos;] = [u&apos;simHei&apos;]</span><br><span class="line">    mpl.rcParams[&apos;axes.unicode_minus&apos;] = False</span><br><span class="line">    plt.figure(facecolor=&apos;w&apos;)</span><br><span class="line">    plt.plot(t, test_Y, &apos;r-&apos;, lw=2, label=u&apos;true value&apos;)</span><br><span class="line">    plt.plot(t, pred, &apos;b-&apos;, lw=2, label=u&apos;estimated&apos;)</span><br><span class="line">    plt.legend(loc=&apos;best&apos;)</span><br><span class="line">    plt.title(u&apos;wine quality&apos;, fontsize=18)</span><br><span class="line">    plt.xlabel(u&apos;case id&apos;, fontsize=15)</span><br><span class="line">    plt.ylabel(u&apos;quality&apos;, fontsize=15)</span><br><span class="line">    plt.grid()</span><br><span class="line">    plt.show()</span><br><span class="line">#模型评估</span><br><span class="line">def evaluate(unif_train_X,train_Y,unif_test_X,test_Y):</span><br><span class="line">    print(&quot;训练集上效果评估:&quot;)</span><br><span class="line">    pred_train = model.predict(unif_train_X)</span><br><span class="line">    print(&quot;R^2系数 &quot;, model.score(unif_train_X, train_Y))</span><br><span class="line">    print(&quot;均方误差 &quot;, mean_squared_error(train_Y, pred_train))</span><br><span class="line">    print(&quot;\n测试集上效果评估 :&quot;)</span><br><span class="line">    r2 = model.score(unif_test_X, test_Y)</span><br><span class="line">    print(&quot;R^2系数 &quot;, r2)</span><br><span class="line">    pred = model.predict(unif_test_X)</span><br><span class="line">    print(&quot;均方误差 &quot;, mean_squared_error(test_Y, pred))</span><br><span class="line"></span><br><span class="line">#主函数</span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    #读取数据</span><br><span class="line">    train_data,test_data=read_data()</span><br><span class="line">    #数据处理</span><br><span class="line">    train_X, train_Y,column_name=deal_data(train_data)</span><br><span class="line">    # print(train_X.shape)</span><br><span class="line">    # print(train_Y.shape)</span><br><span class="line">    test_X, test_Y,column_name=deal_data(test_data)</span><br><span class="line">    # print(test_X.shape)</span><br><span class="line">    # print(test_Y.shape)</span><br><span class="line">    #把特征标准化为均匀分布</span><br><span class="line">    unif_train_X, max_X, min_X = uniform_norm(train_X)</span><br><span class="line">    unif_test_X = (test_X - min_X) / (max_X - min_X)</span><br><span class="line">    #实现线性回归</span><br><span class="line">    model = LinearRegression()</span><br><span class="line">    model.fit(unif_train_X, train_Y)</span><br><span class="line">    #在训练集上预测</span><br><span class="line">    pred_train = model.predict(unif_train_X)</span><br><span class="line">    #在测试集上预测</span><br><span class="line">    pred = model.predict(unif_test_X)</span><br><span class="line">    #画图</span><br><span class="line">    draw(pred,test_Y)</span><br><span class="line">    #模型评估</span><br><span class="line">    evaluate(unif_train_X,train_Y,unif_test_X,test_Y)</span><br></pre></td></tr></table></figure>
+<p>注意：本数据集中，每一列都有列名，因此在数据预处理的过程中要去掉。</p>
+<h3 id="3-实验结果"><a href="#3-实验结果" class="headerlink" title="3 实验结果"></a>3 实验结果</h3><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E5%9B%BE%E7%89%8720171221191054.png" alt="image"></p>
+<h3 id="4-实验小结"><a href="#4-实验小结" class="headerlink" title="4 实验小结"></a>4 实验小结</h3><p>结果这两个实验可以看出，一般数据分析处理流程如下图所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">数据读取--&gt;数据预处理</span><br><span class="line">选择模型--&gt;训练模型</span><br><span class="line">数据预处理--&gt;训练模型</span><br><span class="line">训练模型--&gt;测试模型</span><br><span class="line">测试模型--&gt;模型评估</span><br></pre></td></tr></table></figure>
 
       
 
@@ -275,7 +272,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/18/【自然语言处理入门】02：Kenlm语料库的制作与模型的训练/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -289,18 +286,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/12/20/实验教程：C++中调用python程序/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          C++中调用python程序
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/12/16/scrapy-02：使用步骤/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">scrapy-02：创建工程项目的简单步骤</div>
+    <a href="/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）</div>
       <i class="icon-circle-right"></i>
     </a>
   
