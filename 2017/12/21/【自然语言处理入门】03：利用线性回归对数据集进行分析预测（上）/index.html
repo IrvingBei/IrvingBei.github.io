@@ -6,22 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>scrapy-02：创建工程项目的简单步骤 | 山不过来，我就过去</title>
+  <title>【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上） | 山不过来，我就过去</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前面看了一个爬虫的小例子，那么接下来就；来看看创建一个爬虫的步骤有哪些。">
-<meta name="keywords" content="scrapy">
+  <meta name="description" content="本篇笔记是《从自然语言处理到机器学习入门》课程第三次作业的上篇，主要是复现了老大课上讲的利用线性回归对波士顿房价进行预测的实验。在下篇中，将利用该模型对红酒数据集进行线性回归分析。">
+<meta name="keywords" content="自然语言处理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="scrapy-02：创建工程项目的简单步骤">
-<meta property="og:url" content="http://yoursite.com/2017/12/16/scrapy-02：使用步骤/index.html">
+<meta property="og:title" content="【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）">
+<meta property="og:url" content="http://yoursite.com/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）/index.html">
 <meta property="og:site_name" content="山不过来，我就过去">
-<meta property="og:description" content="前面看了一个爬虫的小例子，那么接下来就；来看看创建一个爬虫的步骤有哪些。">
+<meta property="og:description" content="本篇笔记是《从自然语言处理到机器学习入门》课程第三次作业的上篇，主要是复现了老大课上讲的利用线性回归对波士顿房价进行预测的实验。在下篇中，将利用该模型对红酒数据集进行线性回归分析。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E5%9B%BE%E7%89%8720171216191210.png">
-<meta property="og:updated_time" content="2017-12-16T12:14:22.903Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E6%88%AA%E5%9B%BE20171221153748.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E6%88%AA%E5%9B%BE20171221154931.jpg">
+<meta property="og:updated_time" content="2017-12-21T08:00:18.385Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="scrapy-02：创建工程项目的简单步骤">
-<meta name="twitter:description" content="前面看了一个爬虫的小例子，那么接下来就；来看看创建一个爬虫的步骤有哪些。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E5%9B%BE%E7%89%8720171216191210.png">
+<meta name="twitter:title" content="【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）">
+<meta name="twitter:description" content="本篇笔记是《从自然语言处理到机器学习入门》课程第三次作业的上篇，主要是复现了老大课上讲的利用线性回归对波士顿房价进行预测的实验。在下篇中，将利用该模型对红酒数据集进行线性回归分析。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E6%88%AA%E5%9B%BE20171221153748.jpg">
   
     <link rel="alternative" href="/atom.xml" title="山不过来，我就过去" type="application/atom+xml">
   
@@ -153,46 +154,35 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-scrapy-02：使用步骤" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      scrapy-02：创建工程项目的简单步骤
+      【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）
     </h1>
   
 
         
-        <a href="/2017/12/16/scrapy-02：使用步骤/" class="archive-article-date">
-  	<time datetime="2017-12-16T12:09:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-16</time>
+        <a href="/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）/" class="archive-article-date">
+  	<time datetime="2017-12-21T07:30:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前面看了一个爬虫的小例子，那么接下来就；来看看创建一个爬虫的步骤有哪些。<br><a id="more"></a></p>
-<h3 id="1-创建工程项目的简单步骤"><a href="#1-创建工程项目的简单步骤" class="headerlink" title="1 创建工程项目的简单步骤"></a>1 创建工程项目的简单步骤</h3><p>（1）开始一个爬虫项目<br>进入一个你要创建爬虫的目录下面，在命令行窗口中执行如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject 项目名</span><br></pre></td></tr></table></figure>
-<p>其中项目名改成你将要创建的项目的名称<br>项目创建好了以后，进入该项目，可以看到如下的目录结构（其中tutorial是创建的项目名）<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E5%9B%BE%E7%89%8720171216191210.png" alt="image"><br>（2）创建一个spider文件模板<br>首先进入项目文件里，在项目文件里用命令行执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider abc_spider www.baidu.com</span><br></pre></td></tr></table></figure>
-<p>命令行的第三个串是要创建的spider的名字，第四个是要爬取网页的链接地址。<br>这时，进入项目文件下的spider目录里面，就会发现一个abc_spider.py文件，这个就是创建的文件模板，用IDE打开，修改其内容。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class AbcSpiderSpider(scrapy.Spider):</span><br><span class="line">    name = &apos;abc_spider&apos;</span><br><span class="line">    allowed_domains = [&apos;www.baidu.com&apos;]</span><br><span class="line">    start_urls = [&apos;http://www.baidu.com/&apos;]</span><br><span class="line"></span><br><span class="line">    def parse(self, response):</span><br><span class="line">        #定义文件名</span><br><span class="line">        filename=response.url.split(&apos;/&apos;)[-2]+&quot;html&quot;</span><br><span class="line">        #打开文件并写入源代码</span><br><span class="line">        with open(filename,&quot;wb&quot;) as fp:</span><br><span class="line">            fp.write(response.body)</span><br></pre></td></tr></table></figure>
-<p>（3）运行爬虫</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl 爬虫名</span><br></pre></td></tr></table></figure>
-<p>于是就能看到一个html的文件。</p>
-<h3 id="2-自定义抓取项"><a href="#2-自定义抓取项" class="headerlink" title="2 自定义抓取项"></a>2 自定义抓取项</h3><p>（1）打开项目中的item.py文件，按照说明进行改写。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class FirstspiderItem(scrapy.Item):</span><br><span class="line">    # define the fields for your item here like:</span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    desc = scrapy.Field()</span><br><span class="line">    link=scrapy.Field()</span><br></pre></td></tr></table></figure>
-<p>（2）改写parse函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import scrapy</span><br><span class="line">from firstspider.items import FirstspiderItem</span><br><span class="line"></span><br><span class="line">class AbcSpiderSpider(scrapy.Spider):</span><br><span class="line">    name = &apos;abc_spider&apos;</span><br><span class="line">    allowed_domains = [&apos;www.baidu.com&apos;]</span><br><span class="line">    start_urls = [&apos;http://www.baidu.com/&apos;]</span><br><span class="line"></span><br><span class="line">    def parse(self, response):</span><br><span class="line">        # #定义文件名</span><br><span class="line">        # filename=response.url.split(&apos;/&apos;)[-2]+&quot;html&quot;</span><br><span class="line">        # #打开文件并写入源代码</span><br><span class="line">        # with open(filename,&quot;wb&quot;) as fp:</span><br><span class="line">        #     fp.write(response.body)</span><br><span class="line">        #通过xpath获取要抓取的内容</span><br><span class="line">        lis=response.xpath(&apos;//*[@id=&quot;head&quot;]&apos;)</span><br><span class="line">        for li in lis:</span><br><span class="line">            #在这之前需要引入</span><br><span class="line">            item=FirstspiderItem()</span><br><span class="line">            #xpath百度首页不好举例</span><br><span class="line">            item[&apos;title&apos;]=li.xpath(&apos;xpath路径&apos;).extract()</span><br><span class="line">            item[&apos;link&apos;]=li.xpath(&apos;xpath路径&apos;).extract()</span><br><span class="line">            item[&apos;desc&apos;] = li.xpath(&apos;xpath路径&apos;).extract()</span><br><span class="line">            #返回item</span><br><span class="line">            yield item</span><br></pre></td></tr></table></figure>
-<p>（3）改写pipeline文件<br>这里不做修改，只是返回item即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class FirstspiderPipeline(object):</span><br><span class="line">    def process_item(self, item, spider):</span><br><span class="line">        return item</span><br></pre></td></tr></table></figure>
-<p>（4）运行爬虫<br>可以通过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy list</span><br></pre></td></tr></table></figure>
-<p>来获取项目里面所包含的爬虫，然后运行你要执行的爬虫。抓取得结果一般情况下是存放在数据库中。</p>
-
+        <blockquote>
+<p>本篇笔记是《从自然语言处理到机器学习入门》课程第三次作业的上篇，主要是复现了老大课上讲的利用线性回归对波士顿房价进行预测的实验。在下篇中，将利用该模型对红酒数据集进行线性回归分析。<br><a id="more"></a></p>
+<h3 id="1-基本要求"><a href="#1-基本要求" class="headerlink" title="1 基本要求"></a>1 基本要求</h3><p>利用提供的波士顿房价数据，对其进行分析。<a href="https://github.com/xiongzongyang/hexo_photo" target="_blank" rel="noopener">数据地址</a>,训练集合测试集已经分好了。</p>
+<h3 id="2-完整代码"><a href="#2-完整代码" class="headerlink" title="2 完整代码"></a>2 完整代码</h3></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">#-*- coding: UTF-8 -*-</span><br><span class="line"># @Time    : 2017/12/21 9:29</span><br><span class="line"># @Author  : xiongzongyang</span><br><span class="line"># @Software: PyCharm</span><br><span class="line"></span><br><span class="line">import pandas as pd</span><br><span class="line">from pandas import Series, DataFrame</span><br><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import sklearn</span><br><span class="line"># from sklean.model_selection import train_test_split</span><br><span class="line">from sklearn.linear_model import LinearRegression #线性回归</span><br><span class="line">from sklearn.linear_model import Ridge #岭回归</span><br><span class="line">from sklearn.linear_model import Lasso</span><br><span class="line">from sklearn.linear_model import ElasticNetCV</span><br><span class="line">from sklearn.metrics import mean_squared_error</span><br><span class="line">import matplotlib as mpl</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line">#读取数据</span><br><span class="line">def read_data(data_path=&quot;./data/&quot;):</span><br><span class="line">    test_data = pd.read_csv(data_path+&quot;boston_house.test&quot;, header=None)</span><br><span class="line">    train_data = pd.read_csv(data_path+&quot;boston_house.train&quot;, header=None)</span><br><span class="line">    #测试数据是否读取成功</span><br><span class="line">    # print(train_data)</span><br><span class="line">    # print(test_data.head())</span><br><span class="line">    # #查看数据的规模</span><br><span class="line">    # print(train_data.shape)</span><br><span class="line">    # print(test_data.shape)</span><br><span class="line">    return train_data,test_data</span><br><span class="line">#数据处理</span><br><span class="line">def deal_data(pd_data):</span><br><span class="line">    #获取数据的行数</span><br><span class="line">    row_cnt = pd_data.shape[0]</span><br><span class="line">    #print(row_cnt)</span><br><span class="line">    #计算列数，因为在读入数据时，没有指定分隔符，所以14列数据都是作为一列数据来读入的，因此在计算列数时，将读入的每一行按照空格来分开</span><br><span class="line">    column_cnt = len(pd_data.iloc[0, 0].split())</span><br><span class="line">    #print(column_cnt)</span><br><span class="line">    #empty 会创建一个没有使用特定值来初始化的数组。给这些方法传递一个元组作为形状来创建高维数组：</span><br><span class="line">    X = np.empty((row_cnt, column_cnt - 1))</span><br><span class="line">    # print(X)</span><br><span class="line">    #创建一个高位数组</span><br><span class="line">    Y = np.empty((row_cnt, 1))</span><br><span class="line">    for i in range(0, row_cnt):</span><br><span class="line">        #逐一将每一行进行分割（按空格分割）</span><br><span class="line">        row_array = pd_data.iloc[i, 0].split()</span><br><span class="line">        #x取前13个数据，X[i]是一个一维数组，则X相当于一个二维数组，Y同理</span><br><span class="line">        X[i] = np.array(row_array[0:-1])</span><br><span class="line">        #y取最后一个数据</span><br><span class="line">        Y[i] = np.array(row_array[-1])</span><br><span class="line">    return X, Y</span><br><span class="line">#把特征标准化为均匀分布</span><br><span class="line">def uniform_norm(X):</span><br><span class="line">    X_max = X.max(axis=0)</span><br><span class="line">    X_min = X.min(axis=0)</span><br><span class="line">    return (X - X_min) / (X_max - X_min), X_max, X_min</span><br><span class="line"></span><br><span class="line">#实现线性回归</span><br><span class="line">#画图</span><br><span class="line">def draw(pred,test_Y):</span><br><span class="line">    t = np.arange(len(pred))</span><br><span class="line">    mpl.rcParams[&apos;font.sans-serif&apos;] = [u&apos;simHei&apos;]</span><br><span class="line">    mpl.rcParams[&apos;axes.unicode_minus&apos;] = False</span><br><span class="line">    plt.figure(facecolor=&apos;w&apos;)</span><br><span class="line">    plt.plot(t, test_Y, &apos;r-&apos;, lw=2, label=u&apos;true value&apos;)</span><br><span class="line">    plt.plot(t, pred, &apos;b-&apos;, lw=2, label=u&apos;estimated&apos;)</span><br><span class="line">    plt.legend(loc=&apos;best&apos;)</span><br><span class="line">    plt.title(u&apos;Boston house price&apos;, fontsize=18)</span><br><span class="line">    plt.xlabel(u&apos;case id&apos;, fontsize=15)</span><br><span class="line">    plt.ylabel(u&apos;house price&apos;, fontsize=15)</span><br><span class="line">    plt.grid()</span><br><span class="line">    plt.show()</span><br><span class="line">#模型评估</span><br><span class="line">def evaluate(unif_train_X,train_Y,unif_test_X,test_Y):</span><br><span class="line">    print(&quot;训练集上效果评估:&quot;)</span><br><span class="line">    pred_train = model.predict(unif_train_X)</span><br><span class="line">    print(&quot;R^2系数 &quot;, model.score(unif_train_X, train_Y))</span><br><span class="line">    print(&quot;均方误差 &quot;, mean_squared_error(train_Y, pred_train))</span><br><span class="line">    print(&quot;\n测试集上效果评估 :&quot;)</span><br><span class="line">    r2 = model.score(unif_test_X, test_Y)</span><br><span class="line">    print(&quot;R^2系数 &quot;, r2)</span><br><span class="line">    pred = model.predict(unif_test_X)</span><br><span class="line">    print(&quot;均方误差 &quot;, mean_squared_error(test_Y, pred))</span><br><span class="line"></span><br><span class="line">#主函数</span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    #读取数据</span><br><span class="line">    train_data,test_data=read_data()</span><br><span class="line">    #数据处理</span><br><span class="line">    train_X, train_Y=deal_data(train_data)</span><br><span class="line">    # print(train_X.shape)</span><br><span class="line">    # print(train_Y.shape)</span><br><span class="line">    test_X, test_Y=deal_data(test_data)</span><br><span class="line">    # print(test_X.shape)</span><br><span class="line">    # print(test_Y.shape)</span><br><span class="line">    #把特征标准化为均匀分布</span><br><span class="line">    unif_train_X, max_X, min_X = uniform_norm(train_X)</span><br><span class="line">    unif_test_X = (test_X - min_X) / (max_X - min_X)</span><br><span class="line">    #实现线性回归</span><br><span class="line">    model = LinearRegression()</span><br><span class="line">    model.fit(unif_train_X, train_Y)</span><br><span class="line">    #在训练集上预测</span><br><span class="line">    pred_train = model.predict(unif_train_X)</span><br><span class="line">    #在测试集上预测</span><br><span class="line">    pred = model.predict(unif_test_X)</span><br><span class="line">    #画图</span><br><span class="line">    draw(pred,test_Y)</span><br><span class="line">    #模型评估</span><br><span class="line">    evaluate(unif_train_X,train_Y,unif_test_X,test_Y)</span><br></pre></td></tr></table></figure>
+<h3 id="3-实验效果"><a href="#3-实验效果" class="headerlink" title="3 实验效果"></a>3 实验效果</h3><p>（1）预测的效果图<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E6%88%AA%E5%9B%BE20171221153748.jpg" alt="image"><br>（2）效果评估<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/QQ%E6%88%AA%E5%9B%BE20171221154931.jpg" alt="image"></p>
+<h3 id="4-相关知识点"><a href="#4-相关知识点" class="headerlink" title="4 相关知识点"></a>4 相关知识点</h3><p>本个实验中主要涉及到了以下知识点：<br>（1）线性回归<br>（2）pandas，numpy，matplotlib等相关python科学计算库<br>（3）数据的预处理也非常重要，熟练掌握数据预处理方法对以后的工作中或者是在读别人代码时会轻松很多。</p>
+<h3 id="5-相关参考"><a href="#5-相关参考" class="headerlink" title="5 相关参考"></a>5 相关参考</h3><p>（1）主要是参考了老大的代码，然后对代码进行了分块处理。<br>（2）<a href="https://www.cnblogs.com/pinard/p/6016029.html" target="_blank" rel="noopener">用scikit-learn和pandas学习线性回归</a></p>
+<h4 id="ps-红酒数据集分析请看下篇。"><a href="#ps-红酒数据集分析请看下篇。" class="headerlink" title="ps:红酒数据集分析请看下篇。"></a>ps:红酒数据集分析请看下篇。</h4>
       
 
       
@@ -226,7 +216,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">scrapy</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">自然语言处理</a>
         		</li>
       		
 		</ul>
@@ -282,7 +272,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/16/scrapy-02：使用步骤/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -296,18 +286,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/12/18/【自然语言处理入门】02：Kenlm语料库的制作与模型的训练/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          【自然语言处理入门】02：Kenlm语料库的制作与模型的训练
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/12/16/scrapy-01：简单实列/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">scrapy-01：简单实列</div>
+    <a href="/2017/12/20/实验教程：C++中调用python程序/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++中调用python程序</div>
       <i class="icon-circle-right"></i>
     </a>
   
