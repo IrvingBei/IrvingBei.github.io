@@ -1,18 +1,85 @@
 <!DOCTYPE html>
-<html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
-    <meta charset="utf-8" />
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
-    
 
-    
-    <title>Bag of Words Meets Bags of Popcorn(3)-Word2Voc | 山不过来，我就过去</title>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-        <meta name="keywords" content="Kaggle,文本分类" />
-    
-    <meta name="description" content="词带模型：Bag of Words Meets Bags of Popcorn(1)-Bag of WordsTfidf模型：Bag of Words Meets Bags of Popcorn(2)-tfidf这一节采用词向量">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Kaggle,文本分类," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="词带模型：Bag of Words Meets Bags of Popcorn(1)-Bag of WordsTfidf模型：Bag of Words Meets Bags of Popcorn(2)-tfidf这一节采用词向量">
 <meta name="keywords" content="Kaggle,文本分类">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bag of Words Meets Bags of Popcorn(3)-Word2Voc">
@@ -24,159 +91,216 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bag of Words Meets Bags of Popcorn(3)-Word2Voc">
 <meta name="twitter:description" content="词带模型：Bag of Words Meets Bags of Popcorn(1)-Bag of WordsTfidf模型：Bag of Words Meets Bags of Popcorn(2)-tfidf这一节采用词向量">
-    
 
-    
-        <link rel="alternate" href="/" title="山不过来，我就过去" type="application/atom+xml" />
-    
 
-    
 
-    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
-    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
 
-    <link rel="stylesheet" href="/css/style.css">
 
-    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
-    
-    
-        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
-    
-    
-    
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/"/>
+
+
+
+
+
+  <title>Bag of Words Meets Bags of Popcorn(3)-Word2Voc | 山不过来，我就过去</title>
+  
+
+
+
+
+
+
 
 
 </head>
 
-<body>
-    <div id="wrap">
-        <header id="header">
-    <div id="header-outer" class="outer">
-        <div class="container">
-            <div class="container-inner">
-                <div id="header-title">
-                    <h1 class="logo-wrap">
-                        <a href="/" class="logo"></a>
-                    </h1>
-                    
-                        <h2 class="subtitle-wrap">
-                            <p class="subtitle">志存高远，脚踏实地</p>
-                        </h2>
-                    
-                </div>
-                <div id="header-inner" class="nav-container">
-                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
-                    <div class="nav-container-inner">
-                        <ul id="main-nav">
-                            
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/">主页</a>
-                                </li>
-                            
-                                        
-                                    
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/photos/">index.��ƭ</a>
-                                </li>
-                            
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
-                                </li>
-                            
-                        </ul>
-                        <nav id="sub-nav">
-                            <div id="search-form-wrap">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
+  
+  
+    
+  
 
-</div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-        <div class="container">
-            <div class="main-body container-inner">
-                <div class="main-body-inner">
-                    <section id="main">
-                        <div class="main-body-header">
-    <h1 class="header">
-    
-    未分类
-    </h1>
-</div>
-                        <div class="main-body-content">
-                            <article id="post-Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        Bag of Words Meets Bags of Popcorn(3)-Word2Voc
-        </h1>
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
     
 
-            </header>
-        
-        
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/" class="article-date">
-            <time datetime="2018-06-14T09:27:51.000Z" itemprop="datePublished">2018-06-14</time>
-        </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山不过来，我就过去</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+      
+        <p class="site-subtitle">保持学习的态度！</p>
+      
+  </div>
 
-                
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Kaggle/">Kaggle</a>, <a class="tag-link" href="/tags/文本分类/">文本分类</a>
-    </div>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
 
-            </div>
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IrvingBei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山不过来，我就过去">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-        <div class="article-entry" itemprop="articleBody">
-            <p>词带模型：<a href="http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn%281%29-Bag%20of%20Words/" target="_blank" rel="noopener">Bag of Words Meets Bags of Popcorn(1)-Bag of Words</a><br>Tfidf模型：<a href="http://bei.dreamcykj.com/2018/06/14/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn%282%29-tfidf%20%281%29/" target="_blank" rel="noopener">Bag of Words Meets Bags of Popcorn(2)-tfidf</a><br>这一节采用词向量<br><a id="more"></a></p>
+          <h1 class="post-title" itemprop="name headline">Bag of Words Meets Bags of Popcorn(3)-Word2Voc</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-14T17:27:51+08:00">
+                2018-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>词带模型：<a href="http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn%281%29-Bag%20of%20Words/" target="_blank" rel="noopener">Bag of Words Meets Bags of Popcorn(1)-Bag of Words</a><br>Tfidf模型：<a href="http://bei.dreamcykj.com/2018/06/14/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn%282%29-tfidf%20%281%29/" target="_blank" rel="noopener">Bag of Words Meets Bags of Popcorn(2)-tfidf</a><br>这一节采用词向量<br><a id="more"></a></p>
 <h4 id="1、读取数据"><a href="#1、读取数据" class="headerlink" title="1、读取数据"></a>1、读取数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">train=pd.read_csv(<span class="string">'./data/labeledTrainData.tsv'</span>,header=<span class="number">0</span>,delimiter=<span class="string">"\t"</span>,quoting=<span class="number">3</span>)</span><br><span class="line">test=pd.read_csv(<span class="string">"./data/testData.tsv"</span>,header=<span class="number">0</span>,delimiter=<span class="string">"\t"</span>,quoting=<span class="number">3</span>)</span><br><span class="line">unlabeled_train=pd.read_csv(<span class="string">"./data/unlabeledTrainData.tsv"</span>,header=<span class="number">0</span>,delimiter=<span class="string">"\t"</span>,quoting=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 查看数据的大小</span></span><br><span class="line">print(<span class="string">"read %d labeled train reviews,%d labeled test reviews and %d unlabeled reviews\n"</span>%(train[<span class="string">"review"</span>].size,len(test),len(unlabeled_train)))</span><br></pre></td></tr></table></figure>
 <pre><code>read 25000 labeled train reviews,25000 labeled test reviews and 50000 unlabeled reviews
 </code></pre><h4 id="2、数据清洗"><a href="#2、数据清洗" class="headerlink" title="2、数据清洗"></a>2、数据清洗</h4><h5 id="2、1-对每一句评论进行数据清洗"><a href="#2、1-对每一句评论进行数据清洗" class="headerlink" title="2、1 对每一句评论进行数据清洗"></a>2、1 对每一句评论进行数据清洗</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re </span><br><span class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> stopwords</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">review_to_wordlist</span><span class="params">(review,remove_stopwords=False)</span>:</span></span><br><span class="line">    <span class="comment"># 去掉html标签</span></span><br><span class="line">    review_text=BeautifulSoup(review).get_text()</span><br><span class="line">    <span class="comment"># 去掉标点符号和非法字符</span></span><br><span class="line">    review_text=re.sub(<span class="string">"[^a-zA-Z]"</span>,<span class="string">" "</span>,review_text)</span><br><span class="line">    <span class="comment"># 全部转化为小写,并以空格分割</span></span><br><span class="line">    words=review_text.lower().split()</span><br><span class="line">    <span class="comment"># 去停用词</span></span><br><span class="line">    <span class="keyword">if</span> remove_stopwords:</span><br><span class="line">        stops=set(stopwords.words(<span class="string">"english"</span>))</span><br><span class="line">        words=[w <span class="keyword">for</span> w <span class="keyword">in</span> words <span class="keyword">if</span> w <span class="keyword">not</span> <span class="keyword">in</span> stops]</span><br><span class="line">    <span class="keyword">return</span> words</span><br></pre></td></tr></table></figure>
@@ -569,387 +693,372 @@ Training model...
 <pre><code>10折交叉验证：
 0.927272555469929
 </code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kaggle/" rel="tag"># Kaggle</a>
+          
+            <a href="/tags/文本分类/" rel="tag"># 文本分类</a>
+          
         </div>
-        <footer class="article-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(2)-tfidf (1)/" rel="next" title="Bag of Words Meets Bags of Popcorn(2)-tfidf">
+                <i class="fa fa-chevron-left"></i> Bag of Words Meets Bags of Popcorn(2)-tfidf
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
-    <div class="a2a_kit a2a_default_style">
-    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
-    <span class="a2a_divider"></span>
-    <a class="a2a_button_facebook"></a>
-    <a class="a2a_button_twitter"></a>
-    <a class="a2a_button_google_plus"></a>
-    <a class="a2a_button_pinterest"></a>
-    <a class="a2a_button_tumblr"></a>
-</div>
-<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
-<style>
-    .a2a_menu {
-        border-radius: 4px;
-    }
-    .a2a_menu a {
-        margin: 2px 0;
-        font-size: 14px;
-        line-height: 16px;
-        border-radius: 4px;
-        color: inherit !important;
-        font-family: 'Microsoft Yahei';
-    }
-    #a2apage_dropdown {
-        margin: 10px 0;
-    }
-    .a2a_mini_services {
-        padding: 10px;
-    }
-    a.a2a_i,
-    i.a2a_i {
-        width: 122px;
-        line-height: 16px;
-    }
-    a.a2a_i .a2a_svg,
-    a.a2a_more .a2a_svg {
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
-        vertical-align: top;
-        background-size: 16px;
-    }
-    a.a2a_i {
-        border: none !important;
-    }
-    a.a2a_menu_show_more_less {
-        margin: 0;
-        padding: 10px 0;
-        line-height: 16px;
-    }
-    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
-    .a2a_mini_services{*+height:1%;}
-</style>
 
-
-        </footer>
+    <div class="post-spread">
+      
     </div>
-</article>
+  </div>
 
-    <section id="comments">
-    
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
         
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
+  </div>
 
+  <aside id="sidebar" class="sidebar">
     
-    </section>
+    <div class="sidebar-inner">
 
+      
 
-                        </div>
-                    </section>
-                    <aside id="sidebar">
-    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
-    <div class="sidebar-top">
-        <p>关注我 :</p>
-        <ul class="social-links">
-            
-                
-                <li>
-                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-twitter"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-facebook"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-google-plus"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
-                        <i class="icon fa fa-github"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-weibo"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-rss"></i>
-                    </a>
-                </li>
-                
-            
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
         </ul>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-    
-        <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(2)-tfidf (1)/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Bag of Words Meets Bags of Popcorn(2)-tfidf</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
-</nav>
+      
 
-    
-    <div class="widgets-container">
-        
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-                
+              <p class="site-author-name" itemprop="name">IrvingBei</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
 
             
-                
-    <div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/" class="title">Bag of Words Meets Bags of Popcorn(3)-Word2Voc</a></p>
-                            <p class="item-date"><time datetime="2018-06-14T09:27:51.000Z" itemprop="datePublished">2018-06-14</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(2)-tfidf (1)/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(2)-tfidf (1)/" class="title">Bag of Words Meets Bags of Popcorn(2)-tfidf</a></p>
-                            <p class="item-date"><time datetime="2018-06-14T06:33:55.000Z" itemprop="datePublished">2018-06-14</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/06/13/Bag of Words Meets Bags of Popcorn(1)-Bag of Words/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2018/06/13/Bag of Words Meets Bags of Popcorn(1)-Bag of Words/" class="title">Bag of Words Meets Bags of Popcorn(1)-Bag of Words</a></p>
-                            <p class="item-date"><time datetime="2018-06-13T13:26:19.000Z" itemprop="datePublished">2018-06-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/06/09/一种利用web服务实现模型常驻内存的简单方法/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2018/06/09/一种利用web服务实现模型常驻内存的简单方法/" class="title">一种利用web服务实现模型常驻内存的简单方法</a></p>
-                            <p class="item-date"><time datetime="2018-06-09T07:53:05.000Z" itemprop="datePublished">2018-06-09</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/06/08/利用php的curl实现post和get请求(1)/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2018/06/08/利用php的curl实现post和get请求(1)/" class="title">利用php的curl实现post和get请求</a></p>
-                            <p class="item-date"><time datetime="2018-06-08T13:44:26.000Z" itemprop="datePublished">2018-06-08</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-            
-                
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">8</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">标签</h3>
-        <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLTK基础教程/">NLTK基础教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scrapy/">scrapy</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实验教程/">实验教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本分类/">文本分类</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本相似度/">文本相似度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自然语言处理/">自然语言处理</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/资料/">资料</a><span class="tag-list-count">2</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-float">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/Kaggle/" style="font-size: 16.67px;">Kaggle</a> <a href="/tags/NLTK基础教程/" style="font-size: 16.67px;">NLTK基础教程</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/scrapy/" style="font-size: 13.33px;">scrapy</a> <a href="/tags/实验教程/" style="font-size: 16.67px;">实验教程</a> <a href="/tags/文本分类/" style="font-size: 16.67px;">文本分类</a> <a href="/tags/文本相似度/" style="font-size: 10px;">文本相似度</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a> <a href="/tags/自然语言处理/" style="font-size: 20px;">自然语言处理</a> <a href="/tags/资料/" style="font-size: 13.33px;">资料</a>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="www.baidu.com">Online Course</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-            
-        
-    </div>
-</aside>
-
-                </div>
-            </div>
-        </div>
-        <footer id="footer">
-    <div class="container">
-        <div class="container-inner">
-            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
-            <div class="credit">
-                <h1 class="logo-wrap">
-                    <a href="/" class="logo"></a>
-                </h1>
-                <p>&copy; 2018 北那个北</p>
-                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
-            </div>
-            <div class="footer-plugins">
+              <div class="site-state-item site-state-posts">
               
-    
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
 
+            
 
-            </div>
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">Tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、读取数据"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x8BFB;&#x53D6;&#x6570;&#x636E;" class="headerlink" title="1&#x3001;&#x8BFB;&#x53D6;&#x6570;&#x636E;"></a>1&#x3001;&#x8BFB;&#x53D6;&#x6570;&#x636E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、数据清洗"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x6570;&#x636E;&#x6E05;&#x6D17;" class="headerlink" title="2&#x3001;&#x6570;&#x636E;&#x6E05;&#x6D17;"></a>2&#x3001;&#x6570;&#x636E;&#x6E05;&#x6D17;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2、1-对每一句评论进行数据清洗"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#2&#x3001;1-&#x5BF9;&#x6BCF;&#x4E00;&#x53E5;&#x8BC4;&#x8BBA;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x6E05;&#x6D17;" class="headerlink" title="2&#x3001;1 &#x5BF9;&#x6BCF;&#x4E00;&#x53E5;&#x8BC4;&#x8BBA;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x6E05;&#x6D17;"></a>2&#x3001;1 &#x5BF9;&#x6BCF;&#x4E00;&#x53E5;&#x8BC4;&#x8BBA;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x6E05;&#x6D17;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-对每一篇评论进行数据清洗"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2-2-&#x5BF9;&#x6BCF;&#x4E00;&#x7BC7;&#x8BC4;&#x8BBA;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x6E05;&#x6D17;" class="headerlink" title="2.2 &#x5BF9;&#x6BCF;&#x4E00;&#x7BC7;&#x8BC4;&#x8BBA;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x6E05;&#x6D17;"></a>2.2 &#x5BF9;&#x6BCF;&#x4E00;&#x7BC7;&#x8BC4;&#x8BBA;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x6E05;&#x6D17;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、构造语料集"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x6784;&#x9020;&#x8BED;&#x6599;&#x96C6;" class="headerlink" title="3&#x3001;&#x6784;&#x9020;&#x8BED;&#x6599;&#x96C6;"></a>3&#x3001;&#x6784;&#x9020;&#x8BED;&#x6599;&#x96C6;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、构建word2vec模型"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x6784;&#x5EFA;word2vec&#x6A21;&#x578B;" class="headerlink" title="4&#x3001;&#x6784;&#x5EFA;word2vec&#x6A21;&#x578B;"></a>4&#x3001;&#x6784;&#x5EFA;word2vec&#x6A21;&#x578B;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4、1训练模型"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#4&#x3001;1&#x8BAD;&#x7EC3;&#x6A21;&#x578B;" class="headerlink" title="4&#x3001;1&#x8BAD;&#x7EC3;&#x6A21;&#x578B;"></a>4&#x3001;1&#x8BAD;&#x7EC3;&#x6A21;&#x578B;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、2-预览模型"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#4&#x3001;2-&#x9884;&#x89C8;&#x6A21;&#x578B;" class="headerlink" title="4&#x3001;2 &#x9884;&#x89C8;&#x6A21;&#x578B;"></a>4&#x3001;2 &#x9884;&#x89C8;&#x6A21;&#x578B;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、使用Word2vec特征"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x4F7F;&#x7528;Word2vec&#x7279;&#x5F81;" class="headerlink" title="5&#x3001;&#x4F7F;&#x7528;Word2vec&#x7279;&#x5F81;"></a>5&#x3001;&#x4F7F;&#x7528;Word2vec&#x7279;&#x5F81;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5、1-构造向量化方法"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#5&#x3001;1-&#x6784;&#x9020;&#x5411;&#x91CF;&#x5316;&#x65B9;&#x6CD5;" class="headerlink" title="5&#x3001;1  &#x6784;&#x9020;&#x5411;&#x91CF;&#x5316;&#x65B9;&#x6CD5;"></a>5&#x3001;1  &#x6784;&#x9020;&#x5411;&#x91CF;&#x5316;&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、2-将数据向量化"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#5&#x3001;2-&#x5C06;&#x6570;&#x636E;&#x5411;&#x91CF;&#x5316;" class="headerlink" title="5&#x3001;2 &#x5C06;&#x6570;&#x636E;&#x5411;&#x91CF;&#x5316;"></a>5&#x3001;2 &#x5C06;&#x6570;&#x636E;&#x5411;&#x91CF;&#x5316;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、建模和预测"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5EFA;&#x6A21;&#x548C;&#x9884;&#x6D4B;" class="headerlink" title="6&#x3001;&#x5EFA;&#x6A21;&#x548C;&#x9884;&#x6D4B;"></a>6&#x3001;&#x5EFA;&#x6A21;&#x548C;&#x9884;&#x6D4B;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6、1-采用随机森林模型"><span class="nav-number">6.1.</span> <span class="nav-text"><a href="#6&#x3001;1-&#x91C7;&#x7528;&#x968F;&#x673A;&#x68EE;&#x6797;&#x6A21;&#x578B;" class="headerlink" title="6&#x3001;1 &#x91C7;&#x7528;&#x968F;&#x673A;&#x68EE;&#x6797;&#x6A21;&#x578B;"></a>6&#x3001;1 &#x91C7;&#x7528;&#x968F;&#x673A;&#x68EE;&#x6797;&#x6A21;&#x578B;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、2-采用逻辑回归模型"><span class="nav-number">6.2.</span> <span class="nav-text"><a href="#6&#x3001;2-&#x91C7;&#x7528;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x6A21;&#x578B;" class="headerlink" title="6&#x3001;2  &#x91C7;&#x7528;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x6A21;&#x578B;"></a>6&#x3001;2  &#x91C7;&#x7528;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x6A21;&#x578B;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
     </div>
-</footer>
+  </aside>
+
 
         
-    
-    <script>
-    var disqus_shortname = 'hexo-theme-hueman';
-    
-    
-    var disqus_url = 'http://yoursite.com/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/';
-    
-    (function() {
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IrvingBei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
 
-    
-        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
-    
-    
-        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
-    
-    
+        
 
 
 
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
 
-    </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
