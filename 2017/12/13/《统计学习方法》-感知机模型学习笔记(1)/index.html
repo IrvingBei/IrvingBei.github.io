@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>【笔记】01：《统计学习方法》-感知机模型学习笔记 | 以梦为码</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="笔记" />
+    
+    <meta name="description" content="用简单的方法学习 ——北北">
+<meta name="keywords" content="笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【笔记】01：《统计学习方法》-感知机模型学习笔记">
+<meta property="og:url" content="http://yoursite.com/2017/12/13/《统计学习方法》-感知机模型学习笔记(1)/index.html">
+<meta property="og:site_name" content="以梦为码">
+<meta property="og:description" content="用简单的方法学习 ——北北">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.blog.csdn.net/20170916103921608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-12-13T03:20:47.991Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【笔记】01：《统计学习方法》-感知机模型学习笔记">
+<meta name="twitter:description" content="用简单的方法学习 ——北北">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170916103921608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/image/icon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">保持学习的态度！</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/MDDD">index.categories</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/DL/">index.deep learning</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/photos/">index.photos</a>
+                                </li>
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-《统计学习方法》-感知机模型学习笔记(1)" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        【笔记】01：《统计学习方法》-感知机模型学习笔记
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/12/13/《统计学习方法》-感知机模型学习笔记(1)/" class="article-date">
+            <time datetime="2017-12-13T01:20:00.000Z" itemprop="datePublished">2017-12-13</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/笔记/">笔记</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p> 用简单的方法学习 ——北北</p>
+<p><a id="more"></a><strong>感知机模型描述</strong><br>:   这一部分主要介绍感知机是什么？</p>
+<blockquote>
+<p>假设输入空间（输入空间即为特征空间，由实例的各种特征组成）是χ⊆R<em>，输出空间是Y={-1,+1}。当输入x∈χ表示实例的特征向量，对应于输入空间（特征向量）的点，输出y∈Y表示实例的类别。由输入空间到输出空间的如下函数：<br>$$    f(x) = sign(w·x+b) $$<br>其中，w和b为感知机模型，w∈R</em>叫做权值或权值向量（在多数情况下，w是一个列向量），b∈R叫做偏置。</p>
+</blockquote>
+<p><strong><em>Tips：</em></strong><br>（1）w·x表示w和x的内积，若w=（w1，w2，w3），x=（x1，x2，x3），则<br>    $$w·x=∑wi·xi=w1·x1+w2·x2+w3·x3$$<br>（2）sign(x)是一个符号函数，它根据x的输出1或-1</p>
+<blockquote>
+<p>感知机是一种线性分类模型，属于判别模型，其几何解释是线性方程$$w·x+b=0$$对应于特征空间的一个超平面S（二维情况下，该线性方程退化为一条直线），其中，w是超平面的法向量，b是平面的截距（如果是二维情况下，b就是在坐标轴上的截距），这个超平面将特征空间分为两部分，位于两部分的点分别被分为正负两类。因此，超平面称之为分离超平面（二维情况下是分割线）。<br>    <img src="http://img.blog.csdn.net/20170916103921608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="感知机模型"></p>
+</blockquote>
+<p><strong>感知机学习策略</strong><br>:   这一部分主要介绍如何衡量模型中的参数的好坏。<br>感知机学习的目标是求得一个能够将训练集正实例和负实例完全正确分开的分离超平面，为在这个寻找超平面的过程中（即确定感知机模型参数w，b），就需要衡量每次得到的模型参数的好坏，那么如何衡量呢？而通常使用损失函数来度量预测值与真实值之间的差距。于是我们在求最好的模型参数就相当于求极小化的损失函数。<br>再想想感知机的学习目标（将正实例和负实例完全正确分开），如果把分错了类型的点（误分类点）的多少作为衡量呢？效果会怎么样？这样的话，如果模型参数差，那么分错的点就很多，如果模型参数好的话，分错的点就很少，貌似有点道理。但是把误分类点的总数作为损失函数的话，此时的损失函数不是参数w，b的连续可导函数，所以不能直接使用误分类点总数。有没有办法将误分类总数转化为其他的衡量方式呢？于是想到将误分类点到超平面的S的总距离作为损失函数，而就是感知机的学习策略。</p>
+<p>首先，输入空间R<em>中任意一点x0到超平面S的距离可以表示成：<br>$$d= \dfrac{1}{||w||} |w·x0+b|$$<em>*Tips:</em></em><br>（1）对这个公式的理解可以来源于中学的点到平面的距离公式，<br>$$d = \dfrac{|Ax0+By0+Cz0+D|}{\sqrt{A^2+B^2+C^2 }} $$公式中的平面方程为Ax+By+Cz+D=0，点P的坐标(x0,y0,z0)，d为点P到平面的距离。<br>（2）||w||是w的l2范数，即：$$||w||={\sqrt{w1^2+w2^2+…+wn^2}}$$这个形式看着像传统点到平面公式的分母，实际上，它就是距离公式中的分母，在传统的公式中，分母是各个变量前面系数的平方和开根号，而现在对于超平面：w·x+b=0，变量前面的系数是w，且w是个向量，这就是公式中||w||的由来。同理，公式中的b相当于传统公式中的D。</p>
+<p> 接下来我们来想想如何打开绝对值得问题，对于误分类的数据（xi,yi)来说,$$-yi(w·xi+b)&gt;0$$总是成立的，因为当w·xi+b&gt;0时，yi=-1；当w·xi+b&lt;0时，yi=1。故误分类点到超平面的距离是$$-\dfrac{1}{||w||}·yi· （w·xi+b）$$<br> 假设误分类点的集合为M，则所有误分类点到超平面S的总距离为$$-\dfrac{1}{||w||}∑yi· （w·xi+b）$$其中，xi∈M。若不考虑$\dfrac{1}{||w||}$，就得到来感知机学习的损失函数：$$L(w,b)=-∑yi· （w·xi+b）$$<br>其中，xi∈M。</p>
+<p><strong>感知机学习算法</strong><br>:   这一部分主要介绍如何找到最好的参数，主要有原始形式的算法和对偶形式的算法。<br><strong>原始形式</strong><br><img src="http://img.blog.csdn.net/20170916151514384?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><strong>对偶形式</strong>(未完待续)</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="SOHUCS" sid="http://yoursite.com/2017/12/13/《统计学习方法》-感知机模型学习笔记(1)/"></div>
+
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/xiongzongyang" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/12/16/scrapy-01：简单实列/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            scrapy-01：简单实列
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/" class="title">Bag of Words Meets Bags of Popcorn(3)-Word2Voc</a></p>
+                            <p class="item-date"><time datetime="2018-06-14T09:27:51.000Z" itemprop="datePublished">2018-06-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(2)-tfidf (1)/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(2)-tfidf (1)/" class="title">Bag of Words Meets Bags of Popcorn(2)-tfidf</a></p>
+                            <p class="item-date"><time datetime="2018-06-14T06:33:55.000Z" itemprop="datePublished">2018-06-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/13/Bag of Words Meets Bags of Popcorn(1)-Bag of Words/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/13/Bag of Words Meets Bags of Popcorn(1)-Bag of Words/" class="title">Bag of Words Meets Bags of Popcorn(1)-Bag of Words</a></p>
+                            <p class="item-date"><time datetime="2018-06-13T13:26:19.000Z" itemprop="datePublished">2018-06-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/09/一种利用web服务实现模型常驻内存的简单方法(1)(1)/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/1.jpg)" alt="一种利用web服务实现模型常驻内存的简单方法" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/09/一种利用web服务实现模型常驻内存的简单方法(1)(1)/" class="title">一种利用web服务实现模型常驻内存的简单方法</a></p>
+                            <p class="item-date"><time datetime="2018-06-09T07:53:05.000Z" itemprop="datePublished">2018-06-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/08/利用php的curl实现post和get请求(1)/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/php.jpg)" alt="利用php的curl实现post和get请求" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/08/利用php的curl实现post和get请求(1)/" class="title">利用php的curl实现post和get请求</a></p>
+                            <p class="item-date"><time datetime="2018-06-08T13:44:26.000Z" itemprop="datePublished">2018-06-08</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">8</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLTK基础教程/">NLTK基础教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scrapy/">scrapy</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实验教程/">实验教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本分类/">文本分类</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本相似度/">文本相似度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自然语言处理/">自然语言处理</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/资料/">资料</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Kaggle/" style="font-size: 16.67px;">Kaggle</a> <a href="/tags/NLTK基础教程/" style="font-size: 16.67px;">NLTK基础教程</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/scrapy/" style="font-size: 13.33px;">scrapy</a> <a href="/tags/实验教程/" style="font-size: 16.67px;">实验教程</a> <a href="/tags/文本分类/" style="font-size: 16.67px;">文本分类</a> <a href="/tags/文本相似度/" style="font-size: 10px;">文本相似度</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a> <a href="/tags/自然语言处理/" style="font-size: 20px;">自然语言处理</a> <a href="/tags/资料/" style="font-size: 13.33px;">资料</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://www.baidu.com">Online Course</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 IrvingBei</p>
+                <span id="busuanzi_container_site_pv">
+	  				本站总访问量<span id="busuanzi_value_site_pv"></span>次
+				</span>
+				<span id="busuanzi_container_site_uv">
+					总访客数<span id="busuanzi_value_site_uv"></span>人次
+				</span> 
+                
+                <!--<p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>-->
+            </div>
+             
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cytocN1SG"></script>
+    <script type="text/javascript">
+        (function() {
+            var appid = 'cytocN1SG';
+            var conf = '6a5712782fd0d61668873ebb581285ce';
+            var width = window.innerWidth || document.documentElement.clientWidth;
+            if (width < 960) {
+                window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+            } else {
+                var loadJs = function(d, a) {
+                    var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                    var b = document.createElement("script");
+                    b.setAttribute("type", "text/javascript");
+                    b.setAttribute("charset", "UTF-8");
+                    b.setAttribute("src", d);
+                    if (typeof a === "function") {
+                        if (window.attachEvent) {
+                            b.onreadystatechange = function() {
+                                var e = b.readyState;
+                                if (e === "loaded" || e === "complete") {
+                                    b.onreadystatechange = null;
+                                    a()
+                                }
+                            }
+                        } else {
+                            b.onload = a
+                        }
+                    }
+                    c.appendChild(b)
+                };
+                loadJs("https://changyan.sohu.com/upload/changyan.js", function() {
+                    window.changyan.api.config({
+                        appid: appid,
+                        conf: conf
+                    })
+                });
+            }
+        })();
+    </script>
+
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
