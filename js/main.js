@@ -114,7 +114,7 @@
     });
 
     // Fold second-level menu
-    $('.main-nav-list-item').on('hover', function () {
+    $('.main-nav-list-item').hover(function () {
         if ($(window).width() < 480) {
             return;
         }
