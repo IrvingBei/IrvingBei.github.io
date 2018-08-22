@@ -6,26 +6,26 @@
     
 
     
-    <title>【笔记】01：《统计学习方法》-感知机模型学习笔记 | 北那个北</title>
+    <title>两种在Python中使用Stanford CoreNLP的方法 | 北那个北</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="笔记" />
+        <meta name="keywords" content="自然语言处理,实验教程,python" />
     
-    <meta name="description" content="用简单的方法学习 ——北北">
-<meta name="keywords" content="笔记">
+    <meta name="description" content="这两种方法都需要提前下载CoreNLP最新的压缩包，再下载对应的语言jar包。从CoreNLP下载页面下载。将压缩包解压得到目录，再将语言的jar包放到这个目录下即可。并且要求java -version&amp;gt;=1.8。接下来就是利用python对该工具的使用进行一个封装，这里主要给出两种常用的python wrapper。 1、使用stanfordcorenlp接口见链接：Python中使用St">
+<meta name="keywords" content="自然语言处理,实验教程,python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【笔记】01：《统计学习方法》-感知机模型学习笔记">
-<meta property="og:url" content="http://yoursite.com/2017/12/13/《统计学习方法》-感知机模型学习笔记/index.html">
+<meta property="og:title" content="两种在Python中使用Stanford CoreNLP的方法">
+<meta property="og:url" content="http://yoursite.com/2018/08/22/两种在Python中使用Stanford CoreNLP的方法/index.html">
 <meta property="og:site_name" content="北那个北">
-<meta property="og:description" content="用简单的方法学习 ——北北">
+<meta property="og:description" content="这两种方法都需要提前下载CoreNLP最新的压缩包，再下载对应的语言jar包。从CoreNLP下载页面下载。将压缩包解压得到目录，再将语言的jar包放到这个目录下即可。并且要求java -version&amp;gt;=1.8。接下来就是利用python对该工具的使用进行一个封装，这里主要给出两种常用的python wrapper。 1、使用stanfordcorenlp接口见链接：Python中使用St">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/tongji.jpg">
-<meta property="og:updated_time" content="2018-07-17T02:37:34.651Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/corenlp.png">
+<meta property="og:updated_time" content="2018-08-22T06:29:07.718Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【笔记】01：《统计学习方法》-感知机模型学习笔记">
-<meta name="twitter:description" content="用简单的方法学习 ——北北">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/tongji.jpg">
+<meta name="twitter:title" content="两种在Python中使用Stanford CoreNLP的方法">
+<meta name="twitter:description" content="这两种方法都需要提前下载CoreNLP最新的压缩包，再下载对应的语言jar包。从CoreNLP下载页面下载。将压缩包解压得到目录，再将语言的jar包放到这个目录下即可。并且要求java -version&amp;gt;=1.8。接下来就是利用python对该工具的使用进行一个封装，这里主要给出两种常用的python wrapper。 1、使用stanfordcorenlp接口见链接：Python中使用St">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/corenlp.png">
     
 
     
@@ -134,18 +134,18 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Statistical/">Statistical</a>
+    <a class="page-title-link" href="/categories/Experiment/">Experiment</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Experiment/Python/">Python</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-《统计学习方法》-感知机模型学习笔记" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-两种在Python中使用Stanford CoreNLP的方法" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        【笔记】01：《统计学习方法》-感知机模型学习笔记
+        两种在Python中使用Stanford CoreNLP的方法
         </h1>
     
 
@@ -155,34 +155,31 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/12/13/《统计学习方法》-感知机模型学习笔记/" class="article-date">
-            <time datetime="2017-12-13T01:20:00.000Z" itemprop="datePublished">2017-12-13</time>
+        <a href="/2018/08/22/两种在Python中使用Stanford CoreNLP的方法/" class="article-date">
+            <time datetime="2018-08-22T06:24:17.000Z" itemprop="datePublished">2018-08-22</time>
         </a>
     </div>
 
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/笔记/">笔记</a>
+        <a class="tag-link" href="/tags/python/">python</a>, <a class="tag-link" href="/tags/实验教程/">实验教程</a>, <a class="tag-link" href="/tags/自然语言处理/">自然语言处理</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p> 用简单的方法学习 ——北北</p>
-<p><a id="more"></a><strong>感知机模型描述</strong><br>:   这一部分主要介绍感知机是什么？</p>
-<blockquote>
-<p>假设输入空间（输入空间即为特征空间，由实例的各种特征组成）是χ⊆R<em>，输出空间是Y={-1,+1}。当输入x∈χ表示实例的特征向量，对应于输入空间（特征向量）的点，输出y∈Y表示实例的类别。由输入空间到输出空间的如下函数：<br>$$    f(x) = sign(w·x+b) $$<br>其中，w和b为感知机模型，w∈R</em>叫做权值或权值向量（在多数情况下，w是一个列向量），b∈R叫做偏置。</p>
-</blockquote>
-<p><strong><em>Tips：</em></strong><br>（1）w·x表示w和x的内积，若w=（w1，w2，w3），x=（x1，x2，x3），则<br>    $$w·x=∑wi·xi=w1·x1+w2·x2+w3·x3$$<br>（2）sign(x)是一个符号函数，它根据x的输出1或-1</p>
-<blockquote>
-<p>感知机是一种线性分类模型，属于判别模型，其几何解释是线性方程$$w·x+b=0$$对应于特征空间的一个超平面S（二维情况下，该线性方程退化为一条直线），其中，w是超平面的法向量，b是平面的截距（如果是二维情况下，b就是在坐标轴上的截距），这个超平面将特征空间分为两部分，位于两部分的点分别被分为正负两类。因此，超平面称之为分离超平面（二维情况下是分割线）。<br>    <img src="http://img.blog.csdn.net/20170916103921608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="感知机模型"></p>
-</blockquote>
-<p><strong>感知机学习策略</strong><br>:   这一部分主要介绍如何衡量模型中的参数的好坏。<br>感知机学习的目标是求得一个能够将训练集正实例和负实例完全正确分开的分离超平面，为在这个寻找超平面的过程中（即确定感知机模型参数w，b），就需要衡量每次得到的模型参数的好坏，那么如何衡量呢？而通常使用损失函数来度量预测值与真实值之间的差距。于是我们在求最好的模型参数就相当于求极小化的损失函数。<br>再想想感知机的学习目标（将正实例和负实例完全正确分开），如果把分错了类型的点（误分类点）的多少作为衡量呢？效果会怎么样？这样的话，如果模型参数差，那么分错的点就很多，如果模型参数好的话，分错的点就很少，貌似有点道理。但是把误分类点的总数作为损失函数的话，此时的损失函数不是参数w，b的连续可导函数，所以不能直接使用误分类点总数。有没有办法将误分类总数转化为其他的衡量方式呢？于是想到将误分类点到超平面的S的总距离作为损失函数，而就是感知机的学习策略。</p>
-<p>首先，输入空间R<em>中任意一点x0到超平面S的距离可以表示成：<br>$$d= \dfrac{1}{||w||} |w·x0+b|$$<em>*Tips:</em></em><br>（1）对这个公式的理解可以来源于中学的点到平面的距离公式，<br>$$d = \dfrac{|Ax0+By0+Cz0+D|}{\sqrt{A^2+B^2+C^2 }} $$公式中的平面方程为Ax+By+Cz+D=0，点P的坐标(x0,y0,z0)，d为点P到平面的距离。<br>（2）||w||是w的l2范数，即：$$||w||={\sqrt{w1^2+w2^2+…+wn^2}}$$这个形式看着像传统点到平面公式的分母，实际上，它就是距离公式中的分母，在传统的公式中，分母是各个变量前面系数的平方和开根号，而现在对于超平面：w·x+b=0，变量前面的系数是w，且w是个向量，这就是公式中||w||的由来。同理，公式中的b相当于传统公式中的D。</p>
-<p> 接下来我们来想想如何打开绝对值得问题，对于误分类的数据（xi,yi)来说,$$-yi(w·xi+b)&gt;0$$总是成立的，因为当w·xi+b&gt;0时，yi=-1；当w·xi+b&lt;0时，yi=1。故误分类点到超平面的距离是$$-\dfrac{1}{||w||}·yi· （w·xi+b）$$<br> 假设误分类点的集合为M，则所有误分类点到超平面S的总距离为$$-\dfrac{1}{||w||}∑yi· （w·xi+b）$$其中，xi∈M。若不考虑$\dfrac{1}{||w||}$，就得到来感知机学习的损失函数：$$L(w,b)=-∑yi· （w·xi+b）$$<br>其中，xi∈M。</p>
-<p><strong>感知机学习算法</strong><br>:   这一部分主要介绍如何找到最好的参数，主要有原始形式的算法和对偶形式的算法。<br><strong>原始形式</strong><br><img src="http://img.blog.csdn.net/20170916151514384?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><strong>对偶形式</strong>(未完待续)</p>
+            <p>这两种方法都需要提前下载CoreNLP最新的压缩包，再下载对应的语言jar包。<a href="https://stanfordnlp.github.io/CoreNLP/index.html#download" target="_blank" rel="noopener">从CoreNLP下载页面下载</a>。将压缩包解压得到目录，再将语言的jar包放到这个目录下即可。并且要求java -version&gt;=1.8。<br>接下来就是利用python对该工具的使用进行一个封装，这里主要给出两种常用的python wrapper。</p>
+<h3 id="1、使用stanfordcorenlp接口"><a href="#1、使用stanfordcorenlp接口" class="headerlink" title="1、使用stanfordcorenlp接口"></a>1、使用stanfordcorenlp接口</h3><p>见链接：<a href="https://blog.csdn.net/qq_35203425/article/details/80451243" target="_blank" rel="noopener">Python中使用Stanford CoreNLP</a><br>这篇文档中将这种方法讲得很清楚，因此直接贴上链接，访问原文即可、、</p>
+<h3 id="2、使用官方Python接口python-stanford-corenlp"><a href="#2、使用官方Python接口python-stanford-corenlp" class="headerlink" title="2、使用官方Python接口python-stanford-corenlp"></a>2、使用官方Python接口python-stanford-corenlp</h3><p>见链接：<a href="https://blog.csdn.net/thriving_fcl/article/details/76595253?locationNum=4&amp;fps=1" target="_blank" rel="noopener">CoreNLP Python接口处理中文</a><br>在这篇文章中，作者是用的linux系统，并且拥有root权限。我这里提供另外两种不同环境的配置过程。</p>
+<h4 id="1-windows-10-环境"><a href="#1-windows-10-环境" class="headerlink" title="(1)windows 10 环境"></a>(1)windows 10 环境</h4><p>在该环境下，配置环境变量与上文中的方法有一些不一样。具体方法是：<br>电脑右键-&gt;属性-&gt;高级属性-&gt;环境变量-&gt;新增-&gt;添加变量名javanlp，路径值为之前解压coreNLP得到的目录。</p>
+<h4 id="2-linux-下不具有root权限的环境"><a href="#2-linux-下不具有root权限的环境" class="headerlink" title="(2)linux 下不具有root权限的环境"></a>(2)linux 下不具有root权限的环境</h4><p>在这种环境下，只需要在原文修改client.py里面初始化部分的代码的基础上再修改下即可。（路径：python-stanford-corenlp\corenlp\client.py）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># assert os.getenv(</span><br><span class="line">#     &quot;JAVANLP_HOME&quot;) is not None, &quot;Please define $JAVANLP_HOME where your CoreNLP Java checkout is&quot;</span><br><span class="line">start_cmd = &apos;java -Xmx&#123;memory&#125;g -cp &quot;&#123;javanlp&#125;/*&quot; edu.stanford.nlp.pipeline.StanfordCoreNLPServer -serverProperties StanfordCoreNLP-chinese.properties -port &#123;port&#125; -timeout &#123;timeout&#125;&apos;.format(</span><br><span class="line">                memory=allocate_mem,</span><br><span class="line">                javanlp=&quot;/home/xiongzy/anaconda3/coreNLP/stanford-corenlp-full-2016-10-31&quot;,</span><br></pre></td></tr></table></figure></p>
+<p>注释掉：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># assert os.getenv(</span><br><span class="line">#     &quot;JAVANLP_HOME&quot;) is not None, &quot;Please define $JAVANLP_HOME where your CoreNLP Java checkout is&quot;</span><br></pre></td></tr></table></figure></p>
+<p>将javanlp改为具体的值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javanlp=&quot;/home/xiongzy/anaconda3/coreNLP/stanford-corenlp-full-2016-10-31&quot;</span><br></pre></td></tr></table></figure></p>
+<p>然后进入python-stanford-corenlp目录重新重新安装即可python setup.py install</p>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><h4 id="（1）关闭server"><a href="#（1）关闭server" class="headerlink" title="（1）关闭server"></a>（1）关闭server</h4><p>每次第一种方法的代码中，每次使用后需要手动关闭server，nlp.close()。<br>第二种方法不用手动关闭，其自动关闭</p>
+<h4 id="（2）利用网页进行分析"><a href="#（2）利用网页进行分析" class="headerlink" title="（2）利用网页进行分析"></a>（2）利用网页进行分析</h4><p>当server处于开启状态时，可以通过ip:port(如：localhost:9000)打开网页版的分析器。效果如图。<br><img src="https://img-blog.csdn.net/20180822111913416?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="Stanford coreNLP"></p>
 
         </div>
         <footer class="article-footer">
@@ -250,7 +247,7 @@
     <section id="comments">
     
         
-    <div id="SOHUCS" sid="http://yoursite.com/2017/12/13/《统计学习方法》-感知机模型学习笔记/"></div>
+    <div id="SOHUCS" sid="http://yoursite.com/2018/08/22/两种在Python中使用Stanford CoreNLP的方法/"></div>
 
 
     
@@ -279,16 +276,12 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
+        <a href="/2018/08/19/ROC原理介绍及利用python实现二分类和多分类的ROC曲线 (1)/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">ROC原理介绍及利用python实现二分类和多分类的ROC曲线</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
     
 </nav>
 
