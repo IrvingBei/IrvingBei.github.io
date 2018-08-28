@@ -6,7 +6,7 @@
     
 
     
-    <title>Keras examples-imdb_bidirectional_lstm | 北那个北</title>
+    <title>Keras examples-imdb_cnn[利用卷积神经网络对文本进行分类] | 北那个北</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -15,17 +15,17 @@
     <meta name="description" content="1  任务描述本实验室利用卷积神经网络对imdb数据进行文本分类 2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包1234567from __future__ import print_functionfrom keras.preprocessing import sequencefrom keras.models import Sequentia">
 <meta name="keywords" content="深度学习,Keras">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Keras examples-imdb_bidirectional_lstm">
+<meta property="og:title" content="Keras examples-imdb_cnn[利用卷积神经网络对文本进行分类]">
 <meta property="og:url" content="http://yoursite.com/2018/08/28/Keras examples-imdb_cnn【利用卷积神经网络实现文本分类】/index.html">
 <meta property="og:site_name" content="北那个北">
 <meta property="og:description" content="1  任务描述本实验室利用卷积神经网络对imdb数据进行文本分类 2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包1234567from __future__ import print_functionfrom keras.preprocessing import sequencefrom keras.models import Sequentia">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.jpg">
-<meta property="og:updated_time" content="2018-08-28T09:22:32.631Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.png">
+<meta property="og:updated_time" content="2018-08-28T09:29:59.439Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Keras examples-imdb_bidirectional_lstm">
+<meta name="twitter:title" content="Keras examples-imdb_cnn[利用卷积神经网络对文本进行分类]">
 <meta name="twitter:description" content="1  任务描述本实验室利用卷积神经网络对imdb数据进行文本分类 2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包1234567from __future__ import print_functionfrom keras.preprocessing import sequencefrom keras.models import Sequentia">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.jpg">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.png">
     
 
     
@@ -145,7 +145,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-        Keras examples-imdb_bidirectional_lstm
+        Keras examples-imdb_cnn[利用卷积神经网络对文本进行分类]
         </h1>
     
 
@@ -188,7 +188,7 @@ Epoch 1/2
 Epoch 2/2
 25000/25000 [==============================] - 63s 3ms/step - loss: 0.2305 - acc: 0.9086 - val_loss: 0.2977 - val_acc: 0.8765
 </code></pre><h4 id="（5）网络结构"><a href="#（5）网络结构" class="headerlink" title="（5）网络结构"></a>（5）网络结构</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> plot_model</span><br><span class="line">plot_model(model,to_file=<span class="string">"./imdb_cnn.png"</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.jpg" alt="网络结构"></p>
+<p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.png" alt="网络结构"></p>
 <h3 id="3-小结"><a href="#3-小结" class="headerlink" title="3 小结"></a>3 小结</h3><p>这次实验采用了卷积神经网络来对文本数据进行分类。而不是使用以往的RNN（LSTM/BiLSTM等），这样实验下来，对keras中其他结构的使用也进一步熟悉。在本实验中，主要有以下几点收获：</p>
 <h4 id="（1）常用层的使用"><a href="#（1）常用层的使用" class="headerlink" title="（1）常用层的使用"></a>（1）常用层的使用</h4><p>常用层对应于core模块，其定义了一系列常用的网络层，在本次实验中主要用到了全连接层、激活层和Dropout层。这几层都比较简单，具体介绍见<a href="https://keras-cn.readthedocs.io/en/latest/layers/core_layer/" target="_blank" rel="noopener">https://keras-cn.readthedocs.io/en/latest/layers/core_layer/</a></p>
 <h4 id="（2）一维卷积层"><a href="#（2）一维卷积层" class="headerlink" title="（2）一维卷积层"></a>（2）一维卷积层</h4><p>一维卷积即为时域卷积，用以在一维输入信号上进行邻域滤波。其原型为keras.layers.convolutional.Conv1D(filters, kernel_size, strides=1, padding=’valid’, dilation_rate=1, activation=None, use_bias=True, kernel_initializer=’glorot_uniform’, bias_initializer=’zeros’, kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)<br>该层生成将输入信号与卷积核按照单一的空域（或时域）方向进行卷积。主要参数如下：<br>①filters：卷积核的数目（即输出的维度）<br>②kernel_size：整数或由单个整数构成的list/tuple，卷积核的空域或时域窗长度<br>③strides：整数或由单个整数构成的list/tuple，为卷积的步长。<br>④padding：补0策略，为“valid”, “same” 或“causal”，“causal”将产生因果（膨胀的）卷积，即output不依赖于input。<br>⑤activation：激活函数，为预定义的激活函数名。</p>
@@ -316,7 +316,7 @@ Epoch 2/2
                             <a href="/2018/08/28/Keras examples-imdb_cnn【利用卷积神经网络实现文本分类】/" class="thumbnail">
     
     
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.jpg)" alt="Keras examples-imdb_bidirectional_lstm" class="thumbnail-image"></span>
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.png)" alt="Keras examples-imdb_cnn[利用卷积神经网络对文本进行分类]" class="thumbnail-image"></span>
     
     
 </a>
@@ -325,7 +325,7 @@ Epoch 2/2
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Keras/">Keras</a></p>
-                            <p class="item-title"><a href="/2018/08/28/Keras examples-imdb_cnn【利用卷积神经网络实现文本分类】/" class="title">Keras examples-imdb_bidirectional_lstm</a></p>
+                            <p class="item-title"><a href="/2018/08/28/Keras examples-imdb_cnn【利用卷积神经网络实现文本分类】/" class="title">Keras examples-imdb_cnn[利用卷积神经网络对文本进行分类]</a></p>
                             <p class="item-date"><time datetime="2018-08-28T09:22:29.000Z" itemprop="datePublished">2018-08-28</time></p>
                         </div>
                     </li>
