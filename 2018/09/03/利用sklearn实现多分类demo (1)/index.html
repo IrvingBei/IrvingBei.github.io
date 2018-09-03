@@ -6,25 +6,26 @@
     
 
     
-    <title>北那个北</title>
+    <title>利用sklearn实现多分类实验demo | 北那个北</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="" />
+        <meta name="keywords" content="文本分类,自然语言处理" />
     
-    <meta name="description" content="title: 利用sklearn实现多分类demodate: 2018-9-3 19:30:38thumbnail: https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.pngtags:  - 自然语言处理 - 文本分类 categories: [NLP,Classification]常见的文本分类中，二分类">
+    <meta name="description" content="常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。 1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyplot as pltfrom itertools import cyclefrom sklearn import svm, datasetsfrom sklea">
+<meta name="keywords" content="文本分类,自然语言处理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="北那个北">
+<meta property="og:title" content="利用sklearn实现多分类实验demo">
 <meta property="og:url" content="http://yoursite.com/2018/09/03/利用sklearn实现多分类demo (1)/index.html">
 <meta property="og:site_name" content="北那个北">
-<meta property="og:description" content="title: 利用sklearn实现多分类demodate: 2018-9-3 19:30:38thumbnail: https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.pngtags:  - 自然语言处理 - 文本分类 categories: [NLP,Classification]常见的文本分类中，二分类">
+<meta property="og:description" content="常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。 1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyplot as pltfrom itertools import cyclefrom sklearn import svm, datasetsfrom sklea">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris2.png">
-<meta property="og:updated_time" content="2018-09-03T11:36:37.240Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png">
+<meta property="og:updated_time" content="2018-09-03T11:43:09.407Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="北那个北">
-<meta name="twitter:description" content="title: 利用sklearn实现多分类demodate: 2018-9-3 19:30:38thumbnail: https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.pngtags:  - 自然语言处理 - 文本分类 categories: [NLP,Classification]常见的文本分类中，二分类">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris2.png">
+<meta name="twitter:title" content="利用sklearn实现多分类实验demo">
+<meta name="twitter:description" content="常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。 1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyplot as pltfrom itertools import cyclefrom sklearn import svm, datasetsfrom sklea">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png">
     
 
     
@@ -78,7 +79,7 @@
                                     <a class="main-nav-list-link" href="/">Home</a>
                                 </li>
                             
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/C-C/">C/C++</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/C-C/leetcode/">leetcode</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/">Experiment</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/C/">C++</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/PHP/">PHP</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/Python/">Python</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/Scrapy/">Scrapy</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/">Kaggle</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/nlp/">nlp</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/">Material</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/DL/">DL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/ML/">ML</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/">NLP</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/MDCourse/">MDCourse</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/NLTK/">NLTK</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/Text-similarity/">Text similarity</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/">NOTES</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Keras/">Keras</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Statistical/">Statistical</a></li></ul></li></ul>
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/C-C/">C/C++</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/C-C/leetcode/">leetcode</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/">Experiment</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/C/">C++</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/PHP/">PHP</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/Python/">Python</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/Scrapy/">Scrapy</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/">Kaggle</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/nlp/">nlp</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/">Material</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/DL/">DL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/ML/">ML</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/">NLP</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/Classification/">Classification</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/MDCourse/">MDCourse</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/NLTK/">NLTK</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/Text-similarity/">Text similarity</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/">NOTES</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Keras/">Keras</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Statistical/">Statistical</a></li></ul></li></ul>
                                     
                         </ul>
                         <nav id="sub-nav">
@@ -133,31 +134,43 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    未分类
+    <a class="page-title-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NLP/Classification/">Classification</a>
     </h1>
 </div>
                         <div class="main-body-content">
                             <article id="post-利用sklearn实现多分类demo (1)" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        利用sklearn实现多分类实验demo
+        </h1>
+    
+
+            </header>
+        
         
             <div class="article-meta">
                 
     <div class="article-date">
         <a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="article-date">
-            <time datetime="2018-09-03T11:36:37.019Z" itemprop="datePublished">2018-09-03</time>
+            <time datetime="2018-09-03T11:42:12.000Z" itemprop="datePublished">2018-09-03</time>
         </a>
     </div>
 
                 
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/文本分类/">文本分类</a>, <a class="tag-link" href="/tags/自然语言处理/">自然语言处理</a>
+    </div>
+
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>title: 利用sklearn实现多分类demo<br>date: 2018-9-3 19:30:38<br>thumbnail: <a href="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png" target="_blank" rel="noopener">https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png</a><br>tags: </p>
-<pre><code>- 自然语言处理
-- 文本分类
-</code></pre><p>categories: [NLP,Classification]<br>常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。</p>
+            <p>常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。</p>
 <h3 id="1-引入相应的库"><a href="#1-引入相应的库" class="headerlink" title="1 引入相应的库"></a>1 引入相应的库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 引入必要的库</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> cycle</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm, datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> roc_curve, auc</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> label_binarize</span><br><span class="line"><span class="keyword">from</span> sklearn.multiclass <span class="keyword">import</span> OneVsRestClassifier</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> interp</span><br><span class="line"></span><br><span class="line">% matplotlib inline</span><br></pre></td></tr></table></figure>
 <h3 id="2-加载数据及数据格式转化"><a href="#2-加载数据及数据格式转化" class="headerlink" title="2 加载数据及数据格式转化"></a>2 加载数据及数据格式转化</h3><p>实验数据直接使用sklearn中的鸢尾花（iris）数据</p>
 <h5 id="（1）-加载数据"><a href="#（1）-加载数据" class="headerlink" title="（1） 加载数据"></a>（1） 加载数据</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br></pre></td></tr></table></figure>
@@ -323,7 +336,7 @@
                             <a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="thumbnail">
     
     
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris2.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png)" alt="利用sklearn实现多分类实验demo" class="thumbnail-image"></span>
     
     
 </a>
@@ -331,9 +344,9 @@
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2018-09-03T11:36:37.019Z" itemprop="datePublished">2018-09-03</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NLP/Classification/">Classification</a></p>
+                            <p class="item-title"><a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="title">利用sklearn实现多分类实验demo</a></p>
+                            <p class="item-date"><time datetime="2018-09-03T11:42:12.000Z" itemprop="datePublished">2018-09-03</time></p>
                         </div>
                     </li>
                 
@@ -426,7 +439,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/leetcode/">leetcode</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/">Experiment</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/C/">C++</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/Python/">Python</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/Scrapy/">Scrapy</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kaggle/">Kaggle</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Kaggle/nlp/">nlp</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material/">Material</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material/DL/">DL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material/ML/">ML</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/">NLP</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/MDCourse/">MDCourse</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/NLTK/">NLTK</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/Text-similarity/">Text similarity</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/NOTES/">NOTES</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/NOTES/Keras/">Keras</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NOTES/Statistical/">Statistical</a><span class="category-list-count">1</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/">C/C++</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/C-C/leetcode/">leetcode</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/">Experiment</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/C/">C++</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/Python/">Python</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Experiment/Scrapy/">Scrapy</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kaggle/">Kaggle</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Kaggle/nlp/">nlp</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material/">Material</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Material/DL/">DL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Material/ML/">ML</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/">NLP</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/Classification/">Classification</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/MDCourse/">MDCourse</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/NLTK/">NLTK</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NLP/Text-similarity/">Text similarity</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/NOTES/">NOTES</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/NOTES/Keras/">Keras</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NOTES/Statistical/">Statistical</a><span class="category-list-count">1</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -446,7 +459,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Keras/">Keras</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLTK基础教程/">NLTK基础教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scrapy/">scrapy</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分类指标/">分类指标</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实验教程/">实验教程</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本分类/">文本分类</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本相似度/">文本相似度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深度学习/">深度学习</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自然语言处理/">自然语言处理</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/资料/">资料</a><span class="tag-list-count">2</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Keras/">Keras</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLTK基础教程/">NLTK基础教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scrapy/">scrapy</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分类指标/">分类指标</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实验教程/">实验教程</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本分类/">文本分类</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本相似度/">文本相似度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深度学习/">深度学习</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自然语言处理/">自然语言处理</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/资料/">资料</a><span class="tag-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -456,7 +469,7 @@
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Kaggle/" style="font-size: 15px;">Kaggle</a> <a href="/tags/Keras/" style="font-size: 17.5px;">Keras</a> <a href="/tags/NLTK基础教程/" style="font-size: 15px;">NLTK基础教程</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/scrapy/" style="font-size: 12.5px;">scrapy</a> <a href="/tags/分类指标/" style="font-size: 10px;">分类指标</a> <a href="/tags/实验教程/" style="font-size: 20px;">实验教程</a> <a href="/tags/文本分类/" style="font-size: 15px;">文本分类</a> <a href="/tags/文本相似度/" style="font-size: 10px;">文本相似度</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a> <a href="/tags/深度学习/" style="font-size: 17.5px;">深度学习</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a> <a href="/tags/自然语言处理/" style="font-size: 20px;">自然语言处理</a> <a href="/tags/资料/" style="font-size: 12.5px;">资料</a>
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Kaggle/" style="font-size: 14px;">Kaggle</a> <a href="/tags/Keras/" style="font-size: 16px;">Keras</a> <a href="/tags/NLTK基础教程/" style="font-size: 14px;">NLTK基础教程</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/python/" style="font-size: 16px;">python</a> <a href="/tags/scrapy/" style="font-size: 12px;">scrapy</a> <a href="/tags/分类指标/" style="font-size: 10px;">分类指标</a> <a href="/tags/实验教程/" style="font-size: 18px;">实验教程</a> <a href="/tags/文本分类/" style="font-size: 16px;">文本分类</a> <a href="/tags/文本相似度/" style="font-size: 10px;">文本相似度</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a> <a href="/tags/深度学习/" style="font-size: 16px;">深度学习</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a> <a href="/tags/自然语言处理/" style="font-size: 20px;">自然语言处理</a> <a href="/tags/资料/" style="font-size: 12px;">资料</a>
         </div>
     </div>
 
