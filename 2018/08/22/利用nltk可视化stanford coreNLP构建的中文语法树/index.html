@@ -20,12 +20,12 @@
 <meta property="og:site_name" content="北那个北">
 <meta property="og:description" content="在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：12345from nltk.tree import Treefrom stanfordcorenlp import StanfordCoreNLPsentence = &amp;apos">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://img-blog.csdn.net/20180822215750603?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2018-08-28T09:32:14.790Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ksh.png">
+<meta property="og:updated_time" content="2018-09-03T11:29:55.988Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用nltk可视化stanford coreNLP构建的中文语法树">
 <meta name="twitter:description" content="在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：12345from nltk.tree import Treefrom stanfordcorenlp import StanfordCoreNLPsentence = &amp;apos">
-<meta name="twitter:image" content="https://img-blog.csdn.net/20180822215750603?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ksh.png">
     
 
     
@@ -173,7 +173,7 @@
             <p>在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from nltk.tree import Tree</span><br><span class="line">from stanfordcorenlp import StanfordCoreNLP</span><br><span class="line">sentence = &apos;我叫小米&apos;</span><br><span class="line">with StanfordCoreNLP(r&apos;E:\ProgramData\Anaconda3\coreNLP\stanford-corenlp-full-2016-10-31&apos;, lang=&apos;zh&apos;) as nlp:</span><br><span class="line">    Tree.fromstring(nlp.parse(sentence)).draw()</span><br></pre></td></tr></table></figure></p>
 <p>这里是通过stanfordcorenlp库来使用coreNLP的。<br>直接返回的结果是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(ROOT</span><br><span class="line">  (IP</span><br><span class="line">    (NP (PN 我))</span><br><span class="line">    (VP (VV 叫)</span><br><span class="line">      (NP (NN 小米)))))</span><br></pre></td></tr></table></figure>
-<p>可视化：<br><img src="https://img-blog.csdn.net/20180822215750603?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="句法结构"><br>关于环境部署可见：<a href="https://blog.csdn.net/xyz1584172808/article/details/81940664" target="_blank" rel="noopener">两种在Python中使用Stanford CoreNLP的方法</a><br>当然这里也可以使用Stanford parser 来构建中文语法树，可视化方法类似。链接见：<a href="https://blog.csdn.net/baiyi_canggou/article/details/59056759" target="_blank" rel="noopener">NLTK中使用Stanford parser 构建中文语法树</a></p>
+<p>可视化：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ksh.png" alt="句法结构"><br>关于环境部署可见：<a href="https://blog.csdn.net/xyz1584172808/article/details/81940664" target="_blank" rel="noopener">两种在Python中使用Stanford CoreNLP的方法</a><br>当然这里也可以使用Stanford parser 来构建中文语法树，可视化方法类似。链接见：<a href="https://blog.csdn.net/baiyi_canggou/article/details/59056759" target="_blank" rel="noopener">NLTK中使用Stanford parser 构建中文语法树</a></p>
 
         </div>
         <footer class="article-footer">
@@ -305,6 +305,26 @@
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris2.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2018-09-03T11:36:37.019Z" itemprop="datePublished">2018-09-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2018/08/28/Keras examples-imdb_cnn【利用卷积神经网络实现文本分类】/" class="thumbnail">
     
     
@@ -328,7 +348,7 @@
                             <a href="/2018/08/22/利用nltk可视化stanford coreNLP构建的中文语法树/" class="thumbnail">
     
     
-        <span style="background-image:url(https://img-blog.csdn.net/20180822215750603?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)" alt="利用nltk可视化stanford coreNLP构建的中文语法树" class="thumbnail-image"></span>
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ksh.png)" alt="利用nltk可视化stanford coreNLP构建的中文语法树" class="thumbnail-image"></span>
     
     
 </a>
@@ -382,26 +402,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/08/16/Keras examples-imdb_bidirectional_lstm (1)/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras03.jpg)" alt="Keras examples-imdb_bidirectional_lstm" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Keras/">Keras</a></p>
-                            <p class="item-title"><a href="/2018/08/16/Keras examples-imdb_bidirectional_lstm (1)/" class="title">Keras examples-imdb_bidirectional_lstm</a></p>
-                            <p class="item-date"><time datetime="2018-08-16T08:20:53.000Z" itemprop="datePublished">2018-08-16</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -421,7 +421,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">8</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">8</span></li></ul>
         </div>
     </div>
 
