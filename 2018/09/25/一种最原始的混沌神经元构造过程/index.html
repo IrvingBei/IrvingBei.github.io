@@ -12,19 +12,19 @@
     
         <meta name="keywords" content="笔记,混沌神经网络" />
     
-    <meta name="description" content="一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrack \sum{j = 1}^{M}v{\text{ij}}\sum{d = 0}^{t}{k{e}^{d}A{j}(t - d)} + \sum{j = 1}^{N}\text{wij}\sum{d = 0}^{t}{k{f}^{d}x{j}(t - d)}">
+    <meta name="description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrac">
 <meta name="keywords" content="笔记,混沌神经网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一种最原始的混沌神经元构造过程">
 <meta property="og:url" content="http://yoursite.com/2018/09/25/一种最原始的混沌神经元构造过程/index.html">
 <meta property="og:site_name" content="北那个北">
-<meta property="og:description" content="一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrack \sum{j = 1}^{M}v{\text{ij}}\sum{d = 0}^{t}{k{e}^{d}A{j}(t - d)} + \sum{j = 1}^{N}\text{wij}\sum{d = 0}^{t}{k{f}^{d}x{j}(t - d)}">
+<meta property="og:description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrac">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ch.jpg">
-<meta property="og:updated_time" content="2018-09-25T05:58:11.258Z">
+<meta property="og:updated_time" content="2018-09-25T06:06:18.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种最原始的混沌神经元构造过程">
-<meta name="twitter:description" content="一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrack \sum{j = 1}^{M}v{\text{ij}}\sum{d = 0}^{t}{k{e}^{d}A{j}(t - d)} + \sum{j = 1}^{N}\text{wij}\sum{d = 0}^{t}{k{f}^{d}x{j}(t - d)}">
+<meta name="twitter:description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrac">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ch.jpg">
     
 
@@ -170,7 +170,8 @@
         
         
         <div class="article-entry" itemprop="articleBody">
-            <h3 id="一-混沌神经元的构造"><a href="#一-混沌神经元的构造" class="headerlink" title="一  混沌神经元的构造"></a>一  混沌神经元的构造</h3><p>（1）一种混沌神经元的构造方法如下：</p>
+            <p>一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。<br>由于该博客公式显示问题，请移步CSDN博文<a href="https://blog.csdn.net/xyz1584172808/article/details/82838532" target="_blank" rel="noopener">一种最原始的混沌神经元构造过程</a></p>
+<h3 id="一-混沌神经元的构造"><a href="#一-混沌神经元的构造" class="headerlink" title="一  混沌神经元的构造"></a>一  混沌神经元的构造</h3><p>（1）一种混沌神经元的构造方法如下：</p>
 <p>$$<br>x<em>{i}\left( t + 1 \right) = f\left\lbrack \sum</em>{j = 1}^{M}v<em>{\text{ij}}\sum</em>{d = 0}^{t}{k<em>{e}^{d}A</em>{j}(t - d)} + \sum<em>{j = 1}^{N}\text{wij}\sum</em>{d = 0}^{t}{k<em>{f}^{d}x</em>{j}(t - d)} - \alpha\sum<em>{d = 0}^{t}{k</em>{r}^{d}g\left{ x<em>{i}\left( t - d \right) \right}} - \Theta</em>{i} \right\rbrack<br>$$</p>
 <p>对于式中的第一部分：</p>
 <p>$$<br>\sum<em>{j = 1}^{M}v</em>{\text{ij}}\sum<em>{d = 0}^{t}{k</em>{e}^{d}A_{j}(t - d)}<br>$$该项表示外部输入对当前混沌神经元的影响。</p>
