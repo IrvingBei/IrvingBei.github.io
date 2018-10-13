@@ -6,17 +6,26 @@
     
 
     
-    <title>分类：: leetcode | 一只NLPer渣渣的被虐日记</title>
+    <title>【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension | 一只NLPer渣渣的被虐日记</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="一只NLPer渣渣的被虐日记">
-<meta property="og:url" content="http://yoursite.com/categories/C-C/leetcode/index.html">
+        <meta name="keywords" content="论文笔记,阅读理解" />
+    
+    <meta name="description" content="1  问题及数据集1.1  问题本论文主要解决一种面向Cloze-style（填空式）的阅读理解（问答）问题 1.2  数据集（1）CNN&amp;amp;Daily Mail（2）SQuAD（3）Graph Reachability datase 2  已有方法2.1  单轮推理（1）特点单轮推理模型主要利用注意力机制来强调文档中与问题相关的那些部分，计算问题和文档子单元的相应加权表示之间的相关度，为候">
+<meta name="keywords" content="论文笔记,阅读理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension">
+<meta property="og:url" content="http://yoursite.com/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/index.html">
 <meta property="og:site_name" content="一只NLPer渣渣的被虐日记">
+<meta property="og:description" content="1  问题及数据集1.1  问题本论文主要解决一种面向Cloze-style（填空式）的阅读理解（问答）问题 1.2  数据集（1）CNN&amp;amp;Daily Mail（2）SQuAD（3）Graph Reachability datase 2  已有方法2.1  单轮推理（1）特点单轮推理模型主要利用注意力机制来强调文档中与问题相关的那些部分，计算问题和文档子单元的相应加权表示之间的相关度，为候">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/swdt.png">
+<meta property="og:updated_time" content="2018-10-13T12:35:08.626Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一只NLPer渣渣的被虐日记">
+<meta name="twitter:title" content="【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension">
+<meta name="twitter:description" content="1  问题及数据集1.1  问题本论文主要解决一种面向Cloze-style（填空式）的阅读理解（问答）问题 1.2  数据集（1）CNN&amp;amp;Daily Mail（2）SQuAD（3）Graph Reachability datase 2  已有方法2.1  单轮推理（1）特点单轮推理模型主要利用注意力机制来强调文档中与问题相关的那些部分，计算问题和文档子单元的相应加权表示之间的相关度，为候">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/swdt.png">
     
 
     
@@ -125,75 +134,162 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>分类：: <em class="page-title-link">leetcode</em>
+    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Papers/">Papers</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2018" class="archive-year"><i class="icon fa fa-calendar-o"></i>2018</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/01/18/【leetcode】724. Find Pivot Index/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/c.jpg)" alt="【leetcode】724. Find Pivot Index" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span><a href="http://yoursite.com/2018/01/18/【leetcode】724. Find Pivot Index/#isso-thread"></a></span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/C-C/">C/C++</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/C-C/leetcode/">leetcode</a>
-            </div>
-            <div class="date"><time datetime="2018-01-18T03:21:55.000Z" itemprop="datePublished">2018-01-18</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2018/01/18/【leetcode】724. Find Pivot Index/">【leetcode】724. Find Pivot Index</a>
+        【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension
         </h1>
     
 
-        <p class="article-excerpt">
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/" class="article-date">
+            <time datetime="2018-10-13T12:29:43.000Z" itemprop="datePublished">2018-10-13</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/论文笔记/">论文笔记</a>, <a class="tag-link" href="/tags/阅读理解/">阅读理解</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h4 id="1-问题及数据集"><a href="#1-问题及数据集" class="headerlink" title="1  问题及数据集"></a>1  问题及数据集</h4><h5 id="1-1-问题"><a href="#1-1-问题" class="headerlink" title="1.1  问题"></a>1.1  问题</h5><p>本论文主要解决一种面向Cloze-style（填空式）的阅读理解（问答）问题</p>
+<h5 id="1-2-数据集"><a href="#1-2-数据集" class="headerlink" title="1.2  数据集"></a>1.2  数据集</h5><p>（1）CNN&amp;Daily Mail<br>（2）SQuAD<br>（3）Graph Reachability datase</p>
+<h4 id="2-已有方法"><a href="#2-已有方法" class="headerlink" title="2  已有方法"></a>2  已有方法</h4><h5 id="2-1-单轮推理"><a href="#2-1-单轮推理" class="headerlink" title="2.1  单轮推理"></a>2.1  单轮推理</h5><p>（1）特点<br>单轮推理模型主要利用注意力机制来强调文档中与问题相关的那些部分，计算问题和文档子单元的相应加权表示之间的相关度，为候选目标评分。这好比在处理一些不太重要的部分的同时聚焦其他重要的部分，从而找到最后可能的答案。这种模型较简单，推理能力也不是很强。<br>（2） 方法</p>
+<ul>
+<li>Hermann et al. propose the attentive reader and the impatient reader models using neural networks with an attention over passages to predict candidates.</li>
+<li>Hill et al. use attention over window-based memory, which encodes a window of words around entity candidates, by leveraging an end- to-end memory network。</li>
+<li><a href="https://blog.csdn.net/xyz1584172808/article/details/83035597" target="_blank" rel="noopener">Kadlec et al. propose the attention-sum reader to sum up all the attention scores for the same entity，This score captures the relevance between a query and a candidate. Chen</a></li>
+<li>Chen et al. propose using a bilinear term similarity function to calculate attention scores with pretrained word embeddings.</li>
+<li>Trischler et al. propose the EpiReader which uses two neural network structures: one extracts candidates using the attention-sum reader; the other reranks candidates based on a bilinear term similarity score calculated from query and passage representations。</li>
+</ul>
+<h5 id="2-2-多轮推理"><a href="#2-2-多轮推理" class="headerlink" title="2.2  多轮推理"></a>2.2  多轮推理</h5><p>（1）特点<br>对于复杂的段落以及复杂的问题，读者通常会再次阅读文档以获得更深层次的信息。多轮推理模型就是将问题和前面推理中获得的新信息结合，从而模拟这个重读过程，得到新的推理信息。不断的迭代推理，在若干推理后预测出答案。但现存的多轮推理模型通常都预定义了迭代的次数，而忽视了每一个问题或文档的复杂度。<br>（2）方法</p>
+<ul>
+<li>Hill et al. use multiple hops memory network to augment the query with new information from the previous hop。</li>
+<li>Gated Attention reader is an extension of the attention-sum reader with multiple iterations by pushing the query encoding into an attention-based gate in each iteration.</li>
+<li>Iterative Alternative (IA) reader produces a new query glimpse and document glimpse in each iteration and utilizes them alternatively in the next iteration.</li>
+<li>Cui et al. propose to extend the query-specific attention to both query-to-document attention and document-to-query attention, which is built from the intermediate results in the query-specific attention。</li>
+</ul>
+<h5 id="2-3-现有方法的问题"><a href="#2-3-现有方法的问题" class="headerlink" title="2.3  现有方法的问题"></a>2.3  现有方法的问题</h5><p>上面的两类模型，第一种模型可以看作是第二种模型的一种特例，其迭代次数为1，于是目前已有的方法都采用了固定推理的轮数。而人在面临阅读理解的时候，会根据问题和文章的难度动态的决定推理次数。</p>
+<h4 id="3-本文提出的方法"><a href="#3-本文提出的方法" class="headerlink" title="3  本文提出的方法"></a>3  本文提出的方法</h4><p>本文提出了ReasoNet模型，用于模拟人类阅读的过程，带着问题多次阅读原文，并设置一个终止状态，动态的决定推理的轮数，直到获得的信息足够用于回答问题时才停止推理过程。此外，又引入了强化学习算法CR（对比奖励）来训练模型。</p>
+<h4 id="4-具体内容"><a href="#4-具体内容" class="headerlink" title="4  具体内容"></a>4  具体内容</h4><h5 id="4-1-ReasoNet网络结构"><a href="#4-1-ReasoNet网络结构" class="headerlink" title="4.1  ReasoNet网络结构"></a>4.1  ReasoNet网络结构</h5><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet.png" alt="ReasoNet网络结构"><br>（1）<strong>Memory</strong>：外部记忆，Document Encoder产生的每个单词的上下文表示<br>（2）<strong>Attention</strong>：注意力向量（也叫上下文向量）xt是由当前状态和外部记忆进行计算得出的<br>（3）<strong>Internal State</strong>：内部状态S，初始状态s1是Query Encoder产生的问题表示，t时刻状态由RNN产生st=RNN(st−1,xt;θs)；<br>（4）<strong>Termination Gate</strong>：根据当前内部状态产生一个binary随机变量。如果为1，那么结束推理预测答案；如果为0，那么继续推理<br>（5）<strong>Answer</strong>：当终止状态为1时，回答问题</p>
+<h5 id="4-2-具体步骤"><a href="#4-2-具体步骤" class="headerlink" title="4.2  具体步骤"></a>4.2  具体步骤</h5><p>（1）计算过程<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet1.png" alt="推理算法"></p>
+<p>（2）需要学习的参数</p>
+<ul>
+<li>embedding matrices θW </li>
+<li>attention network θx </li>
+<li>the state RNN network θs</li>
+<li>the answer action network θa </li>
+<li>the termination gate network θtg Query</li>
+<li>Encoder和Document Encoder的参数(参考笔记中提出)</li>
+</ul>
+<p>（3）期望奖励<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet3.png" alt="期望奖励"></p>
+<p>如果最终时刻的回答正确，则置Rt=1，否则为0，中间时刻的Rt=0。（具体细节还不是很清楚，先占坑，后面看了强化学习来填坑）</p>
+<h4 id="5-实验"><a href="#5-实验" class="headerlink" title="5  实验"></a>5  实验</h4><h5 id="5-1-CNN-amp-Daily-Mail-Datasets"><a href="#5-1-CNN-amp-Daily-Mail-Datasets" class="headerlink" title="5.1  CNN&amp;Daily Mail Datasets"></a>5.1  CNN&amp;Daily Mail Datasets</h5><p>（1）实验配置</p>
+<ul>
+<li><strong>vocab_size</strong>：|V| = 101k words in CNN，|V| = 151k words in Daily Mail</li>
+<li><strong>Embedding Layer</strong>：300-dimensional word embeddings，300-dimensional pretrained Glove word embeddings，dropout with probability 0.2</li>
+<li><strong>Bi-GRU Encoder</strong>：bidirectional GRU for encoding query and passage into vector representations，隐藏层单元个数：CNN256个，Daily Mail384个；用正交矩阵初始化GRU的权重；GRU的其他权重采用-0.01到+0.01之间的均匀随机分布。</li>
+<li><strong>Memory and Attention</strong>：composed of query memory and pas- sage memory；</li>
+<li><strong>Internal State Controller</strong>：choose GRU model as the internal state controller</li>
+<li><strong>TerminationModule</strong>：adopt a logistical regression to model the termination variable at each time step<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet4.png" alt=""></li>
+<li><strong>最大推理轮数为5</strong></li>
+</ul>
+<p>（2）实验结果<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet5.png" alt="实验结果"></p>
+<h5 id="5-2-SQuAD"><a href="#5-2-SQuAD" class="headerlink" title="5.2  SQuAD"></a>5.2  SQuAD</h5><p>（1）实验配置<br>与前一个数据集的配置有一些区别，也是按照那几部分分别设置<br>（2）实验结果<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet6.png" alt="实验结果"></p>
+<h5 id="5-3-Graph-Reachability-Task"><a href="#5-3-Graph-Reachability-Task" class="headerlink" title="5.3  Graph Reachability Task"></a>5.3  Graph Reachability Task</h5><p>这种数据之前没了解过，先占坑，后面来填</p>
+<h4 id="6-笔记小结"><a href="#6-笔记小结" class="headerlink" title="6  笔记小结"></a>6  笔记小结</h4><p>（1）通过引入终止状态，使得模型能够动态的决定推理轮数<br>（2）通过强化学习来训练模型<br>（3）本篇论文只是读了个大概，很多细节都还没有具体去研究，不了解的点还非常多，先占坑，后面研究了强化学习再来把相应的坑补上。</p>
+<h4 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h4><p>（1）<a href="https://arxiv.org/pdf/1609.05284.pdf" target="_blank" rel="noopener">论文地址</a><br>（2）相关论文笔记：<a href="http://cairohy.github.io/2017/05/22/deeplearning/NLP-RC-ReasoNet-NIPS2016-%E3%80%8AReasoNet%20Learning%20to%20Stop%20Reading%20in%20Machine%20Comprehension%E3%80%8B/" target="_blank" rel="noopener">学习如何停止</a><a href="http://cairohy.github.io/2017/05/22/deeplearning/NLP-RC-ReasoNet-NIPS2016-%E3%80%8AReasoNet%20Learning%20to%20Stop%20Reading%20in%20Machine%20Comprehension%E3%80%8B/" target="_blank" rel="noopener">阅读</a><br>（3）数据集<a href="https://github.com/deepmind/rcdata" target="_blank" rel="noopener">CNN&amp;Daily Mail</a></p>
+<h4 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h4><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/swdt.png" alt="论文笔记思维导图"></p>
+
+        </div>
+        <footer class="article-footer">
             
-Given an array of integers nums, write a method that returns the “pivot” index of this array.We define the pivot index as the index where the sum of the numbers to the left of the index is equal to the sum of the numbers to the right of the index.If no such index exists, we should return -1. If there are multiple pivot indexes, you should return the left-most pivot index.
-        </p>
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
     </div>
 </article>
+
+    <section id="comments">
     
-        </div>
+        
+    <div id="SOHUCS" sid="http://yoursite.com/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/"></div>
+
+
     
-
-
-    </div></section>
-
-
+    </section>
 
 
                         </div>
@@ -214,6 +310,19 @@ Given an array of integers nums, write a method that returns the “pivot” ind
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/10/13/【论文笔记02】Text Understanding with the Attention Sum Reader Network/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">【论文笔记02】Text Understanding with the Attention Sum Reader Network</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
