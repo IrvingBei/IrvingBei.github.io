@@ -6,26 +6,26 @@
     
 
     
-    <title>利用sklearn实现多分类实验demo | 北那个北</title>
+    <title>【论文笔记02】Text Understanding with the Attention Sum Reader Network | 北那个北</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="文本分类,自然语言处理" />
+        <meta name="keywords" content="阅读理解,论文笔记" />
     
-    <meta name="description" content="常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。 1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyplot as pltfrom itertools import cyclefrom sklearn import svm, datasetsfrom sklea">
-<meta name="keywords" content="文本分类,自然语言处理">
+    <meta name="description" content="1 问题及数据集1.1 问题给定较长一段话的context和一个较短的问题，以及一些candidate answers，训练出可以准确预测正确答案的模型，本模型主要针对命名实体和常用名词这两种词性的单词进行填空。 1.2数据集（1）CNN&amp;amp;Daily Mail（2）CBT 2 已有方法（1）Attentive and Impatient Readers（2）Attentive（3）Chen">
+<meta name="keywords" content="阅读理解,论文笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用sklearn实现多分类实验demo">
-<meta property="og:url" content="http://yoursite.com/2018/09/03/利用sklearn实现多分类demo (1)/index.html">
+<meta property="og:title" content="【论文笔记02】Text Understanding with the Attention Sum Reader Network">
+<meta property="og:url" content="http://yoursite.com/2018/10/13/【论文笔记02】Text Understanding with the Attention Sum Reader Network/index.html">
 <meta property="og:site_name" content="北那个北">
-<meta property="og:description" content="常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。 1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyplot as pltfrom itertools import cyclefrom sklearn import svm, datasetsfrom sklea">
+<meta property="og:description" content="1 问题及数据集1.1 问题给定较长一段话的context和一个较短的问题，以及一些candidate answers，训练出可以准确预测正确答案的模型，本模型主要针对命名实体和常用名词这两种词性的单词进行填空。 1.2数据集（1）CNN&amp;amp;Daily Mail（2）CBT 2 已有方法（1）Attentive and Impatient Readers（2）Attentive（3）Chen">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png">
-<meta property="og:updated_time" content="2018-09-03T11:43:09.407Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/asreader/swdt.png">
+<meta property="og:updated_time" content="2018-10-13T01:46:28.344Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用sklearn实现多分类实验demo">
-<meta name="twitter:description" content="常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。 1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyplot as pltfrom itertools import cyclefrom sklearn import svm, datasetsfrom sklea">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png">
+<meta name="twitter:title" content="【论文笔记02】Text Understanding with the Attention Sum Reader Network">
+<meta name="twitter:description" content="1 问题及数据集1.1 问题给定较长一段话的context和一个较短的问题，以及一些candidate answers，训练出可以准确预测正确答案的模型，本模型主要针对命名实体和常用名词这两种词性的单词进行填空。 1.2数据集（1）CNN&amp;amp;Daily Mail（2）CBT 2 已有方法（1）Attentive and Impatient Readers（2）Attentive（3）Chen">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/asreader/swdt.png">
     
 
     
@@ -134,18 +134,18 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NLP/Classification/">Classification</a>
+    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Papers/">Papers</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-利用sklearn实现多分类demo (1)" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-【论文笔记02】Text Understanding with the Attention Sum Reader Network" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        利用sklearn实现多分类实验demo
+        【论文笔记02】Text Understanding with the Attention Sum Reader Network
         </h1>
     
 
@@ -155,64 +155,32 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="article-date">
-            <time datetime="2018-09-03T11:42:12.000Z" itemprop="datePublished">2018-09-03</time>
+        <a href="/2018/10/13/【论文笔记02】Text Understanding with the Attention Sum Reader Network/" class="article-date">
+            <time datetime="2018-10-13T01:42:10.000Z" itemprop="datePublished">2018-10-13</time>
         </a>
     </div>
 
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/文本分类/">文本分类</a>, <a class="tag-link" href="/tags/自然语言处理/">自然语言处理</a>
+        <a class="tag-link" href="/tags/论文笔记/">论文笔记</a>, <a class="tag-link" href="/tags/阅读理解/">阅读理解</a>
     </div>
 
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。</p>
-<h3 id="1-引入相应的库"><a href="#1-引入相应的库" class="headerlink" title="1 引入相应的库"></a>1 引入相应的库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 引入必要的库</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> cycle</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm, datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> roc_curve, auc</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> label_binarize</span><br><span class="line"><span class="keyword">from</span> sklearn.multiclass <span class="keyword">import</span> OneVsRestClassifier</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> interp</span><br><span class="line"></span><br><span class="line">% matplotlib inline</span><br></pre></td></tr></table></figure>
-<h3 id="2-加载数据及数据格式转化"><a href="#2-加载数据及数据格式转化" class="headerlink" title="2 加载数据及数据格式转化"></a>2 加载数据及数据格式转化</h3><p>实验数据直接使用sklearn中的鸢尾花（iris）数据</p>
-<h5 id="（1）-加载数据"><a href="#（1）-加载数据" class="headerlink" title="（1） 加载数据"></a>（1） 加载数据</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br></pre></td></tr></table></figure>
-<h4 id="（2）-标签二值化"><a href="#（2）-标签二值化" class="headerlink" title="（2） 标签二值化"></a>（2） 标签二值化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看原来标签数据格式</span></span><br><span class="line">print(y.shape)</span><br><span class="line">print(y)</span><br><span class="line"><span class="comment"># 标签转化</span></span><br><span class="line">y = label_binarize(y, classes=[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">print(y[:<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
-<pre><code>(150,)
-[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
- 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2
- 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
- 2 2]
-[[1 0 0]
- [1 0 0]
- [1 0 0]]
-</code></pre><p>转化示意图<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris2.png" alt="标签转化"></p>
-<h4 id="（3）划分训练集和测试集"><a href="#（3）划分训练集和测试集" class="headerlink" title="（3）划分训练集和测试集"></a>（3）划分训练集和测试集</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置种类</span></span><br><span class="line">n_classes = y.shape[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型并预测</span></span><br><span class="line">random_state = np.random.RandomState(<span class="number">0</span>)</span><br><span class="line">n_samples, n_features = X.shape</span><br><span class="line"><span class="comment"># 随机化数据，并划分训练数据和测试数据</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">.5</span>,random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="3-训练模型"><a href="#3-训练模型" class="headerlink" title="3 训练模型"></a>3 训练模型</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Learn to predict each class against the other</span></span><br><span class="line">model = OneVsRestClassifier(svm.SVC(kernel=<span class="string">'linear'</span>, probability=<span class="keyword">True</span>,random_state=random_state))</span><br><span class="line">clt = model.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<h3 id="4-性能评估"><a href="#4-性能评估" class="headerlink" title="4 性能评估"></a>4 性能评估</h3><h4 id="（1）分别在训练集和测试集上查看得分"><a href="#（1）分别在训练集和测试集上查看得分" class="headerlink" title="（1）分别在训练集和测试集上查看得分"></a>（1）分别在训练集和测试集上查看得分</h4><p>在训练集上查看分类得分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clt.score(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<pre><code>0.8133333333333334
-</code></pre><p>在测试集上查看得分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clt.score(X_test,y_test)</span><br></pre></td></tr></table></figure>
-<pre><code>0.6533333333333333
-</code></pre><h4 id="（2）查看预测的各类别情况"><a href="#（2）查看预测的各类别情况" class="headerlink" title="（2）查看预测的各类别情况"></a>（2）查看预测的各类别情况</h4><p>①利用SVM的方法decision_function给每个样本中的每个类一个评分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y_preds_scores=clt.decision_function(X_test)</span><br><span class="line">y_preds_scores[:<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
-<pre><code>array([[-3.58459897, -0.3117717 ,  1.78242707],
-       [-2.15411929,  1.11394949, -2.393737  ],
-       [ 1.89199335, -3.89592195, -6.29685764],
-       [-4.52609987, -0.63396965,  1.96065819],
-       [ 1.39684192, -1.77722963, -6.26300472]])
-</code></pre><p>根据评分将其转化为原始标签格式</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.argmax(clt.decision_function(X_test), axis=<span class="number">1</span>)[:<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
-<pre><code>array([2, 1, 0, 2, 0])
-</code></pre><p>②利用predict_proba查看每一类的预测概率</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clt.predict_proba(X_test)[:<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
-<pre><code>array([[3.80289117e-03, 4.01872348e-01, 9.31103883e-01],
-       [4.57780355e-02, 7.88455913e-01, 3.39207219e-02],
-       [9.81843900e-01, 8.97766449e-03, 1.27447369e-04],
-       [7.34898836e-04, 3.12667406e-01, 9.45766977e-01]])
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.argmax(clt.predict_proba(X_test),axis=<span class="number">1</span>)[:<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
-<pre><code>array([2, 1, 0, 2, 0])
-</code></pre><h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p>【1】<a href="https://blog.csdn.net/xiaodongxiexie/article/details/76229042" target="_blank" rel="noopener">sklearn通过OneVsRestClassifier实现svm.SVC的多分类</a><br>【2】<a href="https://blog.csdn.net/BabyBirdToFly/article/details/72886879" target="_blank" rel="noopener">sklearn学习笔记（3）svm多分类</a></p>
-
+            <h4 id="1-问题及数据集"><a href="#1-问题及数据集" class="headerlink" title="1 问题及数据集"></a>1 问题及数据集</h4><h5 id="1-1-问题"><a href="#1-1-问题" class="headerlink" title="1.1 问题"></a>1.1 问题</h5><p>给定较长一段话的context和一个较短的问题，以及一些candidate answers，训练出可以准确预测正确答案的模型，本模型主要针对命名实体和常用名词这两种词性的单词进行填空。</p>
+<h5 id="1-2数据集"><a href="#1-2数据集" class="headerlink" title="1.2数据集"></a>1.2数据集</h5><p>（1）CNN&amp;Daily Mail<br>（2）CBT</p>
+<h4 id="2-已有方法"><a href="#2-已有方法" class="headerlink" title="2 已有方法"></a>2 已有方法</h4><p>（1）Attentive and Impatient Readers<br>（2）Attentive<br>（3）Chen et al. 2016<br>（4）MemNNs<br>（5）Pointer Networks<br>（6）Dynamic Entity Representation</p>
+<h4 id="3-本文提出的方法"><a href="#3-本文提出的方法" class="headerlink" title="3 本文提出的方法"></a>3 本文提出的方法</h4><p>ASReader模型使用注意力机制计算每个单词的注意力权重之和，从而从上下文中选择答案，而不是像在之前的模型一样，使用文档与问题的相似度或提取特征构建特征工程等方式来定位答案。</p>
+<h4 id="4-具体内容"><a href="#4-具体内容" class="headerlink" title="4 具体内容"></a>4 具体内容</h4><h5 id="4-1-网络结构"><a href="#4-1-网络结构" class="headerlink" title="4.1 网络结构"></a>4.1 网络结构</h5><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/asreader/asreader.jpg" alt="AS reader网络结构"></p>
+<h5 id="4-2具体过程"><a href="#4-2具体过程" class="headerlink" title="4.2具体过程"></a>4.2具体过程</h5><p><strong>step1</strong>：通过一层Embedding层将document和query中的word分别映射成向量。<br><strong>step2</strong>：用一个单层双向GRU来encode document，得到context representation，每个time step的拼接来表示该词<br><strong>step3</strong>：用一个单层双向GRU来encode query，用两个方向的last state拼接来表示query。<br><strong>step4</strong>：每个word vector与query vector作点积后归一化的结果作为attention weights，就query与document中的每个词之前的相关性度量。<br><strong>step5</strong>：最后做一次相同词概率的合并，得到每个词的概率，最大概率的那个词即为answer。为节约计算时间，可以只选择candidate answer里的词来计算概率。</p>
+<h5 id="4-3-评估方法"><a href="#4-3-评估方法" class="headerlink" title="4.3 评估方法"></a>4.3 评估方法</h5><p><strong>average ensemble by top 20%</strong>:更改初始化参数，训练多个模型，然后取在验证集上效果最好的前20%个模型做bagging.<br><strong>average ensemble</strong>:取前效果排名前70%的model做bagging<br><strong>greedy ensemble</strong>:根据效果排序从效果最好的模型开始bagging，如果bagging后的模型在验证集上效果更好就加入，一直持续到最后。</p>
+<h4 id="5-实验结果"><a href="#5-实验结果" class="headerlink" title="5.实验结果"></a>5.实验结果</h4><h5 id="5-1-CNN-Daily-Mail"><a href="#5-1-CNN-Daily-Mail" class="headerlink" title="5.1.CNN/Daily Mail"></a>5.1.CNN/Daily Mail</h5><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/asreader/asreader2.jpg" alt="CNN/Daily Mail上的实验室结果"></p>
+<h5 id="5-2-CBT"><a href="#5-2-CBT" class="headerlink" title="5.2.CBT"></a>5.2.CBT</h5><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/asreader/asreader3.jpg" alt="CBT上的实验结果"></p>
+<h4 id="6-小结"><a href="#6-小结" class="headerlink" title="6 小结"></a>6 小结</h4><p>（1）利用点积来计算注意力权重，简化了模型，但是能达到同样或者更好的效果。<br>（2）利用注意力权重之和来选择答案，而不是像以前的工作那样通过权重提取特征从而预测答案，但该模型更倾向于选择重复次数较多的单词作为答案。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/asreader/swdt.png" alt="论文笔记思维导图"></p>
+<h4 id="资源来源"><a href="#资源来源" class="headerlink" title="资源来源"></a>资源来源</h4><h5 id="论文地址"><a href="#论文地址" class="headerlink" title="论文地址"></a><a href="http://www.aclweb.org/anthology/P/P16/P16-1086.pdf" target="_blank" rel="noopener">论文地址</a></h5><h5 id="论文代码"><a href="#论文代码" class="headerlink" title="论文代码"></a><a href="https://github.com/rkadlec/asreader" target="_blank" rel="noopener">论文代码</a></h5><h4 id="相关论文笔记"><a href="#相关论文笔记" class="headerlink" title="相关论文笔记"></a>相关论文笔记</h4><h5 id="https-zhuanlan-zhihu-com-p-23462480（本笔记主要参考该链接的笔记）"><a href="#https-zhuanlan-zhihu-com-p-23462480（本笔记主要参考该链接的笔记）" class="headerlink" title="https://zhuanlan.zhihu.com/p/23462480（本笔记主要参考该链接的笔记）"></a><a href="https://zhuanlan.zhihu.com/p/23462480" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/23462480</a>（本笔记主要参考该链接的笔记）</h5><h5 id="https-www-imooc-com-article-28709"><a href="#https-www-imooc-com-article-28709" class="headerlink" title="https://www.imooc.com/article/28709"></a><a href="https://www.imooc.com/article/28709" target="_blank" rel="noopener">https://www.imooc.com/article/28709</a></h5><h5 id="https-zhuanlan-zhihu-com-p-21354432"><a href="#https-zhuanlan-zhihu-com-p-21354432" class="headerlink" title="https://zhuanlan.zhihu.com/p/21354432"></a><a href="https://zhuanlan.zhihu.com/p/21354432" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/21354432</a></h5>
         </div>
         <footer class="article-footer">
             
@@ -279,7 +247,7 @@
     <section id="comments">
     
         
-    <div id="SOHUCS" sid="http://yoursite.com/2018/09/03/利用sklearn实现多分类demo (1)/"></div>
+    <div id="SOHUCS" sid="http://yoursite.com/2018/10/13/【论文笔记02】Text Understanding with the Attention Sum Reader Network/"></div>
 
 
     
@@ -308,20 +276,20 @@
         
 <nav id="article-nav">
     
-        <a href="/2018/09/25/一种最原始的混沌神经元构造过程/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2018/10/13/【论文笔记01】Phrase-Based & Neural Unsupervised Machine Translation/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption">下一篇</strong>
         <p class="article-nav-title">
         
-            一种最原始的混沌神经元构造过程
+            【论文笔记01】Phrase-Based &amp; Neural Unsupervised Machine Translation
         
         </p>
         <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
     </a>
     
     
-        <a href="/2018/08/28/Keras examples-imdb_cnn【利用卷积神经网络实现文本分类】/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/10/04/【论文翻译01】How Much Reading Does Reading Comprehension Require/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Keras examples-imdb_cnn[利用卷积神经网络对文本进行分类]</p>
+        <p class="article-nav-title">【论文翻译01】How Much Reading Does Reading Comprehension Require？</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
