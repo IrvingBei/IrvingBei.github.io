@@ -274,14 +274,14 @@ code {
 .logo {
   display: block;
   padding: 10px 0;
-  width: 436px;
-  height: 76px;
+  width: 526px;
+  height: 61px;
   background-image: url("https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/logo.png");
   background-position: 0px 10px;
   background-repeat: no-repeat;
-  -webkit-background-size: 436px 76px;
-  -moz-background-size: 436px 76px;
-  background-size: 436px 76px;
+  -webkit-background-size: 526px 61px;
+  -moz-background-size: 526px 61px;
+  background-size: 526px 61px;
 }
 .main-body {
   margin-top: -60px;
@@ -378,7 +378,7 @@ code {
 #header-title .subtitle {
   font-size: 16px;
   font-style: italic;
-  line-height: 86px;
+  line-height: 71px;
   color: rgba(255,255,255,0.7);
   text-shadow: 0 1px rgba(0,0,0,0.2);
 }
@@ -1658,11 +1658,11 @@ a.article-title:hover {
   line-height: 22px;
 }
 #footer .logo {
-  width: 348.8px;
-  height: 60.800000000000004px;
-  -webkit-background-size: 348.8px 60.800000000000004px;
-  -moz-background-size: 348.8px 60.800000000000004px;
-  background-size: 348.8px 60.800000000000004px;
+  width: 420.8px;
+  height: 48.800000000000004px;
+  -webkit-background-size: 420.8px 48.800000000000004px;
+  -moz-background-size: 420.8px 48.800000000000004px;
+  background-size: 420.8px 48.800000000000004px;
 }
 i.icon {
   display: inline-block;
