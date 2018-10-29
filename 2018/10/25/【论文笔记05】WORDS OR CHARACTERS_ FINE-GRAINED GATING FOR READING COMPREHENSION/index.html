@@ -6,17 +6,26 @@
     
 
     
-    <title>分类：: NOTES | 一只NLPer渣渣的被虐日记</title>
+    <title>【论文笔记05】WORDS OR CHARACTERS? FINE-GRAINED GATING FOR READING COMPREHENSION | 一只NLPer渣渣的被虐日记</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="一只NLPer渣渣的被虐日记">
-<meta property="og:url" content="http://yoursite.com/categories/NOTES/page/2/index.html">
+        <meta name="keywords" content="论文笔记,阅读理解" />
+    
+    <meta name="description" content="1  问题和数据集1.1  问题 这是一篇以阅读理解为任务的文章，但在具体处理这个任务时，主要解决数据特征等的表示问题。在提取文本特征时，通常只对单词做词嵌入，而忽略了字符级的特征。 1.2  数据集 CBT WDW SQuAD  2  目前已有方法2.1  单词级表示（1）from a lookup table（2）每个单词用一个向量表示（3） 擅长表示单词的语义 2.2  字符级表示（1） 在">
+<meta name="keywords" content="论文笔记,阅读理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记05】WORDS OR CHARACTERS? FINE-GRAINED GATING FOR READING COMPREHENSION">
+<meta property="og:url" content="http://yoursite.com/2018/10/25/【论文笔记05】WORDS OR CHARACTERS_ FINE-GRAINED GATING FOR READING COMPREHENSION/index.html">
 <meta property="og:site_name" content="一只NLPer渣渣的被虐日记">
+<meta property="og:description" content="1  问题和数据集1.1  问题 这是一篇以阅读理解为任务的文章，但在具体处理这个任务时，主要解决数据特征等的表示问题。在提取文本特征时，通常只对单词做词嵌入，而忽略了字符级的特征。 1.2  数据集 CBT WDW SQuAD  2  目前已有方法2.1  单词级表示（1）from a lookup table（2）每个单词用一个向量表示（3） 擅长表示单词的语义 2.2  字符级表示（1） 在">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/w1.png">
+<meta property="og:updated_time" content="2018-10-29T07:22:18.053Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一只NLPer渣渣的被虐日记">
+<meta name="twitter:title" content="【论文笔记05】WORDS OR CHARACTERS? FINE-GRAINED GATING FOR READING COMPREHENSION">
+<meta name="twitter:description" content="1  问题和数据集1.1  问题 这是一篇以阅读理解为任务的文章，但在具体处理这个任务时，主要解决数据特征等的表示问题。在提取文本特征时，通常只对单词做词嵌入，而忽略了字符级的特征。 1.2  数据集 CBT WDW SQuAD  2  目前已有方法2.1  单词级表示（1）from a lookup table（2）每个单词用一个向量表示（3） 擅长表示单词的语义 2.2  字符级表示（1） 在">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/w1.png">
     
 
     
@@ -125,186 +134,139 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>分类：: <em class="page-title-link">NOTES</em>
+    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Papers/">Papers</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-【论文笔记05】WORDS OR CHARACTERS_ FINE-GRAINED GATING FOR READING COMPREHENSION" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2018" class="archive-year"><i class="icon fa fa-calendar-o"></i>2018</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/07/24/Keras examples-babi_rnn (1)/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras02.jpg)" alt="Keras examples-babi_rnn" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/07/24/Keras examples-babi_rnn (1)/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Keras/">Keras</a>
-            </div>
-            <div class="date"><time datetime="2018-07-24T13:29:55.000Z" itemprop="datePublished">2018-07-24</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2018/07/24/Keras examples-babi_rnn (1)/">Keras examples-babi_rnn</a>
+        【论文笔记05】WORDS OR CHARACTERS? FINE-GRAINED GATING FOR READING COMPREHENSION
         </h1>
     
 
-        <p class="article-excerpt">
-            1  任务描述本实验利用提供的20个种类的数据集，完成KQA的任务。
-2 具体实现任务整体流程如图所示：
-（1）引入必要的包12345678910111213from __future__ import print_functionfrom functools import reduceimport reimport tarfile # 处理压缩文件import numpy as npfrom k
-        </p>
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/10/25/【论文笔记05】WORDS OR CHARACTERS_ FINE-GRAINED GATING FOR READING COMPREHENSION/" class="article-date">
+            <time datetime="2018-10-25T12:29:43.000Z" itemprop="datePublished">2018-10-25</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/论文笔记/">论文笔记</a>, <a class="tag-link" href="/tags/阅读理解/">阅读理解</a>
+    </div>
+
+				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h3 id="1-问题和数据集"><a href="#1-问题和数据集" class="headerlink" title="1  问题和数据集"></a>1  问题和数据集</h3><h4 id="1-1-问题"><a href="#1-1-问题" class="headerlink" title="1.1  问题"></a>1.1  问题</h4><p> 这是一篇以阅读理解为任务的文章，但在具体处理这个任务时，主要解决数据特征等的表示问题。在提取文本特征时，通常只对单词做词嵌入，而忽略了字符级的特征。</p>
+<h4 id="1-2-数据集"><a href="#1-2-数据集" class="headerlink" title="1.2  数据集"></a>1.2  数据集</h4><ul>
+<li>CBT</li>
+<li>WDW</li>
+<li>SQuAD</li>
+</ul>
+<h3 id="2-目前已有方法"><a href="#2-目前已有方法" class="headerlink" title="2  目前已有方法"></a>2  目前已有方法</h3><h4 id="2-1-单词级表示"><a href="#2-1-单词级表示" class="headerlink" title="2.1  单词级表示"></a>2.1  单词级表示</h4><p>（1）from a lookup table<br>（2）每个单词用一个向量表示<br>（3） 擅长表示单词的语义</p>
+<h4 id="2-2-字符级表示"><a href="#2-2-字符级表示" class="headerlink" title="2.2  字符级表示"></a>2.2  字符级表示</h4><p>（1） 在单词的字符序列上运用RNN或者CNN，隐层状态合并来形成字符表示<br>（2）更适合子词形态建模<br>（3）可以减轻模型的OOV问题</p>
+<h4 id="2-3-单词级和字符级结合"><a href="#2-3-单词级和字符级结合" class="headerlink" title="2.3  单词级和字符级结合"></a>2.3  单词级和字符级结合</h4><p>（1）组合例子</p>
+<ul>
+<li>C2W model based on bidirectional LSTMs</li>
+<li><p>gate units（Miyamoto &amp; cho等提出的标量门控条件实际上并未提高性能）</p>
+<p>（2）面临问题</p>
+</li>
+<li>对于频繁单词，可以准确估计，加入字符级表示可以产生干扰；</li>
+<li>对于非频繁词，加入字符级会带来负面影响</li>
+</ul>
+<h3 id="3-本文提出的方法"><a href="#3-本文提出的方法" class="headerlink" title="3  本文提出的方法"></a>3  本文提出的方法</h3><p>本文提出了一个细粒度门控机制来合并单词级和字符级表示</p>
+<h3 id="4-具体内容"><a href="#4-具体内容" class="headerlink" title="4  具体内容"></a>4  具体内容</h3><h4 id="4-1-特征融合"><a href="#4-1-特征融合" class="headerlink" title="4.1  特征融合"></a>4.1  特征融合</h4><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/w1.png" alt="特征融合示意图"><br> step1：对于单词特征，先做one-hot编码，再做word-embedding作为单词级表示（记为hp）<br>step2：对于字符特征，对单词里的每个字符做one-hot，再送人RNN，得到最后隐层向量来作为字符级表示（记为hq）<br> step3：利用NER,POS,Frequency特征等拼接而得到v，用来计算门控单元g。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/word2.png" alt="门控g的计算"></p>
+<p> step4：将两个特征用门控机制来融合<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/word3.png" alt="特征融合"></p>
+<h4 id="4-2-检索答案"><a href="#4-2-检索答案" class="headerlink" title="4.2  检索答案"></a>4.2  检索答案</h4><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/w2.png" alt="检索答案示意图"><br> step1：计算Iij，于是qj可以看成是过滤Pi中的信息<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/word4.png" alt="计算Iij"><br> step2：计算hi，相当于在Iij上运用一个注意力机制，从而得到输出hi。（wi和wj分别是pi和qj的one-hot编码，原因是加强匹配，当k的值非常大时，这样的信息并不是完全保留。）<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/word5.png" alt="计算Hi"></p>
+<h3 id="5-小结"><a href="#5-小结" class="headerlink" title="5  小结"></a>5  小结</h3><p>（1）.这是一个新的文本特征表示方法，当g值较大时，更多的信息流来自字符级，当g的信息较小时，更多的信息流来自单词级；<br>（2）本文使用的细粒度的门控机制，采用的是向量门而不是标量门；并且根据特征来设置门，能够更好的反映单词的属性</p>
+<h3 id="论文思维导图"><a href="#论文思维导图" class="headerlink" title="论文思维导图"></a>论文思维导图</h3><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/fg.png" alt="思维导图"></p>
+<h3 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h3><h4 id="论文代码"><a href="#论文代码" class="headerlink" title="论文代码"></a>论文代码</h4><h4 id="https-github-com-kimiyoung-fg-gating"><a href="#https-github-com-kimiyoung-fg-gating" class="headerlink" title="https://github.com/kimiyoung/fg-gating"></a><a href="https://github.com/kimiyoung/fg-gating" target="_blank" rel="noopener">https://github.com/kimiyoung/fg-gating</a></h4><h4 id="参考论文笔记"><a href="#参考论文笔记" class="headerlink" title="参考论文笔记"></a>参考论文笔记</h4><h4 id="https-zhuanlan-zhihu-com-p-43554818"><a href="#https-zhuanlan-zhihu-com-p-43554818" class="headerlink" title="https://zhuanlan.zhihu.com/p/43554818"></a><a href="https://zhuanlan.zhihu.com/p/43554818" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/43554818</a></h4>
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
     </div>
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/07/20/Keras examples-addition_rnn (1)/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras01.jpg)" alt="Keras examples-addition_rnn" class="thumbnail-image"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/07/20/Keras examples-addition_rnn (1)/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Keras/">Keras</a>
-            </div>
-            <div class="date"><time datetime="2018-07-20T12:08:43.000Z" itemprop="datePublished">2018-07-20</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/07/20/Keras examples-addition_rnn (1)/">Keras examples-addition_rnn</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            Keras examples-addition_rnn1、任务描述（1）任务概述：主要是利用序列学习来实现两个整数（字符串）的加法（2）任务分析：两个整数相加，需要通过神经网络来训练，于是不能够直接将整型作为神经网络的输入；想想办法，如果将整数和加号等都转化为字符，于是就可以用一个字符串来表示这个加法问题了；字符串表示的加法问题，可以看成是文本，于是紧接着考虑用什么语言模型来表示这个问题，由于加法
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-        
-            </div></section>
-        
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/12/13/《统计学习方法》-感知机模型学习笔记/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/tongji.jpg)" alt="【笔记】01：《统计学习方法》-感知机模型学习笔记" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2017/12/13/《统计学习方法》-感知机模型学习笔记/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Statistical/">Statistical</a>
-            </div>
-            <div class="date"><time datetime="2017-12-13T01:20:00.000Z" itemprop="datePublished">2017-12-13</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/12/13/《统计学习方法》-感知机模型学习笔记/">【笔记】01：《统计学习方法》-感知机模型学习笔记</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-             用简单的方法学习 ——北北
-
-        </p>
-    </div>
-</article>
-    
-
-
-    </div></section>
-
-
-    <nav id="page-nav">
-        <span class="pages">第 2 页，共 2 页</span>
-        <a class="extend prev" rel="prev" href="/categories/NOTES/">&laquo;</a><a class="page-number" href="/categories/NOTES/">1</a><span class="page-number current">2</span>
-    </nav>
-
+    </section>
 
 
                         </div>
@@ -325,6 +287,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/10/22/【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for RC/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -529,11 +504,13 @@
     var disqus_shortname = 'nlper';
     
     
+    var disqus_url = 'http://yoursite.com/2018/10/25/【论文笔记05】WORDS OR CHARACTERS_ FINE-GRAINED GATING FOR READING COMPREHENSION/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
