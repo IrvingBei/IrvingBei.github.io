@@ -6,18 +6,18 @@
     
 
     
-    <title>tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子） | 一只NLPer渣渣的被虐日记</title>
+    <title>tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子） | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="笔记,Tensorflow" />
+        <meta name="keywords" content="Tensorflow,笔记" />
     
     <meta name="description" content="注：由于tensorflow版本的不同，这个函数所在的模块可能不同，如：tf.nn.seq2seq.sequence_loss_by_example和tf.contrib.legacy_seq2seq.sequence_loss_by_example  在正式进入sequence_loss_by_example（）函数的计算过程之前，需要先复习下两个基本的知识点，softmax的计算和交叉熵的计">
-<meta name="keywords" content="笔记,Tensorflow">
+<meta name="keywords" content="Tensorflow,笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）">
 <meta property="og:url" content="http://yoursite.com/2018/10/15/tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）/index.html">
-<meta property="og:site_name" content="一只NLPer渣渣的被虐日记">
+<meta property="og:site_name" content="一只NLPer">
 <meta property="og:description" content="注：由于tensorflow版本的不同，这个函数所在的模块可能不同，如：tf.nn.seq2seq.sequence_loss_by_example和tf.contrib.legacy_seq2seq.sequence_loss_by_example  在正式进入sequence_loss_by_example（）函数的计算过程之前，需要先复习下两个基本的知识点，softmax的计算和交叉熵的计">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/1.png">
