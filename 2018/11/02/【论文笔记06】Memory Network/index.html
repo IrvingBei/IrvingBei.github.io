@@ -10,18 +10,18 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="阅读理解,论文笔记" />
+        <meta name="keywords" content="论文笔记,阅读理解" />
     
     <meta name="description" content="1  问题和解决办法（1）问题  当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决； 对于句子间的这种长期依赖，于是需要从记忆中提取信息；  （2）解决办法  本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能； 在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。2  模型框架（1）模型由4个模块组成，分">
-<meta name="keywords" content="阅读理解,论文笔记">
+<meta name="keywords" content="论文笔记,阅读理解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【论文笔记06】Memory Network">
-<meta property="og:url" content="http://yoursite.com/2018/10/25/【论文笔记06】Memory Network/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/11/02/【论文笔记06】Memory Network/index.html">
 <meta property="og:site_name" content="一只NLPer">
 <meta property="og:description" content="1  问题和解决办法（1）问题  当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决； 对于句子间的这种长期依赖，于是需要从记忆中提取信息；  （2）解决办法  本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能； 在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。2  模型框架（1）模型由4个模块组成，分">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m2.jpg">
-<meta property="og:updated_time" content="2018-11-02T08:55:35.419Z">
+<meta property="og:updated_time" content="2018-11-02T09:24:44.420Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记06】Memory Network">
 <meta name="twitter:description" content="1  问题和解决办法（1）问题  当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决； 对于句子间的这种长期依赖，于是需要从记忆中提取信息；  （2）解决办法  本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能； 在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。2  模型框架（1）模型由4个模块组成，分">
@@ -81,6 +81,10 @@
                             
                                         <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/C-C/">C/C++</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/C-C/leetcode/">leetcode</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/">Experiment</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/C/">C++</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/PHP/">PHP</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/Python/">Python</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/Scrapy/">Scrapy</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/">Kaggle</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/nlp/">nlp</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/">Material</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/DL/">DL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/ML/">ML</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/">NLP</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/Classification/">Classification</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/MDCourse/">MDCourse</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/NLTK/">NLTK</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/Text-similarity/">Text similarity</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/">NOTES</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Chaotic/">Chaotic</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Keras/">Keras</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Papers/">Papers</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Statistical/">Statistical</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Tensorflow/">Tensorflow</a></li></ul></li></ul>
                                     
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/">About</a>
+                                </li>
+                            
                         </ul>
                         <nav id="sub-nav">
                             <div id="search-form-wrap">
@@ -155,8 +159,8 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2018/10/25/【论文笔记06】Memory Network/" class="article-date">
-            <time datetime="2018-10-25T12:29:43.000Z" itemprop="datePublished">2018-10-25</time>
+        <a href="/2018/11/02/【论文笔记06】Memory Network/" class="article-date">
+            <time datetime="2018-11-02T09:24:42.000Z" itemprop="datePublished">2018-11-02</time>
         </a>
     </div>
 
@@ -309,7 +313,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/10/25/【论文笔记06】Memory Network/" class="thumbnail">
+                            <a href="/2018/11/02/【论文笔记06】Memory Network/" class="thumbnail">
     
     
         <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m2.jpg)" alt="【论文笔记06】Memory Network" class="thumbnail-image"></span>
@@ -321,8 +325,8 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a></p>
-                            <p class="item-title"><a href="/2018/10/25/【论文笔记06】Memory Network/" class="title">【论文笔记06】Memory Network</a></p>
-                            <p class="item-date"><time datetime="2018-10-25T12:29:43.000Z" itemprop="datePublished">2018-10-25</time></p>
+                            <p class="item-title"><a href="/2018/11/02/【论文笔记06】Memory Network/" class="title">【论文笔记06】Memory Network</a></p>
+                            <p class="item-date"><time datetime="2018-11-02T09:24:42.000Z" itemprop="datePublished">2018-11-02</time></p>
                         </div>
                     </li>
                 
@@ -415,7 +419,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">8</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">8</span></li></ul>
         </div>
     </div>
 
@@ -497,7 +501,7 @@
     var disqus_shortname = 'nlper';
     
     
-    var disqus_url = 'http://yoursite.com/2018/10/25/【论文笔记06】Memory Network/';
+    var disqus_url = 'http://yoursite.com/2018/11/02/【论文笔记06】Memory Network/';
     
     (function() {
     var dsq = document.createElement('script');

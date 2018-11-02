@@ -6,26 +6,17 @@
     
 
     
-    <title>Keras examples-imdb_bidirectional_lstm | 一只NLPer</title>
+    <title>归档: 2018/11 | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="深度学习,Keras" />
-    
-    <meta name="description" content="1  任务描述本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务 2 具体实现（1）引入必要的包123456from __future__ import print_functionimport numpy as npfrom keras.preprocessing import sequencefrom keras.models import Sequentialfrom ker">
-<meta name="keywords" content="深度学习,Keras">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Keras examples-imdb_bidirectional_lstm">
-<meta property="og:url" content="http://yoursite.com/2018/08/16/Keras examples-imdb_bidirectional_lstm (1)/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="一只NLPer">
+<meta property="og:url" content="http://yoursite.com/archives/2018/11/index.html">
 <meta property="og:site_name" content="一只NLPer">
-<meta property="og:description" content="1  任务描述本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务 2 具体实现（1）引入必要的包123456from __future__ import print_functionimport numpy as npfrom keras.preprocessing import sequencefrom keras.models import Sequentialfrom ker">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras03.jpg">
-<meta property="og:updated_time" content="2018-08-16T08:23:06.873Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Keras examples-imdb_bidirectional_lstm">
-<meta name="twitter:description" content="1  任务描述本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务 2 具体实现（1）引入必要的包123456from __future__ import print_functionimport numpy as npfrom keras.preprocessing import sequencefrom keras.models import Sequentialfrom ker">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras03.jpg">
+<meta name="twitter:title" content="一只NLPer">
     
 
     
@@ -138,150 +129,81 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Keras/">Keras</a>
+    <i class="icon fa fa-archive"></i>归档: 2018/11
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-Keras examples-imdb_bidirectional_lstm (1)" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
+                            
+
+    
+    
         
-            <header class="article-header">
-                
+        
+        <section class="archives-wrap">
+            <div class="archive-year-wrap">
+                <a href="/archives/2018" class="archive-year"><i class="icon fa fa-calendar-o"></i>2018</a>
+            </div>
+            <div class="archives">
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <a href="/2018/11/02/【论文笔记06】Memory Network/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m2.jpg)" alt="【论文笔记06】Memory Network" class="thumbnail-image"></span>
+    
+    
+        
+<span class="comment-counter">
+    <i class="fa fa-comments-o"></i>
+    
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/11/02/【论文笔记06】Memory Network/">0</span>
+    
+</span>
+
+
+    
+</a>
+
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
+            </div>
+            <div class="date"><time datetime="2018-11-02T09:24:42.000Z" itemprop="datePublished">2018-11-02</time></div>
+        </div>
+        
     
         <h1 class="article-title" itemprop="name">
-        Keras examples-imdb_bidirectional_lstm
+        <a href="/2018/11/02/【论文笔记06】Memory Network/">【论文笔记06】Memory Network</a>
         </h1>
     
 
-            </header>
-        
-        
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2018/08/16/Keras examples-imdb_bidirectional_lstm (1)/" class="article-date">
-            <time datetime="2018-08-16T08:20:53.000Z" itemprop="datePublished">2018-08-16</time>
-        </a>
-    </div>
+        <p class="article-excerpt">
+            1  问题和解决办法（1）问题
 
-                
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Keras/">Keras</a>, <a class="tag-link" href="/tags/深度学习/">深度学习</a>
-    </div>
+当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决；
+对于句子间的这种长期依赖，于是需要从记忆中提取信息；
 
-				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
-            </div>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-            <h3 id="1-任务描述"><a href="#1-任务描述" class="headerlink" title="1  任务描述"></a>1  任务描述</h3><p>本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务</p>
-<h3 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2 具体实现"></a>2 具体实现</h3><h4 id="（1）引入必要的包"><a href="#（1）引入必要的包" class="headerlink" title="（1）引入必要的包"></a>（1）引入必要的包</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing <span class="keyword">import</span> sequence</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense,Dropout,Embedding,LSTM,Bidirectional</span><br><span class="line"><span class="keyword">from</span> keras.datasets <span class="keyword">import</span> imdb</span><br></pre></td></tr></table></figure>
-<h4 id="（2）设置一些常量"><a href="#（2）设置一些常量" class="headerlink" title="（2）设置一些常量"></a>（2）设置一些常量</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置最大特征的数量，对于文本，就是处理的最大单词数量。若被设置为整数，则被限制为待处理数据集中最常见的max_features个单词</span></span><br><span class="line">max_features=<span class="number">20000</span></span><br><span class="line"><span class="comment"># 设置每个文本序列的最大长度，当序列的长度小于maxlen时，将用0来进行填充，当序列的长度大于maxlen时，则进行截断</span></span><br><span class="line">maxlen=<span class="number">100</span></span><br><span class="line"><span class="comment"># 设置训练的轮次</span></span><br><span class="line">batch_size=<span class="number">32</span></span><br></pre></td></tr></table></figure>
-<h4 id="（3）加载数据"><a href="#（3）加载数据" class="headerlink" title="（3）加载数据"></a>（3）加载数据</h4><p>在Keras的数据集中有IMDB数据集，因此只需要按照格式加载即可<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"loading data ..."</span>)</span><br><span class="line"><span class="comment"># 加载数据</span></span><br><span class="line">(x_train,y_train),(x_test,y_test)=imdb.load_data(num_words=max_features)</span><br><span class="line"><span class="comment"># 查看数据大小</span></span><br><span class="line">print(len(x_train),<span class="string">'train sequences'</span>)</span><br><span class="line">print(len(x_test),<span class="string">'test sequences'</span>)</span><br></pre></td></tr></table></figure></p>
-<pre><code>loading data ...
-25000 train sequences
-25000 test sequences
-</code></pre><h4 id="（4）数据处理"><a href="#（4）数据处理" class="headerlink" title="（4）数据处理"></a>（4）数据处理</h4><p>首先查看数据格式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(x_train[<span class="number">0</span>])</span><br></pre></td></tr></table></figure></p>
-<pre><code>[1, 14, 22, 16, 43, 530, 973, 1622, 1385, 65, 458, 4468, 66, 3941, 4, 173, 36, 256, 5, 25, 100, 43, 838, 112, 50, 670, 2, 9, 35, 480, 284, 5, 150, 4, 172, 112, 167, 2, 336, 385, 39, 4, 172, 4536, 1111, 17, 546, 38, 13, 447, 4, 192, 50, 16, 6, 147, 2025, 19, 14, 22, 4, 1920, 4613, 469, 4, 22, 71, 87, 12, 16, 43, 530, 38, 76, 15, 13, 1247, 4, 22, 17, 515, 17, 12, 16, 626, 18, 19193, 5, 62, 386, 12, 8, 316, 8, 106, 5, 4, 2223, 5244, 16, 480, 66, 3785, 33, 4, 130, 12, 16, 38, 619, 5, 25, 124, 51, 36, 135, 48, 25, 1415, 33, 6, 22, 12, 215, 28, 77, 52, 5, 14, 407, 16, 82, 10311, 8, 4, 107, 117, 5952, 15, 256, 4, 2, 7, 3766, 5, 723, 36, 71, 43, 530, 476, 26, 400, 317, 46, 7, 4, 12118, 1029, 13, 104, 88, 4, 381, 15, 297, 98, 32, 2071, 56, 26, 141, 6, 194, 7486, 18, 4, 226, 22, 21, 134, 476, 26, 480, 5, 144, 30, 5535, 18, 51, 36, 28, 224, 92, 25, 104, 4, 226, 65, 16, 38, 1334, 88, 12, 16, 283, 5, 16, 4472, 113, 103, 32, 15, 16, 5345, 19, 178, 32]
-</code></pre><p>可以看出，每一条文本都已经处理成了序列形式。在序列中，每一个单词都用其字典中对应的索引表示。因此这里省去了很多文本基本预处理的步骤。<br>接下来查看标签数据格式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(y_train[:<span class="number">10</span>])</span><br></pre></td></tr></table></figure></p>
-<pre><code>[1 0 0 1 0 0 1 0 1 0]
-</code></pre><p>看来是极性情感分类，积极，消极两种情感。</p>
-<p>由于训练集中的文本已经表示成了序列模型，因此只需要利用pad_sequences将每个序列整理成相同长度即可。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'Pad sequences (samples x time)'</span>)</span><br><span class="line"><span class="comment"># 将文本序列处理成长度相同的序列</span></span><br><span class="line">x_train = sequence.pad_sequences(x_train, maxlen=maxlen)</span><br><span class="line">x_test = sequence.pad_sequences(x_test, maxlen=maxlen)</span><br><span class="line">print(<span class="string">'x_train shape:'</span>, x_train.shape)</span><br><span class="line">print(<span class="string">'x_test shape:'</span>, x_test.shape)</span><br><span class="line">y_train = np.array(y_train)</span><br><span class="line">y_test = np.array(y_test)</span><br></pre></td></tr></table></figure>
-<pre><code>Pad sequences (samples x time)
-x_train shape: (25000, 100)
-x_test shape: (25000, 100)
-</code></pre><h4 id="（5）创建模型及训练"><a href="#（5）创建模型及训练" class="headerlink" title="（5）创建模型及训练"></a>（5）创建模型及训练</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建网络结构</span></span><br><span class="line">model=Sequential()</span><br><span class="line">model.add(Embedding(max_features,<span class="number">128</span>,input_length=maxlen))</span><br><span class="line">model.add(Bidirectional(LSTM(<span class="number">64</span>)))</span><br><span class="line">model.add(Dropout(<span class="number">0.5</span>))</span><br><span class="line">model.add(Dense(<span class="number">1</span>,activation=<span class="string">'sigmoid'</span>))</span><br><span class="line"><span class="comment"># 编译模型</span></span><br><span class="line">model.compile(<span class="string">'adam'</span>,<span class="string">'binary_crossentropy'</span>,metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">print(<span class="string">'Train...'</span>)</span><br><span class="line">model.fit(x_train, y_train,batch_size=batch_size,epochs=<span class="number">4</span>,validation_data=[x_test, y_test])</span><br></pre></td></tr></table></figure>
-<pre><code>Train...
-Train on 25000 samples, validate on 25000 samples
-Epoch 1/4
-25000/25000 [==============================] - 72s 3ms/step - loss: 0.4298 - acc: 0.8014 - val_loss: 0.3477 - val_acc: 0.8498
-Epoch 2/4
-25000/25000 [==============================] - 71s 3ms/step - loss: 0.2295 - acc: 0.9122 - val_loss: 0.4055 - val_acc: 0.8426
-Epoch 3/4
-25000/25000 [==============================] - 71s 3ms/step - loss: 0.1345 - acc: 0.9510 - val_loss: 0.4588 - val_acc: 0.8368
-Epoch 4/4
-25000/25000 [==============================] - 71s 3ms/step - loss: 0.0791 - acc: 0.9731 - val_loss: 0.5615 - val_acc: 0.8232
-</code></pre><h4 id="（6）可视化网络结构"><a href="#（6）可视化网络结构" class="headerlink" title="（6）可视化网络结构"></a>（6）可视化网络结构</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> plot_model</span><br><span class="line">plot_model(model,to_file=<span class="string">"./imdb_bidirectional_lstm.png"</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/imdb_bidirectional_lstm.png" alt="网络结构"></p>
-<h3 id="3-小结"><a href="#3-小结" class="headerlink" title="3 小结"></a>3 小结</h3><p>大概半个月没写这一类代码了，有些方法的使用有点模糊了，通过这个例子，可以快速的回忆起相关的知识点来，于是也把相关的知识点又重新整理了下。在本例子中，主要的知识点有以下几点：</p>
-<h4 id="（1）填充序列pad-sequences"><a href="#（1）填充序列pad-sequences" class="headerlink" title="（1）填充序列pad_sequences"></a>（1）填充序列pad_sequences</h4><p>方法原型：<br>keras.preprocessing.sequence.pad_sequences(sequences,maxlen=None, dtype=’int32’,padding=’pre’, truncating=’pre’, value=0.)<br>其主要功能就是将sequences列表中的每个序列填充或截断成maxlen的长度，填充的位置由padding参数决定，截断的位置由truncating参数决定。</p>
-<h4 id="（2）嵌入层-Embedding"><a href="#（2）嵌入层-Embedding" class="headerlink" title="（2）嵌入层 Embedding"></a>（2）嵌入层 Embedding</h4><p>方法原型：<br>keras.layers.embeddings.Embedding(input_dim, output_dim, embeddings_initializer=’uniform’, embeddings_regularizer=None, activity_regularizer=None, embeddings_constraint=None, mask_zero=False, input_length=None)<br>其主要功能是将正整数（下标）转化为具有固定大小的向量。该层只能作为模型的第一层。<br>参数：<br>①input_dim：字典长度，即输入数据的最大下标+1，针对本实验，由于在读取数据时，就限制了所要保留的单词个数为max_features个，因此，本实验室的input_dim=max_features<br>②output_dim：代表全连接嵌入的维度，通俗一点就是词向量的维度。<br>③input_length：当输入序列的长度固定是，该值为其长度。也就是每个序列的长度（由于一般情况下都会将所有序列的长度填充成相同长度了）如果要在该层后接Flatten层，然后接Dense层，则必须指定该参数，否则Dense层的输出维度无法自动推断。</p>
-<h4 id="（3）文本预处理-分词器Tokenizer"><a href="#（3）文本预处理-分词器Tokenizer" class="headerlink" title="（3）文本预处理-分词器Tokenizer"></a>（3）文本预处理-分词器Tokenizer</h4><p>尽管本实验中没有涉及到文本预处理部分，但是对于和文本打交道，这些文本预处理方法是必须掌握的，于是这里也一并贴出来。<br>利用Keras提供的文本预处理方法貌似非常方便，可以简单的归纳为四步：<br>①创建分词器：tokenizer=Tokenizer(filters=’!”#$%&amp;()*+,-./:;&lt;=&gt;?@[\]^_`{|}~\t\n’,lower=True,split=” “)<br>②用文本列表来训练分词器：tokenizer.fit_on_texts(X)<br>③建立词汇表，并为每个单词或字符串创建对应的索引：vocab=tokenizer.word_index<br>④将训练集文本和测试集文本都映射成单词id组成的序列：tokenizer.texts_to_sequences(x_train)<br>Tokenizer是一个用于向量化文本，或将文本转换为序列的类。能过满足文本处理需求，具体可以见官方文档：<a href="https://keras-cn.readthedocs.io/en/latest/preprocessing/text/" target="_blank" rel="noopener">https://keras-cn.readthedocs.io/en/latest/preprocessing/text/</a></p>
+（2）解决办法
 
-        </div>
-        <footer class="article-footer">
-            
-
-
-    <div class="a2a_kit a2a_default_style">
-    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
-    <span class="a2a_divider"></span>
-    <a class="a2a_button_facebook"></a>
-    <a class="a2a_button_twitter"></a>
-    <a class="a2a_button_google_plus"></a>
-    <a class="a2a_button_pinterest"></a>
-    <a class="a2a_button_tumblr"></a>
-</div>
-<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
-<style>
-    .a2a_menu {
-        border-radius: 4px;
-    }
-    .a2a_menu a {
-        margin: 2px 0;
-        font-size: 14px;
-        line-height: 16px;
-        border-radius: 4px;
-        color: inherit !important;
-        font-family: 'Microsoft Yahei';
-    }
-    #a2apage_dropdown {
-        margin: 10px 0;
-    }
-    .a2a_mini_services {
-        padding: 10px;
-    }
-    a.a2a_i,
-    i.a2a_i {
-        width: 122px;
-        line-height: 16px;
-    }
-    a.a2a_i .a2a_svg,
-    a.a2a_more .a2a_svg {
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
-        vertical-align: top;
-        background-size: 16px;
-    }
-    a.a2a_i {
-        border: none !important;
-    }
-    a.a2a_menu_show_more_less {
-        margin: 0;
-        padding: 10px 0;
-        line-height: 16px;
-    }
-    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
-    .a2a_mini_services{*+height:1%;}
-</style>
-
-
-        </footer>
+本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能；
+在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。2  模型框架（1）模型由4个模块组成，分
+        </p>
     </div>
 </article>
-
-    <section id="comments">
     
-        
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
+        </div>
     
-    </section>
+
+
+    </div></section>
+
 
 
                         </div>
@@ -302,29 +224,6 @@ Epoch 4/4
             
         </ul>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2018/08/19/ROC原理介绍及利用python实现二分类和多分类的ROC曲线 (1)/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            ROC原理介绍及利用python实现二分类和多分类的ROC曲线
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-        <a href="/2018/07/24/Keras examples-babi_rnn (1)/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">Keras examples-babi_rnn</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
-</nav>
-
     
     <div class="widgets-container">
         
@@ -529,13 +428,11 @@ Epoch 4/4
     var disqus_shortname = 'nlper';
     
     
-    var disqus_url = 'http://yoursite.com/2018/08/16/Keras examples-imdb_bidirectional_lstm (1)/';
-    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
