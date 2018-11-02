@@ -6,26 +6,26 @@
     
 
     
-    <title>利用php的curl实现post和get请求 | 一只NLPer</title>
+    <title>【论文笔记06】Memory Network | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="实验教程,PHP" />
+        <meta name="keywords" content="阅读理解,论文笔记" />
     
-    <meta name="description" content="由于项目需求，进行了一段时间的微信开发。在微信开发的过程中，经常调用微信接口，通常是向微信服务器发送get或者post请求获取接口。下面给出两个具体的实现过程。">
-<meta name="keywords" content="实验教程,PHP">
+    <meta name="description" content="1  问题和解决办法（1）问题  当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决； 对于句子间的这种长期依赖，于是需要从记忆中提取信息；  （2）解决办法  本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能； 在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。2  模型框架（1）模型由4个模块组成，分">
+<meta name="keywords" content="阅读理解,论文笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用php的curl实现post和get请求">
-<meta property="og:url" content="http://yoursite.com/2018/06/08/利用php的curl实现post和get请求(1)/index.html">
+<meta property="og:title" content="【论文笔记06】Memory Network">
+<meta property="og:url" content="http://yoursite.com/2018/10/25/【论文笔记06】Memory Network/index.html">
 <meta property="og:site_name" content="一只NLPer">
-<meta property="og:description" content="由于项目需求，进行了一段时间的微信开发。在微信开发的过程中，经常调用微信接口，通常是向微信服务器发送get或者post请求获取接口。下面给出两个具体的实现过程。">
+<meta property="og:description" content="1  问题和解决办法（1）问题  当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决； 对于句子间的这种长期依赖，于是需要从记忆中提取信息；  （2）解决办法  本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能； 在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。2  模型框架（1）模型由4个模块组成，分">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/php.jpg">
-<meta property="og:updated_time" content="2018-07-17T03:03:46.224Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m2.jpg">
+<meta property="og:updated_time" content="2018-11-02T08:55:35.419Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用php的curl实现post和get请求">
-<meta name="twitter:description" content="由于项目需求，进行了一段时间的微信开发。在微信开发的过程中，经常调用微信接口，通常是向微信服务器发送get或者post请求获取接口。下面给出两个具体的实现过程。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/php.jpg">
+<meta name="twitter:title" content="【论文笔记06】Memory Network">
+<meta name="twitter:description" content="1  问题和解决办法（1）问题  当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决； 对于句子间的这种长期依赖，于是需要从记忆中提取信息；  （2）解决办法  本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能； 在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。2  模型框架（1）模型由4个模块组成，分">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m2.jpg">
     
 
     
@@ -134,18 +134,18 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/Experiment/">Experiment</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Experiment/PHP/">PHP</a>
+    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Papers/">Papers</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-利用php的curl实现post和get请求(1)" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-【论文笔记06】Memory Network" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        利用php的curl实现post和get请求
+        【论文笔记06】Memory Network
         </h1>
     
 
@@ -155,15 +155,15 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2018/06/08/利用php的curl实现post和get请求(1)/" class="article-date">
-            <time datetime="2018-06-08T13:44:26.000Z" itemprop="datePublished">2018-06-08</time>
+        <a href="/2018/10/25/【论文笔记06】Memory Network/" class="article-date">
+            <time datetime="2018-10-25T12:29:43.000Z" itemprop="datePublished">2018-10-25</time>
         </a>
     </div>
 
                 
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/PHP/">PHP</a>, <a class="tag-link" href="/tags/实验教程/">实验教程</a>
+        <a class="tag-link" href="/tags/论文笔记/">论文笔记</a>, <a class="tag-link" href="/tags/阅读理解/">阅读理解</a>
     </div>
 
 				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
@@ -171,10 +171,22 @@
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>由于项目需求，进行了一段时间的微信开发。在微信开发的过程中，经常调用微信接口，通常是向微信服务器发送get或者post请求获取接口。下面给出两个具体的实现过程。<br><a id="more"></a></p>
-<h4 id="1、发送post请求"><a href="#1、发送post请求" class="headerlink" title="1、发送post请求"></a>1、发送post请求</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function curl_post($url,$data)&#123; </span><br><span class="line">    $curl = curl_init(); </span><br><span class="line">    curl_setopt($curl, CURLOPT_URL, $url); </span><br><span class="line">    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0); </span><br><span class="line">    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); </span><br><span class="line">    curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER[&apos;HTTP_USER_AGENT&apos;]); </span><br><span class="line">    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1); </span><br><span class="line">    curl_setopt($curl, CURLOPT_AUTOREFERER, 1); </span><br><span class="line">    curl_setopt($curl, CURLOPT_POST, 1); </span><br><span class="line">    curl_setopt($curl, CURLOPT_POSTFIELDS, $data); </span><br><span class="line">    curl_setopt($curl, CURLOPT_TIMEOUT, 30); </span><br><span class="line">    curl_setopt($curl, CURLOPT_HEADER, 0); </span><br><span class="line">    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); </span><br><span class="line">    $tmpInfo = curl_exec($curl); </span><br><span class="line">    if (curl_errno($curl)) &#123;</span><br><span class="line">       echo &apos;Errno&apos;.curl_error($curl);</span><br><span class="line">    &#125;</span><br><span class="line">    curl_close($curl); </span><br><span class="line">    return $tmpInfo; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中$url是调用微信接口的url，$data是向微信服务器发送的数据，下同。</p>
-<h4 id="2、发送get请求"><a href="#2、发送get请求" class="headerlink" title="2、发送get请求"></a>2、发送get请求</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function http_post($url,$data)</span><br><span class="line">		&#123;</span><br><span class="line">//			$data_string=json_encode(array(&apos;name&apos;=&gt;$name,&apos;data&apos;=&gt;$data));</span><br><span class="line">//			$url = &quot;http://192.168.1.40:8080/wechatdemo/&quot;;</span><br><span class="line">			$ch = curl_init($url);</span><br><span class="line">			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, &quot;POST&quot;);</span><br><span class="line">			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//$data JSON类型字符串</span><br><span class="line">			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span><br><span class="line">			curl_setopt($ch, CURLOPT_HTTPHEADER, array(&apos;Content-Type: application/json&apos;, &apos;Content-Length: &apos; . strlen($data)));</span><br><span class="line">			$result = curl_exec($ch);</span><br><span class="line">			var_dump($result);</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+            <h3 id="1-问题和解决办法"><a href="#1-问题和解决办法" class="headerlink" title="1  问题和解决办法"></a>1  问题和解决办法</h3><p>（1）问题</p>
+<ul>
+<li>当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决；</li>
+<li>对于句子间的这种长期依赖，于是需要从记忆中提取信息；</li>
+</ul>
+<p>（2）解决办法</p>
+<ul>
+<li>本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能；</li>
+<li>在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。<h3 id="2-模型框架"><a href="#2-模型框架" class="headerlink" title="2  模型框架"></a>2  模型框架</h3>（1）模型由4个模块组成，分别是I、G、O、R<br>（2）各模块的作用分别是:<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m1.jpg" alt="各个模块的作用"><br>（3）模型结构<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m2.jpg" alt="模型结构"><br>（4）基本模型的具体流程</li>
+<li>对于原始文本，将其送入模块I，主要是将原始文本转化为词向量的形式，将其作为模块G的输入；</li>
+<li>在模块G中，直接将输入的向量存储在memory数组的下一个位置，不做其他操作，也就是直接写入新的记忆，对老的记忆不做修改。（在复杂的模型中，还会考虑到记忆的遗忘、记忆单元的替换等因素）</li>
+<li>对于输入的问题（输入的问题也需要通过模块I进行向量化），O模块会在所有的记忆中选择出与问题topk相关的记忆，选择出这topk个记忆后，将其作为R模块的输入；<br>a.在给定问题输入的情况下，选择最相关的记忆：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m3.jpg" alt="选择最相关的记忆"><br>b.在给定问题输入和最相关记忆的条件下选择次相关的记忆：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m4.png" alt="选择次相关的记忆"><br>c.对于上面这个等式，如果x和o1采用的都是线性的向量表示（BOW等），则可以拆分成下面加和的方式，否则不可以。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m5.jpg" alt="向量相加"><br>d.对于评分函数，需满足：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m7.jpg" alt="模型结构"></li>
+<li>在R模块中，使用与上面相同的评分函数计算所有候选词与R输入（前一个模块选择出的最相关的K个记忆）的相关性，得分最高的词语就作为正确答案输出。</li>
+</ul>
+<h3 id="3-小结"><a href="#3-小结" class="headerlink" title="3  小结"></a>3  小结</h3><p>这篇论文的重点在于他提出了一种普适性的模型架构（Memory Network），但是很多部分并没有做得很完善，框架中的每一个模块都是可以变更的，这样可以适应不同的应用。后面有几篇基于这个架构的论文，我先看了来继续完善</p>
+<h3 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h3><p>【1】 <a href="https://arxiv.org/pdf/1410.3916.pdf" target="_blank" rel="noopener">论文地址</a><br>【2】 <a href="https://zhuanlan.zhihu.com/p/29590286" target="_blank" rel="noopener">论文笔记参考1</a>（这要参考这篇笔记）<br>【3】<a href="https://blog.csdn.net/xizero00/article/details/51181948" target="_blank" rel="noopener">论文笔记参考2</a></p>
 
         </div>
         <footer class="article-footer">
@@ -272,20 +284,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2018/06/09/一种利用web服务实现模型常驻内存的简单方法(1)(1)/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            一种利用web服务实现模型常驻内存的简单方法
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2018/03/23/【文本相似度】利用余弦相似性计算句子的相似度/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/10/25/【论文笔记05】WORDS OR CHARACTERS_ FINE-GRAINED GATING FOR READING COMPREHENSION/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">【文本相似度】利用余弦相似性计算句子的相似度</p>
+        <p class="article-nav-title">【论文笔记05】WORDS OR CHARACTERS? FINE-GRAINED GATING FOR READING COMPREHENSION</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -495,7 +497,7 @@
     var disqus_shortname = 'nlper';
     
     
-    var disqus_url = 'http://yoursite.com/2018/06/08/利用php的curl实现post和get请求(1)/';
+    var disqus_url = 'http://yoursite.com/2018/10/25/【论文笔记06】Memory Network/';
     
     (function() {
     var dsq = document.createElement('script');
