@@ -6,17 +6,26 @@
     
 
     
-    <title>分类：: MDCourse | 一只NLPer</title>
+    <title>【论文笔记07】End-To-End Memory Networks | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="一只NLPer">
-<meta property="og:url" content="http://yoursite.com/categories/NLP/MDCourse/index.html">
+        <meta name="keywords" content="论文笔记,阅读理解" />
+    
+    <meta name="description" content="1 背景（1）在记忆网络中，主要由4个模块组成：I、G、O、R，前面也提到I和G模块其实并没有进行多复杂的操作，只是将原始文本进行向量表示后直接存储在记忆槽中。而主要工作集中在O和R模块，O用来选择与问题相关的记忆，R用来回答，而这两部分都需要监督，也就是需要知道O模块中选择的记忆是否正确，R生成的答案是否正确，这种模型多处需要监督，而且不太容易使用常见的BP算法进行训练，这就限制了模型的推广。（">
+<meta name="keywords" content="论文笔记,阅读理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记07】End-To-End Memory Networks">
+<meta property="og:url" content="http://yoursite.com/2018/11/17/【论文笔记07】End-To-End Memory Networks/index.html">
 <meta property="og:site_name" content="一只NLPer">
+<meta property="og:description" content="1 背景（1）在记忆网络中，主要由4个模块组成：I、G、O、R，前面也提到I和G模块其实并没有进行多复杂的操作，只是将原始文本进行向量表示后直接存储在记忆槽中。而主要工作集中在O和R模块，O用来选择与问题相关的记忆，R用来回答，而这两部分都需要监督，也就是需要知道O模块中选择的记忆是否正确，R生成的答案是否正确，这种模型多处需要监督，而且不太容易使用常见的BP算法进行训练，这就限制了模型的推广。（">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/0.jpg">
+<meta property="og:updated_time" content="2018-11-17T12:26:51.077Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一只NLPer">
+<meta name="twitter:title" content="【论文笔记07】End-To-End Memory Networks">
+<meta name="twitter:description" content="1 背景（1）在记忆网络中，主要由4个模块组成：I、G、O、R，前面也提到I和G模块其实并没有进行多复杂的操作，只是将原始文本进行向量表示后直接存储在记忆槽中。而主要工作集中在O和R模块，O用来选择与问题相关的记忆，R用来回答，而这两部分都需要监督，也就是需要知道O模块中选择的记忆是否正确，R生成的答案是否正确，这种模型多处需要监督，而且不太容易使用常见的BP算法进行训练，这就限制了模型的推广。（">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/0.jpg">
     
 
     
@@ -129,219 +138,129 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>分类：: <em class="page-title-link">MDCourse</em>
+    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Papers/">Papers</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-【论文笔记07】End-To-End Memory Networks" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/nlp1.jpg)" alt="【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NLP/MDCourse/">MDCourse</a>
-            </div>
-            <div class="date"><time datetime="2017-12-21T11:03:10.000Z" itemprop="datePublished">2017-12-21</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）/">【自然语言处理入门】03：利用线性回归对数据集进行分析预测（下）</a>
+        【论文笔记07】End-To-End Memory Networks
         </h1>
     
 
-        <p class="article-excerpt">
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/11/17/【论文笔记07】End-To-End Memory Networks/" class="article-date">
+            <time datetime="2018-11-17T12:04:16.000Z" itemprop="datePublished">2018-11-17</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/论文笔记/">论文笔记</a>, <a class="tag-link" href="/tags/阅读理解/">阅读理解</a>
+    </div>
+
+				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h3 id="1-背景"><a href="#1-背景" class="headerlink" title="1 背景"></a>1 背景</h3><p>（1）在记忆网络中，主要由4个模块组成：I、G、O、R，前面也提到I和G模块其实并没有进行多复杂的操作，只是将原始文本进行向量表示后直接存储在记忆槽中。而主要工作集中在O和R模块，O用来选择与问题相关的记忆，R用来回答，而这两部分都需要监督，也就是需要知道O模块中选择的记忆是否正确，R生成的答案是否正确，这种模型多处需要监督，而且不太容易使用常见的BP算法进行训练，这就限制了模型的推广。<br>（2）而这篇论文就是在前一篇Memory networks的基础上提出来的，针对其中出现的问题，采用了端到端的模型结构(End-to-End)，因此模型需要的监督更少，能够更好的训练模型。</p>
+<h3 id="2-具体内容"><a href="#2-具体内容" class="headerlink" title="2 具体内容"></a>2 具体内容</h3><p>论文中提出了单层和多层两种结构，多层就是将单层网络进行堆叠起来的。<br>（1）单层结构<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/1.jpg" alt="单层结构"><br>如图所示，模型主要包含了A、B、C、W四个矩阵,其中，B是用来对问题进行向量编码，W是最终输出的权重矩阵，而A和C都是将输入的文本编码成词向量，然后分别存入Input和Output模块，这两个模块的值是对应的。<br>其具体内容如下：<br><strong>输入模块：</strong>输入模块主要是对文本进行编码，这里采用了文章表示法模型二的思想（具体见张俊林博士关于<a href="https://blog.csdn.net/malefactor/article/details/52832134" target="_blank" rel="noopener">深度学习解决机器阅读理解任务研究进展</a>的相关介绍），用一个向量来表示句子的整体语义信息（根据一句话中各单词的词向量，将其压缩成一个句向量）。论文中提出了两种编码方式，bow和位置编码。bow就是直接将一个句子中所有单词的词向量求和表示成一个向量的形式（表示法模型2中权重系数为1的情况），这种表示方法最明显的缺点就是不能捕获一句话中单词之间的位置信息。对于位置编码的方法，给不同位置的单词设置不同的权重（即模型二中的权重系数是由该单词所在位置决定的，而不全部是1），然后对各个单词的词向量按照不同的权重加权求和得到句子的整体表示，位置编码方法的公式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/2.jpg" alt="位置编码方式"><br>此外为了引入时序信息，在上面mi的基础上又加上了每句话出现顺序的矩阵，所以最后每句话对应的记忆mi的表达式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/3.jpg" alt="记忆单元Mi"><br><strong>记忆模块：</strong>主要由两部分组成，input和output模块，统称为记忆槽，矩阵A和C都是将输入的文本编码成词向量，然后分别存入Input和Output模块。<br><strong>输出模块：</strong>输入的文本信息通过编码成向量保存在记忆槽（input和outpu）中，input用来和question编码得到的向量相乘得到每句话和问题的相关性（这里可以看成是注意力权重），output模块则是通过相关性进行加权求和得到输出向量o。</p>
+<ul>
+<li><strong>step1:</strong>将问题经过输入模块编码成一个向量u，然后将其与每个mi点积得到两个向量之间的相似度，再通过一个softmax函数进行归一化处理：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/4.jpg" alt="相似度计算"></li>
+<li><strong> step2:</strong>通过上述的相关性指标，对output中的各个记忆ci按照pi进行加权求和得到模型的输出向量o，公式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/5.jpg" alt="输出向量o计算公式"><br><strong>Response模块：</strong>该模块主要根据输入信息产生最终的答案，具体是其结合o和q两个向量的和与W相乘再经过一个softmax函数产生各个单词是答案的概率，使用交叉熵损失函数作为目标函数进行训练。<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/9.jpg" alt="预测答案"></li>
+</ul>
+<p>（2）多层结构<br>多层结构其实就是将多个单层模型堆叠起来，其结构图如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/6.jpg" alt="多层结构"><br>整体来说还是比较好理解的，上面几层的问题输入就是下层o与u的和，公式为：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/7.jpg" alt="上层问题输入"><br>至于对文本语义表示中的矩阵Ai和Ci，为了减少参数量，论文中提出了两种方法：</p>
+<ul>
+<li>Adjacent：这种方法让相邻层之间的A=C。也就是说Ak+1=Ck，此外W等于顶层的C，B等于底层的A，这样就减少了一半的参数量。</li>
+<li>Layer-wise（RNN-like)：与RNN相似，采用完全共享参数的方法，即各层之间参数均相等。Ak=…=A2=A1,Ck=…=C2=C1。由于这样会大大的减少参数量导致模型效果变差，所以提出一种改进方法，即令uk+1=Huk+ok，也就是在每一层之间加一个线性映射矩阵H。<br>对于最后的输出，其计算公式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/8.jpg" alt="预测答案"></li>
+</ul>
+<h3 id="3-小结"><a href="#3-小结" class="headerlink" title="3 小结"></a>3 小结</h3><p>（1）看了最开始的Memory network那篇论文，虽然还是能够看懂，但是至于怎么将其很好的用起来，还是很模糊，于是这篇端到端的记忆网络就提供了很好的使用范例，论文中也设计了两个实验任务（问答和语言模型），看了实验代码清楚多了。<br>（2）其实在这个结构上还是有很多改进的地方，当初看这篇论文的时候也想到一些，比如在记忆模块引入混沌概念，动态表示记忆。后面才发现这一系列的最后一篇论文中就是动态记忆-_-||</p>
+<h3 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h3><p><a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">论文地址</a><br><a href="https://github.com/domluna/memn2n" target="_blank" rel="noopener">论文代码</a><br><a href="https://zhuanlan.zhihu.com/p/29679742" target="_blank" rel="noopener">参考笔记</a></p>
+
+        </div>
+        <footer class="article-footer">
             
-上一篇中我们简单的介绍了利用线性回归分析并预测波士顿房价数据集，那么在这一篇中，将使用相同的模型来对红酒数据集进行分析。
-        </p>
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
     </div>
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/nlp1.jpg)" alt="【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）" class="thumbnail-image"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NLP/MDCourse/">MDCourse</a>
-            </div>
-            <div class="date"><time datetime="2017-12-21T07:30:08.000Z" itemprop="datePublished">2017-12-21</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/12/21/【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）/">【自然语言处理入门】03：利用线性回归对数据集进行分析预测（上）</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-本篇笔记是《从自然语言处理到机器学习入门》课程第三次作业的上篇，主要是复现了老大课上讲的利用线性回归对波士顿房价进行预测的实验。在下篇中，将利用该模型对红酒数据集进行线性回归分析。
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
     
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/12/18/【自然语言处理入门】02：Kenlm语料库的制作与模型的训练/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/nlp2.jpg)" alt="【自然语言处理入门】02：Kenlm语料库的制作与模型的训练" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2017/12/18/【自然语言处理入门】02：Kenlm语料库的制作与模型的训练/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NLP/MDCourse/">MDCourse</a>
-            </div>
-            <div class="date"><time datetime="2017-12-18T07:43:41.000Z" itemprop="datePublished">2017-12-18</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/12/18/【自然语言处理入门】02：Kenlm语料库的制作与模型的训练/">【自然语言处理入门】02：Kenlm语料库的制作与模型的训练</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-本文是《从自然语言处理到机器学习入门》系列课程的第二次作业，由于我的作业环境没有配好（配了n次了还是不行T_T），但是为了保证这一系列作业的完整性，于是经罗曜强律师同意，人工智能A7论坛授权，转载他的作业笔记。
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/nlp2.jpg)" alt="【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NLP/MDCourse/">MDCourse</a>
-            </div>
-            <div class="date"><time datetime="2017-12-13T01:20:00.000Z" itemprop="datePublished">2017-12-13</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            一、基本要求使用jieba对垃圾短信数据集进行分词，然后统计其中的单词出现的个数，找到出现频次最高的top100个词。
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
-
+    </section>
 
 
                         </div>
@@ -362,6 +281,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/11/02/【论文笔记06】Memory Network/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">【论文笔记06】Memory Network</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -566,11 +498,13 @@
     var disqus_shortname = 'nlper';
     
     
+    var disqus_url = 'http://yoursite.com/2018/11/17/【论文笔记07】End-To-End Memory Networks/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
