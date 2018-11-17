@@ -6,17 +6,26 @@
     
 
     
-    <title>归档 | 一只NLPer</title>
+    <title>【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="一只NLPer">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+        <meta name="keywords" content="论文笔记,阅读理解" />
+    
+    <meta name="description" content="本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。问题向量的计算与动态实体计算过程类似，这里需要填空的">
+<meta name="keywords" content="论文笔记,阅读理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading">
+<meta property="og:url" content="http://yoursite.com/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/index.html">
 <meta property="og:site_name" content="一只NLPer">
+<meta property="og:description" content="本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。问题向量的计算与动态实体计算过程类似，这里需要填空的">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/2.png">
+<meta property="og:updated_time" content="2018-11-17T13:24:21.785Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一只NLPer">
+<meta name="twitter:title" content="【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading">
+<meta name="twitter:description" content="本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。问题向量的计算与动态实体计算过程类似，这里需要填空的">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/2.png">
     
 
     
@@ -129,544 +138,117 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>归档
+    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Papers/">Papers</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2018" class="archive-year"><i class="icon fa fa-calendar-o"></i>2018</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/2.png)" alt="【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
-            </div>
-            <div class="date"><time datetime="2018-11-17T12:04:16.000Z" itemprop="datePublished">2018-11-17</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/">【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading</a>
+        【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading
         </h1>
     
 
-        <p class="article-excerpt">
-            本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。问题向量的计算与动态实体计算过程类似，这里需要填空的
-        </p>
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/" class="article-date">
+            <time datetime="2018-11-17T12:04:16.000Z" itemprop="datePublished">2018-11-17</time>
+        </a>
     </div>
-</article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/11/17/【论文笔记07】End-To-End Memory Networks/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/0.jpg)" alt="【论文笔记07】End-To-End Memory Networks" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/11/17/【论文笔记07】End-To-End Memory Networks/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
-            </div>
-            <div class="date"><time datetime="2018-11-17T12:04:16.000Z" itemprop="datePublished">2018-11-17</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/11/17/【论文笔记07】End-To-End Memory Networks/">【论文笔记07】End-To-End Memory Networks</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            1 背景（1）在记忆网络中，主要由4个模块组成：I、G、O、R，前面也提到I和G模块其实并没有进行多复杂的操作，只是将原始文本进行向量表示后直接存储在记忆槽中。而主要工作集中在O和R模块，O用来选择与问题相关的记忆，R用来回答，而这两部分都需要监督，也就是需要知道O模块中选择的记忆是否正确，R生成的答案是否正确，这种模型多处需要监督，而且不太容易使用常见的BP算法进行训练，这就限制了模型的推广。（
-        </p>
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/论文笔记/">论文笔记</a>, <a class="tag-link" href="/tags/阅读理解/">阅读理解</a>
     </div>
-</article>
-    
-        </div>
-    
 
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/11/02/【论文笔记06】Memory Network/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/memnn/m2.jpg)" alt="【论文笔记06】Memory Network" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/11/02/【论文笔记06】Memory Network/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
+				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="date"><time datetime="2018-11-02T09:24:42.000Z" itemprop="datePublished">2018-11-02</time></div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。<br>模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/1.png" alt="实体标识方法"><br>问题向量的计算与动态实体计算过程类似，这里需要填空的地方用占位符表示。<br>如果遇到一个entity在document中出现多次的情况，该entity就会有不同的表示，论文中采用CNN中常用的max-pooling方法，从各个表示中的每个维度获取最大的那一个组成该实体的最终表示，这个表示包括了该实体在文章中各种上下文情况下的信息，具有最全面的信息，<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/2.png" alt="动态实体标识"><br>计算出实体的动态表示之后，通过注意力机制计算得到问题与每个实体之间的权重，根据语义相近程度选出最可能是答案的那个实体，找到最终的答案。<br>这里有一个maxpooling的例子，左边是示意图，右边是对应的解释。大家可以先看一下，主要是说明maxpooling的作用。<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/3.png" alt="实验分析"><br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/4.png" alt="实验分析"><br>本文的实验在CNN数据上对模型进行了对比，效果比之前的Attentive Reader好很多，验证了本文的有效性。<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/5.png" alt="实验结果对比"><br>本文模型的一个好玩之处在于用了一种变化的眼光和态度来审视每一个实体，不同的context会给同样的entity带来不同的意义，因此用一种动态的表示方法来捕捉原文中entity最准确的意思，才能更好地理解原文，找出正确答案。实际生活中，我们做阅读理解的时候，最简单的方法是从问题中找到关键词，接着从原文中找到同样的词所在的句子，然后仔细理解这个句子最终得到答案，本文的动态表示正是有意在更加复杂的阅读理解题目上做文章，是一个非常好的探索。</p>
+
         </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/11/02/【论文笔记06】Memory Network/">【论文笔记06】Memory Network</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            1  问题和解决办法（1）问题
-
-当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决；
-对于句子间的这种长期依赖，于是需要从记忆中提取信息；
-
-（2）解决办法
-
-本文提出了实现长期记忆的框架，实现了如何从长期记忆中读取和写入，此外还加入了推理功能；
-在QA问题中，长期记忆是很重要的，充当知识库的作用，从其中获取长期记忆来回答问题。2  模型框架（1）模型由4个模块组成，分
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/10/25/【论文笔记05】WORDS OR CHARACTERS_ FINE-GRAINED GATING FOR READING COMPREHENSION/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/word_char/w1.png)" alt="【论文笔记05】WORDS OR CHARACTERS? FINE-GRAINED GATING FOR READING COMPREHENSION" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/10/25/【论文笔记05】WORDS OR CHARACTERS_ FINE-GRAINED GATING FOR READING COMPREHENSION/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
-            </div>
-            <div class="date"><time datetime="2018-10-25T12:29:43.000Z" itemprop="datePublished">2018-10-25</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/10/25/【论文笔记05】WORDS OR CHARACTERS_ FINE-GRAINED GATING FOR READING COMPREHENSION/">【论文笔记05】WORDS OR CHARACTERS? FINE-GRAINED GATING FOR READING COMPREHENSION</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            1  问题和数据集1.1  问题 这是一篇以阅读理解为任务的文章，但在具体处理这个任务时，主要解决数据特征等的表示问题。在提取文本特征时，通常只对单词做词嵌入，而忽略了字符级的特征。
-1.2  数据集
-CBT
-WDW
-SQuAD
-
-2  目前已有方法2.1  单词级表示（1）from a lookup table（2）每个单词用一个向量表示（3） 擅长表示单词的语义
-2.2  字符级表示（1） 在
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/10/22/【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for RC/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/TriviaQA/temp.jpg)" alt="【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/10/22/【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for RC/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
-            </div>
-            <div class="date"><time datetime="2018-10-22T07:45:05.000Z" itemprop="datePublished">2018-10-22</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/10/22/【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for RC/">【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            1  论文主要内容
-本文是一篇资源论文，主要发布了用于检索式问答或阅读理解的数据集Trivia QA；
-对该数据集的质量和数量进行了分析，并创建了baseline，用于具体评估数据集的质量。
-
-2  Trivia QA数据集的特点
-问题比较复杂
-在问题和相应的答案句子中有大量的句法或词汇变化
-需要更多的跨句推理来得到答案
-
-3  本文的主要贡献
-发布了一个阅读理解数据集
-提出了分析量化数据集质量的
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/10/15/tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/1.png)" alt="tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/10/15/tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Tensorflow/">Tensorflow</a>
-            </div>
-            <div class="date"><time datetime="2018-10-15T12:25:43.000Z" itemprop="datePublished">2018-10-15</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/10/15/tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）/">tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
+        <footer class="article-footer">
             
-注：由于tensorflow版本的不同，这个函数所在的模块可能不同，如：tf.nn.seq2seq.sequence_loss_by_example和tf.contrib.legacy_seq2seq.sequence_loss_by_example
 
-在正式进入sequence_loss_by_example（）函数的计算过程之前，需要先复习下两个基本的知识点，softmax的计算和交叉熵的计
-        </p>
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
     </div>
 </article>
-    
-        </div>
-    
 
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/swdt.png)" alt="【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension" class="thumbnail-image"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
-            </div>
-            <div class="date"><time datetime="2018-10-13T12:29:43.000Z" itemprop="datePublished">2018-10-13</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/">【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            1  问题及数据集1.1  问题本论文主要解决一种面向Cloze-style（填空式）的阅读理解（问答）问题
-1.2  数据集（1）CNN&amp;Daily Mail（2）SQuAD（3）Graph Reachability datase
-2  已有方法2.1  单轮推理（1）特点单轮推理模型主要利用注意力机制来强调文档中与问题相关的那些部分，计算问题和文档子单元的相应加权表示之间的相关度，为候
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
 
     
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/10/13/【论文笔记02】Text Understanding with the Attention Sum Reader Network/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/asreader/swdt.png)" alt="【论文笔记02】Text Understanding with the Attention Sum Reader Network" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/10/13/【论文笔记02】Text Understanding with the Attention Sum Reader Network/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
-            </div>
-            <div class="date"><time datetime="2018-10-13T01:42:10.000Z" itemprop="datePublished">2018-10-13</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/10/13/【论文笔记02】Text Understanding with the Attention Sum Reader Network/">【论文笔记02】Text Understanding with the Attention Sum Reader Network</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            1 问题及数据集1.1 问题给定较长一段话的context和一个较短的问题，以及一些candidate answers，训练出可以准确预测正确答案的模型，本模型主要针对命名实体和常用名词这两种词性的单词进行填空。
-1.2数据集（1）CNN&amp;Daily Mail（2）CBT
-2 已有方法（1）Attentive and Impatient Readers（2）Attentive（3）Chen
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/10/13/【论文笔记01】Phrase-Based & Neural Unsupervised Machine Translation/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/pnumt/p1.png)" alt="【论文笔记01】Phrase-Based &amp; Neural Unsupervised Machine Translation" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/10/13/【论文笔记01】Phrase-Based &amp; Neural Unsupervised Machine Translation/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
-            </div>
-            <div class="date"><time datetime="2018-10-13T01:42:10.000Z" itemprop="datePublished">2018-10-13</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/10/13/【论文笔记01】Phrase-Based & Neural Unsupervised Machine Translation/">【论文笔记01】Phrase-Based &amp; Neural Unsupervised Machine Translation</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            这篇论文来源于EMNLP2018，论文地址，这次采用了思维导图的方式记录笔记，思维导图的缩略图如下：
-该思维导图较大，于是上传时进行了压缩，可以直接点击思维导图地址进行交互式的访问或下载，思维导图地址，备用思维导图地址
-效果图：
-
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/10/04/【论文翻译01】How Much Reading Does Reading Comprehension Require/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/rp.jpg)" alt="【论文翻译01】How Much Reading Does Reading Comprehension Require？" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/10/04/【论文翻译01】How Much Reading Does Reading Comprehension Require/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
-            </div>
-            <div class="date"><time datetime="2018-10-04T01:16:39.103Z" itemprop="datePublished">2018-10-04</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/10/04/【论文翻译01】How Much Reading Does Reading Comprehension Require/">【论文翻译01】How Much Reading Does Reading Comprehension Require？</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            0 Abstract最近的许多论文都涉及到阅读理解，他们一般都包括（问题，段落，答案）元组。或许，一个模型必须综合问题和段落两者的信息来预测相应的答案。然而，尽管人们对这个话题产生了浓厚的兴趣，数百篇已发表的论文争夺排行榜的主导地位，但关于许多流行基准测试难度的基本问题仍未得到解答。在这篇论文中，我们为bAbI、SQuAD、CBT、CNN和Who-did-What的数据集建立了合理的基线，发现只考
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
-
-
-    <nav id="page-nav">
-        <span class="pages">第 1 页，共 4 页</span>
-        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/2/">&raquo;</a>
-    </nav>
+    </section>
 
 
                         </div>
@@ -687,6 +269,19 @@ SQuAD
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/11/17/【论文笔记07】End-To-End Memory Networks/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">【论文笔记07】End-To-End Memory Networks</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -891,11 +486,13 @@ SQuAD
     var disqus_shortname = 'nlper';
     
     
+    var disqus_url = 'http://yoursite.com/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
