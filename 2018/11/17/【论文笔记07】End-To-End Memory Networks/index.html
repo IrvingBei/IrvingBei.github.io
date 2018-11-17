@@ -21,7 +21,7 @@
 <meta property="og:description" content="1 背景（1）在记忆网络中，主要由4个模块组成：I、G、O、R，前面也提到I和G模块其实并没有进行多复杂的操作，只是将原始文本进行向量表示后直接存储在记忆槽中。而主要工作集中在O和R模块，O用来选择与问题相关的记忆，R用来回答，而这两部分都需要监督，也就是需要知道O模块中选择的记忆是否正确，R生成的答案是否正确，这种模型多处需要监督，而且不太容易使用常见的BP算法进行训练，这就限制了模型的推广。（">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/0.jpg">
-<meta property="og:updated_time" content="2018-11-17T12:26:51.077Z">
+<meta property="og:updated_time" content="2018-11-17T12:40:09.949Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记07】End-To-End Memory Networks">
 <meta name="twitter:description" content="1 背景（1）在记忆网络中，主要由4个模块组成：I、G、O、R，前面也提到I和G模块其实并没有进行多复杂的操作，只是将原始文本进行向量表示后直接存储在记忆槽中。而主要工作集中在O和R模块，O用来选择与问题相关的记忆，R用来回答，而这两部分都需要监督，也就是需要知道O模块中选择的记忆是否正确，R生成的答案是否正确，这种模型多处需要监督，而且不太容易使用常见的BP算法进行训练，这就限制了模型的推广。（">
@@ -179,15 +179,17 @@
 <h3 id="2-具体内容"><a href="#2-具体内容" class="headerlink" title="2 具体内容"></a>2 具体内容</h3><p>论文中提出了单层和多层两种结构，多层就是将单层网络进行堆叠起来的。<br>（1）单层结构<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/1.jpg" alt="单层结构"><br>如图所示，模型主要包含了A、B、C、W四个矩阵,其中，B是用来对问题进行向量编码，W是最终输出的权重矩阵，而A和C都是将输入的文本编码成词向量，然后分别存入Input和Output模块，这两个模块的值是对应的。<br>其具体内容如下：<br><strong>输入模块：</strong>输入模块主要是对文本进行编码，这里采用了文章表示法模型二的思想（具体见张俊林博士关于<a href="https://blog.csdn.net/malefactor/article/details/52832134" target="_blank" rel="noopener">深度学习解决机器阅读理解任务研究进展</a>的相关介绍），用一个向量来表示句子的整体语义信息（根据一句话中各单词的词向量，将其压缩成一个句向量）。论文中提出了两种编码方式，bow和位置编码。bow就是直接将一个句子中所有单词的词向量求和表示成一个向量的形式（表示法模型2中权重系数为1的情况），这种表示方法最明显的缺点就是不能捕获一句话中单词之间的位置信息。对于位置编码的方法，给不同位置的单词设置不同的权重（即模型二中的权重系数是由该单词所在位置决定的，而不全部是1），然后对各个单词的词向量按照不同的权重加权求和得到句子的整体表示，位置编码方法的公式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/2.jpg" alt="位置编码方式"><br>此外为了引入时序信息，在上面mi的基础上又加上了每句话出现顺序的矩阵，所以最后每句话对应的记忆mi的表达式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/3.jpg" alt="记忆单元Mi"><br><strong>记忆模块：</strong>主要由两部分组成，input和output模块，统称为记忆槽，矩阵A和C都是将输入的文本编码成词向量，然后分别存入Input和Output模块。<br><strong>输出模块：</strong>输入的文本信息通过编码成向量保存在记忆槽（input和outpu）中，input用来和question编码得到的向量相乘得到每句话和问题的相关性（这里可以看成是注意力权重），output模块则是通过相关性进行加权求和得到输出向量o。</p>
 <ul>
 <li><strong>step1:</strong>将问题经过输入模块编码成一个向量u，然后将其与每个mi点积得到两个向量之间的相似度，再通过一个softmax函数进行归一化处理：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/4.jpg" alt="相似度计算"></li>
-<li><strong> step2:</strong>通过上述的相关性指标，对output中的各个记忆ci按照pi进行加权求和得到模型的输出向量o，公式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/5.jpg" alt="输出向量o计算公式"><br><strong>Response模块：</strong>该模块主要根据输入信息产生最终的答案，具体是其结合o和q两个向量的和与W相乘再经过一个softmax函数产生各个单词是答案的概率，使用交叉熵损失函数作为目标函数进行训练。<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/9.jpg" alt="预测答案"></li>
+<li><strong> step2:</strong>通过上述的相关性指标，对output中的各个记忆ci按照pi进行加权求和得到模型的输出向量o，公式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/5.jpg" alt="输出向量o计算公式"></li>
 </ul>
+<p><strong>Response模块：</strong>该模块主要根据输入信息产生最终的答案，具体是其结合o和q两个向量的和与W相乘再经过一个softmax函数产生各个单词是答案的概率，使用交叉熵损失函数作为目标函数进行训练。<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/9.jpg" alt="预测答案"></p>
 <p>（2）多层结构<br>多层结构其实就是将多个单层模型堆叠起来，其结构图如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/6.jpg" alt="多层结构"><br>整体来说还是比较好理解的，上面几层的问题输入就是下层o与u的和，公式为：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/7.jpg" alt="上层问题输入"><br>至于对文本语义表示中的矩阵Ai和Ci，为了减少参数量，论文中提出了两种方法：</p>
 <ul>
 <li>Adjacent：这种方法让相邻层之间的A=C。也就是说Ak+1=Ck，此外W等于顶层的C，B等于底层的A，这样就减少了一半的参数量。</li>
-<li>Layer-wise（RNN-like)：与RNN相似，采用完全共享参数的方法，即各层之间参数均相等。Ak=…=A2=A1,Ck=…=C2=C1。由于这样会大大的减少参数量导致模型效果变差，所以提出一种改进方法，即令uk+1=Huk+ok，也就是在每一层之间加一个线性映射矩阵H。<br>对于最后的输出，其计算公式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/8.jpg" alt="预测答案"></li>
+<li>Layer-wise（RNN-like)：与RNN相似，采用完全共享参数的方法，即各层之间参数均相等。Ak=…=A2=A1,Ck=…=C2=C1。由于这样会大大的减少参数量导致模型效果变差，所以提出一种改进方法，即令uk+1=Huk+ok，也就是在每一层之间加一个线性映射矩阵H。</li>
 </ul>
+<p>对于最后的输出，其计算公式如下：<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/8.jpg" alt="预测答案"></p>
 <h3 id="3-小结"><a href="#3-小结" class="headerlink" title="3 小结"></a>3 小结</h3><p>（1）看了最开始的Memory network那篇论文，虽然还是能够看懂，但是至于怎么将其很好的用起来，还是很模糊，于是这篇端到端的记忆网络就提供了很好的使用范例，论文中也设计了两个实验任务（问答和语言模型），看了实验代码清楚多了。<br>（2）其实在这个结构上还是有很多改进的地方，当初看这篇论文的时候也想到一些，比如在记忆模块引入混沌概念，动态表示记忆。后面才发现这一系列的最后一篇论文中就是动态记忆-_-||</p>
-<h3 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h3><p><a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">论文地址</a><br><a href="https://github.com/domluna/memn2n" target="_blank" rel="noopener">论文代码</a><br><a href="https://zhuanlan.zhihu.com/p/29679742" target="_blank" rel="noopener">参考笔记</a></p>
+<h3 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h3><p>（1）<a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">论文地址</a><br>（2）<a href="https://github.com/domluna/memn2n" target="_blank" rel="noopener">论文代码</a><br>（3）<a href="https://zhuanlan.zhihu.com/p/29679742" target="_blank" rel="noopener">参考笔记</a></p>
 
         </div>
         <footer class="article-footer">
