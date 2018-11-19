@@ -6,26 +6,26 @@
     
 
     
-    <title>【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading | 一只NLPer</title>
+    <title>【论文笔记09】Teaching Machines to Read and Comprehend | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
         <meta name="keywords" content="论文笔记,阅读理解" />
     
-    <meta name="description" content="本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。问题向量的计算与动态实体计算过程类似，这里需要填空的">
+    <meta name="description" content="本文主要做出了两个大的贡献：  给出了阅读理解数据集的构造方法，并开源了两个阅读理解数据集； 提出了三种神经网络模型作为baseline，以方便后面的研究者进行相关的研究。  1 数据构造主要是从新闻网站中抓取新闻作为文章，新闻的摘要去掉一个实体词成为query，被去掉的单词作为答案。为了防止模型对训练数据的过度依赖，于是将文章和问题中的实体进行匿名化和随机替换。具体见官方教程 2 三种神经网络模">
 <meta name="keywords" content="论文笔记,阅读理解">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading">
-<meta property="og:url" content="http://yoursite.com/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/index.html">
+<meta property="og:title" content="【论文笔记09】Teaching Machines to Read and Comprehend">
+<meta property="og:url" content="http://yoursite.com/2018/11/19/【论文笔记09】Teaching Machines to Read and Comprehend/index.html">
 <meta property="og:site_name" content="一只NLPer">
-<meta property="og:description" content="本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。问题向量的计算与动态实体计算过程类似，这里需要填空的">
+<meta property="og:description" content="本文主要做出了两个大的贡献：  给出了阅读理解数据集的构造方法，并开源了两个阅读理解数据集； 提出了三种神经网络模型作为baseline，以方便后面的研究者进行相关的研究。  1 数据构造主要是从新闻网站中抓取新闻作为文章，新闻的摘要去掉一个实体词成为query，被去掉的单词作为答案。为了防止模型对训练数据的过度依赖，于是将文章和问题中的实体进行匿名化和随机替换。具体见官方教程 2 三种神经网络模">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/2.png">
-<meta property="og:updated_time" content="2018-11-17T13:24:21.785Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/TMRC/0.jpg">
+<meta property="og:updated_time" content="2018-11-19T12:07:51.260Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading">
-<meta name="twitter:description" content="本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。问题向量的计算与动态实体计算过程类似，这里需要填空的">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/2.png">
+<meta name="twitter:title" content="【论文笔记09】Teaching Machines to Read and Comprehend">
+<meta name="twitter:description" content="本文主要做出了两个大的贡献：  给出了阅读理解数据集的构造方法，并开源了两个阅读理解数据集； 提出了三种神经网络模型作为baseline，以方便后面的研究者进行相关的研究。  1 数据构造主要是从新闻网站中抓取新闻作为文章，新闻的摘要去掉一个实体词成为query，被去掉的单词作为答案。为了防止模型对训练数据的过度依赖，于是将文章和问题中的实体进行匿名化和随机替换。具体见官方教程 2 三种神经网络模">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/TMRC/0.jpg">
     
 
     
@@ -142,14 +142,14 @@
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-【论文笔记09】Teaching Machines to Read and Comprehend" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading
+        【论文笔记09】Teaching Machines to Read and Comprehend
         </h1>
     
 
@@ -159,8 +159,8 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/" class="article-date">
-            <time datetime="2018-11-17T12:04:16.000Z" itemprop="datePublished">2018-11-17</time>
+        <a href="/2018/11/19/【论文笔记09】Teaching Machines to Read and Comprehend/" class="article-date">
+            <time datetime="2018-11-19T11:22:19.000Z" itemprop="datePublished">2018-11-19</time>
         </a>
     </div>
 
@@ -175,7 +175,15 @@
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。<br>模型还是采用双向LSTM来构建，这时实体表示由四部分构成，包括两个方向上的隐层状态，，以及该实体所在句子的最后隐层状态，也就是该实体所在的上下文表示。如图所示。<img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/1.png" alt="实体标识方法"><br>问题向量的计算与动态实体计算过程类似，这里需要填空的地方用占位符表示。<br>如果遇到一个entity在document中出现多次的情况，该entity就会有不同的表示，论文中采用CNN中常用的max-pooling方法，从各个表示中的每个维度获取最大的那一个组成该实体的最终表示，这个表示包括了该实体在文章中各种上下文情况下的信息，具有最全面的信息，<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/2.png" alt="动态实体标识"><br>计算出实体的动态表示之后，通过注意力机制计算得到问题与每个实体之间的权重，根据语义相近程度选出最可能是答案的那个实体，找到最终的答案。<br>这里有一个maxpooling的例子，左边是示意图，右边是对应的解释。大家可以先看一下，主要是说明maxpooling的作用。<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/3.png" alt="实验分析"><br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/4.png" alt="实验分析"><br>本文的实验在CNN数据上对模型进行了对比，效果比之前的Attentive Reader好很多，验证了本文的有效性。<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/5.png" alt="实验结果对比"><br>本文模型的一个好玩之处在于用了一种变化的眼光和态度来审视每一个实体，不同的context会给同样的entity带来不同的意义，因此用一种动态的表示方法来捕捉原文中entity最准确的意思，才能更好地理解原文，找出正确答案。实际生活中，我们做阅读理解的时候，最简单的方法是从问题中找到关键词，接着从原文中找到同样的词所在的句子，然后仔细理解这个句子最终得到答案，本文的动态表示正是有意在更加复杂的阅读理解题目上做文章，是一个非常好的探索。</p>
+            <p>本文主要做出了两个大的贡献：</p>
+<ul>
+<li>给出了阅读理解数据集的构造方法，并开源了两个阅读理解数据集；</li>
+<li>提出了三种神经网络模型作为baseline，以方便后面的研究者进行相关的研究。</li>
+</ul>
+<h3 id="1-数据构造"><a href="#1-数据构造" class="headerlink" title="1 数据构造"></a>1 数据构造</h3><p>主要是从新闻网站中抓取新闻作为文章，新闻的摘要去掉一个实体词成为query，被去掉的单词作为答案。为了防止模型对训练数据的过度依赖，于是将文章和问题中的实体进行匿名化和随机替换。<a href="https://github.com/deepmind/rc-data" target="_blank" rel="noopener">具体见官方教程</a></p>
+<h3 id="2-三种神经网络模型"><a href="#2-三种神经网络模型" class="headerlink" title="2 三种神经网络模型"></a>2 三种神经网络模型</h3><p>（1） Deep LSTM<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/TMRC/1.jpg" alt="Deep LSTM"><br>从上图的结构可以看到，主要是将文章和问题进行拼接（doc|||query 或者 query||| doc）,实际上都是看成一个长文本，通过多层LSTM编码，得到最后的隐藏层状态，进而进行后面的任务。<br>（2）Attentive Reader<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/TMRC/2.jpg" alt="Attentive Reader"><br>这个模型将document和query分开表示，其中query部分采用了问题表示法的模型三，就是用了一个双向LSTM来encode，然后将两个方向上的last hidden state拼接作为query的表示；document这部分采用文章表示法的模型二，也就是通过单词语义向量表示文章整体语义，即用一个双向的LSTM来对文章进行编码，每个token的表示是用两个方向上的hidden state拼接而成，document的表示则是用document中所有token的加权平均来表示，这里的权重就是attention，权重越大表示回答query时对应的token的越重要。最后利用g函数来处理文章语义和问题语义。<br>（3）Impatient Reader<br><img src="https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/TMRC/3.jpg" alt="Impatient Reader"><br>这个模型在Attentive Reader模型的基础上更细了一步，即每个query token都与document tokens有关联，而不是像之前的模型将整个query考虑为整体。具体来说，文章还是采用的文章表示法模型二，而query中每处理一个单词后，都用问题表示法的模型三来对当前问题序列进行整体语义表示，这个过程就好像是你读query中的每个token都需要找到document中对应相关的token。</p>
+<h3 id="3-小结"><a href="#3-小结" class="headerlink" title="3 小结"></a>3 小结</h3><p>这篇论文作为阅读理解任务上的经典论文，对这个领域后来的发展推进作用挺大的。这两个数据集目前是这个领域常用的数据集；三种神经网络模型也是后面提出来的哪些模型的基础。另外，张俊林博士总结的常用文章和问题表示法真的非常清晰，已看网络结构就大概知道用的什么表示方法了。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>【1】<a href="https://blog.csdn.net/malefactor/article/details/52832134" target="_blank" rel="noopener">深度学习解决机器阅读理解任务的研究进展 from 张俊林</a><br>【2】<a href="https://zhuanlan.zhihu.com/p/21343662?refer=paperweekly" target="_blank" rel="noopener">Teaching Machines to Read and Comprehend from paperweekly</a></p>
 
         </div>
         <footer class="article-footer">
@@ -273,20 +281,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2018/11/17/【论文笔记07】End-To-End Memory Networks/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            【论文笔记07】End-To-End Memory Networks
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2018/11/02/【论文笔记06】Memory Network/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/11/17/【论文笔记07】End-To-End Memory Networks/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">【论文笔记06】Memory Network</p>
+        <p class="article-nav-title">【论文笔记07】End-To-End Memory Networks</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -496,7 +494,7 @@
     var disqus_shortname = 'nlper';
     
     
-    var disqus_url = 'http://yoursite.com/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/';
+    var disqus_url = 'http://yoursite.com/2018/11/19/【论文笔记09】Teaching Machines to Read and Comprehend/';
     
     (function() {
     var dsq = document.createElement('script');
