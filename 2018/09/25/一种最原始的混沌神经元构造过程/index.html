@@ -12,19 +12,19 @@
     
         <meta name="keywords" content="笔记,混沌神经网络" />
     
-    <meta name="description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrac">
+    <meta name="description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下：  x_{i}\left( t + 1 \right) = f\left\lbrac">
 <meta name="keywords" content="笔记,混沌神经网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一种最原始的混沌神经元构造过程">
 <meta property="og:url" content="http://yoursite.com/2018/09/25/一种最原始的混沌神经元构造过程/index.html">
 <meta property="og:site_name" content="一只NLPer">
-<meta property="og:description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrac">
+<meta property="og:description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下：  x_{i}\left( t + 1 \right) = f\left\lbrac">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ch.jpg">
 <meta property="og:updated_time" content="2019-03-10T13:01:29.571Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种最原始的混沌神经元构造过程">
-<meta name="twitter:description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下： $$x{i}\left( t + 1 \right) = f\left\lbrac">
+<meta name="twitter:description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下：  x_{i}\left( t + 1 \right) = f\left\lbrac">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ch.jpg">
     
 
@@ -177,40 +177,68 @@
         <div class="article-entry" itemprop="articleBody">
             <p>一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。<br>由于该博客公式显示问题，请移步CSDN博文<a href="https://blog.csdn.net/xyz1584172808/article/details/82838532" target="_blank" rel="noopener">一种最原始的混沌神经元构造过程</a></p>
 <h3 id="一-混沌神经元的构造"><a href="#一-混沌神经元的构造" class="headerlink" title="一  混沌神经元的构造"></a>一  混沌神经元的构造</h3><p>（1）一种混沌神经元的构造方法如下：</p>
-<p>$$<br>x<em>{i}\left( t + 1 \right) = f\left\lbrack \sum</em>{j = 1}^{M}v<em>{\text{ij}}\sum</em>{d = 0}^{t}{k<em>{e}^{d}A</em>{j}(t - d)} + \sum<em>{j = 1}^{N}\text{wij}\sum</em>{d = 0}^{t}{k<em>{f}^{d}x</em>{j}(t - d)} - \alpha\sum<em>{d = 0}^{t}{k</em>{r}^{d}g\left{ x<em>{i}\left( t - d \right) \right}} - \Theta</em>{i} \right\rbrack<br>$$</p>
-<p>对于式中的第一部分：</p>
-<p>$$<br>\sum<em>{j = 1}^{M}v</em>{\text{ij}}\sum<em>{d = 0}^{t}{k</em>{e}^{d}A_{j}(t - d)}<br>$$该项表示外部输入对当前混沌神经元的影响。</p>
-<p>M表示外部输入的个数；</p>
-<p>$$v_{\text{ij}}$$表示第j个外部输入到第i个混沌神经元的连接权值；</p>
-<p>t表示离散时间点；</p>
-<p>$$k_{e}^{d}$$表示外部输入的衰变参数；</p>
-<p>$$A_{j}(t - d)$$表示在离散t-d时刻，第j个外部输入的强度。</p>
-<p>于是，外部输入对当前混沌神经元的影响包括了每一个外部输入在每一个离散时刻t时的强度。</p>
-<p>对于式中的第二项：</p>
-<p>$$<br>\sum<em>{j = 1}^{N}\text{wij}\sum</em>{d = 0}^{t}{k<em>{f}^{d}x</em>{j}(t - d)}<br>$$</p>
-<p>该项表示混沌神经元之间的影响。</p>
-<p>N表示混沌神经元的个数；</p>
-<p>$$\text{wij}$$表示当前混沌神经元与第j个混沌神经元之间的连接权重；</p>
-<p>t表示离散时间点；</p>
-<p>$$k_{f}^{d}$$表示其他混沌神经元输入的衰变参数；</p>
-<p>$$x<em>{j}(t - d)$$表示在离散t-d时刻，混沌神经元$$x</em>{j}$$对当前神经元的影响强度。</p>
-<p>于是该项主要描述当前混沌神经元与其他所有神经元之间的联系，其中包括了其他每一个混沌神经元在每一个离散时刻对当前神经元的影响。</p>
-<p>此外，$$g$$表示不应性函数，α、$$k<em>{r}^{d}$$和$$\Theta</em>{i}$$分别表示不应性强度参数、不应性衰减参数和阈值。</p>
-<p><strong>综上，一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。</strong></p>
-<p>上述公式可以简化为：</p>
-<p>$$<br>x<em>{i}\left( t + 1 \right) = f\left{ \xi</em>{i}\left( t + 1 \right) + \eta<em>{i}\left( t + 1 \right) + \zeta</em>{i}(t + 1) \right}<br>$$</p>
-<p>其中：</p>
-<p>$$<br>\xi<em>{i}\left( t + 1 \right) = \left( \sum</em>{j = 1}^{M}v<em>{\text{ij}}\sum</em>{d = 0}^{t}{k<em>{e}^{d}A</em>{j}(t - d)} \right) = \sum<em>{j = 1}^{M}v</em>{\text{ij}}A<em>{j}\left( t \right) + k</em>{e}\xi_{i}\left( t \right)<br>$$</p>
-<p>$$<br>\eta<em>{i}\left( t + 1 \right) = \left( \sum</em>{j = 1}^{N}\text{wij}\sum<em>{d = 0}^{t}{k</em>{f}^{d}x<em>{j}(t - d)} \right) = \sum</em>{j = 1}^{N}w<em>{\text{ij}}x</em>{j}\left( t \right) + k<em>{f}\eta</em>{i}\left( t \right)<br>$$</p>
-<p>$$<br>\zeta<em>{i}\left( t + 1 \right) = \left( - \alpha\sum</em>{d = 0}^{t}{k<em>{r}^{d}g\left{ x</em>{i}\left( t - d \right) \right}} - \Theta<em>{i} \right) = - \alpha g\left{ x</em>{i}\left( t \right) \right} + k<em>{r}\zeta</em>{i}\left( t \right) - \theta_{i}<br>$$</p>
-<p>$$<br>\theta<em>{i} \equiv \Theta</em>{i}(1 - k_{r})<br>$$</p>
-<p>分别记为外部输入、其他神经元输入和自身不应性的内部状态。</p>
-<p>（2）构建一个简单的自动联想神经网络（实例）</p>
-<p>首先假设对神经网络的外部刺激是暂时不变，于是可以使用只有两个内部状态的简化方程：</p>
-<p>$$<br>x<em>{i}\left( t + 1 \right) = f\left{ \eta</em>{i}\left( t + 1 \right) + \zeta_{i}(t + 1) \right}<br>$$</p>
-<p>$$<br>\eta<em>{i}\left( t + 1 \right) = k</em>{f}\eta<em>{i}\left( t \right) + \sum</em>{j = 1}^{N}w<em>{\text{ij}}x</em>{j}\left( t \right)<br>$$</p>
-<p>$$<br>\zeta<em>{i}\left( t + 1 \right) = k</em>{r}\zeta<em>{i}\left( t \right) - \alpha x</em>{i}\left( t \right) + a_{i}<br>$$</p>
-<p>其中使用$$a_{i}$$来表示外部输入和阈值的和，暂时约定为不变的常数。</p>
+<script type="math/tex; mode=display">
+x_{i}\left( t + 1 \right) = f\left\lbrack \sum_{j = 1}^{M}v_{\text{ij}}\sum_{d = 0}^{t}{k_{e}^{d}A_{j}(t - d)} + \sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)} - \alpha\sum_{d = 0}^{t}{k_{r}^{d}g\left\{ x_{i}\left( t - d \right) \right\}} - \Theta_{i} \right\rbrack</script><p>对于式中的第一部分：</p>
+<script type="math/tex; mode=display">
+\sum_{j = 1}^{M}v_{\text{ij}}\sum_{d = 0}^{t}{k_{e}^{d}A_{j}(t - d)}
+$$该项表示外部输入对当前混沌神经元的影响。
+
+M表示外部输入的个数；
+
+$$v_{\text{ij}}$$表示第j个外部输入到第i个混沌神经元的连接权值；
+
+t表示离散时间点；
+
+$$k_{e}^{d}$$表示外部输入的衰变参数；
+
+$$A_{j}(t - d)$$表示在离散t-d时刻，第j个外部输入的强度。
+
+于是，外部输入对当前混沌神经元的影响包括了每一个外部输入在每一个离散时刻t时的强度。
+
+对于式中的第二项：</script><p>\sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)}</p>
+<script type="math/tex; mode=display">
+
+该项表示混沌神经元之间的影响。
+
+N表示混沌神经元的个数；
+
+$$\text{wij}$$表示当前混沌神经元与第j个混沌神经元之间的连接权重；
+
+t表示离散时间点；
+
+$$k_{f}^{d}$$表示其他混沌神经元输入的衰变参数；
+
+$$x_{j}(t - d)$$表示在离散t-d时刻，混沌神经元$$x_{j}$$对当前神经元的影响强度。
+
+于是该项主要描述当前混沌神经元与其他所有神经元之间的联系，其中包括了其他每一个混沌神经元在每一个离散时刻对当前神经元的影响。
+
+此外，$$g$$表示不应性函数，α、$$k_{r}^{d}$$和$$\Theta_{i}$$分别表示不应性强度参数、不应性衰减参数和阈值。
+
+**综上，一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。**
+
+上述公式可以简化为：</script><p>x_{i}\left( t + 1 \right) = f\left\{ \xi_{i}\left( t + 1 \right) + \eta_{i}\left( t + 1 \right) + \zeta_{i}(t + 1) \right\}</p>
+<script type="math/tex; mode=display">
+
+其中：</script><p>\xi_{i}\left( t + 1 \right) = \left( \sum_{j = 1}^{M}v_{\text{ij}}\sum_{d = 0}^{t}{k_{e}^{d}A_{j}(t - d)} \right) = \sum_{j = 1}^{M}v_{\text{ij}}A_{j}\left( t \right) + k_{e}\xi_{i}\left( t \right)</p>
+<script type="math/tex; mode=display">
+</script><p>\eta_{i}\left( t + 1 \right) = \left( \sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)} \right) = \sum_{j = 1}^{N}w_{\text{ij}}x_{j}\left( t \right) + k_{f}\eta_{i}\left( t \right)</p>
+<script type="math/tex; mode=display">
+</script><p>\zeta_{i}\left( t + 1 \right) = \left( - \alpha\sum_{d = 0}^{t}{k_{r}^{d}g\left\{ x_{i}\left( t - d \right) \right\}} - \Theta_{i} \right) = - \alpha g\left\{ x_{i}\left( t \right) \right\} + k_{r}\zeta_{i}\left( t \right) - \theta_{i}</p>
+<script type="math/tex; mode=display">
+</script><p>\theta_{i} \equiv \Theta_{i}(1 - k_{r})</p>
+<script type="math/tex; mode=display">
+
+分别记为外部输入、其他神经元输入和自身不应性的内部状态。
+
+（2）构建一个简单的自动联想神经网络（实例）
+
+首先假设对神经网络的外部刺激是暂时不变，于是可以使用只有两个内部状态的简化方程：</script><p>x_{i}\left( t + 1 \right) = f\left\{ \eta_{i}\left( t + 1 \right) + \zeta_{i}(t + 1) \right\}</p>
+<script type="math/tex; mode=display">
+</script><p>\eta_{i}\left( t + 1 \right) = k_{f}\eta_{i}\left( t \right) + \sum_{j = 1}^{N}w_{\text{ij}}x_{j}\left( t \right)</p>
+<script type="math/tex; mode=display">
+</script><p>\zeta_{i}\left( t + 1 \right) = k_{r}\zeta_{i}\left( t \right) - \alpha x_{i}\left( t \right) + a_{i}</p>
+<p>$$</p>
+<p>其中使用<script type="math/tex">a_{i}</script>来表示外部输入和阈值的和，暂时约定为不变的常数。</p>
 <h3 id="二-参考文献"><a href="#二-参考文献" class="headerlink" title="二  参考文献"></a>二  参考文献</h3><p><a href="http://xueshu.baidu.com/s?wd=paperuri:%282688d3af472c7a565f316b4ad1c75066%29&amp;filter=sc_long_sign&amp;sc_ks_para=q=Associative%20Dynamics%20in%20a%20Chaotic%20Neural%20Network&amp;tn=SE_baiduxueshu_c1gjeupa&amp;ie=utf-8&amp;sc_us=5114660386115963632" target="_blank" rel="noopener">Aihara K, Adachi M. Associative Dynamics in a Chaotic Neural Network</a>[J]. Neural Netw, 1997, 10(1):83-98.</p>
 
         </div>
@@ -572,6 +600,23 @@
 <!-- Custom Scripts -->
 <script src="/js/main.js"></script>
 
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>

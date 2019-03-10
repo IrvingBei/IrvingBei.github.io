@@ -187,7 +187,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取数据的数量</span></span><br><span class="line">num_reviews=len(train)</span><br><span class="line"><span class="comment"># 对数据进行清洗</span></span><br><span class="line">clean_train_reviews=[]</span><br><span class="line">print(<span class="string">"Cleaning and parsing the training set movie reviews...\n"</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,num_reviews):</span><br><span class="line">    <span class="keyword">if</span>(i+<span class="number">1</span>)%<span class="number">1000</span>==<span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"Review %d of %d \n"</span> % (i+<span class="number">1</span>, num_reviews))</span><br><span class="line">    temp_review=review_to_words(train[<span class="string">"review"</span>][i])</span><br><span class="line">    clean_train_reviews.append(temp_review)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对测试集数据做相同的处理</span></span><br><span class="line">num_reviews=len(test)</span><br><span class="line">clean_test_reviews=[]</span><br><span class="line">print(<span class="string">"Cleaning and parsing the training set movie reviews...\n"</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,num_reviews):</span><br><span class="line">    <span class="keyword">if</span>(i+<span class="number">1</span>)%<span class="number">1000</span>==<span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"Review %d of %d \n"</span>%(i+<span class="number">1</span>,num_reviews))</span><br><span class="line">    temp_review=review_to_words(test[<span class="string">"review"</span>][i])</span><br><span class="line">    clean_test_reviews.append(temp_review)</span><br><span class="line">print(len(clean_train_reviews))</span><br><span class="line">print(len(clean_test_reviews))</span><br></pre></td></tr></table></figure>
 <pre><code>Cleaning and parsing the training set movie reviews...
 
-/home/xiongzy/anaconda3/lib/python3.6/site-packages/bs4/__init__.py:181: UserWarning: No parser was explicitly specified, so I&apos;m using the best available HTML parser for this system (&quot;lxml&quot;). This usually isn&apos;t a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently. 
+/home/xiongzy/anaconda3/lib/python3.6/site-packages/bs4/__init__.py:181: UserWarning: No parser was explicitly specified, so I&#39;m using the best available HTML parser for this system (&quot;lxml&quot;). This usually isn&#39;t a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently. 
 The code that caused this warning is on line 193 of the file /home/xiongzy/anaconda3/lib/python3.6/runpy.py. To get rid of this warning, change code that looks like this:
 
  BeautifulSoup(YOUR_MARKUP})   
@@ -314,8 +314,8 @@ finished
   DeprecationWarning)
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model=MNB(alpha=1.0, class_prior=None, fit_prior=True)     # 朴素贝叶斯模型</span></span><br><span class="line">model = LR()                             <span class="comment"># 逻辑回归模型</span></span><br><span class="line">model.fit(train_x,train[<span class="string">"sentiment"</span>])</span><br></pre></td></tr></table></figure>
 <pre><code>LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
-          intercept_scaling=1, max_iter=100, multi_class=&apos;ovr&apos;, n_jobs=1,
-          penalty=&apos;l2&apos;, random_state=None, solver=&apos;liblinear&apos;, tol=0.0001,
+          intercept_scaling=1, max_iter=100, multi_class=&#39;ovr&#39;, n_jobs=1,
+          penalty=&#39;l2&#39;, random_state=None, solver=&#39;liblinear&#39;, tol=0.0001,
           verbose=0, warm_start=False)
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> cross_val_score</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">print(<span class="string">"10折交叉验证："</span>)</span><br><span class="line">print(np.mean(cross_val_score(model,train_x,train[<span class="string">"sentiment"</span>],scoring=<span class="string">"roc_auc"</span>)))</span><br></pre></td></tr></table></figure>
@@ -683,6 +683,23 @@ finished
 <!-- Custom Scripts -->
 <script src="/js/main.js"></script>
 
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>

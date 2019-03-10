@@ -334,7 +334,8 @@
         <p class="article-excerpt">
             一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程
 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下：
-$$x{i}\left( t + 1 \right) = f\left\lbrac
+
+x_{i}\left( t + 1 \right) = f\left\lbrac
         </p>
     </div>
 </article>
@@ -868,6 +869,23 @@ $$x{i}\left( t + 1 \right) = f\left\lbrac
 <!-- Custom Scripts -->
 <script src="/js/main.js"></script>
 
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>
