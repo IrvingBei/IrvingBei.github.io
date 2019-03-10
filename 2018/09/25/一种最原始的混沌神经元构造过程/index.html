@@ -21,7 +21,7 @@
 <meta property="og:description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下：  x_{i}\left( t + 1 \right) = f\left\lbrac">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ch.jpg">
-<meta property="og:updated_time" content="2019-03-10T13:01:29.571Z">
+<meta property="og:updated_time" content="2019-03-10T14:12:13.474Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一种最原始的混沌神经元构造过程">
 <meta name="twitter:description" content="一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程 一  混沌神经元的构造（1）一种混沌神经元的构造方法如下：  x_{i}\left( t + 1 \right) = f\left\lbrac">
@@ -179,66 +179,37 @@
 <h3 id="一-混沌神经元的构造"><a href="#一-混沌神经元的构造" class="headerlink" title="一  混沌神经元的构造"></a>一  混沌神经元的构造</h3><p>（1）一种混沌神经元的构造方法如下：</p>
 <script type="math/tex; mode=display">
 x_{i}\left( t + 1 \right) = f\left\lbrack \sum_{j = 1}^{M}v_{\text{ij}}\sum_{d = 0}^{t}{k_{e}^{d}A_{j}(t - d)} + \sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)} - \alpha\sum_{d = 0}^{t}{k_{r}^{d}g\left\{ x_{i}\left( t - d \right) \right\}} - \Theta_{i} \right\rbrack</script><p>对于式中的第一部分：</p>
-<script type="math/tex; mode=display">
-\sum_{j = 1}^{M}v_{\text{ij}}\sum_{d = 0}^{t}{k_{e}^{d}A_{j}(t - d)}
-$$该项表示外部输入对当前混沌神经元的影响。
+<script type="math/tex; mode=display">\sum_{j = 1}^{M}v_{\text{ij}}\sum_{d = 0}^{t}{k_{e}^{d}A_{j}(t - d)}$$该项表示外部输入对当前混沌神经元的影响。
 
 M表示外部输入的个数；
 
-$$v_{\text{ij}}$$表示第j个外部输入到第i个混沌神经元的连接权值；
+$v_{\text{ij}}$表示第j个外部输入到第i个混沌神经元的连接权值；
 
 t表示离散时间点；
 
-$$k_{e}^{d}$$表示外部输入的衰变参数；
+$k_{e}^{d}\$表示外部输入的衰变参数；
 
-$$A_{j}(t - d)$$表示在离散t-d时刻，第j个外部输入的强度。
+$A_{j}(t - d)$表示在离散t-d时刻，第j个外部输入的强度。
 
 于是，外部输入对当前混沌神经元的影响包括了每一个外部输入在每一个离散时刻t时的强度。
 
-对于式中的第二项：</script><p>\sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)}</p>
-<script type="math/tex; mode=display">
+对于式中的第二项：
 
-该项表示混沌神经元之间的影响。
-
-N表示混沌神经元的个数；
-
-$$\text{wij}$$表示当前混沌神经元与第j个混沌神经元之间的连接权重；
-
-t表示离散时间点；
-
-$$k_{f}^{d}$$表示其他混沌神经元输入的衰变参数；
-
-$$x_{j}(t - d)$$表示在离散t-d时刻，混沌神经元$$x_{j}$$对当前神经元的影响强度。
-
-于是该项主要描述当前混沌神经元与其他所有神经元之间的联系，其中包括了其他每一个混沌神经元在每一个离散时刻对当前神经元的影响。
-
-此外，$$g$$表示不应性函数，α、$$k_{r}^{d}$$和$$\Theta_{i}$$分别表示不应性强度参数、不应性衰减参数和阈值。
-
-**综上，一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。**
-
-上述公式可以简化为：</script><p>x_{i}\left( t + 1 \right) = f\left\{ \xi_{i}\left( t + 1 \right) + \eta_{i}\left( t + 1 \right) + \zeta_{i}(t + 1) \right\}</p>
-<script type="math/tex; mode=display">
-
-其中：</script><p>\xi_{i}\left( t + 1 \right) = \left( \sum_{j = 1}^{M}v_{\text{ij}}\sum_{d = 0}^{t}{k_{e}^{d}A_{j}(t - d)} \right) = \sum_{j = 1}^{M}v_{\text{ij}}A_{j}\left( t \right) + k_{e}\xi_{i}\left( t \right)</p>
-<script type="math/tex; mode=display">
-</script><p>\eta_{i}\left( t + 1 \right) = \left( \sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)} \right) = \sum_{j = 1}^{N}w_{\text{ij}}x_{j}\left( t \right) + k_{f}\eta_{i}\left( t \right)</p>
-<script type="math/tex; mode=display">
-</script><p>\zeta_{i}\left( t + 1 \right) = \left( - \alpha\sum_{d = 0}^{t}{k_{r}^{d}g\left\{ x_{i}\left( t - d \right) \right\}} - \Theta_{i} \right) = - \alpha g\left\{ x_{i}\left( t \right) \right\} + k_{r}\zeta_{i}\left( t \right) - \theta_{i}</p>
-<script type="math/tex; mode=display">
-</script><p>\theta_{i} \equiv \Theta_{i}(1 - k_{r})</p>
-<script type="math/tex; mode=display">
-
-分别记为外部输入、其他神经元输入和自身不应性的内部状态。
-
-（2）构建一个简单的自动联想神经网络（实例）
-
-首先假设对神经网络的外部刺激是暂时不变，于是可以使用只有两个内部状态的简化方程：</script><p>x_{i}\left( t + 1 \right) = f\left\{ \eta_{i}\left( t + 1 \right) + \zeta_{i}(t + 1) \right\}</p>
-<script type="math/tex; mode=display">
-</script><p>\eta_{i}\left( t + 1 \right) = k_{f}\eta_{i}\left( t \right) + \sum_{j = 1}^{N}w_{\text{ij}}x_{j}\left( t \right)</p>
-<script type="math/tex; mode=display">
-</script><p>\zeta_{i}\left( t + 1 \right) = k_{r}\zeta_{i}\left( t \right) - \alpha x_{i}\left( t \right) + a_{i}</p>
-<p>$$</p>
-<p>其中使用<script type="math/tex">a_{i}</script>来表示外部输入和阈值的和，暂时约定为不变的常数。</p>
+$$\sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)}</script><p>该项表示混沌神经元之间的影响。</p>
+<p>N表示混沌神经元的个数；</p>
+<p>$w_{ij}$表示当前混沌神经元与第j个混沌神经元之间的连接权重；</p>
+<p>t表示离散时间点；</p>
+<p>$k_{f}^{d}$表示其他混沌神经元输入的衰变参数；</p>
+<p>$x_{j}(t - d)$表示在离散t-d时刻，混沌神经元$x_{j}$对当前神经元的影响强度。</p>
+<p>于是该项主要描述当前混沌神经元与其他所有神经元之间的联系，其中包括了其他每一个混沌神经元在每一个离散时刻对当前神经元的影响。</p>
+<p>此外，$g$表示不应性函数，$α$、$k_{r}^{d}$和$\Theta_{i}$分别表示不应性强度参数、不应性衰减参数和阈值。</p>
+<p><strong>综上，一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。</strong></p>
+<p>上述公式可以简化为：</p>
+<script type="math/tex; mode=display">x_{i}\left( t + 1 \right) = f\left\{ \xi_{i}\left( t + 1 \right) + \eta_{i}\left( t + 1 \right) + \zeta_{i}(t + 1) \right\}</script><p>其中：</p>
+<script type="math/tex; mode=display">\xi_{i}\left( t + 1 \right) = \left( \sum_{j = 1}^{M}v_{\text{ij}}\sum_{d = 0}^{t}{k_{e}^{d}A_{j}(t - d)} \right) = \sum_{j = 1}^{M}v_{\text{ij}}A_{j}\left( t \right) + k_{e}\xi_{i}\left( t \right)</script><script type="math/tex; mode=display">\eta_{i}\left( t + 1 \right) = \left( \sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)} \right) = \sum_{j = 1}^{N}w_{\text{ij}}x_{j}\left( t \right) + k_{f}\eta_{i}\left( t \right)</script><script type="math/tex; mode=display">\zeta_{i}\left( t + 1 \right) = \left( - \alpha\sum_{d = 0}^{t}{k_{r}^{d}g\left\{ x_{i}\left( t - d \right) \right\}} - \Theta_{i} \right) = - \alpha g\left\{ x_{i}\left( t \right) \right\} + k_{r}\zeta_{i}\left( t \right) - \theta_{i}</script><script type="math/tex; mode=display">\theta_{i} \equiv \Theta_{i}(1 - k_{r})</script><p>分别记为外部输入、其他神经元输入和自身不应性的内部状态。</p>
+<p>（2）构建一个简单的自动联想神经网络（实例）</p>
+<p>首先假设对神经网络的外部刺激是暂时不变，于是可以使用只有两个内部状态的简化方程：</p>
+<script type="math/tex; mode=display">x_{i}\left( t + 1 \right) = f\left\{ \eta_{i}\left( t + 1 \right) + \zeta_{i}(t + 1) \right\}</script><script type="math/tex; mode=display">\eta_{i}\left( t + 1 \right) = k_{f}\eta_{i}\left( t \right) + \sum_{j = 1}^{N}w_{\text{ij}}x_{j}\left( t \right)</script><script type="math/tex; mode=display">\zeta_{i}\left( t + 1 \right) = k_{r}\zeta_{i}\left( t \right) - \alpha x_{i}\left( t \right) + a_{i}</script><p>其中使用<script type="math/tex">a_{i}</script>来表示外部输入和阈值的和，暂时约定为不变的常数。</p>
 <h3 id="二-参考文献"><a href="#二-参考文献" class="headerlink" title="二  参考文献"></a>二  参考文献</h3><p><a href="http://xueshu.baidu.com/s?wd=paperuri:%282688d3af472c7a565f316b4ad1c75066%29&amp;filter=sc_long_sign&amp;sc_ks_para=q=Associative%20Dynamics%20in%20a%20Chaotic%20Neural%20Network&amp;tn=SE_baiduxueshu_c1gjeupa&amp;ie=utf-8&amp;sc_us=5114660386115963632" target="_blank" rel="noopener">Aihara K, Adachi M. Associative Dynamics in a Chaotic Neural Network</a>[J]. Neural Netw, 1997, 10(1):83-98.</p>
 
         </div>
@@ -452,10 +423,10 @@ $$x_{j}(t - d)$$表示在离散t-d时刻，混沌神经元$$x_{j}$$对当前神�
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/" class="thumbnail">
+                            <a href="/2018/11/17/【论文笔记07】End-To-End Memory Networks/" class="thumbnail">
     
     
-        <span style="background-image:url(https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/DER/2.png)" alt="【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading" class="thumbnail-image"></span>
+        <span style="background-image:url(https://raw.githubusercontent.com/IrvingBei/hexo_photo/master/E2Ememnn/0.jpg)" alt="【论文笔记07】End-To-End Memory Networks" class="thumbnail-image"></span>
     
     
 </a>
@@ -464,7 +435,7 @@ $$x_{j}(t - d)$$表示在离散t-d时刻，混沌神经元$$x_{j}$$对当前神�
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a></p>
-                            <p class="item-title"><a href="/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/" class="title">【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading</a></p>
+                            <p class="item-title"><a href="/2018/11/17/【论文笔记07】End-To-End Memory Networks/" class="title">【论文笔记07】End-To-End Memory Networks</a></p>
                             <p class="item-date"><time datetime="2018-11-17T12:04:16.000Z" itemprop="datePublished">2018-11-17</time></p>
                         </div>
                     </li>
