@@ -6,26 +6,17 @@
     
 
     
-    <title>【NLTK基础教程】01-02 利用nltk统计词频 | 一只NLPer</title>
+    <title>归档: 2019/3 | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="NLTK基础教程" />
-    
-    <meta name="description" content="在上篇中，简单的介绍了三种获取有效文本的方法，那么接下来就利用nltk来统计这些文本中出现的次数。">
-<meta name="keywords" content="NLTK基础教程">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【NLTK基础教程】01-02 利用nltk统计词频">
-<meta property="og:url" content="http://yoursite.com/2018/01/21/【NLTK基础教程】01-02 利用nltk统计词频(1)/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="一只NLPer">
+<meta property="og:url" content="http://yoursite.com/archives/2019/03/index.html">
 <meta property="og:site_name" content="一只NLPer">
-<meta property="og:description" content="在上篇中，简单的介绍了三种获取有效文本的方法，那么接下来就利用nltk来统计这些文本中出现的次数。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/nltk.jpg">
-<meta property="og:updated_time" content="2018-07-17T02:45:00.346Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【NLTK基础教程】01-02 利用nltk统计词频">
-<meta name="twitter:description" content="在上篇中，简单的介绍了三种获取有效文本的方法，那么接下来就利用nltk来统计这些文本中出现的次数。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/nltk.jpg">
+<meta name="twitter:title" content="一只NLPer">
     
 
     
@@ -138,123 +129,77 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NLP/NLTK/">NLTK</a>
+    <i class="icon fa fa-archive"></i>归档: 2019/3
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-【NLTK基础教程】01-02 利用nltk统计词频(1)" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
+                            
+
+    
+    
         
-            <header class="article-header">
-                
+        
+        <section class="archives-wrap">
+            <div class="archive-year-wrap">
+                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
+            </div>
+            <div class="archives">
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <a href="/2019/03/30/【论文笔记12】Iterative Alternating Neural Attention for Machine Reading/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://i.imgur.com/ClYNuHO.png)" alt="【论文笔记12】Iterative Alternating Neural Attention for Machine Reading" class="thumbnail-image"></span>
+    
+    
+        
+<span class="comment-counter">
+    <i class="fa fa-comments-o"></i>
+    
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2019/03/30/【论文笔记12】Iterative Alternating Neural Attention for Machine Reading/">0</span>
+    
+</span>
+
+
+    
+</a>
+
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Papers/">Papers</a>
+            </div>
+            <div class="date"><time datetime="2019-03-30T13:46:43.000Z" itemprop="datePublished">2019-03-30</time></div>
+        </div>
+        
     
         <h1 class="article-title" itemprop="name">
-        【NLTK基础教程】01-02 利用nltk统计词频
+        <a href="/2019/03/30/【论文笔记12】Iterative Alternating Neural Attention for Machine Reading/">【论文笔记12】Iterative Alternating Neural Attention for Machine Reading</a>
         </h1>
     
 
-            </header>
-        
-        
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2018/01/21/【NLTK基础教程】01-02 利用nltk统计词频(1)/" class="article-date">
-            <time datetime="2018-01-21T12:26:59.000Z" itemprop="datePublished">2018-01-21</time>
-        </a>
-    </div>
+        <p class="article-excerpt">
+            （1）论文创新点
+这个模型的文章和问题在真正使用时，都是根据前一时刻的隐层状态，动态的表示成一个向量；
+在更新状态时，使用了gated机制(虽然看起来有点复杂)。
 
-                
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/NLTK基础教程/">NLTK基础教程</a>
-    </div>
-
-				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
-            </div>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-            <p>在上篇中，简单的介绍了三种获取有效文本的方法，那么接下来就利用nltk来统计这些文本中出现的次数。<br><a id="more"></a><br>我们首先来看下传统统计词频的方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import operator</span><br><span class="line">freq_dis=&#123;&#125;</span><br><span class="line">for tok in tokens:</span><br><span class="line">    if tok in freq_dis:</span><br><span class="line">        freq_dis[tok]+=1</span><br><span class="line">    else:</span><br><span class="line">        freq_dis[tok]=1</span><br><span class="line"></span><br><span class="line">sorted_freq_dist=sorted(freq_dis.items(),key=operator.itemgetter(1),reverse=True)</span><br><span class="line">print(sorted_freq_dist[:25])</span><br></pre></td></tr></table></figure>
-<p>统计结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(&apos;Python&apos;, 59), (&apos;&gt;&gt;&gt;&apos;, 24), (&apos;the&apos;, 21), (&apos;and&apos;, 21), (&apos;to&apos;, 17), (&apos;is&apos;, 17), (&apos;of&apos;, 17), (&apos;=&apos;, 14), (&apos;for&apos;, 11), (&apos;News&apos;, 11), (&apos;Events&apos;, 11), (&apos;a&apos;, 10), (&apos;#&apos;, 9), (&apos;More&apos;, 9), (&apos;3&apos;, 8), (&apos;in&apos;, 8), (&apos;with&apos;, 7), (&apos;Community&apos;, 7), (&apos;...&apos;, 7), (&apos;Docs&apos;, 6), (&apos;Guide&apos;, 6), (&apos;Software&apos;, 6), (&apos;The&apos;, 5), (&apos;1&apos;, 5), (&apos;that&apos;, 5)]</span><br></pre></td></tr></table></figure>
-<p>利用nltk来统计文本词频如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import nltk</span><br><span class="line">Freq_dist_nltk=nltk.FreqDist(tokens)</span><br><span class="line">print(Freq_dist_nltk)</span><br><span class="line">for k,v in Freq_dist_nltk.items():</span><br><span class="line">    print(str(k)+&quot;:&quot;+str(v))</span><br><span class="line">Freq_dist_nltk.plot(50,cumulative=False)</span><br></pre></td></tr></table></figure>
-<p>相比之下，利用nltk库来实现，确实便利了很多。<br><img src="http://img.blog.csdn.net/20180121203411270?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"><br>好吧，《NLTK基础教程》第一章基本上就结束了，这一章主要是简单介绍了python的语法，然后引出NLTK。</p>
-
-        </div>
-        <footer class="article-footer">
-            
-
-
-    <div class="a2a_kit a2a_default_style">
-    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
-    <span class="a2a_divider"></span>
-    <a class="a2a_button_facebook"></a>
-    <a class="a2a_button_twitter"></a>
-    <a class="a2a_button_google_plus"></a>
-    <a class="a2a_button_pinterest"></a>
-    <a class="a2a_button_tumblr"></a>
-</div>
-<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
-<style>
-    .a2a_menu {
-        border-radius: 4px;
-    }
-    .a2a_menu a {
-        margin: 2px 0;
-        font-size: 14px;
-        line-height: 16px;
-        border-radius: 4px;
-        color: inherit !important;
-        font-family: 'Microsoft Yahei';
-    }
-    #a2apage_dropdown {
-        margin: 10px 0;
-    }
-    .a2a_mini_services {
-        padding: 10px;
-    }
-    a.a2a_i,
-    i.a2a_i {
-        width: 122px;
-        line-height: 16px;
-    }
-    a.a2a_i .a2a_svg,
-    a.a2a_more .a2a_svg {
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
-        vertical-align: top;
-        background-size: 16px;
-    }
-    a.a2a_i {
-        border: none !important;
-    }
-    a.a2a_menu_show_more_less {
-        margin: 0;
-        padding: 10px 0;
-        line-height: 16px;
-    }
-    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
-    .a2a_mini_services{*+height:1%;}
-</style>
-
-
-        </footer>
+（2）论文模型模型的整体结构图如下所示：接下来将对该模型上的组成部分做简单的介绍。bidirectional encoddings对于问题和文章的基本表示，主要是使用BiGRU来对文本序列进行编码。具体来说，对文章，不对文章的语义信息
+        </p>
     </div>
 </article>
-
-    <section id="comments">
     
-        
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
+        </div>
     
-    </section>
+
+
+    </div></section>
+
 
 
                         </div>
@@ -275,29 +220,6 @@
             
         </ul>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2018/01/22/【NLTK基础教程】02-1 何为文本歧义/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            【NLTK基础教程】02  何为文本歧义
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-        <a href="/2018/01/21/【NLTK基础教程】01-01 三种获取网页中有效文本的方法(1)/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">【NLTK基础教程】01-1 三种获取网页中有效文本的方法</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
-</nav>
-
     
     <div class="widgets-container">
         
@@ -502,13 +424,11 @@
     var disqus_shortname = 'nlper';
     
     
-    var disqus_url = 'http://yoursite.com/2018/01/21/【NLTK基础教程】01-02 利用nltk统计词频(1)/';
-    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
