@@ -10,10 +10,10 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="阅读理解,论文笔记" />
+        <meta name="keywords" content="论文笔记,阅读理解" />
     
     <meta name="description" content="本文主要介绍AoA reader 的模型结构，由论文《Attention-over-Attention Neural Networks for Reading Comprehension》提出，论文直通车 1 论文概述该论文针对机器阅读理解任务，提出了AoA reader模型，在CNN/Daily Mail 和CBT数据集上取得了不错的效果。 2 模型细节 模型的结构图如上图所示，主要包含了以下几">
-<meta name="keywords" content="阅读理解,论文笔记">
+<meta name="keywords" content="论文笔记,阅读理解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【论文笔记13】Attention-over-Attention Neural Networks for Reading Comprehension">
 <meta property="og:url" content="http://yoursite.com/2019/04/02/【论文笔记13】Attention-over-Attention Neural Networks for Reading Comprehension/index.html">
@@ -21,7 +21,7 @@
 <meta property="og:description" content="本文主要介绍AoA reader 的模型结构，由论文《Attention-over-Attention Neural Networks for Reading Comprehension》提出，论文直通车 1 论文概述该论文针对机器阅读理解任务，提出了AoA reader模型，在CNN/Daily Mail 和CBT数据集上取得了不错的效果。 2 模型细节 模型的结构图如上图所示，主要包含了以下几">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.imgur.com/A1eLkuS.png">
-<meta property="og:updated_time" content="2019-04-02T08:01:28.437Z">
+<meta property="og:updated_time" content="2019-04-02T08:12:47.099Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记13】Attention-over-Attention Neural Networks for Reading Comprehension">
 <meta name="twitter:description" content="本文主要介绍AoA reader 的模型结构，由论文《Attention-over-Attention Neural Networks for Reading Comprehension》提出，论文直通车 1 论文概述该论文针对机器阅读理解任务，提出了AoA reader模型，在CNN/Daily Mail 和CBT数据集上取得了不错的效果。 2 模型细节 模型的结构图如上图所示，主要包含了以下几">
@@ -195,15 +195,10 @@
 <h4 id="3-独立注意力模块"><a href="#3-独立注意力模块" class="headerlink" title="(3)独立注意力模块"></a>(3)独立注意力模块</h4><p>在得到文章和问题的单词两两匹配矩阵后，对每一列使用一个softmax函数，这样做的意义是，对于问题中$t$时刻的单词，得到一个独立的文档级的注意力（通俗点理解就是对于问题中的某一个单词，文章中的每个单词与该单词的相关程度）。操作的示意图如下：</p>
 <p><img src="https://i.imgur.com/HzN88jU.png" alt="column-wise softmax"></p>
 <p>对应的公式也很简单,首先是得到每一列处理后的结果</p>
-<script type="math/tex; mode=display">a(t)=softmax(M(1,t),...,M(|D|,t)</script><p>将处理后的每一列进行拼接：</p>
-<script type="math/tex; mode=display">a=[a(1),a(2),...,a(|Q|)]
-
-#### (4)AoA模块
-这个模块很有意思，也是这篇论文的亮点，利用注意力来对注意力权重进行加权求和。它首先计算一个相反的注意力，具体来说，在前面那个M矩阵的行上使用softmax函数，表示的含义就变成了给定一个文章中的单词，问题中的那些单词对其的重要性，这样的操作的话，就会得到$|D|$个行向量，然后对这些向量求一个平均。
-![](https://i.imgur.com/yWw3DSi.png)
-
-公式为：
-$$\beta (t)=softmax(M(t,1),...,M(t,|Q|))</script><script type="math/tex; mode=display">\beta = \frac{1}{n}\sum_{t=1}^{|D|} \beta (t)</script><p>这样就得到了上图右边的那个小向量。<br>接着就是重点了，$a$一个注意力权重矩阵，$ \beta $是一个权重向量，将$a$和$ \beta $做点乘，这样就得到了<strong>“attended document-level attention”</strong>，这个操作就是<strong>the attention-over-attention mechanism</strong>,AoA实质上就是利用注意力来对另一个层次的注意力加权求和。</p>
+<script type="math/tex; mode=display">a(t)=softmax(M(1,t),...,M(|D|,t)</script><p>将处理后的每一列进行拼接：<br>$a=[a(1),a(2),…,a(|Q|)]$</p>
+<h4 id="4-AoA模块"><a href="#4-AoA模块" class="headerlink" title="(4)AoA模块"></a>(4)AoA模块</h4><p>这个模块很有意思，也是这篇论文的亮点，利用注意力来对注意力权重进行加权求和。它首先计算一个相反的注意力，具体来说，在前面那个M矩阵的行上使用softmax函数，表示的含义就变成了给定一个文章中的单词，问题中的那些单词对其的重要性，这样的操作的话，就会得到$|D|$个行向量，然后对这些向量求一个平均。<br><img src="https://i.imgur.com/yWw3DSi.png" alt=""></p>
+<p>公式为：</p>
+<script type="math/tex; mode=display">\beta (t)=softmax(M(t,1),...,M(t,|Q|))</script><script type="math/tex; mode=display">\beta = \frac{1}{n}\sum_{t=1}^{|D|} \beta (t)</script><p>这样就得到了上图右边的那个小向量。<br>接着就是重点了，$a$一个注意力权重矩阵，$ \beta $是一个权重向量，将$a$和$ \beta $做点乘，这样就得到了<strong>“attended document-level attention”</strong>，这个操作就是<strong>the attention-over-attention mechanism</strong>,AoA实质上就是利用注意力来对另一个层次的注意力加权求和。</p>
 <p><img src="https://i.imgur.com/zgVqoWq.png" alt=""></p>
 <p>表达式为$s=a^T \beta $,这里的公式表示我也觉得有点问题。</p>
 <h4 id="（5）预测模块"><a href="#（5）预测模块" class="headerlink" title="（5）预测模块"></a>（5）预测模块</h4><p>预测模块和AS reader 的预测模块很相似，将某个单词在全文中出现地方的权重信息都加起来：</p>
