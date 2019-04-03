@@ -6,17 +6,26 @@
     
 
     
-    <title>归档: 2018/9 | 一只NLPer</title>
+    <title>【论文笔记14】Gated-Attention Readers for Text Comprehension | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="一只NLPer">
-<meta property="og:url" content="http://yoursite.com/archives/2018/09/index.html">
+        <meta name="keywords" content="论文笔记,阅读理解" />
+    
+    <meta name="description" content="本文主要介绍GA reader模型的基本思想，由论文《Gated-Attention Readers for Text Comprehension》提出，论文直通车 1 论文概述本篇论文的思想其实是很简单的，可以把其看成是AS reader模型的扩展，尽管模型简单，但是也取得了不错的成绩，也证明了乘法操作机制带来的效果显著。值得一提的是，论文中的相关工作部分，对之前的模型进行了分门别类的概述，这一">
+<meta name="keywords" content="论文笔记,阅读理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记14】Gated-Attention Readers for Text Comprehension">
+<meta property="og:url" content="http://yoursite.com/2019/04/03/【论文笔记14】Gated-Attention Readers for Text Comprehension/index.html">
 <meta property="og:site_name" content="一只NLPer">
+<meta property="og:description" content="本文主要介绍GA reader模型的基本思想，由论文《Gated-Attention Readers for Text Comprehension》提出，论文直通车 1 论文概述本篇论文的思想其实是很简单的，可以把其看成是AS reader模型的扩展，尽管模型简单，但是也取得了不错的成绩，也证明了乘法操作机制带来的效果显著。值得一提的是，论文中的相关工作部分，对之前的模型进行了分门别类的概述，这一">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/YJ7tEYL.png">
+<meta property="og:updated_time" content="2019-04-03T06:31:06.673Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一只NLPer">
+<meta name="twitter:title" content="【论文笔记14】Gated-Attention Readers for Text Comprehension">
+<meta name="twitter:description" content="本文主要介绍GA reader模型的基本思想，由论文《Gated-Attention Readers for Text Comprehension》提出，论文直通车 1 论文概述本篇论文的思想其实是很简单的，可以把其看成是AS reader模型的扩展，尽管模型简单，但是也取得了不错的成绩，也证明了乘法操作机制带来的效果显著。值得一提的是，论文中的相关工作部分，对之前的模型进行了分门别类的概述，这一">
+<meta name="twitter:image" content="https://i.imgur.com/YJ7tEYL.png">
     
 
     
@@ -129,123 +138,139 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>归档: 2018/9
+    <a class="page-title-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/NOTES/Papers/">Papers</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-【论文笔记14】Gated-Attention Readers for Text Comprehension" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2018" class="archive-year"><i class="icon fa fa-calendar-o"></i>2018</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/09/25/一种最原始的混沌神经元构造过程/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ch.jpg)" alt="一种最原始的混沌神经元构造过程" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/09/25/一种最原始的混沌神经元构造过程/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NOTES/">NOTES</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NOTES/Chaotic/">Chaotic</a>
-            </div>
-            <div class="date"><time datetime="2018-09-25T05:56:50.663Z" itemprop="datePublished">2018-09-25</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2018/09/25/一种最原始的混沌神经元构造过程/">一种最原始的混沌神经元构造过程</a>
+        【论文笔记14】Gated-Attention Readers for Text Comprehension
         </h1>
     
 
-        <p class="article-excerpt">
-            一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混沌神经元构造过程
-一  混沌神经元的构造（1）一种混沌神经元的构造方法如下：
-
-x_{i}\left( t + 1 \right) = f\left\lbrac
-        </p>
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/04/03/【论文笔记14】Gated-Attention Readers for Text Comprehension/" class="article-date">
+            <time datetime="2019-04-03T06:30:53.000Z" itemprop="datePublished">2019-04-03</time>
+        </a>
     </div>
-</article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png)" alt="利用sklearn实现多分类实验demo" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/09/03/利用sklearn实现多分类demo (1)/">0</span>
-    
-</span>
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/论文笔记/">论文笔记</a>, <a class="tag-link" href="/tags/阅读理解/">阅读理解</a>
+    </div>
 
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NLP/Classification/">Classification</a>
+				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
             </div>
-            <div class="date"><time datetime="2018-09-03T11:42:12.000Z" itemprop="datePublished">2018-09-03</time></div>
-        </div>
         
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2018/09/03/利用sklearn实现多分类demo (1)/">利用sklearn实现多分类实验demo</a>
-        </h1>
-    
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>本文主要介绍GA reader模型的基本思想，由论文《Gated-Attention Readers for Text Comprehension》提出，<a href="https://aclweb.org/anthology/P17-1168" target="_blank" rel="noopener">论文直通车</a></p>
+<h3 id="1-论文概述"><a href="#1-论文概述" class="headerlink" title="1 论文概述"></a>1 论文概述</h3><p>本篇论文的思想其实是很简单的，可以把其看成是AS reader模型的扩展，尽管模型简单，但是也取得了不错的成绩，也证明了乘法操作机制带来的效果显著。值得一提的是，论文中的相关工作部分，对之前的模型进行了分门别类的概述，这一点要比其他论文的相应部分丰富得多。</p>
+<h3 id="2-模型细节"><a href="#2-模型细节" class="headerlink" title="2 模型细节"></a>2 模型细节</h3><p>GA reader模型的整体架构如下图所示，看起来很多层有些复杂，其实单独拿粗来看就不复杂了。<br><img src="https://i.imgur.com/YJ7tEYL.png" alt="模型结构图"><br>总的来说可以分为四个模块：</p>
+<ul>
+<li>文本表示模块</li>
+<li>多层结构</li>
+<li>GA 模块</li>
+<li>答案预测模块</li>
+</ul>
+<p>下面就依次来介绍这些模块，不过都是介绍最基本的模型，不包括后面追加的特征。</p>
+<h4 id="（1）文本表示模块"><a href="#（1）文本表示模块" class="headerlink" title="（1）文本表示模块"></a>（1）文本表示模块</h4><p>文本表示是基础，这篇论文中对问题和文章的表示均采用文本表示法的模型一，即对文本中的单词序列逐一表示，而不是对问题或文章的整体语义信息进行表示。使用这种方法的模型较多，因为没有将所有信息都压缩在一个向量中，所以这样对问题或文章的语义信息保留得相对完整。将输入序列$X=[x_1 , x_2 , … , x_T ]$送入GRU，得到输出$H=[h_1 , h_2 , … , h_T]$，在这个模块中，本篇论文使用的是BiGRU来对文章和问题进行处理，所以对输出的前后向隐层状态进行拼接：</p>
+<script type="math/tex; mode=display">\overleftrightarrow{GRU}(X)=[h_1^f||h_T^b , ... , h_T^f|| h_1^b]</script><p>最后，使用$X^{(0)}=[x_1^{(0)},x_2^{(0)}, … , x_{|D|}^{(0)}]$表示文章序列，使用$Y^{(0)}=[y_1,y_2, … , y_{|Q|}]$表示问题序列。<br>文章表示序列中有个上标$(0)$，因为在这个模型中有很多层，添加上标为了区别于后面每层的文章表示。下面就介绍，不同层之间文章表示是怎么形成的。</p>
+<h4 id="（2）多层结构"><a href="#（2）多层结构" class="headerlink" title="（2）多层结构"></a>（2）多层结构</h4><p>在上一个模块中得到了文章序列和问题序列表示，在这一个模块中，使用两个不同的BiGRU分别对文章和问题进行处理：</p>
+<script type="math/tex; mode=display">D^{(k)}=\overleftrightarrow{GRU}_D^{(k)}(X^{(k-1)})</script><script type="math/tex; mode=display">Q^{(k)}=\overleftrightarrow{GRU}_Q^{(k)}(X)</script><p>这里的上标也是表示这是第几层的，接下来使用Gated-Attention来对这两个信息进行组合，作为下一层的输入：</p>
+<script type="math/tex; mode=display">X^{(k)}=GA(D^{(k)},Q^{(k)})</script><p>其中GA就是接下来要介绍的GA模块。</p>
+<h4 id="（3）GA模块"><a href="#（3）GA模块" class="headerlink" title="（3）GA模块"></a>（3）GA模块</h4><p>这个模块的思想也是很容易理解的，对于文章中的每一个单词$d_i$，后续操作可以分解成三个操作：</p>
+<ul>
+<li>计算问题中每个单词与这个给定单词之间的相关性：$\alpha _i=softmax(Q^T d_i)$</li>
+<li>对问题进行加权求和，得到特定于文章单词$d_i$的问题表示：$\widehat{q_i}=Qa_i$</li>
+<li>将特定的问题表示和这个文章单词做乘法操作：$x_i=d_i \odot \widehat{q_i}$</li>
+</ul>
+<h4 id="（4）答案预测模块"><a href="#（4）答案预测模块" class="headerlink" title="（4）答案预测模块"></a>（4）答案预测模块</h4><p>答案预测模块和AS reader模块的一样，主要有以下两个部分：</p>
+<script type="math/tex; mode=display">Pr(c|d,q) \propto \sum_{i \in I_(c,d)}(s_i)</script><p>其中，$I(c,d)$是单词c在文章d中出现位置的集合，最后概率最大的作为答案：</p>
+<script type="math/tex; mode=display">a^{\star}=argmax_{c \in C}Pr(c|d,q)</script>
+        </div>
+        <footer class="article-footer">
+            
 
-        <p class="article-excerpt">
-            常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。
-1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyplot as pltfrom itertools import cyclefrom sklearn import svm, datasetsfrom sklea
-        </p>
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
     </div>
 </article>
+
+    <section id="comments">
     
-        </div>
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
     
-
-
-    </div></section>
-
+    </section>
 
 
                         </div>
@@ -266,6 +291,19 @@ x_{i}\left( t + 1 \right) = f\left\lbrac
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/04/02/【论文笔记13】Attention-over-Attention Neural Networks for Reading Comprehension/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">【论文笔记13】Attention-over-Attention Neural Networks for Reading Comprehension</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -470,11 +508,13 @@ x_{i}\left( t + 1 \right) = f\left\lbrac
     var disqus_shortname = 'nlper';
     
     
+    var disqus_url = 'http://yoursite.com/2019/04/03/【论文笔记14】Gated-Attention Readers for Text Comprehension/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
