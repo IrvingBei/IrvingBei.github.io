@@ -6,17 +6,26 @@
     
 
     
-    <title>分类：: Classification | 一只NLPer</title>
+    <title>一种最原始的混沌神经元构造过程 | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="一只NLPer">
-<meta property="og:url" content="http://yoursite.com/categories/NLP/Classification/index.html">
+        <meta name="keywords" content="常见算法,搜索算法" />
+    
+    <meta name="description" content="Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。有如下从中文到英语的翻译：中文：1我 爱 学">
+<meta name="keywords" content="常见算法,搜索算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一种最原始的混沌神经元构造过程">
+<meta property="og:url" content="http://yoursite.com/2019/04/11/Beam search 算法的通俗理解/index.html">
 <meta property="og:site_name" content="一只NLPer">
+<meta property="og:description" content="Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。有如下从中文到英语的翻译：中文：1我 爱 学">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411204526407.jpg">
+<meta property="og:updated_time" content="2019-04-11T13:54:53.145Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一只NLPer">
+<meta name="twitter:title" content="一种最原始的混沌神经元构造过程">
+<meta name="twitter:description" content="Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。有如下从中文到英语的翻译：中文：1我 爱 学">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190411204526407.jpg">
     
 
     
@@ -129,75 +138,131 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>分类：: <em class="page-title-link">Classification</em>
+    <a class="page-title-link" href="/categories/NOTES/">NOTES</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-Beam search 算法的通俗理解" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2018" class="archive-year"><i class="icon fa fa-calendar-o"></i>2018</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2018/09/03/利用sklearn实现多分类demo (1)/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/iris.png)" alt="利用sklearn实现多分类实验demo" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://yoursite.com/2018/09/03/利用sklearn实现多分类demo (1)/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/NLP/">NLP</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/NLP/Classification/">Classification</a>
-            </div>
-            <div class="date"><time datetime="2018-09-03T11:42:12.000Z" itemprop="datePublished">2018-09-03</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2018/09/03/利用sklearn实现多分类demo (1)/">利用sklearn实现多分类实验demo</a>
+        一种最原始的混沌神经元构造过程
         </h1>
     
 
-        <p class="article-excerpt">
-            常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。
-1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyplot as pltfrom itertools import cyclefrom sklearn import svm, datasetsfrom sklea
-        </p>
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/04/11/Beam search 算法的通俗理解/" class="article-date">
+            <time datetime="2019-04-11T13:53:06.000Z" itemprop="datePublished">2019-04-11</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/常见算法/">常见算法</a>, <a class="tag-link" href="/tags/搜索算法/">搜索算法</a>
+    </div>
+
+				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。<br>在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。<br>有如下从中文到英语的翻译：<br>中文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我 爱 学习，学习 使 我 快乐</span><br></pre></td></tr></table></figure></p>
+<p>英语：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I love learning, learning makes me happy</span><br></pre></td></tr></table></figure>
+<p>在这个测试中，中文的词汇表是{我，爱，学习，使，快乐}，长度为5。英语的词汇表是{I, love, learning, make, me, happy}（全部转化为小写），长度为6。那么首先使用seq2seq中的编码器对中文序列（记这个中文序列为$X$）进行编码，得到语义向量$C$。<br><img src="https://img-blog.csdnimg.cn/20190411204526407.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="seq2seq"><br>得到语义向量$C$后，进入解码阶段，依次翻译成目标语言。在正式解码之前，有一个参数需要设置，那就是beam search中的beam size，这个参数就相当于top-k中的k，选择前k个最有可能的结果。在本例中，我们选择beam size=3。</p>
+<p>来看解码器的第一个输出$y_1$，在给定语义向量$C$的情况下，首先选择英语词汇表中最有可能k个单词，也就是依次选择条件概率$P(y_1|C)$前3大对应的单词，比如这里概率最大的前三个单词依次是$I$，$learning$，$happy$。</p>
+<p>接着生成第二个输出$y_2$，在这个时候我们得到了那些东西呢，首先我们得到了编码阶段的语义向量$C$，还有第一个输出$y_1$。此时有个问题，$y_1$有三个，怎么作为这一时刻的输入呢（解码阶段需要将前一时刻的输出作为当前时刻的输入），答案就是都试下，具体做法是：</p>
+<ul>
+<li>确定$I$为第一时刻的输出，将其作为第二时刻的输入，得到在已知$(C, I)$的条件下，各个单词作为该时刻输出的条件概率$P(y_2|C,I)$，有6个组合，每个组合的概率为$P(I|C)P(y_2|C, I)$。</li>
+<li>确定$learning$为第一时刻的输出，将其作为第二时刻的输入，得到该条件下，词汇表中各个单词作为该时刻输出的条件概率$P(y_2|C, learning)$，这里同样有6种组合；</li>
+<li>确定$happy$为第一时刻的输出，将其作为第二时刻的输入，得到该条件下各个单词作为输出的条件概率$P(y_2|C, happy)$，得到6种组合，概率的计算方式和前面一样。</li>
+</ul>
+<p>这样就得到了18个组合，每一种组合对应一个概率值$P(y_1|C)P(y_2|C, y_1)$，接着在这18个组合中选择概率值top3的那三种组合，假设得到$I love$，$I happy$，$learning make$。<br>接下来要做的重复这个过程，逐步生成单词，直到遇到结束标识符停止。最后得到概率最大的那个生成序列。其概率为：</p>
+<script type="math/tex; mode=display">P(Y|C)=P(y_1|C)P(y_2|C,y_1),...,P(y_6|C,y_1,y_2,y_3,y_4,y_5)</script><p>以上就是Beam search算法的思想，当beam size=1时，就变成了贪心算法。</p>
+<p>Beam search算法也有许多改进的地方，根据最后的概率公式可知，该算法倾向于选择最短的句子，因为在这个连乘操作中，每个因子都是小于1的数，因子越多，最后的概率就越小。解决这个问题的方式，最后的概率值除以这个生成序列的单词数（记生成序列的单词数为$N$），这样比较的就是每个单词的平均概率大小。<br>此外，连乘因子较多时，可能会超过浮点数的最小值，可以考虑取对数来缓解这个问题。</p>
+<p>参考文献：<br>吴恩达-《序列模型》课程</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
     </div>
 </article>
+
+    <section id="comments">
     
-        </div>
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
     
-
-
-    </div></section>
-
-
+    </section>
 
 
                         </div>
@@ -218,6 +283,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/04/03/【论文笔记14】Gated-Attention Readers for Text Comprehension/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">【论文笔记14】Gated-Attention Readers for Text Comprehension</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -422,11 +500,13 @@
     var disqus_shortname = 'nlper';
     
     
+    var disqus_url = 'http://yoursite.com/2019/04/11/Beam search 算法的通俗理解/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
