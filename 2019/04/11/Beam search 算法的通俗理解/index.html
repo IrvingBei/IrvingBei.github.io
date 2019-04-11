@@ -6,7 +6,7 @@
     
 
     
-    <title>一种最原始的混沌神经元构造过程 | 一只NLPer</title>
+    <title>Beam search 算法的通俗理解 | 一只NLPer</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -15,15 +15,15 @@
     <meta name="description" content="Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。有如下从中文到英语的翻译：中文：1我 爱 学">
 <meta name="keywords" content="常见算法,搜索算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一种最原始的混沌神经元构造过程">
+<meta property="og:title" content="Beam search 算法的通俗理解">
 <meta property="og:url" content="http://yoursite.com/2019/04/11/Beam search 算法的通俗理解/index.html">
 <meta property="og:site_name" content="一只NLPer">
 <meta property="og:description" content="Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。有如下从中文到英语的翻译：中文：1我 爱 学">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190411204526407.jpg">
-<meta property="og:updated_time" content="2019-04-11T13:54:53.145Z">
+<meta property="og:updated_time" content="2019-04-11T13:57:46.200Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一种最原始的混沌神经元构造过程">
+<meta name="twitter:title" content="Beam search 算法的通俗理解">
 <meta name="twitter:description" content="Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。有如下从中文到英语的翻译：中文：1我 爱 学">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190411204526407.jpg">
     
@@ -149,7 +149,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-        一种最原始的混沌神经元构造过程
+        Beam search 算法的通俗理解
         </h1>
     
 
@@ -315,7 +315,7 @@
                             <a href="/2019/04/11/Beam search 算法的通俗理解/" class="thumbnail">
     
     
-        <span style="background-image:url(https://img-blog.csdnimg.cn/20190411204526407.jpg)" alt="一种最原始的混沌神经元构造过程" class="thumbnail-image"></span>
+        <span style="background-image:url(https://img-blog.csdnimg.cn/20190411204526407.jpg)" alt="Beam search 算法的通俗理解" class="thumbnail-image"></span>
     
     
 </a>
@@ -324,7 +324,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/NOTES/">NOTES</a></p>
-                            <p class="item-title"><a href="/2019/04/11/Beam search 算法的通俗理解/" class="title">一种最原始的混沌神经元构造过程</a></p>
+                            <p class="item-title"><a href="/2019/04/11/Beam search 算法的通俗理解/" class="title">Beam search 算法的通俗理解</a></p>
                             <p class="item-date"><time datetime="2019-04-11T13:53:06.000Z" itemprop="datePublished">2019-04-11</time></p>
                         </div>
                     </li>
