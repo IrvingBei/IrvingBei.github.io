@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8" />
+
+    
+
+    
+    <title>300行python代码从零开始构建基于知识图谱的电影问答系统-目录 | 一只NLPer</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="知识图谱,问答系统" />
+    
+    <meta name="description" content="平时除了看论文还是看论文，感觉有点无聊，于是嘛就想着搞点东西来玩玩，然后就搞了一个非常简单的基于知识图谱的电影问答系统。系统是用python实现的，大概只花了1天吧，代码也仅有300多行，可以说是很容易上手了。然后在这里也简单的记录下整个搭建过程，梳理思路，给那些像我一样想玩玩的童鞋一些参考，大佬请自动跳过。  首先给来看看我们要实现的是什么东西，效果图如下：完成这个系统主要涉及到以下一些知识点">
+<meta name="keywords" content="知识图谱,问答系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="300行python代码从零开始构建基于知识图谱的电影问答系统-目录">
+<meta property="og:url" content="http://yoursite.com/2019/04/15/300行python代码从零开始构建基于知识图谱的电影问答系统-目录/index.html">
+<meta property="og:site_name" content="一只NLPer">
+<meta property="og:description" content="平时除了看论文还是看论文，感觉有点无聊，于是嘛就想着搞点东西来玩玩，然后就搞了一个非常简单的基于知识图谱的电影问答系统。系统是用python实现的，大概只花了1天吧，代码也仅有300多行，可以说是很容易上手了。然后在这里也简单的记录下整个搭建过程，梳理思路，给那些像我一样想玩玩的童鞋一些参考，大佬请自动跳过。  首先给来看看我们要实现的是什么东西，效果图如下：完成这个系统主要涉及到以下一些知识点">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/0.jpg">
+<meta property="og:updated_time" content="2019-06-18T12:31:32.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="300行python代码从零开始构建基于知识图谱的电影问答系统-目录">
+<meta name="twitter:description" content="平时除了看论文还是看论文，感觉有点无聊，于是嘛就想着搞点东西来玩玩，然后就搞了一个非常简单的基于知识图谱的电影问答系统。系统是用python实现的，大概只花了1天吧，代码也仅有300多行，可以说是很容易上手了。然后在这里也简单的记录下整个搭建过程，梳理思路，给那些像我一样想玩玩的童鞋一些参考，大佬请自动跳过。  首先给来看看我们要实现的是什么东西，效果图如下：完成这个系统主要涉及到以下一些知识点">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/0.jpg">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/image/icon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+    
+
+
+</head>
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">好好学习，天天被虐</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/">Experiment</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/C/">C++</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/PHP/">PHP</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/Python/">Python</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/Scrapy/">Scrapy</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Experiment/leetcode/">leetcode</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/">Kaggle</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/nlp/">nlp</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/">Material</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/DL/">DL</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Material/ML/">ML</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/">NLP</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/Classification/">Classification</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/MDCourse/">MDCourse</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/NLTK/">NLTK</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NLP/Text-similarity/">Text similarity</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/">NOTES</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Chaotic/">Chaotic</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Keras/">Keras</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Papers/">Papers</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Statistical/">Statistical</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/NOTES/Tensorflow/">Tensorflow</a></li></ul></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Experiment/">Experiment</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Experiment/Python/">Python</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-300行python代码从零开始构建基于知识图谱的电影问答系统-目录" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        300行python代码从零开始构建基于知识图谱的电影问答系统-目录
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/04/15/300行python代码从零开始构建基于知识图谱的电影问答系统-目录/" class="article-date">
+            <time datetime="2019-04-15T13:53:06.000Z" itemprop="datePublished">2019-04-15</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/知识图谱/">知识图谱</a>, <a class="tag-link" href="/tags/问答系统/">问答系统</a>
+    </div>
+
+				<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <blockquote>
+<p>平时除了看论文还是看论文，感觉有点无聊，于是嘛就想着搞点东西来玩玩，然后就搞了一个非常简单的基于知识图谱的电影问答系统。系统是用python实现的，大概只花了1天吧，代码也仅有300多行，可以说是很容易上手了。然后在这里也简单的记录下整个搭建过程，梳理思路，给那些像我一样想玩玩的童鞋一些参考，大佬请自动跳过。</p>
+</blockquote>
+<p>首先给来看看我们要实现的是什么东西，效果图如下：<br><img src="https://img-blog.csdnimg.cn/20190415192606960.gif" alt="demo"><br>完成这个系统主要涉及到以下一些知识点，其实知识点说不上，只需要对这些概念有印象即可，这个系统本来就是做着玩的，还不需要用那些复杂的东西。</p>
+<ul>
+<li>网络爬虫</li>
+<li>自然语言处理</li>
+<li>知识图谱</li>
+<li>图数据库</li>
+<li><p>机器学习</p>
+<p>看着这些点感觉内容挺多的，其实真正用到的只是一丢丢啦，比如说对于机器学习，其实我们就是用其中的一个分类器就可以了。这几部分我都写成了对应的处理类，代码也上传<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG" target="_blank" rel="noopener">github</a>了，想提前玩玩的可以去下载来试试<del>（要是能给我个star就更好了（我怎么也这么无耻的来要star了。。。。</del> </p>
+</li>
+</ul>
+<blockquote>
+<p>本系列教程除了目录只有4篇，或许这并不是一个很详细的教程，主要是想帮助大家对代码的理解，理清思路或者扰乱思路。在做试验的时候，我就是先理清思路再写的，这是一个不错的方法，由于这个教程不是很详细，大家有被我搅晕的地方，可以给我发邮件（irvingbei@qq.com<br>或者xiongzy@std.uestc.edu.cn），也可以去网上找找资料。</p>
+</blockquote>
+<p>接下来根据业务逻辑从以下几个问题入手来介绍整个构建过程：</p>
+<ul>
+<li><a href="https://blog.csdn.net/xyz1584172808/article/details/89336478" target="_blank" rel="noopener">系统的整体逻辑是怎么样的？（系统业务逻辑介绍）</a></li>
+<li><a href="https://blog.csdn.net/xyz1584172808/article/details/89891248" target="_blank" rel="noopener">需要做那些准备工作？（实验环境和实验数据准备）</a></li>
+<li><a href="https://blog.csdn.net/xyz1584172808/article/details/89914745" target="_blank" rel="noopener">接收到用户的问题后需要怎么处理用户问题？（用户问题预处理）</a></li>
+<li><a href="https://blog.csdn.net/xyz1584172808/article/details/89914745" target="_blank" rel="noopener">怎么识别用户到底问的啥？（用户问题分类）</a></li>
+<li><p><a href="https://blog.csdn.net/xyz1584172808/article/details/89947813" target="_blank" rel="noopener">如果根据用户问题来查找答案？（答案获取）</a></p>
+<p>对于这个系统的前端页面，是以前搞得一个基于信息检索的问答系统的界面，源代码见<a href="https://github.com/IrvingBei/chatbot_with_IR" target="_blank" rel="noopener">github</a></p>
+</li>
+</ul>
+<p>好啦，目录就这样吧，等后面把对应的部分写了就链接上。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/IrvingBei" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/04/16/我的搬砖工具（科研工具）推荐-附下载链接/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            我的搬砖工具（科研工具）推荐-附下载链接
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/04/11/Beam search 算法的通俗理解/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Beam search 算法的通俗理解</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/0.jpg)" alt="300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Experiment/">Experiment</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Experiment/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍/" class="title">300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍</a></p>
+                            <p class="item-date"><time datetime="2019-04-16T13:53:06.000Z" itemprop="datePublished">2019-04-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/0.jpg)" alt="300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Experiment/">Experiment</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Experiment/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理/" class="title">300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理</a></p>
+                            <p class="item-date"><time datetime="2019-04-16T13:53:06.000Z" itemprop="datePublished">2019-04-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/0.jpg)" alt="300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Experiment/">Experiment</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Experiment/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取/" class="title">300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取</a></p>
+                            <p class="item-date"><time datetime="2019-04-16T13:53:06.000Z" itemprop="datePublished">2019-04-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/0.jpg)" alt="300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Experiment/">Experiment</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Experiment/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备/" class="title">300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备</a></p>
+                            <p class="item-date"><time datetime="2019-04-16T13:53:06.000Z" itemprop="datePublished">2019-04-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/16/我的搬砖工具（科研工具）推荐-附下载链接/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/1.jpg)" alt="我的搬砖工具（科研工具）推荐-附下载链接" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Experiment/">Experiment</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Experiment/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2019/04/16/我的搬砖工具（科研工具）推荐-附下载链接/" class="title">我的搬砖工具（科研工具）推荐-附下载链接</a></p>
+                            <p class="item-date"><time datetime="2019-04-16T13:53:06.000Z" itemprop="datePublished">2019-04-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">8</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Keras/">Keras</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLTK基础教程/">NLTK基础教程</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tensorflow/">Tensorflow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scrapy/">scrapy</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分类指标/">分类指标</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动态注意力/">动态注意力</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实验教程/">实验教程</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常见算法/">常见算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索算法/">搜索算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本分类/">文本分类</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文本相似度/">文本相似度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器翻译/">机器翻译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深度学习/">深度学习</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/混沌神经网络/">混沌神经网络</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识图谱/">知识图谱</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自然语言处理/">自然语言处理</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/记忆网络/">记忆网络</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/论文笔记/">论文笔记</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/资料/">资料</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问答系统/">问答系统</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阅读理解/">阅读理解</a><span class="tag-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Kaggle/" style="font-size: 12.86px;">Kaggle</a> <a href="/tags/Keras/" style="font-size: 14.29px;">Keras</a> <a href="/tags/NLTK基础教程/" style="font-size: 12.86px;">NLTK基础教程</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Tensorflow/" style="font-size: 10px;">Tensorflow</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/python/" style="font-size: 14.29px;">python</a> <a href="/tags/scrapy/" style="font-size: 11.43px;">scrapy</a> <a href="/tags/分类指标/" style="font-size: 10px;">分类指标</a> <a href="/tags/动态注意力/" style="font-size: 10px;">动态注意力</a> <a href="/tags/实验教程/" style="font-size: 15.71px;">实验教程</a> <a href="/tags/常见算法/" style="font-size: 10px;">常见算法</a> <a href="/tags/搜索算法/" style="font-size: 10px;">搜索算法</a> <a href="/tags/文本分类/" style="font-size: 14.29px;">文本分类</a> <a href="/tags/文本相似度/" style="font-size: 10px;">文本相似度</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a> <a href="/tags/机器翻译/" style="font-size: 10px;">机器翻译</a> <a href="/tags/深度学习/" style="font-size: 14.29px;">深度学习</a> <a href="/tags/混沌神经网络/" style="font-size: 10px;">混沌神经网络</a> <a href="/tags/知识图谱/" style="font-size: 15.71px;">知识图谱</a> <a href="/tags/笔记/" style="font-size: 12.86px;">笔记</a> <a href="/tags/自然语言处理/" style="font-size: 17.14px;">自然语言处理</a> <a href="/tags/记忆网络/" style="font-size: 14.29px;">记忆网络</a> <a href="/tags/论文笔记/" style="font-size: 20px;">论文笔记</a> <a href="/tags/资料/" style="font-size: 12.86px;">资料</a> <a href="/tags/问答系统/" style="font-size: 15.71px;">问答系统</a> <a href="/tags/阅读理解/" style="font-size: 18.57px;">阅读理解</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://blog.csdn.net/xyz1584172808">CSDN</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://study.163.com/course/courseMain.htm?courseId=1005638005">Online Course</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 IrvingBei</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+				<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+				<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			</div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'nlper';
+    
+    
+    var disqus_url = 'http://yoursite.com/2019/04/15/300行python代码从零开始构建基于知识图谱的电影问答系统-目录/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
