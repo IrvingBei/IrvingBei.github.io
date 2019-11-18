@@ -388,6 +388,10 @@
 
 
 
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
 
                                 </div>
                             </div>
@@ -417,6 +421,10 @@
 
 
 
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
 
 
                         </div>
@@ -526,7 +534,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"Experiment","value":17},{"name":"Python","value":12},{"name":"Kaggle","value":3},{"name":"NOTES","value":23},{"name":"Material","value":4},{"name":"Scrapy","value":2},{"name":"nlp","value":3},{"name":"NLP","value":9},{"name":"leetcode","value":1},{"name":"Keras","value":4},{"name":"Papers","value":15},{"name":"DL","value":3},{"name":"ML","value":1},{"name":"Tensorflow","value":1},{"name":"Chaotic","value":1},{"name":"Statistical","value":1},{"name":"PHP","value":1},{"name":"C++","value":1},{"name":"NLTK","value":3},{"name":"Text similarity","value":1},{"name":"MDCourse","value":4},{"name":"Classification","value":1}],
+                data: [{"name":"Experiment","value":17},{"name":"Python","value":12},{"name":"Kaggle","value":3},{"name":"NOTES","value":23},{"name":"Material","value":4},{"name":"Scrapy","value":2},{"name":"nlp","value":3},{"name":"NLP","value":9},{"name":"Keras","value":4},{"name":"Statistical","value":1},{"name":"DL","value":3},{"name":"ML","value":1},{"name":"Tensorflow","value":1},{"name":"NLTK","value":3},{"name":"Text similarity","value":1},{"name":"MDCourse","value":4},{"name":"Papers","value":15},{"name":"leetcode","value":1},{"name":"PHP","value":1},{"name":"Classification","value":1},{"name":"C++","value":1},{"name":"Chaotic","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -550,7 +558,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["论文笔记","阅读理解","实验教程","自然语言处理","知识图谱","python","问答系统","深度学习","Keras","记忆网络"]
+                data: ["论文笔记","阅读理解","自然语言处理","实验教程","python","问答系统","知识图谱","Keras","深度学习","文本分类"]
             }
         ],
         yAxis: [
@@ -596,6 +604,47 @@
 
                 
 
+                
+                
+<div id="myGallery" class="my-gallery">
+    <div class="title center-align" data-aos="zoom-in-up">
+        <i class="far fa-image"></i>&nbsp;&nbsp;相册
+    </div>
+    <div class="row">
+        
+        
+        <div class="photo col s12 m6 l4" data-aos="fade-up">
+            <div class="img-item" data-src="/medias/featureimages/0.jpg">
+                <img src="/medias/featureimages/0.jpg" class="responsive-img">
+            </div>
+        </div>
+        
+        <div class="photo col s12 m6 l4" data-aos="fade-up">
+            <div class="img-item" data-src="/medias/featureimages/1.jpg">
+                <img src="/medias/featureimages/1.jpg" class="responsive-img">
+            </div>
+        </div>
+        
+        <div class="photo col s12 m6 l4" data-aos="fade-up">
+            <div class="img-item" data-src="/medias/featureimages/2.jpg">
+                <img src="/medias/featureimages/2.jpg" class="responsive-img">
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+<script>
+    $(function () {
+        let animateClass = 'animated pulse';
+        $('#myGallery .photo').hover(function () {
+            $(this).addClass(animateClass);
+        }, function () {
+            $(this).removeClass(animateClass);
+        });
+    });
+</script>
                 
 
             </div>
@@ -701,6 +750,10 @@
 
 
 
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
 
 </div>
     </div>
