@@ -1,0 +1,1016 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="keywords" content="tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）, 山不过来，我就过去">
+    <meta name="description" content="
+注：由于tensorflow版本的不同，这个函数所在的模块可能不同，如：tf.nn.seq2seq.sequence_loss_by_example和tf.contrib.legacy_seq2seq.sequence_loss_by_e">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子） | 山不过来，我就过去</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</head>
+
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">山不过来，我就过去</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">山不过来，我就过去</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Tensorflow/">
+                                <span class="chip bg-color">Tensorflow</span>
+                            </a>
+                        
+                            <a href="/tags/笔记/">
+                                <span class="chip bg-color">笔记</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/NOTES/" class="post-category">
+                                NOTES
+                            </a>
+                        
+                            <a href="/categories/NOTES/Tensorflow/" class="post-category">
+                                Tensorflow
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-10-15
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    7 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p>注：由于tensorflow版本的不同，这个函数所在的模块可能不同，如：tf.nn.seq2seq.sequence_loss_by_example和tf.contrib.legacy_seq2seq.sequence_loss_by_example</p>
+</blockquote>
+<p>在正式进入sequence_loss_by_example（）函数的计算过程之前，需要先复习下两个基本的知识点，softmax的计算和交叉熵的计算。</p>
+<h3 id="1-softmax的计算过程"><a href="#1-softmax的计算过程" class="headerlink" title="1  softmax的计算过程"></a>1  softmax的计算过程</h3><p>可以直接网上已经写好的博客：<a href="https://blog.csdn.net/red_stone1/article/details/80687921" target="_blank" rel="noopener">三分钟带你对 Softmax 划重点</a>，这篇文章中有举具体的例子，最好自己动手算一下，不自己动手计算，往往看了就忘了。</p>
+<h3 id="2-交叉熵的计算过程"><a href="#2-交叉熵的计算过程" class="headerlink" title="2  交叉熵的计算过程"></a>2  交叉熵的计算过程</h3><p>交叉熵网上的文章也很多，<a href="https://blog.csdn.net/tsyccnh/article/details/79163834" target="_blank" rel="noopener">一文搞懂交叉熵在机器学习中的使用，透彻理解交叉熵背后的直觉</a>这篇文章讲得非常详细，还举了各种例子。</p>
+<p>以上复习了softmax和交叉熵的计算过程，为啥要使用softmax和交叉熵，可以自行网上搜搜。接下来就进入sequence_loss_by_example（）函数的计算过程。</p>
+<h3 id="3-sequence-loss-by-example（）函数的计算过程（以TF的ptb构建语言模型例子为例）"><a href="#3-sequence-loss-by-example（）函数的计算过程（以TF的ptb构建语言模型例子为例）" class="headerlink" title="3  sequence_loss_by_example（）函数的计算过程（以TF的ptb构建语言模型例子为例）"></a>3  sequence_loss_by_example（）函数的计算过程（以TF的ptb构建语言模型例子为例）</h3><blockquote>
+<p>注：例子中的batch_size=20，num_steps=20，为了更直观的查看各个数据的维度，我将num_steps改为了15.（因为本例是通过上一个词预测下一个词，其实num_steps改为多少并没有影响）。</p>
+</blockquote>
+<h4 id="（1）LSTM的输出"><a href="#（1）LSTM的输出" class="headerlink" title="（1）LSTM的输出"></a>（1）LSTM的输出</h4><p>LSTM的隐藏层的单元个数为200，因此，LSTM每一步的输出数据的维度为（batch_size,hidden_size）。有因为LSTM展开的时间步数为num_steps，于是通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">outputs.append(cell_output)</span><br></pre></td></tr></table></figure></p>
+<p>将每一时刻的输出都收集起来，这样，最后的outputs是一个list，其样式为：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/1.png" alt="LSTM的全部输出"><br>图中黄色的部分表示同一个序列在LSTM不同时刻的输出。<br>紧接着对outputs进行拼接和reshape，其过程如下图：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/2.png" alt="拼接输出"><br>将每一时刻的输出在第1维上拼接（上图），这样每一行就完整的表示了一个序列。reshape后的结构如下图：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/3.png" alt="outputs的reshape结果"><br>其中每一种颜色表示一个序列，同一种颜色中的各个块表示这个序列的不同时刻。<br>以上就是LSTM的输出，并对其适当变形。接下来通过一个全连接层，将每一时刻的输出映射成字典大小。</p>
+<h4 id="（2）通过全连接层"><a href="#（2）通过全连接层" class="headerlink" title="（2）通过全连接层"></a>（2）通过全连接层</h4><p>这部分就是常见的y=wx+b的构造形式，通过以下代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">softmax_w = tf.get_variable( &quot;softmax_w&quot;, [size, vocab_size], dtype=tf.float32)</span><br><span class="line">softmax_b = tf.get_variable(&quot;softmax_b&quot;, [vocab_size], dtype=tf.float32)</span><br><span class="line"> # 网络的最后输出(相当于最后添加了一个全连接层)</span><br><span class="line">logits = tf.matmul(output, softmax_w) + softmax_b   # logits shape:batch_size*num_step,vocab_size</span><br></pre></td></tr></table></figure></p>
+<p>通过全连接层后，得到logits，其维度为（batch_size<em>num_step,vocab_size），在本例中就是300</em>10000（本例的词汇表大小是10000）。</p>
+<h4 id="（3）执行tf-contrib-legacy-seq2seq-sequence-loss-by-example函数"><a href="#（3）执行tf-contrib-legacy-seq2seq-sequence-loss-by-example函数" class="headerlink" title="（3）执行tf.contrib.legacy_seq2seq.sequence_loss_by_example函数"></a>（3）执行tf.contrib.legacy_seq2seq.sequence_loss_by_example函数</h4><p>关于这个函数的定义，解释之类的，可以参考<a href="https://blog.csdn.net/appleml/article/details/54017873" target="_blank" rel="noopener">这个解释</a>，小例子可以参考<a href="https://blog.csdn.net/UESTC_C2_403/article/details/72792889" target="_blank" rel="noopener">这个</a>。前一篇博客的解释看得有些稀里糊涂的，后面就找了后面那个例子来跑跑，但是这两个都没有讲清楚内部是怎么计算的，后面我又参考了tensorflow的<a href="https://blog.csdn.net/u012436149/article/details/52874718" target="_blank" rel="noopener">损失函数源代码</a>，找到这个函数，可以看到这个函数在内部调用的是sparse_softmax_cross_entropy_with_logits()函数，好嘛，接下来就一步一步的来看整个计算过程。<br><strong>首先</strong>来看输入的数据： logits和targets</p>
+<ul>
+<li>logits数据的格式在前面已经介绍了，为（300<em>10000）的矩阵，300为num_steps</em>batch_size得到，10000为词汇表大小，这个数据表示的意思是：每一行表示一个时刻（对应一个预测的单词），每num_steps行对应一个序列，一共有batch_size个num_steps行（因为这是一个batch大小的数据）。</li>
+<li>输出targets的维度可以看到其形状为（batch_size,num_steps）（即20<em>15），表示的意思是，一个batch中有20条数据，而每一条数据有15个时间步，一个时间步对应一个单词。为了让预测的单词的顺序和targets中真实单词的顺序对应上，于是将targets的维度变成了（300，）（即：20</em>15），这样一个元素对应logits中的一行，每15个数据就表示一个序列。</li>
+</ul>
+<p><strong>接下来</strong>，就将上面的输入以及权重w（通常设置为1）传入sequence_loss_by_example函数。下面是这个函数的实现代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def sequence_loss_by_example(logits, targets, weights,</span><br><span class="line">                             average_across_timesteps=True,</span><br><span class="line">                             softmax_loss_function=None, name=None):</span><br><span class="line">#logits: List of 2D Tensors of shape [batch_size x num_decoder_symbols].</span><br><span class="line">#targets: List of 1D batch-sized int32 Tensors of the same length as logits.</span><br><span class="line">#weights: List of 1D batch-sized float-Tensors of the same length as logits.</span><br><span class="line">#return:log_pers 形状是 [batch_size].</span><br><span class="line">   for logit, target, weight in zip(logits, targets, weights):</span><br><span class="line">      if softmax_loss_function is None:</span><br><span class="line">        # TODO(irving,ebrevdo): This reshape is needed because</span><br><span class="line">        # sequence_loss_by_example is called with scalars sometimes, which</span><br><span class="line">        # violates our general scalar strictness policy.</span><br><span class="line">        target = array_ops.reshape(target, [-1])</span><br><span class="line">        crossent = nn_ops.sparse_softmax_cross_entropy_with_logits(</span><br><span class="line">            logit, target)</span><br><span class="line">      else:</span><br><span class="line">        crossent = softmax_loss_function(logit, target)</span><br><span class="line">      log_perp_list.append(crossent * weight)</span><br><span class="line">    log_perps = math_ops.add_n(log_perp_list)</span><br><span class="line">    if average_across_timesteps:</span><br><span class="line">      total_size = math_ops.add_n(weights) </span><br><span class="line">      total_size += 1e-12  # Just to avoid division by 0 for all-0 weights.</span><br><span class="line">      log_perps /= total_size</span><br><span class="line">  return log_perps</span><br></pre></td></tr></table></figure>
+<p>可以看到函数内部主要是调用sparse_softmax_cross_entropy_with_logits函数，然后再加权平均后返回。<br>那么这个sparse_softmax_cross_entropy_with_logits函数是怎么计算的呢？这里有个<a href="https://blog.csdn.net/u012193416/article/details/77918732" target="_blank" rel="noopener">小例子</a>，可以看到他是将softmax和cross_entropy放在一起计算，这里就涉及到文章开头所复习得softmax和交叉熵的计算过程了。<br><strong>于是</strong>，我们知道了，针对于一个logits元素和一个targets元素，比如这个例子中取logits[0]，其维度为（10000，），targets[0]，它就是单独的一个整型的数，表示单词在词汇表中的id号。<strong>先计算logits[0]中各个元素的相对概率（即计算softmax），然后利用交叉熵公式计算预测值和真实值之间的交叉熵。</strong></p>
+<blockquote>
+<p>这个函数直接使用标签数据的，而不是采用one-hot编码形式（另一个函数softmax_cross_entropy_with_logits必须是one-hot形式的数据，具体见<a href="https://blog.csdn.net/zchang81/article/details/70225220" target="_blank" rel="noopener">softmax_cross_entropy_with_logits函数详解</a>）</p>
+</blockquote>
+<p>为了验证这个计算过程，我将这个例子中的logits[0]，targets[0]以及通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">loss = tf.contrib.legacy_seq2seq.sequence_loss_by_example(    # 这个函数先求解softmax，再求解交叉熵</span><br><span class="line">        [logits],</span><br><span class="line">        [tf.reshape(input_.targets, [-1])],</span><br><span class="line">        [tf.ones([batch_size * num_steps], dtype=tf.float32)])</span><br></pre></td></tr></table></figure>
+<p>得到的loss（这里取loss[0]）取出，单独通过tf.nn.softmax以及交叉熵公式来依存计算这个过程。<br>首先来看下通过例子源代码取出的数据情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">logits shape:</span><br><span class="line">(10000,)</span><br><span class="line">logits value:</span><br><span class="line">[ 7.8470936   8.238499    8.979608   ... -0.73421586 -0.913356</span><br><span class="line"> -0.7552418 ]</span><br><span class="line">target value:</span><br><span class="line">9971</span><br><span class="line">loss value:</span><br><span class="line">11.060587</span><br></pre></td></tr></table></figure>
+<p>自己计算的代码为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line"># 将单词id转化为one-hot模式</span><br><span class="line">target=list([0]*10000)</span><br><span class="line">target[9971]=1</span><br><span class="line">target=np.array(target)</span><br><span class="line"># 转化为张量</span><br><span class="line">logits=tf.convert_to_tensor(r[&apos;logits&apos;],dtype=float)</span><br><span class="line">y_=tf.convert_to_tensor(target,dtype=float)</span><br><span class="line"></span><br><span class="line"># 法1，分开计算----------------------------------------------------</span><br><span class="line"># 计算softmax</span><br><span class="line">y=tf.nn.softmax(logits)</span><br><span class="line"># 计算交叉熵</span><br><span class="line">cross_entropy=-tf.reduce_sum(y_*tf.log(y))</span><br><span class="line"># 法2，调用函数计算-------------------------------------------------</span><br><span class="line"># 调用函数计算</span><br><span class="line">cross_entropy2=tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=logits,labels=y_))</span><br><span class="line"></span><br><span class="line">with tf.Session() as sess:</span><br><span class="line">    softmax=sess.run(y)</span><br><span class="line">    c_e=sess.run(cross_entropy)</span><br><span class="line">    c_e2=sess.run(cross_entropy2)</span><br><span class="line">    print(&quot;softmax:\n&quot;,softmax)</span><br><span class="line">    print(&quot;cross_entropy:\n&quot;,c_e)</span><br><span class="line">    print(&quot;function:\n&quot;,c_e2)</span><br></pre></td></tr></table></figure>
+<p>运行结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">softmax:</span><br><span class="line"> [5.8356632e-02 8.6312823e-02 1.8110682e-01 ... 1.0946491e-05 9.1511438e-06</span><br><span class="line"> 1.0718737e-05]</span><br><span class="line">cross_entropy:</span><br><span class="line"> 11.060587</span><br><span class="line">function:</span><br><span class="line"> 11.060587</span><br></pre></td></tr></table></figure>
+<p>可以看到，不管是分开计算还是调用函数计算，其结果和例子源代码中得到的结果相同。这就是sparse_softmax_cross_entropy_with_logits函数的计算过程，tf.contrib.legacy_seq2seq.sequence_loss_by_example函数的计算过程就是在其内部的每个时间步中调用sparse_softmax_cross_entropy_with_logits函数即可。</p>
+<h3 id="4-小结"><a href="#4-小结" class="headerlink" title="4  小结"></a>4  小结</h3><p>本文通过tensorflow官方提供的基于LSTM的语言模型ptb_word_lm.py例子中的部分代码，对tf.contrib.legacy_seq2seq.sequence_loss_by_example函数的计算过程进行了简单的介绍，这其中的理论知识可以查看前文中链接到的哪些博文，这里只是纯介绍计算过程，因为这也是我最近遇到的问题。我也不知道有没有错，如果文中有写错或者理解错误的地方，请大家及时联系我纠正，谢谢！</p>
+<h3 id="参考文献（时间仓促，就没单独整理了）"><a href="#参考文献（时间仓促，就没单独整理了）" class="headerlink" title="参考文献（时间仓促，就没单独整理了）"></a>参考文献（时间仓促，就没单独整理了）</h3><p>【1】前文提到的所有链接<br>【2】tensorflow官方文档以及官方代码</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com" rel="external nofollow noreferrer">IrvingBei</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com/2018/10/15/tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）/">http://bei.dreamcykj.com/2018/10/15/tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Tensorflow/">
+                                    <span class="chip bg-color">Tensorflow</span>
+                                </a>
+                            
+                                <a href="/tags/笔记/">
+                                    <span class="chip bg-color">笔记</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/10/22/【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for RC/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension">
+                        
+                        <span class="card-title">【论文笔记04】TriviaQA_A Large Scale Distantly Supervised Challenge Dataset for Reading Comprehension</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1  论文主要内容
+本文是一篇资源论文，主要发布了用于检索式问答或阅读理解的数据集Trivia QA；
+对该数据集的质量和数量进行了分析，并创建了baseline，用于具体评估数据集的质量。
+
+2  Trivia QA数据集的特点
+问题比较
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-10-22
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/NOTES/" class="post-category">
+                                    NOTES
+                                </a>
+                            
+                            <a href="/categories/NOTES/Papers/" class="post-category">
+                                    Papers
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/论文笔记/">
+                        <span class="chip bg-color">论文笔记</span>
+                    </a>
+                    
+                    <a href="/tags/阅读理解/">
+                        <span class="chip bg-color">阅读理解</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension">
+                        
+                        <span class="card-title">【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1  问题及数据集1.1  问题本论文主要解决一种面向Cloze-style（填空式）的阅读理解（问答）问题
+1.2  数据集（1）CNN&amp;Daily Mail（2）SQuAD（3）Graph Reachability datase
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-10-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/NOTES/" class="post-category">
+                                    NOTES
+                                </a>
+                            
+                            <a href="/categories/NOTES/Papers/" class="post-category">
+                                    Papers
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/论文笔记/">
+                        <span class="chip bg-color">论文笔记</span>
+                    </a>
+                    
+                    <a href="/tags/阅读理解/">
+                        <span class="chip bg-color">阅读理解</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 山不过来，我就过去<br />'
+            + '文章作者: IrvingBei<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2017";
+                    var startMonth = "09";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/IrvingBei" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:irvingbei@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+    
+
+</body>
+
+</html>

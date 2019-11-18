@@ -1,0 +1,983 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="keywords" content="【论文翻译01】How Much Reading Does Reading Comprehension Require？, 山不过来，我就过去">
+    <meta name="description" content="0 Abstract最近的许多论文都涉及到阅读理解，他们一般都包括（问题，段落，答案）元组。或许，一个模型必须综合问题和段落两者的信息来预测相应的答案。然而，尽管人们对这个话题产生了浓厚的兴趣，数百篇已发表的论文争夺排行榜的主导地位，但关于">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>【论文翻译01】How Much Reading Does Reading Comprehension Require？ | 山不过来，我就过去</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</head>
+
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">山不过来，我就过去</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">山不过来，我就过去</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        【论文翻译01】How Much Reading Does Reading Comprehension Require？
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/自然语言处理/">
+                                <span class="chip bg-color">自然语言处理</span>
+                            </a>
+                        
+                            <a href="/tags/阅读理解/">
+                                <span class="chip bg-color">阅读理解</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/NOTES/" class="post-category">
+                                NOTES
+                            </a>
+                        
+                            <a href="/categories/NOTES/Papers/" class="post-category">
+                                Papers
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-10-04
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    15 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="0-Abstract"><a href="#0-Abstract" class="headerlink" title="0 Abstract"></a>0 Abstract</h3><p>最近的许多论文都涉及到阅读理解，他们一般都包括（问题，段落，答案）元组。或许，一个模型必须综合问题和段落两者的信息来预测相应的答案。然而，尽管人们对这个话题产生了浓厚的兴趣，数百篇已发表的论文争夺排行榜的主导地位，但关于许多流行基准测试难度的基本问题仍未得到解答。在这篇论文中，我们为bAbI、SQuAD、CBT、CNN和Who-did-What的数据集建立了合理的基线，发现只考虑问题和只考虑段落的模型通常表现得出奇的好。在20个bAbI任务的14个中，只考虑文章的模型都能达到超过50%的准确率，有时能够达到完整模型的性能。有趣的是，尽管CBT提供了20个句子的故事，但只有最后一句是相对准确的预测所需要的。通过比较，SQuAD和CNN看起来更有实力。</p>
+<h3 id="1-Intoduction"><a href="#1-Intoduction" class="headerlink" title="1 Intoduction"></a>1 Intoduction</h3><p>目前，研究人员们提出了各种各样的端到端深度学习算法，以推动各种基准测试，阅读理解（RC）已经成为一项受欢迎的任务。以Hermann(2015);Onishi（2016）等人为代表的，不像之前的工作那样从一般的结构知识中处理问题答案。阅读理解需要从一个给定的无结构化的文章（段落）中抽取信息。不难想象，这样的系统该是何等的有用。与一般的文本摘要相比，阅读理解系统可以回答关于特定文档有目的性的问题，有效地提取事实和见解。<br>尽管多年来已经提出了许多阅读理解数据集（Hirschman 1999;Breck 2001;Penas 2011; Penas 2012;Sutcliffe 2013;Richardson 2013;Berant 2014;），最近，人们提出了更大的数据集，以适应深度学习的数据强度。这些语料库的来源和规模以及他们如何处理预测问题都不相同，这些问题主要有分类问题、跨度选择、句子检索或者开放式答案生成。研究人员在这些基准上稳步推进，提出了无数的神经网络架构，旨在利用问题和段落来产生答案。<br>在这篇论文中，我们认为，在经验基准的快速发展中，关键的步骤有时会被跳过。特别是，我们证明了其中一些任务的难度等级很低。例如，对于许多阅读理解数据集，无论是在介绍数据集的论文中，还是在那些提出模型的论文中，都没有给出在忽略问题或文章的情况下的表现如何。在其他数据集里，尽管文章可能包含了许多行文本，但也不清楚到底需要多少文本信息来回答这个问题。比如，答案可能总是出现在第一句或者最后一句。<br>我们对几个流行的阅读理解数据集和模型进行了介绍，并对它们的性能在只提供问题或只提供段落的情况下进行了分析。我们还展示了在许多任务中，在提供问题和段落的情况下。获得的结果出奇的好，超过了许多基线，有时甚至超过了相同的模型。<br>我们注意到类似的问题在Goyal的视觉问答和 Gururangan、 Poliak、Glockner的自然语言推理中显示出来。其他几篇论文也讨论了各种阅读理解基准测试的不足。我们将在下面介绍相应的数据集的段落中讨论这些研究。</p>
+<h3 id="2-Datasets"><a href="#2-Datasets" class="headerlink" title="2 Datasets"></a>2 Datasets</h3><p>在下面的这部分中，我们将提供我们所调查的每个数据集的上下文，然后描述破坏数据的过程，这个数据是我们的只考虑问题和只考虑段落的实验所要求的数据。<br><strong>CBT</strong> Hill（2016）通过使用儿童书籍中的文章。准备了一个cloze-style（填空式）阅读理解数据集。在他们的数据集中，每一篇文章包含了20个连续的句子，每个问题都是删除了一个单词的第21句。这个缺失的单词背当做答案。数据集被分为四类答案：命名实体，普通名词，动词和介词。训练语料包含了37000条数据，每个问题和10个答案对应，这些答案的词性和正确答案的词性相匹配。作者建立了基于lstm/词嵌入的只有问题的基线系统，但是没有展示他们使用只考虑问题或只考虑段落信息的最佳模型获得的结果。<br><strong>CNN</strong> Hermann（2015）介绍了包含超过100万篇新闻文章，每一篇都有几个突出的句子。此外，他们还为填空式的数据集做准备，他们从一个突出句子（问题）中删除了一个实体（答案）。他们将所有实体匿名化，以确保模型依赖于文章中包含的信息，而不是通过例子来记忆给定实体的特征而忽略了文章。平均而言，文章包含26个实体，包括了全部可能的候选答案。Chen（2016）分析了CNN和Daily Mail任务的困难。他们为每个实体e（e在问题中出现，在文章中出现等等）手工设计了8个特性的集合，这展示了这个简单的分类器比许多早期的深度学习结果要好。<br><strong>Who-did-What</strong> Onishi（2016）摘录了成对的新闻文章，每对都指向相同的事件。采用了填空式的方式，他们从一篇文章的第一句话（问题）中删除了一个人的名字（答案）。模型必须根据问题和这一对中的其他文章（段落）来预测答案。与CNN不同，Who-did-What不将实体匿名化。平均而言，每个问题和3.5个答案对应。作者从他们的数据集中删除了几个问题，以阻止一些简单的策略，比如总是预测在文章中出现最多（或第一次）的名字。<br><strong>bAbI</strong> Weston（2016）提出了20个任务的集合，帮助研究人员识别和纠正他们的阅读理解系统的缺陷。与目前为止所讨论的数据集不同，这个任务中的问题不是填空式的，而是使用模板合生的。这限制了文章中出现短语的多样性，此外，这还将数据集词汇限制为150个单词，相比之下，CNN数据集的词汇量接近12万字。具有自适应记忆、ngrams语言模型和非线性匹配的记忆网络，在20个bAbI任务中的12个中得到了百分百的准确率。我们注意到Lee等人（2016）先前指出，bAbI的任务可能无法达到作为“AI完全问答”的一种衡量标准，提出了基于==张量积表示==的两种模型，这些模型在许多bAbI任务中达到了百分之百的精度。<br><strong>SQuAD</strong> 最近，Rajpurkar等人发布了斯坦福问答数据集，这个数据集包含了10多万个众包问题，涉及536篇文章。每个问题都与从一篇文章中提取的段落相关联。这些段落比CNN和Who-did-What数据集中的段落更短。模型通过从这些段落中选择（可变长度的）答案。<br><strong>Generating Corrupt Data</strong> 为了使问题或段落中的某些信息无效，但同时使每个架构保持完整，我们通过随机分配问题或者随机化段落，保留段落和答案之间的对应关系，来创建每个数据集的损坏版本。对于那些需要从文章中选择范围或候选答案的问答任务，我们创建的段落包含了随机位置的候选答案，但除此之外，还有一些随机的胡言乱语。</p>
+<h3 id="3-Models"><a href="#3-Models" class="headerlink" title="3 Models"></a>3 Models</h3><p>在我们对各种阅读理解基线测试的调查中，我们依赖于以下三个最近提出的模型：key-value memory networks、gated attention readers和QA nets。尽管篇幅的限制阻碍了对每一个结构的全面讨论，但我们提供了对源文件的引用，并简要讨论了复现我们结果所必需的任何实现决策。<br><strong>Key-Value Memory Networks</strong> 我们实现了一个Key-Value Memory Networks（KV-MemNet）（2016），并将它运用在bAbI和CBT两个数据集上。KV-MemNets是基于Memory Networks(Sukhbaatar 2015)，在两个数据集上都表现良好。对于bAbI任务，键和值以及段落都被编码成词带模型。对于CBT任务，键是对候选答案周围5个单词窗口进行词带编码，值就是候选答案本身。我们将跳跃的数量固定到3，词嵌入大小调整为128。<br><strong>Gated Attention Reader</strong>由Dhingra（2017）引入，Gated Attention Reader 像MemNets一样在段落中执行多个跳跃，单词表示在每一跳上都有改进，并被一个注意力集中模块映射到最后一跳的候选答案集上的概率分布。该模型几乎抵得上许多填空式的阅读理解数据集上的最佳报告结果，因此我们将它运用到Who-did-What,CNN,CBT-NE和CBT-CN。<br><strong>QA Net</strong>最近由Yu等人引入。最近，QA-Net在SQuAD数据集上的表现优于所有以前的模型。段落和问题被作为输入给独立的编码器，这些编码器包括深度可分的卷积和全局自注意力机制。接下来是一个段落-问题的注意力层，然后是堆叠的编码器。这些编码器的输出被用来预测段落内的答案范围。</p>
+<h3 id="4-Experimental-Results"><a href="#4-Experimental-Results" class="headerlink" title="4 Experimental Results"></a>4 Experimental Results</h3><p><strong>bAbI tasks</strong> 表1展示了在bAbI任务中，取消在问题或段落中出现的信息后，Key-Value Memory Network所获得的结果。在任务2,7,13和20中，只有段落的模型在随机分配的问题中获得超过80%的准确率。此外，在任务3,13,16和20中，只有段落的模型与在全数据集上训练的模型的性能相当。在任务18中，只有问题的模型的准确率达到了91%，几乎与全模型所取得的93%的最佳性能相当。这些结果表明，一些bAbI的任务比人们想象的要容易。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/rp1.png" alt="表1"><br><strong>Children’s Books Test</strong> 在NE和CN CBT任务中，只有问题的模型在KV-MemNets上获得的精度接近于完全准确，在动词（V）和介词（P）任务中，只有问题的模型优于完整的模型（表2）。只有问题的模型在Gated attention readers上的命名实体（NE）和普通名词（CN）任务分别达到了50.6%和54%的准确率，而只有段落模型的精确度分别为40.8%和36.7%。我们注意到，在Hill等人（2016）的NE任务中报道的19个结果中，我们使用问题模型信息的结果可以超过16个。表3显示，如果我们只使用最后一句话而不是使用文章中的全部20句话，我们基于KV-MemNet的句子记忆实现了比在大多数子任务上的完整模型更好或相当的性能。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/rp2.png" alt="表2"><br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/rp3.png" alt="表3"><br><strong>CNN</strong> 表格2展示了Gated Attention Reader在CNN数据集上的性能。只有问题模型和只有段落模型分别获得了25.6%和38.3%的精确度，而真正的数据集则是77.8%。这种精确性的下降可能是由于实体的匿名化，这些匿名化的实体阻止了模型构建实体的特定信息。尽管Chen等人提出了其缺陷，我们发现，对于CNN和我们评估的所有填空式的阅读理解数据集，似乎都是最精心设计的。<br><strong>Who-did-What</strong> 在严格和放松的环境下，只有段落的模型能达到超过50%的准确率，在严格的环境中达到完全模型的15%。只有问题的模型在放松环境中也达到了50%的准确率，同时在严格的环境中达到了41.8%的准确率。我们的只有段落的模型也比Onishi等人（2016）报告的所有被抑制的基线和5个额外基线的性能都要高。我们怀疑这些模型会记住特定实体的属性，从而证明赫尔曼等人（2015）使用的实体匿名化来构建CNN数据集。<br><strong>SQuAD</strong> 我们的研究结果表明，SQuAD是一项异常精心设计和具有挑战性的阅读理解任务。答案的范围选择模式要求模型考虑段落，因此Q-only在QANet上展现出了糟糕性能（表4)。由于SQuAD需要通过范围选择来回答，所以我们在这里构造只有问题模型的变体：通过随机排列所有相关问题的答案，用随机的单词填满空白。此外，Q-only型和P-only模型的F1得分分别仅为4%和14.8%（表4），明显低于正常任务的79.1。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/rp4.png" alt="表4"></p>
+<h3 id="5-Discussion"><a href="#5-Discussion" class="headerlink" title="5 Discussion"></a>5 Discussion</h3><p>我们简要地讨论了我们的发现，为评估新的基准和算法提供了一些指导原则，并推测为什么有些问题可能已经被忽视了。我们的目标不是责怪过去数据集的创造者，而是为未来的研究人员通过提供实用的指导来支持社区。<br><strong>Provide rigorous RC baselines</strong> 公开的阅读理解数据集应该包含合理的基线，以描述任务的难度，特别是问题和段落的重要性。此外，改进的后续报告应该展示在全部任务和不涉及问题和段落的变化方面的表现。尽管许多技术创新据说是通过更好地匹配问题和段落中的信息来工作的，但如果没有这些基线，人们就无法判断结果是否来自于声称的原因，或者模型是否能更好地完成段落分类工作（不考虑问题）。<br><strong>Test that full context is essential</strong> 即使在需要问题和段落的任务中，问题也可能比实际情况更困难。乍一看，CBT中长度为20的段落，可能表明需要对所有20句话进行推理，以确定每个问题的正确答案。然而，事实证明，对于某些模型，可以通过只考虑最后一句话来达到类似的性能。我们建议研究人员提供合理的==消融==，以描述每个模型真正需要的上下文的数量。<br><strong>Caution with cloze-style RC datasets</strong> 我们注意到，填空式数据集通常是由编程的方式创建的。因此，可以将数据集生成、发布和合并到许多下游研究中，而这些研究都没有人工检查数据的时间。我们推测，结果是这些数据集往往不太考虑回答这些问题所涉及的内容因此特别容易受到我们研究中所描述的那些被忽视的弱点影响。<br><strong>A note on publishing incentives</strong> 我们担心推荐的实验严密性可能会与当前的公开激励措施相违背。我们推测，引入数据集的论文，通过省略不愉快的数据消融，而不是把它们包括在内，或许更有可能在会议上被接受。此外，由于评审者常常要求结构新颖，通过提供未经证实的故事来解释为什么一个给定的体系结构起作用的原因，，而不是提供严格的消融研究来排除虚假的解释和不必要的模型组件，方法类论文可能会找到更容易接受的途径。为了更广泛地讨论机器学习研究中的偏差激励和经验严密性，我们将感兴趣的读者指向 Lipton and Steinhardt (2018) and Sculley et al.(2018)</p>
+<h3 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h3><p>之前看论文，也没怎么记录，导致很多时候看了没过多久，基本上也就忘得差不多了。于是今后考虑以论文翻译，论文笔记或者复现论文中模型的方式巩固从而加深印象。<br>这是翻译的第一篇，本渣也是一个英语渣，有很多单词翻译都拿不太准（某些专业词汇还不能很好的翻译，所以在文中也用黄色阴影来标注出来）。<br>还是回到这篇<a href="https://arxiv.org/pdf/1808.04926.pdf" target="_blank" rel="noopener">论文</a>上来，这篇论文是EMNLP2018的最佳短论文，其中首先介绍了阅读理解常用的数据集以及比较流行的网络模型，通过对这些的介绍，引入了本文的主要工作。在具体实验中，利用更简单的实验模型却能达到相当的结果，进而引入本文的主题——阅读理解真正读到了多少？缺少基线对数据集的测试，就不能真正了解到那部分数据是有用的，那部分数据是无用的，而且数据集往往都是为了某个实验而精心设计的。文中最后给出了一些<strong>指导建议（划重点）</strong>，这些建议一阵见血的指出了目前学术界的问题，这些大家一看就懂，自行体会。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com" rel="external nofollow noreferrer">IrvingBei</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com/2018/10/04/【论文翻译01】How Much Reading Does Reading Comprehension Require/">http://bei.dreamcykj.com/2018/10/04/【论文翻译01】How Much Reading Does Reading Comprehension Require/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/自然语言处理/">
+                                    <span class="chip bg-color">自然语言处理</span>
+                                </a>
+                            
+                                <a href="/tags/阅读理解/">
+                                    <span class="chip bg-color">阅读理解</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/10/13/【论文笔记01】Phrase-Based & Neural Unsupervised Machine Translation/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="【论文笔记01】Phrase-Based & Neural Unsupervised Machine Translation">
+                        
+                        <span class="card-title">【论文笔记01】Phrase-Based & Neural Unsupervised Machine Translation</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这篇论文来源于EMNLP2018，论文地址，这次采用了思维导图的方式记录笔记，思维导图的缩略图如下：
+该思维导图较大，于是上传时进行了压缩，可以直接点击思维导图地址进行交互式的访问或下载，思维导图地址，备用思维导图地址
+效果图：
+
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-10-13
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/NOTES/" class="post-category">
+                                    NOTES
+                                </a>
+                            
+                            <a href="/categories/NOTES/Papers/" class="post-category">
+                                    Papers
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/机器翻译/">
+                        <span class="chip bg-color">机器翻译</span>
+                    </a>
+                    
+                    <a href="/tags/论文笔记/">
+                        <span class="chip bg-color">论文笔记</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/09/25/一种最原始的混沌神经元构造过程/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="一种最原始的混沌神经元构造过程">
+                        
+                        <span class="card-title">一种最原始的混沌神经元构造过程</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            一个混沌神经元的输出与①每一个外部输入在每一个离散时刻的状态，②其他每一个混沌神经元在每一个时刻的状态，以及③该混沌神经元在每一个离散时刻的状态（主要为不应性情况）和④预设的阈值有关。由于该博客公式显示问题，请移步CSDN博文一种最原始的混
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-09-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/NOTES/" class="post-category">
+                                    NOTES
+                                </a>
+                            
+                            <a href="/categories/NOTES/Chaotic/" class="post-category">
+                                    Chaotic
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/笔记/">
+                        <span class="chip bg-color">笔记</span>
+                    </a>
+                    
+                    <a href="/tags/混沌神经网络/">
+                        <span class="chip bg-color">混沌神经网络</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 山不过来，我就过去<br />'
+            + '文章作者: IrvingBei<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2017";
+                    var startMonth = "09";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/IrvingBei" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:irvingbei@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+    
+
+</body>
+
+</html>

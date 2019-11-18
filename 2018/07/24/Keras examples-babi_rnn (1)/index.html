@@ -1,0 +1,1019 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="keywords" content="Keras examples-babi_rnn, 山不过来，我就过去">
+    <meta name="description" content="1  任务描述本实验利用提供的20个种类的数据集，完成KQA的任务。
+2 具体实现任务整体流程如图所示：
+（1）引入必要的包12345678910111213from __future__ import print_functionfrom">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Keras examples-babi_rnn | 山不过来，我就过去</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</head>
+
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">山不过来，我就过去</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">山不过来，我就过去</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Keras examples-babi_rnn
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/深度学习/">
+                                <span class="chip bg-color">深度学习</span>
+                            </a>
+                        
+                            <a href="/tags/Keras/">
+                                <span class="chip bg-color">Keras</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/NOTES/" class="post-category">
+                                NOTES
+                            </a>
+                        
+                            <a href="/categories/NOTES/Keras/" class="post-category">
+                                Keras
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-07-24
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    15 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="1-任务描述"><a href="#1-任务描述" class="headerlink" title="1  任务描述"></a>1  任务描述</h2><p>本实验利用提供的20个种类的数据集，完成KQA的任务。</p>
+<h2 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2 具体实现"></a>2 具体实现</h2><p>任务整体流程如图所示：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/babi_rnn_1.png" alt="任务整体流程"></p>
+<h3 id="（1）引入必要的包"><a href="#（1）引入必要的包" class="headerlink" title="（1）引入必要的包"></a>（1）引入必要的包</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> tarfile <span class="comment"># 处理压缩文件</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> plot_model</span><br><span class="line"><span class="keyword">from</span> keras.utils.data_utils <span class="keyword">import</span> get_file</span><br><span class="line"><span class="keyword">from</span> keras.layers.embeddings <span class="keyword">import</span> Embedding</span><br><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> layers</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> recurrent</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Model</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing.sequence <span class="keyword">import</span> pad_sequences</span><br></pre></td></tr></table></figure>
+<h3 id="（2）设置一些网络结构常量"><a href="#（2）设置一些网络结构常量" class="headerlink" title="（2）设置一些网络结构常量"></a>（2）设置一些网络结构常量</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">RNN=recurrent.LSTM</span><br><span class="line">EMBED_HIDDEN_SIZE=<span class="number">50</span></span><br><span class="line">SENT_HIDDEN_SIZE=<span class="number">100</span></span><br><span class="line">QUERY_HIDDEN_SIZE=<span class="number">100</span></span><br><span class="line">BATCH_SIZE=<span class="number">32</span></span><br><span class="line">EPOCHS=<span class="number">40</span></span><br><span class="line">print(<span class="string">"RNN/Embed/Sent/Query=&#123;&#125;,&#123;&#125;,&#123;&#125;,&#123;&#125;"</span>.format(RNN,EMBED_HIDDEN_SIZE,SENT_HIDDEN_SIZE,QUERY_HIDDEN_SIZE))</span><br></pre></td></tr></table></figure>
+<h3 id="（3）下载数据集"><a href="#（3）下载数据集" class="headerlink" title="（3）下载数据集"></a>（3）下载数据集</h3><p>数据集的获取，可以直接通过get_file()方法下载，也可以通过<a href="https://s3.amazonaws.com/text-datasets/babi_tasks_1-20_v1-2.tar.gz" target="_blank" rel="noopener">https://s3.amazonaws.com/text-datasets/babi_tasks_1-20_v1-2.tar.gz</a> 网址提前下载，然后获取文件路径即可。这里对get_file()方法做简单介绍（提前下载好的文件也可以通过该方法来加载）<br><strong>get_file()方法：</strong>从给定的URL中下载文件, 可以传递MD5值用于数据校验(下载后或已经缓存的数据均可)<br><strong>fname:</strong> 文件名，如果指定了绝对路径/path/to/file.txt,则文件将会保存到该位置。<br><strong>origin:</strong> 文件的URL地址<br><strong>返回：</strong>下载后的文件地址<br>关于该方法的更多参数说明：<a href="http://keras-cn.readthedocs.io/en/latest/utils/#get_file" target="_blank" rel="noopener">http://keras-cn.readthedocs.io/en/latest/utils/#get_file</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从网络上获取数据集</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    path = get_file(<span class="string">'babi-tasks-v1-2.tar.gz'</span>,</span><br><span class="line">                    origin=<span class="string">'https://s3.amazonaws.com/text-datasets/'</span></span><br><span class="line">                           <span class="string">'babi_tasks_1-20_v1-2.tar.gz'</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">'Error downloading dataset, please download it manually:\n'</span></span><br><span class="line">          <span class="string">'$ wget http://www.thespermwhale.com/jaseweston/babi/tasks_1-20_v1-2'</span></span><br><span class="line">          <span class="string">'.tar.gz\n'</span></span><br><span class="line">          <span class="string">'$ mv tasks_1-20_v1-2.tar.gz ~/.keras/datasets/babi-tasks-v1-2.tar.gz'</span>)</span><br><span class="line">    <span class="keyword">raise</span></span><br></pre></td></tr></table></figure></p>
+<p>数据集中一共有20类任务数据，每一类问题又提供了两种不同数量级大小的数据集，1000个问题（默认）和10K个问题，20类问题如下：<br>QA1 - Single Supporting Fact<br>QA2 - Two Supporting Facts<br>QA3 - Three Supporting Facts<br>QA4 - Two Arg. Relations<br>QA5 - Three Arg. Relations<br>QA6 - yes/No Questions<br>QA7 - Counting<br>QA8 - Lists/Sets<br>QA9 - Simple Negation<br>QA10 - Indefinite Knowledge<br>QA11 - Basic Coreference<br>QA12 - Conjunction<br>QA13 - Compound Coreference<br>QA14 - Time Reasoning<br>QA15 - Basic Deduction<br>QA16 - Basic Induction<br>QA17 - Positional Reasoning<br>QA18 - Size Reasoning<br>QA19 - Path Finding<br>QA20 - Agent’s Motivations  </p>
+<p>打开某个数据集的txt文件，再来看看具体的数据具体内容：<br>1 John travelled to the hallway.<br>2 Mary journeyed to the bathroom.<br>3 Where is John?     hallway    1<br>4 Daniel went back to the bathroom.<br>5 John moved to the bedroom.<br>6 Where is Mary?     bathroom    2<br>7 John went to the hallway.<br>8 Sandra journeyed to the kitchen.<br>9 Where is Sandra?     kitchen    8<br>10 Sandra travelled to the hallway.<br>11 John went to the garden.<br>12 Where is Sandra?     hallway    10<br>13 Sandra went back to the bathroom.<br>14 Sandra moved to the kitchen.<br>15 Where is Sandra?     kitchen    14<br>这是一个故事的具体内容（长度不一定为15），从中可以看到，每一行数据中包含了编号和文本，而文本可能是陈述句文本（这里记为事实类文本），也可以是“问句\t答案\t支撑答案的行所在编号（可能不止1个）”这种格式的（这里记为问题类文本）。</p>
+<h3 id="（4）获取训练集和测试集"><a href="#（4）获取训练集和测试集" class="headerlink" title="（4）获取训练集和测试集"></a>（4）获取训练集和测试集</h3><p>数据集下载下来后可以解压后读入，这里使用的是tarfile模块，linux上常用tarfile模块来处理tar文件，无论tar文件是否被压缩还是仅仅被打包，都可以读取和写入tar文件，这里涉及到的方法为open()和extractfile(),<br>其中：<br><strong>①open()：</strong>除了指出打开文件的方式以外还指出了文件的压缩方式。通过filemode[:compression]的方式可以指出很多种文件模式(比如’r:gz’表示读打开，使用gzip压缩文件)<br><strong>②extractfile()：</strong>从tar包中提取一个子文件，但返回的是个类文件对象，可以通过read，write等方法来操作文件的内容<br>更多资料见：<a href="https://www.cnblogs.com/franknihao/p/6613236.html" target="_blank" rel="noopener">https://www.cnblogs.com/franknihao/p/6613236.html</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构造需要的数据集格式</span></span><br><span class="line"><span class="comment"># Default QA1 with 1000 samples</span></span><br><span class="line"><span class="comment"># challenge = 'tasks_1-20_v1-2/en/qa1_single-supporting-fact_&#123;&#125;.txt'</span></span><br><span class="line"><span class="comment"># QA1 with 10,000 samples</span></span><br><span class="line"><span class="comment"># challenge = 'tasks_1-20_v1-2/en-10k/qa1_single-supporting-fact_&#123;&#125;.txt'</span></span><br><span class="line"><span class="comment"># QA2 with 1000 samples</span></span><br><span class="line">challenge = <span class="string">'tasks_1-20_v1-2/en/qa2_two-supporting-facts_&#123;&#125;.txt'</span></span><br><span class="line"><span class="comment"># QA2 with 10,000 samples</span></span><br><span class="line"><span class="comment"># challenge = 'tasks_1-20_v1-2/en-10k/qa2_two-supporting-facts_&#123;&#125;.txt'</span></span><br><span class="line"><span class="keyword">with</span> tarfile.open(path) <span class="keyword">as</span> tar:</span><br><span class="line">    <span class="comment"># 从压缩文件中获取tasks_1-20_v1-2/en/路径下的qa2_two-supporting-facts_train.txt文件，返回的是一个类文件对象，可以通过read，write等方法来操作文件的内容，此处将该对象传递给get_stories()方法</span></span><br><span class="line">    train = get_stories(tar.extractfile(challenge.format(<span class="string">'train'</span>)))</span><br><span class="line">    <span class="comment"># 同理，获取tasks_1-20_v1-2/en/路径下的qa2_two-supporting-facts_train.txt文件</span></span><br><span class="line">    test=get_stories(tar.extractfile(challenge.format(<span class="string">"test"</span>)))</span><br></pre></td></tr></table></figure></p>
+<h3 id="（5）数据处理过程中所用到的一些方法"><a href="#（5）数据处理过程中所用到的一些方法" class="headerlink" title="（5）数据处理过程中所用到的一些方法"></a>（5）数据处理过程中所用到的一些方法</h3><p>在获取数据集后，需要将原始数据构建成我们能够使用的数据，其中包括，按照要求构建支撑文本，对支撑文本和问题进行分词，以及向量化操作。</p>
+<h4 id="①分词方法"><a href="#①分词方法" class="headerlink" title="①分词方法"></a>①分词方法</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分词</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tokenize</span><span class="params">(sent)</span>:</span></span><br><span class="line">    <span class="comment"># 返回分词后所形成的列表，保留了标点符号</span></span><br><span class="line">    <span class="comment"># 采用正则来分词，对于正则匹配的每一个字符串，如果该字符串去除左右的空白符以后不为空，则将其保留下来</span></span><br><span class="line">    <span class="keyword">return</span> [x.strip() <span class="keyword">for</span> x <span class="keyword">in</span> re.split(<span class="string">"(\w+)?"</span>,sent) <span class="keyword">if</span> x.strip()]</span><br></pre></td></tr></table></figure>
+<h4 id="②将原始数据集构建成（story-question-answer）三元组"><a href="#②将原始数据集构建成（story-question-answer）三元组" class="headerlink" title="②将原始数据集构建成（story,question,answer）三元组"></a>②将原始数据集构建成（story,question,answer）三元组</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_stories</span><span class="params">(lines,only_supporting=False)</span>:</span></span><br><span class="line">    data = []</span><br><span class="line">    story = []</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">        <span class="comment"># 对于读入的每一行，将其解码成utf-8格式，并去掉前后空白符</span></span><br><span class="line">        line = line.decode(<span class="string">'utf-8'</span>).strip()</span><br><span class="line">        <span class="comment"># 将该行以空格为分割符进行切割，切割一次，只需要将序号和故事内容分隔开即可。</span></span><br><span class="line">        <span class="comment"># str.split(str="", num=string.count(str)) 其中num指定分割次数</span></span><br><span class="line">        nid, line = line.split(<span class="string">' '</span>, <span class="number">1</span>)</span><br><span class="line">        nid = int(nid)</span><br><span class="line">        <span class="comment"># 如果当前行的编号为1的话，则接下来是一个新故事的开始，首先将当前故事列表清空</span></span><br><span class="line">        <span class="keyword">if</span> nid == <span class="number">1</span>:</span><br><span class="line">            story = []</span><br><span class="line">        <span class="comment"># 如果这一行中包含\t，则说明是问题类文本，处理支撑文本，问题，答案，并将其加入结果list中</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'\t'</span> <span class="keyword">in</span> line:</span><br><span class="line">            <span class="comment"># 将改行文本通过\t分割，分别获取，问题、答案、支撑行编号（可能不止一个）</span></span><br><span class="line">            q, a, supporting = line.split(<span class="string">'\t'</span>)</span><br><span class="line">            <span class="comment"># 将问题分词</span></span><br><span class="line">            q = tokenize(q)</span><br><span class="line">            <span class="comment"># 根据参数选择是否保留其他不相干的文本行</span></span><br><span class="line">            substory = <span class="keyword">None</span></span><br><span class="line">            <span class="keyword">if</span> only_supporting: <span class="comment"># 如果only_supporting为True，则只保留支持答案的哪些文本</span></span><br><span class="line">                <span class="comment"># Only select the related substory</span></span><br><span class="line">                <span class="comment"># 将支撑行编号以空格符分割开，并将每个编号转为为int型</span></span><br><span class="line">                supporting = map(int, supporting.split())</span><br><span class="line">                <span class="comment"># 在遇到问题类文本之前，story会将所有遇到的事实类文本都保留下来，因此，对于每一个支撑行编号，通过story[i-1]即可获取该支撑行文本</span></span><br><span class="line">                substory = [story[i - <span class="number">1</span>] <span class="keyword">for</span> i <span class="keyword">in</span> supporting]</span><br><span class="line">            <span class="keyword">else</span>: <span class="comment"># 如果是保留全部文本</span></span><br><span class="line">                <span class="comment"># Provide all the substories</span></span><br><span class="line">                <span class="comment"># 将前面所有的事实类文本都保留在substory中，作为支撑文本</span></span><br><span class="line">                substory = [x <span class="keyword">for</span> x <span class="keyword">in</span> story <span class="keyword">if</span> x]</span><br><span class="line">            <span class="comment"># 将处理好的支撑文本，问题，答案加入结果list</span></span><br><span class="line">            data.append((substory, q, a))</span><br><span class="line">            story.append(<span class="string">''</span>)</span><br><span class="line">        <span class="comment"># 如果是事实类文本，则直接分词后加入story列表中，直到遇到问题类文本，取出里面相应的文本，作为支撑文本</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            sent = tokenize(line)</span><br><span class="line">            story.append(sent)</span><br><span class="line">    <span class="comment"># data中的数据格式为[(_,_,_)...]</span></span><br><span class="line">    <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>
+<h4 id="③获取数据记录"><a href="#③获取数据记录" class="headerlink" title="③获取数据记录"></a>③获取数据记录</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取文本内容函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_stories</span><span class="params">(f,only_supporting=False,max_length=None)</span>:</span></span><br><span class="line">    <span class="comment"># 给定文件名，读取这个文件，取回故事，并且将句子转换成单个故事</span></span><br><span class="line">    <span class="comment"># only_supporting参数决定是否只有支持答案的句子被保留下来。</span></span><br><span class="line">    data = parse_stories(f.readlines(), only_supporting=only_supporting)</span><br><span class="line">    <span class="comment"># 创建一个函数</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    reduce() 函数会对参数序列中元素进行累积。</span></span><br><span class="line"><span class="string">    函数将一个数据集合（链表，元组等）中的所有数据进行下列操作：用传给 reduce 中的函数 function（有两个参数）先对集合中</span></span><br><span class="line"><span class="string">    的第 1、2 个元素进行操作，得到的结果再与第三个数据用 function 函数运算，最后得到一个结果。</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="comment"># 创建一个将支撑材料列表中的元素合并成一个的匿名方法</span></span><br><span class="line">    flatten = <span class="keyword">lambda</span> data: reduce(<span class="keyword">lambda</span> x, y: x + y, data)</span><br><span class="line">    <span class="comment"># 如果没有限制支撑材料的最大长度，或者支撑材料的最大长度小于给定的max_len，于是就将这条记录保留下来</span></span><br><span class="line">    data = [(flatten(story), q, answer) <span class="keyword">for</span> story, q, answer <span class="keyword">in</span> data <span class="keyword">if</span> <span class="keyword">not</span> max_length <span class="keyword">or</span> len(flatten(story)) &lt; max_length]</span><br><span class="line">    <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>
+<p>其中创建了匿名函数，匿名函数的直观效果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># flatten 方法示例</span></span><br><span class="line">flatten = <span class="keyword">lambda</span> data: reduce(<span class="keyword">lambda</span> x, y: x + y, data)</span><br><span class="line">story=[[<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>],[<span class="string">'d'</span>,<span class="string">'e'</span>],[<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'z'</span>]]</span><br><span class="line">flatten(story)</span><br></pre></td></tr></table></figure>
+<pre><code>[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;x&#39;, &#39;y&#39;, &#39;z&#39;]
+</code></pre><h4 id="④文本向量化方法"><a href="#④文本向量化方法" class="headerlink" title="④文本向量化方法"></a>④文本向量化方法</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">vectorize_stories</span><span class="params">(data,word_idx,story_maxlen,query_maxlen)</span>:</span></span><br><span class="line">    xs=[]</span><br><span class="line">    xqs=[]</span><br><span class="line">    ys=[]</span><br><span class="line">    <span class="comment"># 获取每一条记录的支撑材料、问题、答案</span></span><br><span class="line">    <span class="keyword">for</span> story,query,answer <span class="keyword">in</span> data:</span><br><span class="line">        <span class="comment"># 对于支撑材料中的每一个单词，获取其id号，结果得到的是这个支撑文本的序列模型</span></span><br><span class="line">        x=[word_idx[w] <span class="keyword">for</span> w <span class="keyword">in</span> story]</span><br><span class="line">        <span class="comment"># 对于问题中的每一个单词，获取其id号，得到该问题的序列模型</span></span><br><span class="line">        xq=[word_idx[w] <span class="keyword">for</span> w <span class="keyword">in</span> query]</span><br><span class="line">        <span class="comment"># y的维度应该是字典的长度+1，先初试化为0向量</span></span><br><span class="line">        y=np.zeros(len(word_idx)+<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 将答案所在的位置的元素值设置为1</span></span><br><span class="line">        y[word_idx[answer]]=<span class="number">1</span></span><br><span class="line">        <span class="comment"># 这条记录的支撑文本序列加入结果集</span></span><br><span class="line">        xs.append(x)</span><br><span class="line">        <span class="comment"># 加入处理后的问题序列</span></span><br><span class="line">        xqs.append(xq)</span><br><span class="line">        <span class="comment"># 加入结果</span></span><br><span class="line">        ys.append(y)</span><br><span class="line">    <span class="comment"># 将支撑文本序列和文本序列填充至最大长度，返回</span></span><br><span class="line">    <span class="keyword">return</span> (pad_sequences(xs,maxlen=story_maxlen),pad_sequences(xqs,maxlen=query_maxlen),np.array(ys))</span><br></pre></td></tr></table></figure>
+<h3 id="（6）数据向量化"><a href="#（6）数据向量化" class="headerlink" title="（6）数据向量化"></a>（6）数据向量化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建词汇表   </span></span><br><span class="line">vocab=set()</span><br><span class="line"><span class="comment">## 将所以文本加起来，获取词汇表</span></span><br><span class="line"><span class="keyword">for</span> story,q,answer <span class="keyword">in</span> train+test:</span><br><span class="line">    vocab |=set(story+q+[answer])</span><br><span class="line">vocab=sorted(vocab)</span><br><span class="line"></span><br><span class="line">vocab_size=len(vocab)+<span class="number">1</span></span><br><span class="line"><span class="comment"># 给词汇表中的每个单词建立对应的一个ID号</span></span><br><span class="line">word_idx=dict((c,i+<span class="number">1</span>) <span class="keyword">for</span> i,c <span class="keyword">in</span> enumerate(vocab))</span><br><span class="line">print(word_idx)</span><br></pre></td></tr></table></figure>
+<pre><code>{&#39;.&#39;: 1, &#39;?&#39;: 2, &#39;Daniel&#39;: 3, &#39;John&#39;: 4, &#39;Mary&#39;: 5, &#39;Sandra&#39;: 6, &#39;Where&#39;: 7, &#39;apple&#39;: 8, &#39;back&#39;: 9, &#39;bathroom&#39;: 10, &#39;bedroom&#39;: 11, &#39;discarded&#39;: 12, &#39;down&#39;: 13, &#39;dropped&#39;: 14, &#39;football&#39;: 15, &#39;garden&#39;: 16, &#39;got&#39;: 17, &#39;grabbed&#39;: 18, &#39;hallway&#39;: 19, &#39;is&#39;: 20, &#39;journeyed&#39;: 21, &#39;kitchen&#39;: 22, &#39;left&#39;: 23, &#39;milk&#39;: 24, &#39;moved&#39;: 25, &#39;office&#39;: 26, &#39;picked&#39;: 27, &#39;put&#39;: 28, &#39;the&#39;: 29, &#39;there&#39;: 30, &#39;to&#39;: 31, &#39;took&#39;: 32, &#39;travelled&#39;: 33, &#39;up&#39;: 34, &#39;went&#39;: 35}
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取支撑材料中单词的最大数目</span></span><br><span class="line">story_maxlen=max(map(len,(x <span class="keyword">for</span> x,_,_ <span class="keyword">in</span> train+test)))</span><br><span class="line"><span class="comment"># 获取问题中单词的最大长度</span></span><br><span class="line">query_maxlen=max(map(len,(x <span class="keyword">for</span> _,x,_ <span class="keyword">in</span> train+test)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分别将训练集和测试集中的文本向量化</span></span><br><span class="line">x,xq,y=vectorize_stories(train,word_idx,story_maxlen,query_maxlen)</span><br><span class="line">tx,txq,ty=vectorize_stories(test,word_idx,story_maxlen,query_maxlen)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(<span class="string">"vocab=&#123;&#125;"</span>.format(vocab))</span><br><span class="line">print(<span class="string">"x.shape=&#123;&#125;"</span>.format(x.shape))</span><br><span class="line">print(<span class="string">"xq,shape=&#123;&#125;"</span>.format(xq.shape))</span><br><span class="line">print(<span class="string">"y.shape=&#123;&#125;"</span>.format(y.shape))</span><br><span class="line">print(<span class="string">"story_maxlen,query_maxlen=&#123;&#125;,&#123;&#125;"</span>.format(story_maxlen,query_maxlen))</span><br></pre></td></tr></table></figure>
+<pre><code>vocab=[&#39;.&#39;, &#39;?&#39;, &#39;Daniel&#39;, &#39;John&#39;, &#39;Mary&#39;, &#39;Sandra&#39;, &#39;Where&#39;, &#39;apple&#39;, &#39;back&#39;, &#39;bathroom&#39;, &#39;bedroom&#39;, &#39;discarded&#39;, &#39;down&#39;, &#39;dropped&#39;, &#39;football&#39;, &#39;garden&#39;, &#39;got&#39;, &#39;grabbed&#39;, &#39;hallway&#39;, &#39;is&#39;, &#39;journeyed&#39;, &#39;kitchen&#39;, &#39;left&#39;, &#39;milk&#39;, &#39;moved&#39;, &#39;office&#39;, &#39;picked&#39;, &#39;put&#39;, &#39;the&#39;, &#39;there&#39;, &#39;to&#39;, &#39;took&#39;, &#39;travelled&#39;, &#39;up&#39;, &#39;went&#39;]
+x.shape=(1000, 552)
+xq,shape=(1000, 5)
+y.shape=(1000, 36)
+story_maxlen,query_maxlen=552,5
+</code></pre><p>这里再次用到了RepeatVector，keras.layers.core.RepeatVector(n)：将输入重复n次<br><strong>参数n</strong>：整数，重复的次数<br><strong>输入shape</strong>：形如（nb_samples, features）的2D张量<br><strong>输出shape</strong>：形如（nb_samples, n, features）的3D张量</p>
+<h3 id="（7）搭建网络结构"><a href="#（7）搭建网络结构" class="headerlink" title="（7）搭建网络结构"></a>（7）搭建网络结构</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"Build model..."</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一个输入层，用于处理的支撑材料文本向量</span></span><br><span class="line">sentence=layers.Input(shape=(story_maxlen,),dtype=<span class="string">"int32"</span>)</span><br><span class="line">encoded_sentence=layers.Embedding(vocab_size,EMBED_HIDDEN_SIZE)(sentence)</span><br><span class="line">encoded_sentence=layers.Dropout(<span class="number">0.3</span>)(encoded_sentence)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二个输入层，用于处理问题文本向量</span></span><br><span class="line">question=layers.Input(shape=(query_maxlen,),dtype=<span class="string">"int32"</span>)</span><br><span class="line">encoded_question=layers.Embedding(vocab_size,EMBED_HIDDEN_SIZE)(question)</span><br><span class="line">encoded_question=layers.Dropout(<span class="number">0.3</span>)(encoded_question)</span><br><span class="line">encoded_question=RNN(EMBED_HIDDEN_SIZE)(encoded_question)</span><br><span class="line"><span class="comment"># 重复向量</span></span><br><span class="line">encoded_question=layers.RepeatVector(story_maxlen)(encoded_question)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将两个经过处理后的输入合并</span></span><br><span class="line">merged=layers.add([encoded_sentence,encoded_question])</span><br><span class="line">merged=RNN(EMBED_HIDDEN_SIZE)(merged)</span><br><span class="line">merged=layers.Dropout(<span class="number">0.3</span>)(merged)</span><br><span class="line">preds=layers.Dense(vocab_size,activation=<span class="string">"softmax"</span>)(merged)</span><br><span class="line"></span><br><span class="line">model=Model([sentence,question],preds)</span><br><span class="line">model.compile(optimizer=<span class="string">"adam"</span>,loss=<span class="string">'categorical_crossentropy'</span>,metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Training"</span>)</span><br><span class="line">model.fit([x,xq],y,batch_size=BATCH_SIZE,epochs=EPOCHS,validation_split=<span class="number">0.05</span>)</span><br><span class="line"></span><br><span class="line">loss,acc=model.evaluate([tx,txq],ty,batch_size=BATCH_SIZE)</span><br><span class="line">print(<span class="string">"Test loss / test accuracy=&#123;:.4f&#125;/&#123;:.4f&#125;"</span>.format(loss,acc))</span><br></pre></td></tr></table></figure>
+<pre><code>Build model...
+Training
+Train on 950 samples, validate on 50 samples
+Epoch 1/40
+950/950 [==============================] - 10s 11ms/step - loss: 2.9108 - acc: 0.1947 - val_loss: 2.1052 - val_acc: 0.0600
+.
+.
+.
+Epoch 40/40
+950/950 [==============================] - 10s 10ms/step - loss: 1.6499 - acc: 0.3284 - val_loss: 1.6824 - val_acc: 0.3800
+1000/1000 [==============================] - 2s 2ms/step
+Test loss / test accuracy=1.7385/0.2640
+</code></pre><h3 id="（8）可视化网络结构"><a href="#（8）可视化网络结构" class="headerlink" title="（8）可视化网络结构"></a>（8）可视化网络结构</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot_model(model, to_file=<span class="string">'babi_rnn_model.png'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/babi_rnn.png" alt="网络结构图"></p>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3 小结"></a>3 小结</h2><p>通过这次实验，收获也是挺多的。首先是数据的处理方式，这里将词汇映射成索引，采用了最基本的python的enumerate方法，对于词汇较少的情况来说非常快，也非常容易上手，此外将词汇映射成id号的方法还有：①利用TensorFlow提供的数据预处理接口；②利用gensim提供的接口建立字典，再将其映射成id号；③利用keras提供的数据预处理接口，同样能将文本映射成id号。接着就是tarfile对压缩文件的操作，由于之前接触linux较少，很多都还是不是很了解，通过这次实验，学到了可以直接处理压缩文件。最后就是，利用keras搭建多输入的网络结构，发现keras真的很方便，网络结构可视化也非常方便（TensorFlow绕来绕去，代码还没敲完，头都晕了_(¦3」∠)_），好啦，就酱！</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com" rel="external nofollow noreferrer">IrvingBei</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com/2018/07/24/Keras examples-babi_rnn (1)/">http://bei.dreamcykj.com/2018/07/24/Keras examples-babi_rnn (1)/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/深度学习/">
+                                    <span class="chip bg-color">深度学习</span>
+                                </a>
+                            
+                                <a href="/tags/Keras/">
+                                    <span class="chip bg-color">Keras</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/08/16/Keras examples-imdb_bidirectional_lstm (1)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Keras examples-imdb_bidirectional_lstm">
+                        
+                        <span class="card-title">Keras examples-imdb_bidirectional_lstm</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1  任务描述本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务
+2 具体实现（1）引入必要的包123456from __future__ import print_functionimport numpy as npfro
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-08-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/NOTES/" class="post-category">
+                                    NOTES
+                                </a>
+                            
+                            <a href="/categories/NOTES/Keras/" class="post-category">
+                                    Keras
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/深度学习/">
+                        <span class="chip bg-color">深度学习</span>
+                    </a>
+                    
+                    <a href="/tags/Keras/">
+                        <span class="chip bg-color">Keras</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/07/21/快速将非数值型目标变量转化为数值型变量/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="快速将非数值型目标变量转化为数值型变量">
+                        
+                        <span class="card-title">快速将非数值型目标变量转化为数值型变量</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            快速将非数值型目标变量转化为数值型变量，比如把[‘L’,’M’,’N’]转化为[1,2,3]或多维向量类型
+转化前：1df_train.y.value_counts()
+12345678C    620R    477G    361M  
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-07-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Experiment/" class="post-category">
+                                    Experiment
+                                </a>
+                            
+                            <a href="/categories/Experiment/Python/" class="post-category">
+                                    Python
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/实验教程/">
+                        <span class="chip bg-color">实验教程</span>
+                    </a>
+                    
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 山不过来，我就过去<br />'
+            + '文章作者: IrvingBei<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2017";
+                    var startMonth = "09";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/IrvingBei" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:irvingbei@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+    
+
+</body>
+
+</html>

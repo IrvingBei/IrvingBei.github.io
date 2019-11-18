@@ -1,0 +1,1024 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="keywords" content="【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension, 山不过来，我就过去">
+    <meta name="description" content="1  问题及数据集1.1  问题本论文主要解决一种面向Cloze-style（填空式）的阅读理解（问答）问题
+1.2  数据集（1）CNN&amp;amp;Daily Mail（2）SQuAD（3）Graph Reachability datase">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension | 山不过来，我就过去</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</head>
+
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">山不过来，我就过去</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">山不过来，我就过去</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        【论文笔记03】ReasoNet-Learning to Stop Reading in Machine Comprehension
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/论文笔记/">
+                                <span class="chip bg-color">论文笔记</span>
+                            </a>
+                        
+                            <a href="/tags/阅读理解/">
+                                <span class="chip bg-color">阅读理解</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/NOTES/" class="post-category">
+                                NOTES
+                            </a>
+                        
+                            <a href="/categories/NOTES/Papers/" class="post-category">
+                                Papers
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-10-13
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    5 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h4 id="1-问题及数据集"><a href="#1-问题及数据集" class="headerlink" title="1  问题及数据集"></a>1  问题及数据集</h4><h5 id="1-1-问题"><a href="#1-1-问题" class="headerlink" title="1.1  问题"></a>1.1  问题</h5><p>本论文主要解决一种面向Cloze-style（填空式）的阅读理解（问答）问题</p>
+<h5 id="1-2-数据集"><a href="#1-2-数据集" class="headerlink" title="1.2  数据集"></a>1.2  数据集</h5><p>（1）CNN&amp;Daily Mail<br>（2）SQuAD<br>（3）Graph Reachability datase</p>
+<h4 id="2-已有方法"><a href="#2-已有方法" class="headerlink" title="2  已有方法"></a>2  已有方法</h4><h5 id="2-1-单轮推理"><a href="#2-1-单轮推理" class="headerlink" title="2.1  单轮推理"></a>2.1  单轮推理</h5><p>（1）特点<br>单轮推理模型主要利用注意力机制来强调文档中与问题相关的那些部分，计算问题和文档子单元的相应加权表示之间的相关度，为候选目标评分。这好比在处理一些不太重要的部分的同时聚焦其他重要的部分，从而找到最后可能的答案。这种模型较简单，推理能力也不是很强。<br>（2） 方法</p>
+<ul>
+<li>Hermann et al. propose the attentive reader and the impatient reader models using neural networks with an attention over passages to predict candidates.</li>
+<li>Hill et al. use attention over window-based memory, which encodes a window of words around entity candidates, by leveraging an end- to-end memory network。</li>
+<li><a href="https://blog.csdn.net/xyz1584172808/article/details/83035597" target="_blank" rel="noopener">Kadlec et al. propose the attention-sum reader to sum up all the attention scores for the same entity，This score captures the relevance between a query and a candidate. Chen</a></li>
+<li>Chen et al. propose using a bilinear term similarity function to calculate attention scores with pretrained word embeddings.</li>
+<li>Trischler et al. propose the EpiReader which uses two neural network structures: one extracts candidates using the attention-sum reader; the other reranks candidates based on a bilinear term similarity score calculated from query and passage representations。</li>
+</ul>
+<h5 id="2-2-多轮推理"><a href="#2-2-多轮推理" class="headerlink" title="2.2  多轮推理"></a>2.2  多轮推理</h5><p>（1）特点<br>对于复杂的段落以及复杂的问题，读者通常会再次阅读文档以获得更深层次的信息。多轮推理模型就是将问题和前面推理中获得的新信息结合，从而模拟这个重读过程，得到新的推理信息。不断的迭代推理，在若干推理后预测出答案。但现存的多轮推理模型通常都预定义了迭代的次数，而忽视了每一个问题或文档的复杂度。<br>（2）方法</p>
+<ul>
+<li>Hill et al. use multiple hops memory network to augment the query with new information from the previous hop。</li>
+<li>Gated Attention reader is an extension of the attention-sum reader with multiple iterations by pushing the query encoding into an attention-based gate in each iteration.</li>
+<li>Iterative Alternative (IA) reader produces a new query glimpse and document glimpse in each iteration and utilizes them alternatively in the next iteration.</li>
+<li>Cui et al. propose to extend the query-specific attention to both query-to-document attention and document-to-query attention, which is built from the intermediate results in the query-specific attention。</li>
+</ul>
+<h5 id="2-3-现有方法的问题"><a href="#2-3-现有方法的问题" class="headerlink" title="2.3  现有方法的问题"></a>2.3  现有方法的问题</h5><p>上面的两类模型，第一种模型可以看作是第二种模型的一种特例，其迭代次数为1，于是目前已有的方法都采用了固定推理的轮数。而人在面临阅读理解的时候，会根据问题和文章的难度动态的决定推理次数。</p>
+<h4 id="3-本文提出的方法"><a href="#3-本文提出的方法" class="headerlink" title="3  本文提出的方法"></a>3  本文提出的方法</h4><p>本文提出了ReasoNet模型，用于模拟人类阅读的过程，带着问题多次阅读原文，并设置一个终止状态，动态的决定推理的轮数，直到获得的信息足够用于回答问题时才停止推理过程。此外，又引入了强化学习算法CR（对比奖励）来训练模型。</p>
+<h4 id="4-具体内容"><a href="#4-具体内容" class="headerlink" title="4  具体内容"></a>4  具体内容</h4><h5 id="4-1-ReasoNet网络结构"><a href="#4-1-ReasoNet网络结构" class="headerlink" title="4.1  ReasoNet网络结构"></a>4.1  ReasoNet网络结构</h5><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet.png" alt="ReasoNet网络结构"><br>（1）<strong>Memory</strong>：外部记忆，Document Encoder产生的每个单词的上下文表示<br>（2）<strong>Attention</strong>：注意力向量（也叫上下文向量）xt是由当前状态和外部记忆进行计算得出的<br>（3）<strong>Internal State</strong>：内部状态S，初始状态s1是Query Encoder产生的问题表示，t时刻状态由RNN产生st=RNN(st−1,xt;θs)；<br>（4）<strong>Termination Gate</strong>：根据当前内部状态产生一个binary随机变量。如果为1，那么结束推理预测答案；如果为0，那么继续推理<br>（5）<strong>Answer</strong>：当终止状态为1时，回答问题</p>
+<h5 id="4-2-具体步骤"><a href="#4-2-具体步骤" class="headerlink" title="4.2  具体步骤"></a>4.2  具体步骤</h5><p>（1）计算过程<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet1.png" alt="推理算法"></p>
+<p>（2）需要学习的参数</p>
+<ul>
+<li>embedding matrices θW </li>
+<li>attention network θx </li>
+<li>the state RNN network θs</li>
+<li>the answer action network θa </li>
+<li>the termination gate network θtg Query</li>
+<li>Encoder和Document Encoder的参数(参考笔记中提出)</li>
+</ul>
+<p>（3）期望奖励<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet3.png" alt="期望奖励"></p>
+<p>如果最终时刻的回答正确，则置Rt=1，否则为0，中间时刻的Rt=0。（具体细节还不是很清楚，先占坑，后面看了强化学习来填坑）</p>
+<h4 id="5-实验"><a href="#5-实验" class="headerlink" title="5  实验"></a>5  实验</h4><h5 id="5-1-CNN-amp-Daily-Mail-Datasets"><a href="#5-1-CNN-amp-Daily-Mail-Datasets" class="headerlink" title="5.1  CNN&amp;Daily Mail Datasets"></a>5.1  CNN&amp;Daily Mail Datasets</h5><p>（1）实验配置</p>
+<ul>
+<li><strong>vocab_size</strong>：|V| = 101k words in CNN，|V| = 151k words in Daily Mail</li>
+<li><strong>Embedding Layer</strong>：300-dimensional word embeddings，300-dimensional pretrained Glove word embeddings，dropout with probability 0.2</li>
+<li><strong>Bi-GRU Encoder</strong>：bidirectional GRU for encoding query and passage into vector representations，隐藏层单元个数：CNN256个，Daily Mail384个；用正交矩阵初始化GRU的权重；GRU的其他权重采用-0.01到+0.01之间的均匀随机分布。</li>
+<li><strong>Memory and Attention</strong>：composed of query memory and pas- sage memory；</li>
+<li><strong>Internal State Controller</strong>：choose GRU model as the internal state controller</li>
+<li><strong>TerminationModule</strong>：adopt a logistical regression to model the termination variable at each time step<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet4.png" alt=""></li>
+<li><strong>最大推理轮数为5</strong></li>
+</ul>
+<p>（2）实验结果<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet5.png" alt="实验结果"></p>
+<h5 id="5-2-SQuAD"><a href="#5-2-SQuAD" class="headerlink" title="5.2  SQuAD"></a>5.2  SQuAD</h5><p>（1）实验配置<br>与前一个数据集的配置有一些区别，也是按照那几部分分别设置<br>（2）实验结果<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/reasonet6.png" alt="实验结果"></p>
+<h5 id="5-3-Graph-Reachability-Task"><a href="#5-3-Graph-Reachability-Task" class="headerlink" title="5.3  Graph Reachability Task"></a>5.3  Graph Reachability Task</h5><p>这种数据之前没了解过，先占坑，后面来填</p>
+<h4 id="6-笔记小结"><a href="#6-笔记小结" class="headerlink" title="6  笔记小结"></a>6  笔记小结</h4><p>（1）通过引入终止状态，使得模型能够动态的决定推理轮数<br>（2）通过强化学习来训练模型<br>（3）本篇论文只是读了个大概，很多细节都还没有具体去研究，不了解的点还非常多，先占坑，后面研究了强化学习再来把相应的坑补上。</p>
+<h4 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h4><p>（1）<a href="https://arxiv.org/pdf/1609.05284.pdf" target="_blank" rel="noopener">论文地址</a><br>（2）相关论文笔记：<a href="http://cairohy.github.io/2017/05/22/deeplearning/NLP-RC-ReasoNet-NIPS2016-%E3%80%8AReasoNet%20Learning%20to%20Stop%20Reading%20in%20Machine%20Comprehension%E3%80%8B/" target="_blank" rel="noopener">学习如何停止</a><a href="http://cairohy.github.io/2017/05/22/deeplearning/NLP-RC-ReasoNet-NIPS2016-%E3%80%8AReasoNet%20Learning%20to%20Stop%20Reading%20in%20Machine%20Comprehension%E3%80%8B/" target="_blank" rel="noopener">阅读</a><br>（3）数据集<a href="https://github.com/deepmind/rcdata" target="_blank" rel="noopener">CNN&amp;Daily Mail</a></p>
+<h4 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h4><p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/reasonet/swdt.png" alt="论文笔记思维导图"></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com" rel="external nofollow noreferrer">IrvingBei</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/">http://bei.dreamcykj.com/2018/10/13/【论文笔记03】ReasoNet_ Learning to Stop Reading in Machine Comprehension/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/论文笔记/">
+                                    <span class="chip bg-color">论文笔记</span>
+                                </a>
+                            
+                                <a href="/tags/阅读理解/">
+                                    <span class="chip bg-color">阅读理解</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/10/15/tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）">
+                        
+                        <span class="card-title">tensorflow中sequence_loss_by_example()函数的计算过程（结合TF的ptb构建语言模型例子）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+注：由于tensorflow版本的不同，这个函数所在的模块可能不同，如：tf.nn.seq2seq.sequence_loss_by_example和tf.contrib.legacy_seq2seq.sequence_loss_by_e
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-10-15
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/NOTES/" class="post-category">
+                                    NOTES
+                                </a>
+                            
+                            <a href="/categories/NOTES/Tensorflow/" class="post-category">
+                                    Tensorflow
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Tensorflow/">
+                        <span class="chip bg-color">Tensorflow</span>
+                    </a>
+                    
+                    <a href="/tags/笔记/">
+                        <span class="chip bg-color">笔记</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/10/13/【论文笔记02】Text Understanding with the Attention Sum Reader Network/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="【论文笔记02】Text Understanding with the Attention Sum Reader Network">
+                        
+                        <span class="card-title">【论文笔记02】Text Understanding with the Attention Sum Reader Network</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1 问题及数据集1.1 问题给定较长一段话的context和一个较短的问题，以及一些candidate answers，训练出可以准确预测正确答案的模型，本模型主要针对命名实体和常用名词这两种词性的单词进行填空。
+1.2数据集（1）CNN&
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-10-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/NOTES/" class="post-category">
+                                    NOTES
+                                </a>
+                            
+                            <a href="/categories/NOTES/Papers/" class="post-category">
+                                    Papers
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/论文笔记/">
+                        <span class="chip bg-color">论文笔记</span>
+                    </a>
+                    
+                    <a href="/tags/阅读理解/">
+                        <span class="chip bg-color">阅读理解</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 山不过来，我就过去<br />'
+            + '文章作者: IrvingBei<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2017";
+                    var startMonth = "09";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/IrvingBei" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:irvingbei@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+    
+
+</body>
+
+</html>

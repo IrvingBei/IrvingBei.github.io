@@ -1,0 +1,1034 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="keywords" content="Keras examples-addition_rnn, 山不过来，我就过去">
+    <meta name="description" content="Keras examples-addition_rnn1、任务描述（1）任务概述：主要是利用序列学习来实现两个整数（字符串）的加法（2）任务分析：两个整数相加，需要通过神经网络来训练，于是不能够直接将整型作为神经网络的输入；想想办法，如果将">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Keras examples-addition_rnn | 山不过来，我就过去</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</head>
+
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">山不过来，我就过去</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">山不过来，我就过去</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Keras examples-addition_rnn
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/深度学习/">
+                                <span class="chip bg-color">深度学习</span>
+                            </a>
+                        
+                            <a href="/tags/Keras/">
+                                <span class="chip bg-color">Keras</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/NOTES/" class="post-category">
+                                NOTES
+                            </a>
+                        
+                            <a href="/categories/NOTES/Keras/" class="post-category">
+                                Keras
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-07-20
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="Keras-examples-addition-rnn"><a href="#Keras-examples-addition-rnn" class="headerlink" title="Keras examples-addition_rnn"></a>Keras examples-addition_rnn</h2><h3 id="1、任务描述"><a href="#1、任务描述" class="headerlink" title="1、任务描述"></a>1、任务描述</h3><p>（1）任务概述：主要是利用序列学习来实现两个整数（字符串）的加法<br>（2）任务分析：两个整数相加，需要通过神经网络来训练，于是不能够直接将整型作为神经网络的输入；想想办法，如果将整数和加号等都转化为字符，于是就可以用一个字符串来表示这个加法问题了；字符串表示的加法问题，可以看成是文本，于是紧接着考虑用什么语言模型来表示这个问题，由于加法问题中涉及到的字符种类不多，只有12类，‘0-9’、‘+’、‘ ’，因此可以直接考虑使用one-hot模型。</p>
+<h3 id="2、具体实现"><a href="#2、具体实现" class="headerlink" title="2、具体实现"></a>2、具体实现</h3><h4 id="（1）引入相应的库"><a href="#（1）引入相应的库" class="headerlink" title="（1）引入相应的库"></a>（1）引入相应的库</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> layers</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> range</span><br><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> plot_model</span><br></pre></td></tr></table></figure>
+<h4 id="（2）定义相应的方法、设置常量"><a href="#（2）定义相应的方法、设置常量" class="headerlink" title="（2）定义相应的方法、设置常量"></a>（2）定义相应的方法、设置常量</h4><p>这里主要定义了两个类，一个是编码解码类，另一个是预测结果的颜色处理类。<br><strong>①编码解码类：</strong>包含三个方法：构造方法，编码方法，解码方法。<br><strong>构造方法：</strong>在创建编码解码对象时，会接收一个字符串，这个字符串包含了所有涉及到的字符，构造函数利用该字符串创建了两个字典，一个是{字符：索引}型字典，一个是{索引：字符}型字典。前一个字典主要在编码阶段使用，用于将一个字符转化为one-hot类型，后裔字典主要在解码阶段使用，将one-hot矩阵表示的问题转化为对应的文本。<br>{字符：索引}型：{‘ ‘: 0, ‘+’: 1, ‘0’: 2, ‘1’: 3, ‘2’: 4, ‘3’: 5, ‘4’: 6, ‘5’: 7, ‘6’: 8, ‘7’: 9, ‘8’: 10, ‘9’: 11}<br>{索引，字符}型：{0: ‘ ‘, 1: ‘+’, 2: ‘0’, 3: ‘1’, 4: ‘2’, 5: ‘3’, 6: ‘4’, 7: ‘5’, 8: ‘6’, 9: ‘7’, 10: ‘8’, 11: ‘9’}<br><strong>编码方法：</strong>将传来的一个字符串编码城one-hot矩阵，具体实现是首先创建一个零矩阵，然后针对字符串的第i个字符，得到这个字符在字符字典中的索引为j，于是将零矩阵的第i行和第j列的元素置为1。直到将这个字符串的所有字符都编码。<br><strong>解码方法：</strong>解码方法可以看成是编码方法的逆，将one-hot矩阵转为字符串<br><strong>其实，这个类也可以利用keras内置的文本预处理方法来实现。</strong><br><strong>②颜色处理类：</strong>主要声明一些常量。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CharacterTable</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="comment"># 对于给定的一组字符</span></span><br><span class="line">    <span class="comment">## 将他们编码为one-hot的整型来表示</span></span><br><span class="line">    <span class="comment">## 将一个one-hot表示的解码为其字符</span></span><br><span class="line">    <span class="comment">## 将概率向量解码为其字符输出</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,chars)</span>:</span></span><br><span class="line">        <span class="comment"># 初始化字符表</span></span><br><span class="line">        self.chars=sorted(set(chars))</span><br><span class="line">        <span class="comment"># 创建字符表中字符和其索引的对应关系（字符：索引）</span></span><br><span class="line">        self.char_indices=dict((c,i) <span class="keyword">for</span> i,c <span class="keyword">in</span> enumerate(self.chars))</span><br><span class="line">        print(self.char_indices)</span><br><span class="line">        <span class="comment"># 创建字符表中字符和其索引的对应关系（索引：字符）</span></span><br><span class="line">        self.indices_char=dict((i,c) <span class="keyword">for</span> i,c <span class="keyword">in</span> enumerate(self.chars))</span><br><span class="line">        print(self.indices_char)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将给定的字符串C编码成one-hot模型，参数num_rows指定这个矩阵的行数（等于问题的最大长度），列数等于字符表中总的字符数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">encode</span><span class="params">(self,c,num_rows)</span>:</span>     </span><br><span class="line">        <span class="comment"># 创建一个零矩阵，行数为问题的最大长度，列数等于字符表中总的字符数</span></span><br><span class="line">        x=np.zeros((num_rows,len(self.chars)))</span><br><span class="line">        <span class="comment"># 针对问题字符串中的第i个字符</span></span><br><span class="line">        <span class="keyword">for</span> i,c <span class="keyword">in</span> enumerate(c):</span><br><span class="line">            <span class="comment"># 将0矩阵的第i行和字符索引列的元素设置为1</span></span><br><span class="line">            x[i,self.char_indices[c]]=<span class="number">1</span></span><br><span class="line">        <span class="comment"># 返回对字符串编码后的矩阵</span></span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decode</span><span class="params">(self, x, calc_argmax=True)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> calc_argmax:</span><br><span class="line">            x = x.argmax(axis=<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="string">''</span>.join(self.indices_char[x] <span class="keyword">for</span> x <span class="keyword">in</span> x)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">colors</span>:</span></span><br><span class="line">    ok = <span class="string">'\033[92m'</span></span><br><span class="line">    fail = <span class="string">'\033[91m'</span></span><br><span class="line">    close = <span class="string">'\033[0m'</span></span><br><span class="line"><span class="comment"># 设置训练集大小    </span></span><br><span class="line">TRAINING_SIZE=<span class="number">50000</span></span><br><span class="line"><span class="comment"># 设置加数的最大位数</span></span><br><span class="line">DIGITS=<span class="number">3</span></span><br><span class="line"><span class="comment"># 是否逆序</span></span><br><span class="line">REVERSE=<span class="keyword">True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 问题的最大长度</span></span><br><span class="line">MAXLEN=DIGITS+<span class="number">1</span>+DIGITS</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有字符</span></span><br><span class="line">chars=<span class="string">"0123456789+ "</span></span><br><span class="line"><span class="comment"># 创建字符表对象</span></span><br><span class="line">ctable=CharacterTable(chars)</span><br></pre></td></tr></table></figure></p>
+<pre><code>{&#39; &#39;: 0, &#39;+&#39;: 1, &#39;0&#39;: 2, &#39;1&#39;: 3, &#39;2&#39;: 4, &#39;3&#39;: 5, &#39;4&#39;: 6, &#39;5&#39;: 7, &#39;6&#39;: 8, &#39;7&#39;: 9, &#39;8&#39;: 10, &#39;9&#39;: 11}
+{0: &#39; &#39;, 1: &#39;+&#39;, 2: &#39;0&#39;, 3: &#39;1&#39;, 4: &#39;2&#39;, 5: &#39;3&#39;, 6: &#39;4&#39;, 7: &#39;5&#39;, 8: &#39;6&#39;, 9: &#39;7&#39;, 10: &#39;8&#39;, 11: &#39;9&#39;}
+</code></pre><h4 id="（3）构造训练数据"><a href="#（3）构造训练数据" class="headerlink" title="（3）构造训练数据"></a>（3）构造训练数据</h4><p>训练数据我们通过随机产生的整数来构造问题，通过整数相加的得到问题的答案，接着将问题和答案都字符化，并分别将每个问题和答案都用空格来填充至固定大小。最终问题的格式为：”——45+0”,答案的格式为：”54—“(“—”表示空格，这里已经将问题前后逆转了)。具体见下面代码。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">questions=[]</span><br><span class="line">expected=[]</span><br><span class="line">seen=set()</span><br><span class="line">print(<span class="string">"Generating data..."</span>)</span><br><span class="line"><span class="keyword">while</span> len(questions) &lt; TRAINING_SIZE:</span><br><span class="line">    <span class="comment"># ——————————————————————————————————————</span></span><br><span class="line">    <span class="comment"># np.random.choice</span></span><br><span class="line">    <span class="comment"># 参数意思分别是从给定的候选集中以概率P随机选择, p没有指定的时候相当于是一致的分布，replacement决定是否放回，size决定选择的个数</span></span><br><span class="line">    <span class="comment"># randint是在[1,4)之间随机产生一个整数，这个整数决定此次产生的字符串的长度，然后依次随机从0-9中选择一个数字，最后拼接起来</span></span><br><span class="line">    <span class="comment"># ——————————————————————————————————————</span></span><br><span class="line">    f=<span class="keyword">lambda</span>: int(<span class="string">""</span>.join(np.random.choice(list(<span class="string">"0123456789"</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> range(np.random.randint(<span class="number">1</span>,DIGITS+<span class="number">1</span>))))</span><br><span class="line">    a,b=f(),f()</span><br><span class="line">    <span class="comment"># 将随机选择的两个整数排序</span></span><br><span class="line">    key=tuple(sorted((a,b)))</span><br><span class="line">    <span class="comment"># 如果此次选择的加法问题已经存在了，则忽略</span></span><br><span class="line">    <span class="keyword">if</span> key <span class="keyword">in</span> seen:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    seen.add(key)</span><br><span class="line">    <span class="comment"># 构造问题，组装成a+b的字符串</span></span><br><span class="line">    q=<span class="string">"&#123;&#125;+&#123;&#125;"</span>.format(a,b)</span><br><span class="line">    <span class="comment"># 用空格来填充问题成预设的最大长度</span></span><br><span class="line">    query=q+<span class="string">" "</span>*(MAXLEN-len(q))</span><br><span class="line">    <span class="comment"># 构造问题的答案</span></span><br><span class="line">    ans=str(a+b)</span><br><span class="line">    <span class="comment"># 用空格来填充答案，使其长度为4</span></span><br><span class="line">    ans+=<span class="string">" "</span>*(DIGITS+<span class="number">1</span>-len(ans))</span><br><span class="line">    <span class="comment"># 如果需要逆序</span></span><br><span class="line">    <span class="keyword">if</span> REVERSE:</span><br><span class="line">        query=query[::<span class="number">-1</span>]</span><br><span class="line">    <span class="comment"># 将构造的问题和答案加入相应的列表</span></span><br><span class="line">    questions.append(query)</span><br><span class="line">    expected.append(ans)</span><br><span class="line">print(<span class="string">'Total addition questions:'</span>, len(questions))</span><br></pre></td></tr></table></figure></p>
+<pre><code>Generating data...
+Total addition questions: 50000
+</code></pre><h4 id="（4）将训练数据向量化"><a href="#（4）将训练数据向量化" class="headerlink" title="（4）将训练数据向量化"></a>（4）将训练数据向量化</h4><p>这一部分就是调用预先写好的编码解码类来将问题和答案转化为one-hot模型。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"Vectorization..."</span>)</span><br><span class="line"><span class="comment"># 将x初始化为（样本数，每个问题的最大长度，总的字符数）的布尔型矩阵</span></span><br><span class="line">x=np.zeros((len(questions),MAXLEN,len(chars)),dtype=np.bool)</span><br><span class="line">y=np.zeros((len(questions),DIGITS+<span class="number">1</span>,len(chars)),dtype=np.bool)</span><br><span class="line"><span class="comment"># 针对训练问题集中的每一个问题，对其进行编码，one-hot模型，一个问题编码后对应一个矩阵</span></span><br><span class="line"><span class="keyword">for</span> i,sentence <span class="keyword">in</span> enumerate(questions):</span><br><span class="line">    x[i]=ctable.encode(sentence,MAXLEN)</span><br><span class="line"><span class="keyword">for</span> i,sentence <span class="keyword">in</span> enumerate(expected):</span><br><span class="line">    y[i]=ctable.encode(sentence,DIGITS+<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<pre><code>Vectorization...
+</code></pre><h4 id="（5）将训练集随机化"><a href="#（5）将训练集随机化" class="headerlink" title="（5）将训练集随机化"></a>（5）将训练集随机化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">indices=np.arange(len(y))</span><br><span class="line">np.random.shuffle(indices)</span><br><span class="line">x=x[indices]</span><br><span class="line">y=y[indices]</span><br></pre></td></tr></table></figure>
+<h4 id="（6）划分训练集和测试集"><a href="#（6）划分训练集和测试集" class="headerlink" title="（6）划分训练集和测试集"></a>（6）划分训练集和测试集</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">split_at=len(x)-len(x)//<span class="number">10</span></span><br><span class="line">(x_train,x_val)=x[:split_at],x[split_at:]</span><br><span class="line">(y_train,y_val)=y[:split_at],y[split_at:]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看训练集和验证集数据信息</span></span><br><span class="line">print(<span class="string">"Training Data:"</span>)</span><br><span class="line">print(x_train.shape)</span><br><span class="line">print(y_train.shape)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Validation Data:"</span>)</span><br><span class="line">print(x_val.shape)</span><br><span class="line">print(y_val.shape)</span><br></pre></td></tr></table></figure>
+<pre><code>Training Data:
+(45000, 7, 12)
+(45000, 4, 12)
+Validation Data:
+(5000, 7, 12)
+(5000, 4, 12)
+</code></pre><h4 id="（7）搭建网络结构"><a href="#（7）搭建网络结构" class="headerlink" title="（7）搭建网络结构"></a>（7）搭建网络结构</h4><p>网络结构通过keras的序列模型搭建起来，其结构图如图所示：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/addition_rnn_model.png" alt="网络结构图"><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">RNN=layers.LSTM</span><br><span class="line">HIDDEN_SIZE=<span class="number">128</span></span><br><span class="line">BATCH_SIZE=<span class="number">128</span></span><br><span class="line">LAYERS=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">"Building model..."</span>)</span><br><span class="line">model=Sequential()</span><br><span class="line">model.add(RNN(HIDDEN_SIZE,input_shape=(MAXLEN,len(chars))))</span><br><span class="line">model.add(layers.core.RepeatVector(DIGITS+<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 创建LAYERS层的RNN网络层</span></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(LAYERS):</span><br><span class="line">    model.add(RNN(HIDDEN_SIZE,return_sequences=<span class="keyword">True</span>))</span><br><span class="line">model.add(layers.TimeDistributed(layers.Dense(len(chars))))</span><br><span class="line">model.add(layers.Activation(<span class="string">"softmax"</span>))</span><br><span class="line">model.compile(loss=<span class="string">"categorical_crossentropy"</span>,optimizer=<span class="string">"adam"</span>,metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure></p>
+<pre><code>Building model...
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+lstm_1 (LSTM)                (None, 128)               72192     
+_________________________________________________________________
+repeat_vector_1 (RepeatVecto (None, 4, 128)            0         
+_________________________________________________________________
+lstm_2 (LSTM)                (None, 4, 128)            131584    
+_________________________________________________________________
+time_distributed_1 (TimeDist (None, 4, 12)             1548      
+_________________________________________________________________
+activation_1 (Activation)    (None, 4, 12)             0         
+=================================================================
+Total params: 205,324
+Trainable params: 205,324
+Non-trainable params: 0
+_________________________________________________________________
+</code></pre><p>其中，部分API的功能介绍如下：<br><strong>①keras.layers.core.RepeatVector(n)</strong>：将输入重复n次<br>参数n：整数，重复的次数<br>输入shape：形如（nb_samples, features）的2D张量<br>输出shape：形如（nb_samples, n, features）的3D张量<br><strong>②keras.layers.wrappers.TimeDistributed(layer)：</strong>该包装器可以把一个层应用到输入的每一个时间步上，这个有点难理解，在网上找到了一篇通俗易懂的解释，看了好半天才才理解到（智商是硬伤）。地址：<a href="https://blog.csdn.net/u012193416/article/details/79477220" target="_blank" rel="noopener">https://blog.csdn.net/u012193416/article/details/79477220</a></p>
+<h4 id="（8）训练和预测"><a href="#（8）训练和预测" class="headerlink" title="（8）训练和预测"></a>（8）训练和预测</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train the model each generation and show predictions against the validataion dataset</span></span><br><span class="line"><span class="keyword">for</span> iteration <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">200</span>):</span><br><span class="line">    print()</span><br><span class="line">    print(<span class="string">"-"</span>*<span class="number">50</span>)</span><br><span class="line">    print(<span class="string">"Iteration"</span>,iteration)</span><br><span class="line">    model.fit(x_train,y_train,batch_size=BATCH_SIZE,epochs=<span class="number">1</span>,validation_data=(x_val,y_val))</span><br></pre></td></tr></table></figure>
+<pre><code>--------------------------------------------------
+Iteration 1
+Train on 45000 samples, validate on 5000 samples
+Epoch 1/1
+45000/45000 [==============================] - 7s 148us/step - loss: 1.8855 - acc: 0.3222 - val_loss: 1.8006 - val_acc: 0.3410
+.........
+--------------------------------------------------
+Iteration 199
+Train on 45000 samples, validate on 5000 samples
+Epoch 1/1
+45000/45000 [==============================] - 6s 136us/step - loss: 0.0014 - acc: 0.9997 - val_loss: 0.0027 - val_acc: 0.9991
+</code></pre><p>上面就是使用处理好的数据来训练网络的过程，一共训练200轮（不知道是否理解有误），这段代码与下面这句代码等效：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.fit(x_train,y_train,batch_size=BATCH_SIZE,epochs=<span class="number">200</span>,validation_data=(x_val,y_val))</span><br></pre></td></tr></table></figure>
+<p>接下来就是测试模型的性能了，从验证集里随机产生10个问题，通过模型得到预测的答案，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># select 10 samples from the validation set at random so we can see errors</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="comment"># 从验证集数据的索引范围内随机产生一个索引</span></span><br><span class="line">    ind=np.random.randint(<span class="number">0</span>,len(x_val))</span><br><span class="line">    <span class="comment"># 通过索引，获取问题的内容和问题答案</span></span><br><span class="line">    rowx,rowy=x_val[np.array([ind])],y_val[np.array([ind])]</span><br><span class="line">    <span class="comment"># 通过模型预测答案</span></span><br><span class="line">    preds=model.predict_classes(rowx,verbose=<span class="number">0</span>)</span><br><span class="line">    <span class="comment"># 将问题解码</span></span><br><span class="line">    q=ctable.decode(rowx[<span class="number">0</span>])</span><br><span class="line">    <span class="comment"># 将答案解码</span></span><br><span class="line">    correct=ctable.decode(rowy[<span class="number">0</span>])</span><br><span class="line">    <span class="comment"># 将预测的结果解码</span></span><br><span class="line">    guess=ctable.decode(preds[<span class="number">0</span>],calc_argmax=<span class="keyword">False</span>)</span><br><span class="line">    <span class="comment"># 构造输出格式</span></span><br><span class="line">    print(<span class="string">"Q:"</span>,q[::<span class="number">-1</span>] <span class="keyword">if</span> REVERSE <span class="keyword">else</span> q,end=<span class="string">" "</span>)</span><br><span class="line">    print(<span class="string">'T:'</span>,correct,end=<span class="string">" "</span>)</span><br><span class="line">    <span class="comment"># 根据是否正确选择不同的输出格式</span></span><br><span class="line">    <span class="keyword">if</span> correct == guess:</span><br><span class="line">        print(colors.ok + <span class="string">'☑'</span> + colors.close, end=<span class="string">' '</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(colors.fail + <span class="string">'☒'</span> + colors.close, end=<span class="string">' '</span>)</span><br><span class="line">        print(guess)</span><br></pre></td></tr></table></figure>
+<pre><code>Q: 948+50  T: 998  [92m☑[0m Q: 324+89  T: 413  [92m☑[0m Q: 50+424  T: 474  [92m☑[0m Q: 910+2   T: 912  [92m☑[0m Q: 15+157  T: 172  [92m☑[0m Q: 660+0   T: 660  [92m☑[0m Q: 453+32  T: 485  [92m☑[0m Q: 4+263   T: 267  [92m☑[0m Q: 6+424   T: 430  [92m☑[0m Q: 92+942  T: 1034 [92m☑[0m 
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model.fit(x_train,y_train,batch_size=BATCH_SIZE,epochs=200,validation_data=(x_val,y_val))</span></span><br></pre></td></tr></table></figure>
+<h4 id="（9）网络结构可视化"><a href="#（9）网络结构可视化" class="headerlink" title="（9）网络结构可视化"></a>（9）网络结构可视化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot_model(model, to_file=<span class="string">'addition_rnn_model.png'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="3、小结"><a href="#3、小结" class="headerlink" title="3、小结"></a>3、小结</h3><p>通过这一次实验，收获肯定是有的。首先是将一个实际问题转化为网络结构能过处理的一个问题。转化为什么问题，采用什么模型来解，这些都是很重要的；接着就是数据的构造、one-hot模型的实现，虽然以前也手写代码实现过one-hot模型，但是这次通过自己构造数据，然后不通过接口来将数据转化为one-hot模型，这是第一次遇到，因此学会了这种情况的处理方式。最后就是keras的一些层的使用，比如说RepeatVector()和TimeDistributed()，由于才开始学keras，看了文档没多久就忘记了，即使不忘，有些层也只知道个大概，具体怎么用还是不清楚。通过这个例子，里面涉及到了这两个层，然后我也去查了这两个层的资料，至少现在知道了是怎么使用的。那这一篇就这样吧！</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com" rel="external nofollow noreferrer">IrvingBei</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com/2018/07/20/Keras examples-addition_rnn (1)/">http://bei.dreamcykj.com/2018/07/20/Keras examples-addition_rnn (1)/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/深度学习/">
+                                    <span class="chip bg-color">深度学习</span>
+                                </a>
+                            
+                                <a href="/tags/Keras/">
+                                    <span class="chip bg-color">Keras</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/07/21/快速将非数值型目标变量转化为数值型变量/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="快速将非数值型目标变量转化为数值型变量">
+                        
+                        <span class="card-title">快速将非数值型目标变量转化为数值型变量</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            快速将非数值型目标变量转化为数值型变量，比如把[‘L’,’M’,’N’]转化为[1,2,3]或多维向量类型
+转化前：1df_train.y.value_counts()
+12345678C    620R    477G    361M  
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-07-21
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Experiment/" class="post-category">
+                                    Experiment
+                                </a>
+                            
+                            <a href="/categories/Experiment/Python/" class="post-category">
+                                    Python
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/实验教程/">
+                        <span class="chip bg-color">实验教程</span>
+                    </a>
+                    
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(3)-Word2Voc (1)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Bag of Words Meets Bags of Popcorn(3)-Word2Voc">
+                        
+                        <span class="card-title">Bag of Words Meets Bags of Popcorn(3)-Word2Voc</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            词带模型：Bag of Words Meets Bags of Popcorn(1)-Bag of WordsTfidf模型：Bag of Words Meets Bags of Popcorn(2)-tfidf这一节采用词向量
+1、读取数
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-14
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Kaggle/" class="post-category">
+                                    Kaggle
+                                </a>
+                            
+                            <a href="/categories/Kaggle/nlp/" class="post-category">
+                                    nlp
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Kaggle/">
+                        <span class="chip bg-color">Kaggle</span>
+                    </a>
+                    
+                    <a href="/tags/文本分类/">
+                        <span class="chip bg-color">文本分类</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 山不过来，我就过去<br />'
+            + '文章作者: IrvingBei<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2017";
+                    var startMonth = "09";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/IrvingBei" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:irvingbei@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+    
+
+</body>
+
+</html>

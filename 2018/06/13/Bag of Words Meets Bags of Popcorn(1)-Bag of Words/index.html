@@ -1,0 +1,1207 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="keywords" content="Bag of Words Meets Bags of Popcorn(1)-Bag of Words, 山不过来，我就过去">
+    <meta name="description" content="本篇是kaggle之电影评论文本情感分类（Bag of Words Meets Bags of Popcorn）的实现，主要参照Rajath Chidananda的《Bag of Words Meets Bags of Popcorn》，整">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Bag of Words Meets Bags of Popcorn(1)-Bag of Words | 山不过来，我就过去</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+</head>
+
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">山不过来，我就过去</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">山不过来，我就过去</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Bag of Words Meets Bags of Popcorn(1)-Bag of Words
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Kaggle/">
+                                <span class="chip bg-color">Kaggle</span>
+                            </a>
+                        
+                            <a href="/tags/文本分类/">
+                                <span class="chip bg-color">文本分类</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Kaggle/" class="post-category">
+                                Kaggle
+                            </a>
+                        
+                            <a href="/categories/Kaggle/nlp/" class="post-category">
+                                nlp
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-06-13
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    21.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    131 分
+                </div>
+                
+				
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本篇是kaggle之电影评论文本情感分类（Bag of Words Meets Bags of Popcorn）的实现，主要参照Rajath Chidananda的《Bag of Words Meets Bags of Popcorn》，整体是按照他的流程来走的，对每一步都加上了注释，也对相应点给出了参考资料链接。<a id="more"></a></p>
+<h2 id="1、准备工作"><a href="#1、准备工作" class="headerlink" title="1、准备工作"></a>1、准备工作</h2><h3 id="1-1-查看数据格式"><a href="#1-1-查看数据格式" class="headerlink" title="1.1 查看数据格式"></a>1.1 查看数据格式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line">train=pd.read_csv(<span class="string">"./data/labeledTrainData.tsv"</span>, header=<span class="number">0</span>, delimiter=<span class="string">"\t"</span>, quoting=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 查看数据的大小</span></span><br><span class="line">train.shape</span><br></pre></td></tr></table></figure>
+<pre><code>(25000, 3)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看数据的字段</span></span><br><span class="line">train.columns</span><br></pre></td></tr></table></figure>
+<pre><code>Index([&#39;id&#39;, &#39;sentiment&#39;, &#39;review&#39;], dtype=&#39;object&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看数据格式</span></span><br><span class="line"><span class="comment"># train.head()</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看完整的一条评论</span></span><br><span class="line">train[<span class="string">'review'</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>&#39;&quot;With all this stuff going down at the moment with MJ i\&#39;ve started listening to his music, watching the odd documentary here and there, watched The Wiz and watched Moonwalker again. Maybe i just want to get a certain insight into this guy who i thought was really cool in the eighties just to maybe make up my mind whether he is guilty or innocent. Moonwalker is part biography, part feature film which i remember going to see at the cinema when it was originally released. Some of it has subtle messages about MJ\&#39;s feeling towards the press and also the obvious message of drugs are bad m\&#39;kay.&lt;br /&gt;&lt;br /&gt;Visually impressive but of course this is all about Michael Jackson so unless you remotely like MJ in anyway then you are going to hate this and find it boring. Some may call MJ an egotist for consenting to the making of this movie BUT MJ and most of his fans would say that he made it for the fans which if true is really nice of him.&lt;br /&gt;&lt;br /&gt;The actual feature film bit when it finally starts is only on for 20 minutes or so excluding the Smooth Criminal sequence and Joe Pesci is convincing as a psychopathic all powerful drug lord. Why he wants MJ dead so bad is beyond me. Because MJ overheard his plans? Nah, Joe Pesci\&#39;s character ranted that he wanted people to know it is he who is supplying drugs etc so i dunno, maybe he just hates MJ\&#39;s music.&lt;br /&gt;&lt;br /&gt;Lots of cool things in this like MJ turning into a car and a robot and the whole Speed Demon sequence. Also, the director must have had the patience of a saint when it came to filming the kiddy Bad sequence as usually directors hate working with one kid let alone a whole bunch of them performing a complex dance scene.&lt;br /&gt;&lt;br /&gt;Bottom line, this movie is for people who like MJ on one level or another (which i think is most people). If not, then stay away. It does try and give off a wholesome message and ironically MJ\&#39;s bestest buddy in this movie is a girl! Michael Jackson is truly one of the most talented people ever to grace this planet but is he guilty? Well, with all the attention i\&#39;ve gave this subject....hmmm well i don\&#39;t know because people can be different behind closed doors, i know this for a fact. He is either an extremely nice but stupid guy or one of the most sickest liars. I hope he is not the latter.&quot;&#39;
+</code></pre><h3 id="1-2-数据清洗"><a href="#1-2-数据清洗" class="headerlink" title="1.2 数据清洗"></a>1.2 数据清洗</h3><p>观察这条数据，发现有html标签，需要从html标签文件中抽取出文本，有标点符号，有大小写，介词、冠词较多，那么接下来就对数据进行清洗，</p>
+<h4 id="1-2-1-清洗1——去除html标签"><a href="#1-2-1-清洗1——去除html标签" class="headerlink" title="1.2.1 清洗1——去除html标签"></a>1.2.1 清洗1——去除html标签</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line">example1=BeautifulSoup(train[<span class="string">'review'</span>][<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>/home/xiongzy/anaconda3/lib/python3.6/site-packages/bs4/__init__.py:181: UserWarning: No parser was explicitly specified, so I&#39;m using the best available HTML parser for this system (&quot;lxml&quot;). This usually isn&#39;t a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.
+
+The code that caused this warning is on line 193 of the file /home/xiongzy/anaconda3/lib/python3.6/runpy.py. To get rid of this warning, change code that looks like this:
+
+ BeautifulSoup(YOUR_MARKUP})
+
+to this:
+
+ BeautifulSoup(YOUR_MARKUP, &quot;lxml&quot;)
+
+  markup_type=markup_type))
+</code></pre><p>example1就是bs对象，调用get_text()方法即可获取文本<br>我们首先再输出一下原始文本，然后输出第一次清洗后的文本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">'review'</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>&#39;&quot;With all this stuff going down at the moment with MJ i\&#39;ve started listening to his music, watching the odd documentary here and there, watched The Wiz and watched Moonwalker again. Maybe i just want to get a certain insight into this guy who i thought was really cool in the eighties just to maybe make up my mind whether he is guilty or innocent. Moonwalker is part biography, part feature film which i remember going to see at the cinema when it was originally released. Some of it has subtle messages about MJ\&#39;s feeling towards the press and also the obvious message of drugs are bad m\&#39;kay.&lt;br /&gt;&lt;br /&gt;Visually impressive but of course this is all about Michael Jackson so unless you remotely like MJ in anyway then you are going to hate this and find it boring. Some may call MJ an egotist for consenting to the making of this movie BUT MJ and most of his fans would say that he made it for the fans which if true is really nice of him.&lt;br /&gt;&lt;br /&gt;The actual feature film bit when it finally starts is only on for 20 minutes or so excluding the Smooth Criminal sequence and Joe Pesci is convincing as a psychopathic all powerful drug lord. Why he wants MJ dead so bad is beyond me. Because MJ overheard his plans? Nah, Joe Pesci\&#39;s character ranted that he wanted people to know it is he who is supplying drugs etc so i dunno, maybe he just hates MJ\&#39;s music.&lt;br /&gt;&lt;br /&gt;Lots of cool things in this like MJ turning into a car and a robot and the whole Speed Demon sequence. Also, the director must have had the patience of a saint when it came to filming the kiddy Bad sequence as usually directors hate working with one kid let alone a whole bunch of them performing a complex dance scene.&lt;br /&gt;&lt;br /&gt;Bottom line, this movie is for people who like MJ on one level or another (which i think is most people). If not, then stay away. It does try and give off a wholesome message and ironically MJ\&#39;s bestest buddy in this movie is a girl! Michael Jackson is truly one of the most talented people ever to grace this planet but is he guilty? Well, with all the attention i\&#39;ve gave this subject....hmmm well i don\&#39;t know because people can be different behind closed doors, i know this for a fact. He is either an extremely nice but stupid guy or one of the most sickest liars. I hope he is not the latter.&quot;&#39;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example1.get_text()</span><br></pre></td></tr></table></figure>
+<pre><code>&#39;&quot;With all this stuff going down at the moment with MJ i\&#39;ve started listening to his music, watching the odd documentary here and there, watched The Wiz and watched Moonwalker again. Maybe i just want to get a certain insight into this guy who i thought was really cool in the eighties just to maybe make up my mind whether he is guilty or innocent. Moonwalker is part biography, part feature film which i remember going to see at the cinema when it was originally released. Some of it has subtle messages about MJ\&#39;s feeling towards the press and also the obvious message of drugs are bad m\&#39;kay.Visually impressive but of course this is all about Michael Jackson so unless you remotely like MJ in anyway then you are going to hate this and find it boring. Some may call MJ an egotist for consenting to the making of this movie BUT MJ and most of his fans would say that he made it for the fans which if true is really nice of him.The actual feature film bit when it finally starts is only on for 20 minutes or so excluding the Smooth Criminal sequence and Joe Pesci is convincing as a psychopathic all powerful drug lord. Why he wants MJ dead so bad is beyond me. Because MJ overheard his plans? Nah, Joe Pesci\&#39;s character ranted that he wanted people to know it is he who is supplying drugs etc so i dunno, maybe he just hates MJ\&#39;s music.Lots of cool things in this like MJ turning into a car and a robot and the whole Speed Demon sequence. Also, the director must have had the patience of a saint when it came to filming the kiddy Bad sequence as usually directors hate working with one kid let alone a whole bunch of them performing a complex dance scene.Bottom line, this movie is for people who like MJ on one level or another (which i think is most people). If not, then stay away. It does try and give off a wholesome message and ironically MJ\&#39;s bestest buddy in this movie is a girl! Michael Jackson is truly one of the most talented people ever to grace this planet but is he guilty? Well, with all the attention i\&#39;ve gave this subject....hmmm well i don\&#39;t know because people can be different behind closed doors, i know this for a fact. He is either an extremely nice but stupid guy or one of the most sickest liars. I hope he is not the latter.&quot;&#39;
+</code></pre><h4 id="1-2-2-清洗2——去掉标点符号和非法字符"><a href="#1-2-2-清洗2——去掉标点符号和非法字符" class="headerlink" title="1.2.2 清洗2——去掉标点符号和非法字符"></a>1.2.2 清洗2——去掉标点符号和非法字符</h4><p>然后发现文本中还有一些标点符号啥的，可以考虑用正则表达式去掉</p>
+<p>re.sub(pattern, repl, string, count=0, flags=0)</p>
+<p>pattern：表示正则表达式中的模式字符串；</p>
+<p>repl：被替换的字符串（既可以是字符串，也可以是函数）；</p>
+<p>string：要被处理的，要被替换的字符串；</p>
+<p>count：匹配的次数, 默认是全部替换</p>
+<p>flags：具体用处不详</p>
+<p>具体strip(),replace()和re.sub()用法:<a href="https://www.cnblogs.com/sshcy/p/8065113.html" target="_blank" rel="noopener">https://www.cnblogs.com/sshcy/p/8065113.html</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re </span><br><span class="line">letters_only=re.sub(<span class="string">"[^a-zA-Z]"</span>,<span class="string">" "</span>,example1.get_text()) <span class="comment"># 注意，这里是将非字母字符替换成空白字符</span></span><br><span class="line">print(letters_only)</span><br></pre></td></tr></table></figure>
+<pre><code> With all this stuff going down at the moment with MJ i ve started listening to his music  watching the odd documentary here and there  watched The Wiz and watched Moonwalker again  Maybe i just want to get a certain insight into this guy who i thought was really cool in the eighties just to maybe make up my mind whether he is guilty or innocent  Moonwalker is part biography  part feature film which i remember going to see at the cinema when it was originally released  Some of it has subtle messages about MJ s feeling towards the press and also the obvious message of drugs are bad m kay Visually impressive but of course this is all about Michael Jackson so unless you remotely like MJ in anyway then you are going to hate this and find it boring  Some may call MJ an egotist for consenting to the making of this movie BUT MJ and most of his fans would say that he made it for the fans which if true is really nice of him The actual feature film bit when it finally starts is only on for    minutes or so excluding the Smooth Criminal sequence and Joe Pesci is convincing as a psychopathic all powerful drug lord  Why he wants MJ dead so bad is beyond me  Because MJ overheard his plans  Nah  Joe Pesci s character ranted that he wanted people to know it is he who is supplying drugs etc so i dunno  maybe he just hates MJ s music Lots of cool things in this like MJ turning into a car and a robot and the whole Speed Demon sequence  Also  the director must have had the patience of a saint when it came to filming the kiddy Bad sequence as usually directors hate working with one kid let alone a whole bunch of them performing a complex dance scene Bottom line  this movie is for people who like MJ on one level or another  which i think is most people   If not  then stay away  It does try and give off a wholesome message and ironically MJ s bestest buddy in this movie is a girl  Michael Jackson is truly one of the most talented people ever to grace this planet but is he guilty  Well  with all the attention i ve gave this subject    hmmm well i don t know because people can be different behind closed doors  i know this for a fact  He is either an extremely nice but stupid guy or one of the most sickest liars  I hope he is not the latter  
+</code></pre><h4 id="1-2-3-清洗3——数据归一化"><a href="#1-2-3-清洗3——数据归一化" class="headerlink" title="1.2.3 清洗3——数据归一化"></a>1.2.3 清洗3——数据归一化</h4><p>看到评论中数据，每条评论记录中的单词大小写都存在，于是可以考虑把所以字符改为小写，然后再以空格为分割符进行切割,得到一条评论的一个列表，列表元素为这条评论的单词</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lower_case=letters_only.lower()</span><br><span class="line">words=lower_case.split() <span class="comment"># split默认是以空格为分割符</span></span><br><span class="line"><span class="comment"># print(words)</span></span><br></pre></td></tr></table></figure>
+<h4 id="1-2-4-清洗4——去停用词"><a href="#1-2-4-清洗4——去停用词" class="headerlink" title="1.2.4 清洗4——去停用词"></a>1.2.4 清洗4——去停用词</h4><p>因为是英文数据，于是可以考虑直接使用nltk提供的英文停用词表，nltk里好像有9门语言的停用词表，目前不支持中文。</p>
+<p>使用停用词表需要预先下载ntlk_data,我已经上传百度云:链接：<a href="https://pan.baidu.com/s/1E-eKAZg5aEBRTqSYG24Tng" target="_blank" rel="noopener">https://pan.baidu.com/s/1E-eKAZg5aEBRTqSYG24Tng</a> 密码：lrbe</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看停用词表中的单词</span></span><br><span class="line"><span class="keyword">import</span> nltk</span><br><span class="line"><span class="comment"># from nltk.corpus import stopwords</span></span><br><span class="line"><span class="comment"># print(stopwords.words("english"))</span></span><br><span class="line"><span class="comment"># words = [w for w in words if not w in stopwords.words("english")]</span></span><br><span class="line">print(words)</span><br></pre></td></tr></table></figure>
+<pre><code>[&#39;with&#39;, &#39;all&#39;, &#39;this&#39;, &#39;stuff&#39;, &#39;going&#39;, &#39;down&#39;, &#39;at&#39;, &#39;the&#39;, &#39;moment&#39;, &#39;with&#39;, &#39;mj&#39;, &#39;i&#39;, &#39;ve&#39;, &#39;started&#39;, &#39;listening&#39;, &#39;to&#39;, &#39;his&#39;, &#39;music&#39;, &#39;watching&#39;, &#39;the&#39;, &#39;odd&#39;, &#39;documentary&#39;, &#39;here&#39;, &#39;and&#39;, &#39;there&#39;, &#39;watched&#39;, &#39;the&#39;, &#39;wiz&#39;, &#39;and&#39;, &#39;watched&#39;, &#39;moonwalker&#39;, &#39;again&#39;, &#39;maybe&#39;, &#39;i&#39;, &#39;just&#39;, &#39;want&#39;, &#39;to&#39;, &#39;get&#39;, &#39;a&#39;, &#39;certain&#39;, &#39;insight&#39;, &#39;into&#39;, &#39;this&#39;, &#39;guy&#39;, &#39;who&#39;, &#39;i&#39;, &#39;thought&#39;, &#39;was&#39;, &#39;really&#39;, &#39;cool&#39;, &#39;in&#39;, &#39;the&#39;, &#39;eighties&#39;, &#39;just&#39;, &#39;to&#39;, &#39;maybe&#39;, &#39;make&#39;, &#39;up&#39;, &#39;my&#39;, &#39;mind&#39;, &#39;whether&#39;, &#39;he&#39;, &#39;is&#39;, &#39;guilty&#39;, &#39;or&#39;, &#39;innocent&#39;, &#39;moonwalker&#39;, &#39;is&#39;, &#39;part&#39;, &#39;biography&#39;, &#39;part&#39;, &#39;feature&#39;, &#39;film&#39;, &#39;which&#39;, &#39;i&#39;, &#39;remember&#39;, &#39;going&#39;, &#39;to&#39;, &#39;see&#39;, &#39;at&#39;, &#39;the&#39;, &#39;cinema&#39;, &#39;when&#39;, &#39;it&#39;, &#39;was&#39;, &#39;originally&#39;, &#39;released&#39;, &#39;some&#39;, &#39;of&#39;, &#39;it&#39;, &#39;has&#39;, &#39;subtle&#39;, &#39;messages&#39;, &#39;about&#39;, &#39;mj&#39;, &#39;s&#39;, &#39;feeling&#39;, &#39;towards&#39;, &#39;the&#39;, &#39;press&#39;, &#39;and&#39;, &#39;also&#39;, &#39;the&#39;, &#39;obvious&#39;, &#39;message&#39;, &#39;of&#39;, &#39;drugs&#39;, &#39;are&#39;, &#39;bad&#39;, &#39;m&#39;, &#39;kay&#39;, &#39;visually&#39;, &#39;impressive&#39;, &#39;but&#39;, &#39;of&#39;, &#39;course&#39;, &#39;this&#39;, &#39;is&#39;, &#39;all&#39;, &#39;about&#39;, &#39;michael&#39;, &#39;jackson&#39;, &#39;so&#39;, &#39;unless&#39;, &#39;you&#39;, &#39;remotely&#39;, &#39;like&#39;, &#39;mj&#39;, &#39;in&#39;, &#39;anyway&#39;, &#39;then&#39;, &#39;you&#39;, &#39;are&#39;, &#39;going&#39;, &#39;to&#39;, &#39;hate&#39;, &#39;this&#39;, &#39;and&#39;, &#39;find&#39;, &#39;it&#39;, &#39;boring&#39;, &#39;some&#39;, &#39;may&#39;, &#39;call&#39;, &#39;mj&#39;, &#39;an&#39;, &#39;egotist&#39;, &#39;for&#39;, &#39;consenting&#39;, &#39;to&#39;, &#39;the&#39;, &#39;making&#39;, &#39;of&#39;, &#39;this&#39;, &#39;movie&#39;, &#39;but&#39;, &#39;mj&#39;, &#39;and&#39;, &#39;most&#39;, &#39;of&#39;, &#39;his&#39;, &#39;fans&#39;, &#39;would&#39;, &#39;say&#39;, &#39;that&#39;, &#39;he&#39;, &#39;made&#39;, &#39;it&#39;, &#39;for&#39;, &#39;the&#39;, &#39;fans&#39;, &#39;which&#39;, &#39;if&#39;, &#39;true&#39;, &#39;is&#39;, &#39;really&#39;, &#39;nice&#39;, &#39;of&#39;, &#39;him&#39;, &#39;the&#39;, &#39;actual&#39;, &#39;feature&#39;, &#39;film&#39;, &#39;bit&#39;, &#39;when&#39;, &#39;it&#39;, &#39;finally&#39;, &#39;starts&#39;, &#39;is&#39;, &#39;only&#39;, &#39;on&#39;, &#39;for&#39;, &#39;minutes&#39;, &#39;or&#39;, &#39;so&#39;, &#39;excluding&#39;, &#39;the&#39;, &#39;smooth&#39;, &#39;criminal&#39;, &#39;sequence&#39;, &#39;and&#39;, &#39;joe&#39;, &#39;pesci&#39;, &#39;is&#39;, &#39;convincing&#39;, &#39;as&#39;, &#39;a&#39;, &#39;psychopathic&#39;, &#39;all&#39;, &#39;powerful&#39;, &#39;drug&#39;, &#39;lord&#39;, &#39;why&#39;, &#39;he&#39;, &#39;wants&#39;, &#39;mj&#39;, &#39;dead&#39;, &#39;so&#39;, &#39;bad&#39;, &#39;is&#39;, &#39;beyond&#39;, &#39;me&#39;, &#39;because&#39;, &#39;mj&#39;, &#39;overheard&#39;, &#39;his&#39;, &#39;plans&#39;, &#39;nah&#39;, &#39;joe&#39;, &#39;pesci&#39;, &#39;s&#39;, &#39;character&#39;, &#39;ranted&#39;, &#39;that&#39;, &#39;he&#39;, &#39;wanted&#39;, &#39;people&#39;, &#39;to&#39;, &#39;know&#39;, &#39;it&#39;, &#39;is&#39;, &#39;he&#39;, &#39;who&#39;, &#39;is&#39;, &#39;supplying&#39;, &#39;drugs&#39;, &#39;etc&#39;, &#39;so&#39;, &#39;i&#39;, &#39;dunno&#39;, &#39;maybe&#39;, &#39;he&#39;, &#39;just&#39;, &#39;hates&#39;, &#39;mj&#39;, &#39;s&#39;, &#39;music&#39;, &#39;lots&#39;, &#39;of&#39;, &#39;cool&#39;, &#39;things&#39;, &#39;in&#39;, &#39;this&#39;, &#39;like&#39;, &#39;mj&#39;, &#39;turning&#39;, &#39;into&#39;, &#39;a&#39;, &#39;car&#39;, &#39;and&#39;, &#39;a&#39;, &#39;robot&#39;, &#39;and&#39;, &#39;the&#39;, &#39;whole&#39;, &#39;speed&#39;, &#39;demon&#39;, &#39;sequence&#39;, &#39;also&#39;, &#39;the&#39;, &#39;director&#39;, &#39;must&#39;, &#39;have&#39;, &#39;had&#39;, &#39;the&#39;, &#39;patience&#39;, &#39;of&#39;, &#39;a&#39;, &#39;saint&#39;, &#39;when&#39;, &#39;it&#39;, &#39;came&#39;, &#39;to&#39;, &#39;filming&#39;, &#39;the&#39;, &#39;kiddy&#39;, &#39;bad&#39;, &#39;sequence&#39;, &#39;as&#39;, &#39;usually&#39;, &#39;directors&#39;, &#39;hate&#39;, &#39;working&#39;, &#39;with&#39;, &#39;one&#39;, &#39;kid&#39;, &#39;let&#39;, &#39;alone&#39;, &#39;a&#39;, &#39;whole&#39;, &#39;bunch&#39;, &#39;of&#39;, &#39;them&#39;, &#39;performing&#39;, &#39;a&#39;, &#39;complex&#39;, &#39;dance&#39;, &#39;scene&#39;, &#39;bottom&#39;, &#39;line&#39;, &#39;this&#39;, &#39;movie&#39;, &#39;is&#39;, &#39;for&#39;, &#39;people&#39;, &#39;who&#39;, &#39;like&#39;, &#39;mj&#39;, &#39;on&#39;, &#39;one&#39;, &#39;level&#39;, &#39;or&#39;, &#39;another&#39;, &#39;which&#39;, &#39;i&#39;, &#39;think&#39;, &#39;is&#39;, &#39;most&#39;, &#39;people&#39;, &#39;if&#39;, &#39;not&#39;, &#39;then&#39;, &#39;stay&#39;, &#39;away&#39;, &#39;it&#39;, &#39;does&#39;, &#39;try&#39;, &#39;and&#39;, &#39;give&#39;, &#39;off&#39;, &#39;a&#39;, &#39;wholesome&#39;, &#39;message&#39;, &#39;and&#39;, &#39;ironically&#39;, &#39;mj&#39;, &#39;s&#39;, &#39;bestest&#39;, &#39;buddy&#39;, &#39;in&#39;, &#39;this&#39;, &#39;movie&#39;, &#39;is&#39;, &#39;a&#39;, &#39;girl&#39;, &#39;michael&#39;, &#39;jackson&#39;, &#39;is&#39;, &#39;truly&#39;, &#39;one&#39;, &#39;of&#39;, &#39;the&#39;, &#39;most&#39;, &#39;talented&#39;, &#39;people&#39;, &#39;ever&#39;, &#39;to&#39;, &#39;grace&#39;, &#39;this&#39;, &#39;planet&#39;, &#39;but&#39;, &#39;is&#39;, &#39;he&#39;, &#39;guilty&#39;, &#39;well&#39;, &#39;with&#39;, &#39;all&#39;, &#39;the&#39;, &#39;attention&#39;, &#39;i&#39;, &#39;ve&#39;, &#39;gave&#39;, &#39;this&#39;, &#39;subject&#39;, &#39;hmmm&#39;, &#39;well&#39;, &#39;i&#39;, &#39;don&#39;, &#39;t&#39;, &#39;know&#39;, &#39;because&#39;, &#39;people&#39;, &#39;can&#39;, &#39;be&#39;, &#39;different&#39;, &#39;behind&#39;, &#39;closed&#39;, &#39;doors&#39;, &#39;i&#39;, &#39;know&#39;, &#39;this&#39;, &#39;for&#39;, &#39;a&#39;, &#39;fact&#39;, &#39;he&#39;, &#39;is&#39;, &#39;either&#39;, &#39;an&#39;, &#39;extremely&#39;, &#39;nice&#39;, &#39;but&#39;, &#39;stupid&#39;, &#39;guy&#39;, &#39;or&#39;, &#39;one&#39;, &#39;of&#39;, &#39;the&#39;, &#39;most&#39;, &#39;sickest&#39;, &#39;liars&#39;, &#39;i&#39;, &#39;hope&#39;, &#39;he&#39;, &#39;is&#39;, &#39;not&#39;, &#39;the&#39;, &#39;latter&#39;]
+</code></pre><h3 id="1-3-小结"><a href="#1-3-小结" class="headerlink" title="1.3 小结"></a>1.3 小结</h3><p>首先对数据的格式、基本信息进行了观察，主要如下：</p>
+<p>（1）数据大小：(25000, 3)</p>
+<p>（2）每条记录的字段：[‘id’, ‘sentiment’,’review’]</p>
+<p>接着对数据进行了清洗：去除html标签、去标点符号、转化为小写、去停用词，可以把数据清理这个过程写成一个函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要映入的库</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re </span><br><span class="line"><span class="keyword">import</span> nltk</span><br><span class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> stopwords</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数据清理函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">review_to_words</span><span class="params">(raw_review)</span>:</span></span><br><span class="line">    <span class="comment"># 通过BeautifulSoup抽取纯文本</span></span><br><span class="line">    review_text=BeautifulSoup(raw_review).get_text()</span><br><span class="line">    <span class="comment"># 通过正则表达式去掉标点符号</span></span><br><span class="line">    letters_only=re.sub(<span class="string">"[^a-zA-Z]"</span>,<span class="string">" "</span>,review_text)</span><br><span class="line">    <span class="comment"># 转化为小写，并进行分词</span></span><br><span class="line">    words=letters_only.lower().split()</span><br><span class="line">    <span class="comment"># 去停用词</span></span><br><span class="line">    stops = set(stopwords.words(<span class="string">"english"</span>))</span><br><span class="line">    meaningful_words=[w <span class="keyword">for</span> w <span class="keyword">in</span> words <span class="keyword">if</span> w <span class="keyword">not</span> <span class="keyword">in</span> stops]</span><br><span class="line">   </span><br><span class="line">    <span class="comment"># 将处理后的数据返回</span></span><br><span class="line">    cleaned_review=<span class="string">" "</span>.join(meaningful_words)</span><br><span class="line">    <span class="keyword">return</span> cleaned_review</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对编写的函数进行测试</span></span><br><span class="line">clean_review = review_to_words(train[<span class="string">"review"</span>][<span class="number">0</span>])</span><br><span class="line">print(clean_review)</span><br></pre></td></tr></table></figure>
+<pre><code>stuff going moment mj started listening music watching odd documentary watched wiz watched moonwalker maybe want get certain insight guy thought really cool eighties maybe make mind whether guilty innocent moonwalker part biography part feature film remember going see cinema originally released subtle messages mj feeling towards press also obvious message drugs bad kay visually impressive course michael jackson unless remotely like mj anyway going hate find boring may call mj egotist consenting making movie mj fans would say made fans true really nice actual feature film bit finally starts minutes excluding smooth criminal sequence joe pesci convincing psychopathic powerful drug lord wants mj dead bad beyond mj overheard plans nah joe pesci character ranted wanted people know supplying drugs etc dunno maybe hates mj music lots cool things like mj turning car robot whole speed demon sequence also director must patience saint came filming kiddy bad sequence usually directors hate working one kid let alone whole bunch performing complex dance scene bottom line movie people like mj one level another think people stay away try give wholesome message ironically mj bestest buddy movie girl michael jackson truly one talented people ever grace planet guilty well attention gave subject hmmm well know people different behind closed doors know fact either extremely nice stupid guy one sickest liars hope latter
+
+
+/home/xiongzy/anaconda3/lib/python3.6/site-packages/bs4/__init__.py:181: UserWarning: No parser was explicitly specified, so I&#39;m using the best available HTML parser for this system (&quot;lxml&quot;). This usually isn&#39;t a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.
+
+The code that caused this warning is on line 193 of the file /home/xiongzy/anaconda3/lib/python3.6/runpy.py. To get rid of this warning, change code that looks like this:
+
+ BeautifulSoup(YOUR_MARKUP})
+
+to this:
+
+ BeautifulSoup(YOUR_MARKUP, &quot;lxml&quot;)
+
+  markup_type=markup_type))
+</code></pre><h2 id="2、特征提取"><a href="#2、特征提取" class="headerlink" title="2、特征提取"></a>2、特征提取</h2><p>经过前面的分析，可以通过前面定义的方法来清洗数据。数据清洗好后，接下来就是提取每一条评论数据的特征，这里采用词带特征</p>
+<h3 id="2-1-准备数据"><a href="#2-1-准备数据" class="headerlink" title="2.1 准备数据"></a>2.1 准备数据</h3><p>使用在准备工作中定义的方法来清洗数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取数据的数量</span></span><br><span class="line">num_reviews=len(train)</span><br><span class="line"><span class="comment"># 对数据进行清洗</span></span><br><span class="line">clean_train_reviews=[]</span><br><span class="line">print(<span class="string">"Cleaning and parsing the training set movie reviews...\n"</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,num_reviews):</span><br><span class="line">    <span class="keyword">if</span>((i+<span class="number">1</span>)%<span class="number">1000</span> == <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">"Review %d of %d \n"</span> % (i+<span class="number">1</span>, num_reviews))</span><br><span class="line">    temp_review=review_to_words(train[<span class="string">"review"</span>][i])</span><br><span class="line">    clean_train_reviews.append(temp_review)</span><br><span class="line">clean_train_reviews[:<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>Cleaning and parsing the training set movie reviews...
+
+
+
+/home/xiongzy/anaconda3/lib/python3.6/site-packages/bs4/__init__.py:181: UserWarning: No parser was explicitly specified, so I&#39;m using the best available HTML parser for this system (&quot;lxml&quot;). This usually isn&#39;t a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.
+
+The code that caused this warning is on line 193 of the file /home/xiongzy/anaconda3/lib/python3.6/runpy.py. To get rid of this warning, change code that looks like this:
+
+ BeautifulSoup(YOUR_MARKUP})
+
+to this:
+
+ BeautifulSoup(YOUR_MARKUP, &quot;lxml&quot;)
+
+  markup_type=markup_type))
+
+
+Review 1000 of 25000 
+
+Review 2000 of 25000 
+
+Review 3000 of 25000 
+
+Review 4000 of 25000 
+
+Review 5000 of 25000 
+
+Review 6000 of 25000 
+
+Review 7000 of 25000 
+
+Review 8000 of 25000 
+
+Review 9000 of 25000 
+
+Review 10000 of 25000 
+
+Review 11000 of 25000 
+
+Review 12000 of 25000 
+
+Review 13000 of 25000 
+
+Review 14000 of 25000 
+
+Review 15000 of 25000 
+
+Review 16000 of 25000 
+
+Review 17000 of 25000 
+
+Review 18000 of 25000 
+
+Review 19000 of 25000 
+
+Review 20000 of 25000 
+
+Review 21000 of 25000 
+
+Review 22000 of 25000 
+
+Review 23000 of 25000 
+
+Review 24000 of 25000 
+
+Review 25000 of 25000 
+
+
+
+
+
+
+[&#39;stuff going moment mj started listening music watching odd documentary watched wiz watched moonwalker maybe want get certain insight guy thought really cool eighties maybe make mind whether guilty innocent moonwalker part biography part feature film remember going see cinema originally released subtle messages mj feeling towards press also obvious message drugs bad kay visually impressive course michael jackson unless remotely like mj anyway going hate find boring may call mj egotist consenting making movie mj fans would say made fans true really nice actual feature film bit finally starts minutes excluding smooth criminal sequence joe pesci convincing psychopathic powerful drug lord wants mj dead bad beyond mj overheard plans nah joe pesci character ranted wanted people know supplying drugs etc dunno maybe hates mj music lots cool things like mj turning car robot whole speed demon sequence also director must patience saint came filming kiddy bad sequence usually directors hate working one kid let alone whole bunch performing complex dance scene bottom line movie people like mj one level another think people stay away try give wholesome message ironically mj bestest buddy movie girl michael jackson truly one talented people ever grace planet guilty well attention gave subject hmmm well know people different behind closed doors know fact either extremely nice stupid guy one sickest liars hope latter&#39;,
+ &#39;classic war worlds timothy hines entertaining film obviously goes great effort lengths faithfully recreate h g wells classic book mr hines succeeds watched film appreciated fact standard predictable hollywood fare comes every year e g spielberg version tom cruise slightest resemblance book obviously everyone looks different things movie envision amateur critics look criticize everything others rate movie important bases like entertained people never agree critics enjoyed effort mr hines put faithful h g wells classic novel found entertaining made easy overlook critics perceive shortcomings&#39;,
+ &#39;film starts manager nicholas bell giving welcome investors robert carradine primal park secret project mutating primal animal using fossilized dna like jurassik park scientists resurrect one nature fearsome predators sabretooth tiger smilodon scientific ambition turns deadly however high voltage fence opened creature escape begins savagely stalking prey human visitors tourists scientific meanwhile youngsters enter restricted area security center attacked pack large pre historical animals deadlier bigger addition security agent stacy haiduk mate brian wimmer fight hardly carnivorous smilodons sabretooths course real star stars astounding terrifyingly though convincing giant animals savagely stalking prey group run afoul fight one nature fearsome predators furthermore third sabretooth dangerous slow stalks victims movie delivers goods lots blood gore beheading hair raising chills full scares sabretooths appear mediocre special effects story provides exciting stirring entertainment results quite boring giant animals majority made computer generator seem totally lousy middling performances though players reacting appropriately becoming food actors give vigorously physical performances dodging beasts running bound leaps dangling walls packs ridiculous final deadly scene small kids realistic gory violent attack scenes films sabretooths smilodon following sabretooth james r hickox vanessa angel david keith john rhys davies much better bc roland emmerich steven strait cliff curtis camilla belle motion picture filled bloody moments badly directed george miller originality takes many elements previous films miller australian director usually working television tidal wave journey center earth many others occasionally cinema man snowy river zeus roxanne robinson crusoe rating average bottom barrel&#39;,
+ &#39;must assumed praised film greatest filmed opera ever read somewhere either care opera care wagner care anything except desire appear cultured either representation wagner swan song movie strikes unmitigated disaster leaden reading score matched tricksy lugubrious realisation text questionable people ideas opera matter play especially one shakespeare allowed anywhere near theatre film studio syberberg fashionably without smallest justification wagner text decided parsifal bisexual integration title character latter stages transmutes kind beatnik babe though one continues sing high tenor actors film singers get double dose armin jordan conductor seen face heard voice amfortas also appears monstrously double exposure kind batonzilla conductor ate monsalvat playing good friday music way transcendant loveliness nature represented scattering shopworn flaccid crocuses stuck ill laid turf expedient baffles theatre sometimes piece imperfections thoughts think syberberg splice parsifal gurnemanz mountain pasture lush provided julie andrews sound music sound hard endure high voices trumpets particular possessing aural glare adds another sort fatigue impatience uninspired conducting paralytic unfolding ritual someone another review mentioned bayreuth recording knappertsbusch though tempi often slow jordan altogether lacks sense pulse feeling ebb flow music half century orchestral sound set modern pressings still superior film&#39;,
+ &#39;superbly trashy wondrously unpretentious exploitation hooray pre credits opening sequences somewhat give false impression dealing serious harrowing drama need fear barely ten minutes later necks nonsensical chainsaw battles rough fist fights lurid dialogs gratuitous nudity bo ingrid two orphaned siblings unusually close even slightly perverted relationship imagine playfully ripping towel covers sister naked body stare unshaven genitals several whole minutes well bo sister judging dubbed laughter mind sick dude anyway kids fled russia parents nasty soldiers brutally slaughtered mommy daddy friendly smuggler took custody however even raised trained bo ingrid expert smugglers actual plot lifts years later facing ultimate quest mythical incredibly valuable white fire diamond coincidentally found mine things life ever made little sense plot narrative structure white fire sure lot fun watch time clue beating cause bet actors understood even less whatever violence magnificently grotesque every single plot twist pleasingly retarded script goes totally bonkers beyond repair suddenly reveal reason bo needs replacement ingrid fred williamson enters scene big cigar mouth sleazy black fingers local prostitutes bo principal opponent italian chick big breasts hideous accent preposterous catchy theme song plays least dozen times throughout film obligatory falling love montage loads attractions god brilliant experience original french title translates life survive uniquely appropriate makes much sense rest movie none&#39;]
+</code></pre><h3 id="2-2-提取数据特征"><a href="#2-2-提取数据特征" class="headerlink" title="2.2 提取数据特征"></a>2.2 提取数据特征</h3><p>这里借助于sklearn来提取数据的词带特征,Scikit Learn CountVectorizer 入门实例:<br><a href="https://blog.csdn.net/guotong1988/article/details/51567562" target="_blank" rel="noopener">https://blog.csdn.net/guotong1988/article/details/51567562</a></p>
+<p>参数介绍：<br><a href="http://www.itkeyword.com/doc/4813494854317445586/TfidfVectorizer-sklearn-CountVectorizer" target="_blank" rel="noopener">http://www.itkeyword.com/doc/4813494854317445586/TfidfVectorizer-sklearn-CountVectorizer</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line">vectorizer=CountVectorizer(analyzer=<span class="string">"word"</span>,tokenizer=<span class="keyword">None</span>,preprocessor=<span class="keyword">None</span>,stop_words=<span class="keyword">None</span>,max_features=<span class="number">5000</span>)</span><br><span class="line">print(<span class="string">"Creating the bag of words...\n"</span>)</span><br><span class="line"><span class="comment"># 将每一条评论的特征矩阵转化为数组</span></span><br><span class="line">train_data_features = vectorizer.fit_transform(clean_train_reviews)</span><br><span class="line">train_data_features = train_data_features.toarray()</span><br><span class="line"><span class="comment"># 查看数据特征维度</span></span><br><span class="line">print(train_data_features.shape)</span><br></pre></td></tr></table></figure>
+<pre><code>Creating the bag of words...
+
+(25000, 5000)
+</code></pre><p>也就是每条记录提取了5000个特征。</p>
+<p>接下来可以查看特征的名字,因为我们创建的是词带特征，因此所有的特征组成词汇表</p>
+<p>也可以对特征进行统计，统计每个特征出现的次数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vocab=vectorizer.get_feature_names()</span><br><span class="line">print(vocab)</span><br></pre></td></tr></table></figure>
+<pre><code>[&#39;abandoned&#39;, &#39;abc&#39;, &#39;abilities&#39;, &#39;ability&#39;, &#39;able&#39;, &#39;abraham&#39;, &#39;absence&#39;, &#39;absent&#39;, &#39;absolute&#39;, &#39;absolutely&#39;, &#39;absurd&#39;, &#39;abuse&#39;, &#39;abusive&#39;, &#39;abysmal&#39;, &#39;academy&#39;, &#39;accent&#39;, &#39;accents&#39;, &#39;accept&#39;, &#39;acceptable&#39;, &#39;accepted&#39;, &#39;access&#39;, &#39;accident&#39;, &#39;accidentally&#39;, &#39;accompanied&#39;, &#39;accomplished&#39;, &#39;according&#39;, &#39;account&#39;, &#39;accuracy&#39;, &#39;accurate&#39;, &#39;accused&#39;, &#39;achieve&#39;, &#39;achieved&#39;, &#39;achievement&#39;, &#39;acid&#39;, &#39;across&#39;, &#39;act&#39;, &#39;acted&#39;, &#39;acting&#39;, &#39;action&#39;, &#39;actions&#39;, &#39;activities&#39;, &#39;actor&#39;, &#39;actors&#39;, &#39;actress&#39;, &#39;actresses&#39;, &#39;acts&#39;, &#39;actual&#39;, &#39;actually&#39;, &#39;ad&#39;, &#39;adam&#39;, &#39;adams&#39;, &#39;adaptation&#39;, &#39;adaptations&#39;, &#39;adapted&#39;, &#39;add&#39;, &#39;added&#39;, &#39;adding&#39;, &#39;addition&#39;, &#39;adds&#39;, &#39;adequate&#39;, &#39;admire&#39;, &#39;admit&#39;, &#39;admittedly&#39;, &#39;adorable&#39;, &#39;adult&#39;, &#39;adults&#39;, &#39;advance&#39;, &#39;advanced&#39;, &#39;advantage&#39;, &#39;adventure&#39;, &#39;adventures&#39;, &#39;advertising&#39;, &#39;advice&#39;, &#39;advise&#39;, &#39;affair&#39;, &#39;affect&#39;, &#39;affected&#39;, &#39;afford&#39;, &#39;aforementioned&#39;, &#39;afraid&#39;, &#39;africa&#39;, &#39;african&#39;, &#39;afternoon&#39;, &#39;afterwards&#39;, &#39;age&#39;, &#39;aged&#39;, &#39;agent&#39;, &#39;agents&#39;, &#39;ages&#39;, &#39;aging&#39;, &#39;ago&#39;, &#39;agree&#39;, &#39;agreed&#39;, &#39;agrees&#39;, &#39;ah&#39;, &#39;ahead&#39;, &#39;aid&#39;, &#39;aids&#39;, &#39;aim&#39;, &#39;aimed&#39;, &#39;air&#39;, &#39;aired&#39;, &#39;airplane&#39;, &#39;airport&#39;, &#39;aka&#39;, &#39;akshay&#39;, &#39;al&#39;, &#39;alan&#39;, &#39;alas&#39;, &#39;albeit&#39;, &#39;albert&#39;, &#39;album&#39;, &#39;alcohol&#39;, &#39;alcoholic&#39;, &#39;alec&#39;, &#39;alert&#39;, &#39;alex&#39;, &#39;alexander&#39;, &#39;alfred&#39;, &#39;alice&#39;, &#39;alicia&#39;, &#39;alien&#39;, &#39;aliens&#39;, &#39;alike&#39;, &#39;alison&#39;, &#39;alive&#39;, &#39;allen&#39;, &#39;allow&#39;, &#39;allowed&#39;, &#39;allowing&#39;, &#39;allows&#39;, &#39;almost&#39;, &#39;alone&#39;, &#39;along&#39;, &#39;alongside&#39;, &#39;already&#39;, &#39;alright&#39;, &#39;also&#39;, &#39;alternate&#39;, &#39;alternative&#39;, &#39;although&#39;, &#39;altman&#39;, &#39;altogether&#39;, &#39;always&#39;, &#39;amanda&#39;, &#39;amateur&#39;, &#39;amateurish&#39;, &#39;amazed&#39;, &#39;amazing&#39;, &#39;amazingly&#39;, &#39;ambiguous&#39;, &#39;ambitious&#39;, &#39;america&#39;, &#39;american&#39;, &#39;americans&#39;, &#39;amitabh&#39;, &#39;among&#39;, &#39;amongst&#39;, &#39;amount&#39;, &#39;amounts&#39;, &#39;amused&#39;, &#39;amusing&#39;, &#39;amy&#39;, &#39;analysis&#39;, &#39;ancient&#39;, &#39;anderson&#39;, &#39;andre&#39;, &#39;andrew&#39;, &#39;andrews&#39;, &#39;andy&#39;, &#39;angel&#39;, &#39;angela&#39;, &#39;angeles&#39;, &#39;angels&#39;, &#39;anger&#39;, &#39;angle&#39;, &#39;angles&#39;, &#39;angry&#39;, &#39;animal&#39;, &#39;animals&#39;, &#39;animated&#39;, &#39;animation&#39;, &#39;anime&#39;, &#39;ann&#39;, &#39;anna&#39;, &#39;anne&#39;, &#39;annie&#39;, &#39;annoyed&#39;, &#39;annoying&#39;, &#39;another&#39;, &#39;answer&#39;, &#39;answers&#39;, &#39;anthony&#39;, &#39;anti&#39;, &#39;antics&#39;, &#39;antonioni&#39;, &#39;antwone&#39;, &#39;anybody&#39;, &#39;anymore&#39;, &#39;anyone&#39;, &#39;anything&#39;, &#39;anyway&#39;, &#39;anyways&#39;, &#39;anywhere&#39;, &#39;apart&#39;, &#39;apartment&#39;, &#39;ape&#39;, &#39;apes&#39;, &#39;appalling&#39;, &#39;apparent&#39;, &#39;apparently&#39;, &#39;appeal&#39;, &#39;appealing&#39;, &#39;appear&#39;, &#39;appearance&#39;, &#39;appearances&#39;, &#39;appeared&#39;, &#39;appearing&#39;, &#39;appears&#39;, &#39;appreciate&#39;, &#39;appreciated&#39;, &#39;appreciation&#39;, &#39;approach&#39;, &#39;appropriate&#39;, &#39;april&#39;, &#39;area&#39;, &#39;areas&#39;, &#39;arguably&#39;, &#39;argue&#39;, &#39;argument&#39;, &#39;arm&#39;, &#39;armed&#39;, &#39;arms&#39;, &#39;army&#39;, &#39;arnold&#39;, &#39;around&#39;, &#39;arrested&#39;, &#39;arrival&#39;, &#39;arrive&#39;, &#39;arrived&#39;, &#39;arrives&#39;, &#39;arrogant&#39;, &#39;art&#39;, &#39;arthur&#39;, &#39;artificial&#39;, &#39;artist&#39;, &#39;artistic&#39;, &#39;artists&#39;, &#39;arts&#39;, &#39;ashamed&#39;, &#39;ashley&#39;, &#39;asian&#39;, &#39;aside&#39;, &#39;ask&#39;, &#39;asked&#39;, &#39;asking&#39;, &#39;asks&#39;, &#39;asleep&#39;, &#39;aspect&#39;, &#39;aspects&#39;, &#39;ass&#39;, &#39;assassin&#39;, &#39;assault&#39;, &#39;assigned&#39;, &#39;assistant&#39;, &#39;associated&#39;, &#39;assume&#39;, &#39;assumed&#39;, &#39;astaire&#39;, &#39;astonishing&#39;, &#39;atlantis&#39;, &#39;atmosphere&#39;, &#39;atmospheric&#39;, &#39;atrocious&#39;, &#39;attached&#39;, &#39;attack&#39;, &#39;attacked&#39;, &#39;attacks&#39;, &#39;attempt&#39;, &#39;attempted&#39;, &#39;attempting&#39;, &#39;attempts&#39;, &#39;attend&#39;, &#39;attention&#39;, &#39;attitude&#39;, &#39;attitudes&#39;, &#39;attorney&#39;, &#39;attracted&#39;, &#39;attraction&#39;, &#39;attractive&#39;, &#39;audience&#39;, &#39;audiences&#39;, &#39;audio&#39;, &#39;aunt&#39;, &#39;austen&#39;, &#39;austin&#39;, &#39;australia&#39;, &#39;australian&#39;, &#39;authentic&#39;, &#39;author&#39;, &#39;authority&#39;, &#39;available&#39;, &#39;average&#39;, &#39;avoid&#39;, &#39;avoided&#39;, &#39;awake&#39;, &#39;award&#39;, &#39;awards&#39;, &#39;aware&#39;, &#39;away&#39;, &#39;awe&#39;, &#39;awesome&#39;, &#39;awful&#39;, &#39;awfully&#39;, &#39;awhile&#39;, &#39;awkward&#39;, &#39;babe&#39;, &#39;baby&#39;, &#39;bacall&#39;, &#39;back&#39;, &#39;backdrop&#39;, &#39;background&#39;, &#39;backgrounds&#39;, &#39;bad&#39;, &#39;badly&#39;, &#39;bag&#39;, &#39;baker&#39;, &#39;bakshi&#39;, &#39;balance&#39;, &#39;baldwin&#39;, &#39;ball&#39;, &#39;ballet&#39;, &#39;balls&#39;, &#39;band&#39;, &#39;bands&#39;, &#39;bang&#39;, &#39;bank&#39;, &#39;banned&#39;, &#39;bar&#39;, &#39;barbara&#39;, &#39;bare&#39;, &#39;barely&#39;, &#39;bargain&#39;, &#39;barry&#39;, &#39;barrymore&#39;, &#39;base&#39;, &#39;baseball&#39;, &#39;based&#39;, &#39;basement&#39;, &#39;basic&#39;, &#39;basically&#39;, &#39;basis&#39;, &#39;basketball&#39;, &#39;bat&#39;, &#39;bath&#39;, &#39;bathroom&#39;, &#39;batman&#39;, &#39;battle&#39;, &#39;battles&#39;, &#39;bay&#39;, &#39;bbc&#39;, &#39;beach&#39;, &#39;bear&#39;, &#39;bears&#39;, &#39;beast&#39;, &#39;beat&#39;, &#39;beaten&#39;, &#39;beating&#39;, &#39;beats&#39;, &#39;beatty&#39;, &#39;beautiful&#39;, &#39;beautifully&#39;, &#39;beauty&#39;, &#39;became&#39;, &#39;become&#39;, &#39;becomes&#39;, &#39;becoming&#39;, &#39;bed&#39;, &#39;bedroom&#39;, &#39;beer&#39;, &#39;began&#39;, &#39;begin&#39;, &#39;beginning&#39;, &#39;begins&#39;, &#39;behave&#39;, &#39;behavior&#39;, &#39;behind&#39;, &#39;beings&#39;, &#39;bela&#39;, &#39;belief&#39;, &#39;beliefs&#39;, &#39;believable&#39;, &#39;believe&#39;, &#39;believed&#39;, &#39;believes&#39;, &#39;believing&#39;, &#39;bell&#39;, &#39;belong&#39;, &#39;belongs&#39;, &#39;beloved&#39;, &#39;belushi&#39;, &#39;ben&#39;, &#39;beneath&#39;, &#39;benefit&#39;, &#39;bergman&#39;, &#39;berlin&#39;, &#39;besides&#39;, &#39;best&#39;, &#39;bet&#39;, &#39;bette&#39;, &#39;better&#39;, &#39;bettie&#39;, &#39;betty&#39;, &#39;beyond&#39;, &#39;bible&#39;, &#39;big&#39;, &#39;bigger&#39;, &#39;biggest&#39;, &#39;biko&#39;, &#39;bill&#39;, &#39;billed&#39;, &#39;billy&#39;, &#39;bin&#39;, &#39;biography&#39;, &#39;bird&#39;, &#39;birds&#39;, &#39;birth&#39;, &#39;birthday&#39;, &#39;bit&#39;, &#39;bite&#39;, &#39;bits&#39;, &#39;bitter&#39;, &#39;bizarre&#39;, &#39;black&#39;, &#39;blade&#39;, &#39;blah&#39;, &#39;blair&#39;, &#39;blake&#39;, &#39;blame&#39;, &#39;bland&#39;, &#39;blank&#39;, &#39;blast&#39;, &#39;blatant&#39;, &#39;bleak&#39;, &#39;blend&#39;, &#39;blew&#39;, &#39;blind&#39;, &#39;blob&#39;, &#39;block&#39;, &#39;blockbuster&#39;, &#39;blond&#39;, &#39;blonde&#39;, &#39;blood&#39;, &#39;bloody&#39;, &#39;blow&#39;, &#39;blowing&#39;, &#39;blown&#39;, &#39;blows&#39;, &#39;blue&#39;, &#39;blues&#39;, &#39;blunt&#39;, &#39;bo&#39;, &#39;board&#39;, &#39;boat&#39;, &#39;bob&#39;, &#39;bobby&#39;, &#39;bodies&#39;, &#39;body&#39;, &#39;bold&#39;, &#39;boll&#39;, &#39;bollywood&#39;, &#39;bomb&#39;, &#39;bond&#39;, &#39;bone&#39;, &#39;bonus&#39;, &#39;book&#39;, &#39;books&#39;, &#39;boom&#39;, &#39;boot&#39;, &#39;border&#39;, &#39;bore&#39;, &#39;bored&#39;, &#39;boredom&#39;, &#39;boring&#39;, &#39;born&#39;, &#39;borrowed&#39;, &#39;boss&#39;, &#39;bother&#39;, &#39;bothered&#39;, &#39;bottle&#39;, &#39;bottom&#39;, &#39;bought&#39;, &#39;bound&#39;, &#39;bourne&#39;, &#39;box&#39;, &#39;boxing&#39;, &#39;boy&#39;, &#39;boyfriend&#39;, &#39;boyle&#39;, &#39;boys&#39;, &#39;brad&#39;, &#39;brady&#39;, &#39;brain&#39;, &#39;brains&#39;, &#39;branagh&#39;, &#39;brand&#39;, &#39;brando&#39;, &#39;brave&#39;, &#39;brazil&#39;, &#39;break&#39;, &#39;breaking&#39;, &#39;breaks&#39;, &#39;breasts&#39;, &#39;breath&#39;, &#39;breathtaking&#39;, &#39;brenda&#39;, &#39;brian&#39;, &#39;bride&#39;, &#39;bridge&#39;, &#39;brief&#39;, &#39;briefly&#39;, &#39;bright&#39;, &#39;brilliance&#39;, &#39;brilliant&#39;, &#39;brilliantly&#39;, &#39;bring&#39;, &#39;bringing&#39;, &#39;brings&#39;, &#39;britain&#39;, &#39;british&#39;, &#39;broad&#39;, &#39;broadcast&#39;, &#39;broadway&#39;, &#39;broke&#39;, &#39;broken&#39;, &#39;brooklyn&#39;, &#39;brooks&#39;, &#39;brosnan&#39;, &#39;brother&#39;, &#39;brothers&#39;, &#39;brought&#39;, &#39;brown&#39;, &#39;bruce&#39;, &#39;brutal&#39;, &#39;brutality&#39;, &#39;brutally&#39;, &#39;buck&#39;, &#39;bucks&#39;, &#39;bud&#39;, &#39;buddies&#39;, &#39;buddy&#39;, &#39;budget&#39;, &#39;buff&#39;, &#39;buffalo&#39;, &#39;buffs&#39;, &#39;bug&#39;, &#39;bugs&#39;, &#39;build&#39;, &#39;building&#39;, &#39;buildings&#39;, &#39;builds&#39;, &#39;built&#39;, &#39;bull&#39;, &#39;bullet&#39;, &#39;bullets&#39;, &#39;bumbling&#39;, &#39;bunch&#39;, &#39;bunny&#39;, &#39;buried&#39;, &#39;burn&#39;, &#39;burned&#39;, &#39;burning&#39;, &#39;burns&#39;, &#39;burt&#39;, &#39;burton&#39;, &#39;bus&#39;, &#39;bush&#39;, &#39;business&#39;, &#39;businessman&#39;, &#39;buster&#39;, &#39;busy&#39;, &#39;butler&#39;, &#39;butt&#39;, &#39;button&#39;, &#39;buy&#39;, &#39;buying&#39;, &#39;cabin&#39;, &#39;cable&#39;, &#39;cage&#39;, &#39;cagney&#39;, &#39;caine&#39;, &#39;cake&#39;, &#39;caliber&#39;, &#39;california&#39;, &#39;call&#39;, &#39;called&#39;, &#39;calling&#39;, &#39;calls&#39;, &#39;calm&#39;, &#39;came&#39;, &#39;cameo&#39;, &#39;cameos&#39;, &#39;camera&#39;, &#39;cameras&#39;, &#39;cameron&#39;, &#39;camp&#39;, &#39;campbell&#39;, &#39;campy&#39;, &#39;canada&#39;, &#39;canadian&#39;, &#39;candy&#39;, &#39;cannibal&#39;, &#39;cannot&#39;, &#39;cant&#39;, &#39;capable&#39;, &#39;capital&#39;, &#39;captain&#39;, &#39;captivating&#39;, &#39;capture&#39;, &#39;captured&#39;, &#39;captures&#39;, &#39;capturing&#39;, &#39;car&#39;, &#39;card&#39;, &#39;cardboard&#39;, &#39;cards&#39;, &#39;care&#39;, &#39;cared&#39;, &#39;career&#39;, &#39;careers&#39;, &#39;careful&#39;, &#39;carefully&#39;, &#39;carell&#39;, &#39;cares&#39;, &#39;caring&#39;, &#39;carl&#39;, &#39;carla&#39;, &#39;carol&#39;, &#39;carpenter&#39;, &#39;carradine&#39;, &#39;carrey&#39;, &#39;carrie&#39;, &#39;carried&#39;, &#39;carries&#39;, &#39;carry&#39;, &#39;carrying&#39;, &#39;cars&#39;, &#39;carter&#39;, &#39;cartoon&#39;, &#39;cartoons&#39;, &#39;cary&#39;, &#39;case&#39;, &#39;cases&#39;, &#39;cash&#39;, &#39;cassidy&#39;, &#39;cast&#39;, &#39;casting&#39;, &#39;castle&#39;, &#39;cat&#39;, &#39;catch&#39;, &#39;catches&#39;, &#39;catching&#39;, &#39;catchy&#39;, &#39;category&#39;, &#39;catherine&#39;, &#39;catholic&#39;, &#39;cats&#39;, &#39;caught&#39;, &#39;cause&#39;, &#39;caused&#39;, &#39;causes&#39;, &#39;causing&#39;, &#39;cave&#39;, &#39;cd&#39;, &#39;celebrity&#39;, &#39;cell&#39;, &#39;celluloid&#39;, &#39;center&#39;, &#39;centered&#39;, &#39;centers&#39;, &#39;central&#39;, &#39;century&#39;, &#39;certain&#39;, &#39;certainly&#39;, &#39;cg&#39;, &#39;cgi&#39;, &#39;chain&#39;, &#39;chair&#39;, &#39;challenge&#39;, &#39;challenging&#39;, &#39;championship&#39;, &#39;chan&#39;, &#39;chance&#39;, &#39;chances&#39;, &#39;change&#39;, &#39;changed&#39;, &#39;changes&#39;, &#39;changing&#39;, &#39;channel&#39;, &#39;channels&#39;, &#39;chaos&#39;, &#39;chaplin&#39;, &#39;chapter&#39;, &#39;character&#39;, &#39;characterization&#39;, &#39;characters&#39;, &#39;charge&#39;, &#39;charisma&#39;, &#39;charismatic&#39;, &#39;charles&#39;, &#39;charlie&#39;, &#39;charlotte&#39;, &#39;charm&#39;, &#39;charming&#39;, &#39;chase&#39;, &#39;chased&#39;, &#39;chases&#39;, &#39;chasing&#39;, &#39;che&#39;, &#39;cheap&#39;, &#39;cheated&#39;, &#39;cheating&#39;, &#39;check&#39;, &#39;checked&#39;, &#39;checking&#39;, &#39;cheek&#39;, &#39;cheese&#39;, &#39;cheesy&#39;, &#39;chemistry&#39;, &#39;chess&#39;, &#39;chest&#39;, &#39;chicago&#39;, &#39;chick&#39;, &#39;chicken&#39;, &#39;chicks&#39;, &#39;chief&#39;, &#39;child&#39;, &#39;childhood&#39;, &#39;childish&#39;, &#39;children&#39;, &#39;chilling&#39;, &#39;china&#39;, &#39;chinese&#39;, &#39;choice&#39;, &#39;choices&#39;, &#39;choose&#39;, &#39;chooses&#39;, &#39;choreographed&#39;, &#39;choreography&#39;, &#39;chorus&#39;, &#39;chose&#39;, &#39;chosen&#39;, &#39;chris&#39;, &#39;christ&#39;, &#39;christian&#39;, &#39;christianity&#39;, &#39;christians&#39;, &#39;christmas&#39;, &#39;christopher&#39;, &#39;christy&#39;, &#39;chuck&#39;, &#39;church&#39;, &#39;cia&#39;, &#39;cinderella&#39;, &#39;cinema&#39;, &#39;cinematic&#39;, &#39;cinematographer&#39;, &#39;cinematography&#39;, &#39;circle&#39;, &#39;circumstances&#39;, &#39;cities&#39;, &#39;citizen&#39;, &#39;city&#39;, &#39;civil&#39;, &#39;civilization&#39;, &#39;claim&#39;, &#39;claimed&#39;, &#39;claims&#39;, &#39;claire&#39;, &#39;clark&#39;, &#39;class&#39;, &#39;classes&#39;, &#39;classic&#39;, &#39;classical&#39;, &#39;classics&#39;, &#39;claus&#39;, &#39;clean&#39;, &#39;clear&#39;, &#39;clearly&#39;, &#39;clever&#39;, &#39;cleverly&#39;, &#39;clich&#39;, &#39;cliche&#39;, &#39;cliff&#39;, &#39;climactic&#39;, &#39;climax&#39;, &#39;clint&#39;, &#39;clip&#39;, &#39;clips&#39;, &#39;clock&#39;, &#39;close&#39;, &#39;closed&#39;, &#39;closely&#39;, &#39;closer&#39;, &#39;closest&#39;, &#39;closet&#39;, &#39;closing&#39;, &#39;clothes&#39;, &#39;clothing&#39;, &#39;clown&#39;, &#39;club&#39;, &#39;clue&#39;, &#39;clues&#39;, &#39;clumsy&#39;, &#39;co&#39;, &#39;coach&#39;, &#39;coast&#39;, &#39;code&#39;, &#39;coffee&#39;, &#39;coherent&#39;, &#39;cold&#39;, &#39;cole&#39;, &#39;collection&#39;, &#39;college&#39;, &#39;colonel&#39;, &#39;color&#39;, &#39;colorful&#39;, &#39;colors&#39;, &#39;colour&#39;, &#39;columbo&#39;, &#39;com&#39;, &#39;combat&#39;, &#39;combination&#39;, &#39;combine&#39;, &#39;combined&#39;, &#39;come&#39;, &#39;comedian&#39;, &#39;comedic&#39;, &#39;comedies&#39;, &#39;comedy&#39;, &#39;comes&#39;, &#39;comfort&#39;, &#39;comfortable&#39;, &#39;comic&#39;, &#39;comical&#39;, &#39;comics&#39;, &#39;coming&#39;, &#39;command&#39;, &#39;comment&#39;, &#39;commentary&#39;, &#39;commented&#39;, &#39;comments&#39;, &#39;commercial&#39;, &#39;commercials&#39;, &#39;commit&#39;, &#39;committed&#39;, &#39;common&#39;, &#39;communist&#39;, &#39;community&#39;, &#39;companies&#39;, &#39;companion&#39;, &#39;company&#39;, &#39;compare&#39;, &#39;compared&#39;, &#39;comparing&#39;, &#39;comparison&#39;, &#39;compassion&#39;, &#39;compelled&#39;, &#39;compelling&#39;, &#39;competent&#39;, &#39;competition&#39;, &#39;complain&#39;, &#39;complaint&#39;, &#39;complete&#39;, &#39;completely&#39;, &#39;complex&#39;, &#39;complexity&#39;, &#39;complicated&#39;, &#39;composed&#39;, &#39;composer&#39;, &#39;computer&#39;, &#39;con&#39;, &#39;conceived&#39;, &#39;concept&#39;, &#39;concern&#39;, &#39;concerned&#39;, &#39;concerning&#39;, &#39;concerns&#39;, &#39;concert&#39;, &#39;conclusion&#39;, &#39;condition&#39;, &#39;conditions&#39;, &#39;confess&#39;, &#39;confidence&#39;, &#39;conflict&#39;, &#39;conflicts&#39;, &#39;confrontation&#39;, &#39;confused&#39;, &#39;confusing&#39;, &#39;confusion&#39;, &#39;connect&#39;, &#39;connected&#39;, &#39;connection&#39;, &#39;connery&#39;, &#39;conscious&#39;, &#39;consequences&#39;, &#39;conservative&#39;, &#39;consider&#39;, &#39;considerable&#39;, &#39;considered&#39;, &#39;considering&#39;, &#39;consistent&#39;, &#39;consistently&#39;, &#39;consists&#39;, &#39;conspiracy&#39;, &#39;constant&#39;, &#39;constantly&#39;, &#39;constructed&#39;, &#39;construction&#39;, &#39;contact&#39;, &#39;contain&#39;, &#39;contained&#39;, &#39;contains&#39;, &#39;contemporary&#39;, &#39;content&#39;, &#39;contest&#39;, &#39;context&#39;, &#39;continue&#39;, &#39;continued&#39;, &#39;continues&#39;, &#39;continuity&#39;, &#39;contract&#39;, &#39;contrary&#39;, &#39;contrast&#39;, &#39;contrived&#39;, &#39;control&#39;, &#39;controversial&#39;, &#39;conventional&#39;, &#39;conversation&#39;, &#39;conversations&#39;, &#39;convey&#39;, &#39;convince&#39;, &#39;convinced&#39;, &#39;convincing&#39;, &#39;convincingly&#39;, &#39;convoluted&#39;, &#39;cook&#39;, &#39;cool&#39;, &#39;cooper&#39;, &#39;cop&#39;, &#39;copies&#39;, &#39;cops&#39;, &#39;copy&#39;, &#39;core&#39;, &#39;corner&#39;, &#39;corny&#39;, &#39;corporate&#39;, &#39;corpse&#39;, &#39;correct&#39;, &#39;correctly&#39;, &#39;corrupt&#39;, &#39;corruption&#39;, &#39;cost&#39;, &#39;costs&#39;, &#39;costume&#39;, &#39;costumes&#39;, &#39;could&#39;, &#39;count&#39;, &#39;counter&#39;, &#39;countless&#39;, &#39;countries&#39;, &#39;country&#39;, &#39;countryside&#39;, &#39;couple&#39;, &#39;couples&#39;, &#39;courage&#39;, &#39;course&#39;, &#39;court&#39;, &#39;cousin&#39;, &#39;cover&#39;, &#39;covered&#39;, &#39;covers&#39;, &#39;cowboy&#39;, &#39;cox&#39;, &#39;crack&#39;, &#39;cracking&#39;, &#39;craft&#39;, &#39;crafted&#39;, &#39;craig&#39;, &#39;crap&#39;, &#39;crappy&#39;, &#39;crash&#39;, &#39;craven&#39;, &#39;crawford&#39;, &#39;crazed&#39;, &#39;crazy&#39;, &#39;cream&#39;, &#39;create&#39;, &#39;created&#39;, &#39;creates&#39;, &#39;creating&#39;, &#39;creation&#39;, &#39;creative&#39;, &#39;creativity&#39;, &#39;creator&#39;, &#39;creators&#39;, &#39;creature&#39;, &#39;creatures&#39;, &#39;credibility&#39;, &#39;credible&#39;, &#39;credit&#39;, &#39;credits&#39;, &#39;creep&#39;, &#39;creepy&#39;, &#39;crew&#39;, &#39;cried&#39;, &#39;crime&#39;, &#39;crimes&#39;, &#39;criminal&#39;, &#39;criminals&#39;, &#39;cringe&#39;, &#39;crisis&#39;, &#39;critic&#39;, &#39;critical&#39;, &#39;criticism&#39;, &#39;critics&#39;, &#39;crocodile&#39;, &#39;cross&#39;, &#39;crowd&#39;, &#39;crucial&#39;, &#39;crude&#39;, &#39;cruel&#39;, &#39;cruise&#39;, &#39;crush&#39;, &#39;cry&#39;, &#39;crying&#39;, &#39;crystal&#39;, &#39;cuba&#39;, &#39;cube&#39;, &#39;cult&#39;, &#39;cultural&#39;, &#39;culture&#39;, &#39;cup&#39;, &#39;cure&#39;, &#39;curiosity&#39;, &#39;curious&#39;, &#39;current&#39;, &#39;currently&#39;, &#39;curse&#39;, &#39;curtis&#39;, &#39;cusack&#39;, &#39;cut&#39;, &#39;cute&#39;, &#39;cuts&#39;, &#39;cutting&#39;, &#39;cynical&#39;, &#39;da&#39;, &#39;dad&#39;, &#39;daddy&#39;, &#39;daily&#39;, &#39;dalton&#39;, &#39;damage&#39;, &#39;damme&#39;, &#39;damn&#39;, &#39;damon&#39;, &#39;dan&#39;, &#39;dana&#39;, &#39;dance&#39;, &#39;dancer&#39;, &#39;dancers&#39;, &#39;dances&#39;, &#39;dancing&#39;, &#39;danes&#39;, &#39;danger&#39;, &#39;dangerous&#39;, &#39;daniel&#39;, &#39;danny&#39;, &#39;dare&#39;, &#39;daring&#39;, &#39;dark&#39;, &#39;darker&#39;, &#39;darkness&#39;, &#39;darren&#39;, &#39;date&#39;, &#39;dated&#39;, &#39;dating&#39;, &#39;daughter&#39;, &#39;daughters&#39;, &#39;dave&#39;, &#39;david&#39;, &#39;davies&#39;, &#39;davis&#39;, &#39;dawn&#39;, &#39;dawson&#39;, &#39;day&#39;, &#39;days&#39;, &#39;de&#39;, &#39;dead&#39;, &#39;deadly&#39;, &#39;deaf&#39;, &#39;deal&#39;, &#39;dealing&#39;, &#39;deals&#39;, &#39;dealt&#39;, &#39;dean&#39;, &#39;dear&#39;, &#39;death&#39;, &#39;deaths&#39;, &#39;debut&#39;, &#39;decade&#39;, &#39;decades&#39;, &#39;deceased&#39;, &#39;decent&#39;, &#39;decide&#39;, &#39;decided&#39;, &#39;decides&#39;, &#39;decision&#39;, &#39;decisions&#39;, &#39;dedicated&#39;, &#39;dee&#39;, &#39;deep&#39;, &#39;deeper&#39;, &#39;deeply&#39;, &#39;defeat&#39;, &#39;defend&#39;, &#39;defense&#39;, &#39;defined&#39;, &#39;definite&#39;, &#39;definitely&#39;, &#39;definition&#39;, &#39;degree&#39;, &#39;del&#39;, &#39;deliberately&#39;, &#39;delight&#39;, &#39;delightful&#39;, &#39;deliver&#39;, &#39;delivered&#39;, &#39;delivering&#39;, &#39;delivers&#39;, &#39;delivery&#39;, &#39;demand&#39;, &#39;demands&#39;, &#39;demented&#39;, &#39;demise&#39;, &#39;demon&#39;, &#39;demons&#39;, &#39;deniro&#39;, &#39;dennis&#39;, &#39;dentist&#39;, &#39;denzel&#39;, &#39;department&#39;, &#39;depicted&#39;, &#39;depicting&#39;, &#39;depiction&#39;, &#39;depicts&#39;, &#39;depressed&#39;, &#39;depressing&#39;, &#39;depression&#39;, &#39;depth&#39;, &#39;der&#39;, &#39;derek&#39;, &#39;descent&#39;, &#39;describe&#39;, &#39;described&#39;, &#39;describes&#39;, &#39;description&#39;, &#39;desert&#39;, &#39;deserve&#39;, &#39;deserved&#39;, &#39;deserves&#39;, &#39;design&#39;, &#39;designed&#39;, &#39;designs&#39;, &#39;desire&#39;, &#39;desired&#39;, &#39;despair&#39;, &#39;desperate&#39;, &#39;desperately&#39;, &#39;desperation&#39;, &#39;despite&#39;, &#39;destiny&#39;, &#39;destroy&#39;, &#39;destroyed&#39;, &#39;destroying&#39;, &#39;destruction&#39;, &#39;detail&#39;, &#39;detailed&#39;, &#39;details&#39;, &#39;detective&#39;, &#39;determined&#39;, &#39;develop&#39;, &#39;developed&#39;, &#39;developing&#39;, &#39;development&#39;, &#39;develops&#39;, &#39;device&#39;, &#39;devil&#39;, &#39;devoid&#39;, &#39;devoted&#39;, &#39;dialog&#39;, &#39;dialogs&#39;, &#39;dialogue&#39;, &#39;dialogues&#39;, &#39;diamond&#39;, &#39;diana&#39;, &#39;diane&#39;, &#39;dick&#39;, &#39;dickens&#39;, &#39;die&#39;, &#39;died&#39;, &#39;dies&#39;, &#39;difference&#39;, &#39;differences&#39;, &#39;different&#39;, &#39;difficult&#39;, &#39;dig&#39;, &#39;digital&#39;, &#39;dignity&#39;, &#39;dimension&#39;, &#39;dimensional&#39;, &#39;din&#39;, &#39;dinner&#39;, &#39;dinosaur&#39;, &#39;dinosaurs&#39;, &#39;dire&#39;, &#39;direct&#39;, &#39;directed&#39;, &#39;directing&#39;, &#39;direction&#39;, &#39;directions&#39;, &#39;directly&#39;, &#39;director&#39;, &#39;directorial&#39;, &#39;directors&#39;, &#39;directs&#39;, &#39;dirty&#39;, &#39;disagree&#39;, &#39;disappear&#39;, &#39;disappeared&#39;, &#39;disappoint&#39;, &#39;disappointed&#39;, &#39;disappointing&#39;, &#39;disappointment&#39;, &#39;disaster&#39;, &#39;disbelief&#39;, &#39;disc&#39;, &#39;discover&#39;, &#39;discovered&#39;, &#39;discovers&#39;, &#39;discovery&#39;, &#39;discuss&#39;, &#39;discussion&#39;, &#39;disease&#39;, &#39;disgusting&#39;, &#39;disjointed&#39;, &#39;dislike&#39;, &#39;disliked&#39;, &#39;disney&#39;, &#39;display&#39;, &#39;displayed&#39;, &#39;displays&#39;, &#39;distance&#39;, &#39;distant&#39;, &#39;distinct&#39;, &#39;distracting&#39;, &#39;distribution&#39;, &#39;disturbed&#39;, &#39;disturbing&#39;, &#39;divorce&#39;, &#39;dixon&#39;, &#39;doc&#39;, &#39;doctor&#39;, &#39;documentaries&#39;, &#39;documentary&#39;, &#39;dog&#39;, &#39;dogs&#39;, &#39;doll&#39;, &#39;dollar&#39;, &#39;dollars&#39;, &#39;dolls&#39;, &#39;dolph&#39;, &#39;domestic&#39;, &#39;domino&#39;, &#39;donald&#39;, &#39;done&#39;, &#39;donna&#39;, &#39;doo&#39;, &#39;doom&#39;, &#39;doomed&#39;, &#39;door&#39;, &#39;doors&#39;, &#39;dorothy&#39;, &#39;double&#39;, &#39;doubt&#39;, &#39;doubts&#39;, &#39;douglas&#39;, &#39;downey&#39;, &#39;downhill&#39;, &#39;downright&#39;, &#39;dozen&#39;, &#39;dozens&#39;, &#39;dr&#39;, &#39;dracula&#39;, &#39;drag&#39;, &#39;dragged&#39;, &#39;dragon&#39;, &#39;drags&#39;, &#39;drake&#39;, &#39;drama&#39;, &#39;dramas&#39;, &#39;dramatic&#39;, &#39;draw&#39;, &#39;drawing&#39;, &#39;drawn&#39;, &#39;draws&#39;, &#39;dreadful&#39;, &#39;dream&#39;, &#39;dreams&#39;, &#39;dreary&#39;, &#39;dreck&#39;, &#39;dress&#39;, &#39;dressed&#39;, &#39;dressing&#39;, &#39;drew&#39;, &#39;drink&#39;, &#39;drinking&#39;, &#39;drive&#39;, &#39;drivel&#39;, &#39;driven&#39;, &#39;driver&#39;, &#39;drives&#39;, &#39;driving&#39;, &#39;drop&#39;, &#39;dropped&#39;, &#39;dropping&#39;, &#39;drops&#39;, &#39;drug&#39;, &#39;drugs&#39;, &#39;drunk&#39;, &#39;drunken&#39;, &#39;dry&#39;, &#39;dub&#39;, &#39;dubbed&#39;, &#39;dubbing&#39;, &#39;dud&#39;, &#39;dude&#39;, &#39;due&#39;, &#39;duke&#39;, &#39;dull&#39;, &#39;dumb&#39;, &#39;duo&#39;, &#39;dust&#39;, &#39;dutch&#39;, &#39;duty&#39;, &#39;dvd&#39;, &#39;dying&#39;, &#39;dynamic&#39;, &#39;eager&#39;, &#39;ear&#39;, &#39;earl&#39;, &#39;earlier&#39;, &#39;early&#39;, &#39;earned&#39;, &#39;ears&#39;, &#39;earth&#39;, &#39;ease&#39;, &#39;easier&#39;, &#39;easily&#39;, &#39;east&#39;, &#39;eastern&#39;, &#39;eastwood&#39;, &#39;easy&#39;, &#39;eat&#39;, &#39;eaten&#39;, &#39;eating&#39;, &#39;eccentric&#39;, &#39;ed&#39;, &#39;eddie&#39;, &#39;edgar&#39;, &#39;edge&#39;, &#39;edgy&#39;, &#39;edie&#39;, &#39;edited&#39;, &#39;editing&#39;, &#39;edition&#39;, &#39;editor&#39;, &#39;education&#39;, &#39;educational&#39;, &#39;edward&#39;, &#39;eerie&#39;, &#39;effect&#39;, &#39;effective&#39;, &#39;effectively&#39;, &#39;effects&#39;, &#39;effort&#39;, &#39;efforts&#39;, &#39;ego&#39;, &#39;eight&#39;, &#39;eighties&#39;, &#39;either&#39;, &#39;elaborate&#39;, &#39;elderly&#39;, &#39;elegant&#39;, &#39;element&#39;, &#39;elements&#39;, &#39;elephant&#39;, &#39;elizabeth&#39;, &#39;ellen&#39;, &#39;elm&#39;, &#39;else&#39;, &#39;elsewhere&#39;, &#39;elvira&#39;, &#39;elvis&#39;, &#39;em&#39;, &#39;embarrassed&#39;, &#39;embarrassing&#39;, &#39;embarrassment&#39;, &#39;emily&#39;, &#39;emma&#39;, &#39;emotion&#39;, &#39;emotional&#39;, &#39;emotionally&#39;, &#39;emotions&#39;, &#39;empathy&#39;, &#39;emperor&#39;, &#39;emphasis&#39;, &#39;empire&#39;, &#39;empty&#39;, &#39;en&#39;, &#39;encounter&#39;, &#39;encounters&#39;, &#39;end&#39;, &#39;endearing&#39;, &#39;ended&#39;, &#39;ending&#39;, &#39;endings&#39;, &#39;endless&#39;, &#39;ends&#39;, &#39;endure&#39;, &#39;enemies&#39;, &#39;enemy&#39;, &#39;energy&#39;, &#39;engage&#39;, &#39;engaged&#39;, &#39;engaging&#39;, &#39;england&#39;, &#39;english&#39;, &#39;enjoy&#39;, &#39;enjoyable&#39;, &#39;enjoyed&#39;, &#39;enjoying&#39;, &#39;enjoyment&#39;, &#39;enjoys&#39;, &#39;enormous&#39;, &#39;enough&#39;, &#39;ensemble&#39;, &#39;ensues&#39;, &#39;enter&#39;, &#39;enterprise&#39;, &#39;enters&#39;, &#39;entertain&#39;, &#39;entertained&#39;, &#39;entertaining&#39;, &#39;entertainment&#39;, &#39;enthusiasm&#39;, &#39;entire&#39;, &#39;entirely&#39;, &#39;entry&#39;, &#39;environment&#39;, &#39;epic&#39;, &#39;episode&#39;, &#39;episodes&#39;, &#39;equal&#39;, &#39;equally&#39;, &#39;equipment&#39;, &#39;equivalent&#39;, &#39;er&#39;, &#39;era&#39;, &#39;eric&#39;, &#39;erotic&#39;, &#39;errors&#39;, &#39;escape&#39;, &#39;escaped&#39;, &#39;escapes&#39;, &#39;especially&#39;, &#39;essence&#39;, &#39;essential&#39;, &#39;essentially&#39;, &#39;established&#39;, &#39;estate&#39;, &#39;et&#39;, &#39;etc&#39;, &#39;ethan&#39;, &#39;eugene&#39;, &#39;europe&#39;, &#39;european&#39;, &#39;eva&#39;, &#39;eve&#39;, &#39;even&#39;, &#39;evening&#39;, &#39;event&#39;, &#39;events&#39;, &#39;eventually&#39;, &#39;ever&#39;, &#39;every&#39;, &#39;everybody&#39;, &#39;everyday&#39;, &#39;everyone&#39;, &#39;everything&#39;, &#39;everywhere&#39;, &#39;evidence&#39;, &#39;evident&#39;, &#39;evil&#39;, &#39;ex&#39;, &#39;exact&#39;, &#39;exactly&#39;, &#39;exaggerated&#39;, &#39;examination&#39;, &#39;example&#39;, &#39;examples&#39;, &#39;excellent&#39;, &#39;except&#39;, &#39;exception&#39;, &#39;exceptional&#39;, &#39;exceptionally&#39;, &#39;excessive&#39;, &#39;exchange&#39;, &#39;excited&#39;, &#39;excitement&#39;, &#39;exciting&#39;, &#39;excuse&#39;, &#39;executed&#39;, &#39;execution&#39;, &#39;executive&#39;, &#39;exercise&#39;, &#39;exist&#39;, &#39;existed&#39;, &#39;existence&#39;, &#39;existent&#39;, &#39;exists&#39;, &#39;exotic&#39;, &#39;expect&#39;, &#39;expectations&#39;, &#39;expected&#39;, &#39;expecting&#39;, &#39;expedition&#39;, &#39;expensive&#39;, &#39;experience&#39;, &#39;experienced&#39;, &#39;experiences&#39;, &#39;experiment&#39;, &#39;experimental&#39;, &#39;experiments&#39;, &#39;expert&#39;, &#39;explain&#39;, &#39;explained&#39;, &#39;explaining&#39;, &#39;explains&#39;, &#39;explanation&#39;, &#39;explicit&#39;, &#39;exploitation&#39;, &#39;exploration&#39;, &#39;explore&#39;, &#39;explored&#39;, &#39;explosion&#39;, &#39;explosions&#39;, &#39;exposed&#39;, &#39;exposure&#39;, &#39;express&#39;, &#39;expressed&#39;, &#39;expression&#39;, &#39;expressions&#39;, &#39;extended&#39;, &#39;extent&#39;, &#39;extra&#39;, &#39;extraordinary&#39;, &#39;extras&#39;, &#39;extreme&#39;, &#39;extremely&#39;, &#39;eye&#39;, &#39;eyed&#39;, &#39;eyes&#39;, &#39;eyre&#39;, &#39;fabulous&#39;, &#39;face&#39;, &#39;faced&#39;, &#39;faces&#39;, &#39;facial&#39;, &#39;facing&#39;, &#39;fact&#39;, &#39;factor&#39;, &#39;factory&#39;, &#39;facts&#39;, &#39;fail&#39;, &#39;failed&#39;, &#39;failing&#39;, &#39;fails&#39;, &#39;failure&#39;, &#39;fair&#39;, &#39;fairly&#39;, &#39;fairy&#39;, &#39;faith&#39;, &#39;faithful&#39;, &#39;fake&#39;, &#39;falk&#39;, &#39;fall&#39;, &#39;fallen&#39;, &#39;falling&#39;, &#39;falls&#39;, &#39;false&#39;, &#39;fame&#39;, &#39;familiar&#39;, &#39;families&#39;, &#39;family&#39;, &#39;famous&#39;, &#39;fan&#39;, &#39;fancy&#39;, &#39;fans&#39;, &#39;fantastic&#39;, &#39;fantasy&#39;, &#39;far&#39;, &#39;farce&#39;, &#39;fare&#39;, &#39;farm&#39;, &#39;farrell&#39;, &#39;fascinated&#39;, &#39;fascinating&#39;, &#39;fashion&#39;, &#39;fashioned&#39;, &#39;fast&#39;, &#39;faster&#39;, &#39;fat&#39;, &#39;fatal&#39;, &#39;fate&#39;, &#39;father&#39;, &#39;fault&#39;, &#39;faults&#39;, &#39;favor&#39;, &#39;favorite&#39;, &#39;favorites&#39;, &#39;favourite&#39;, &#39;fay&#39;, &#39;fbi&#39;, &#39;fear&#39;, &#39;fears&#39;, &#39;feature&#39;, &#39;featured&#39;, &#39;features&#39;, &#39;featuring&#39;, &#39;fed&#39;, &#39;feed&#39;, &#39;feel&#39;, &#39;feeling&#39;, &#39;feelings&#39;, &#39;feels&#39;, &#39;feet&#39;, &#39;felix&#39;, &#39;fell&#39;, &#39;fellow&#39;, &#39;felt&#39;, &#39;female&#39;, &#39;feminist&#39;, &#39;femme&#39;, &#39;fest&#39;, &#39;festival&#39;, &#39;fetched&#39;, &#39;fever&#39;, &#39;fi&#39;, &#39;fianc&#39;, &#39;fiction&#39;, &#39;fictional&#39;, &#39;fido&#39;, &#39;field&#39;, &#39;fields&#39;, &#39;fifteen&#39;, &#39;fight&#39;, &#39;fighter&#39;, &#39;fighting&#39;, &#39;fights&#39;, &#39;figure&#39;, &#39;figured&#39;, &#39;figures&#39;, &#39;files&#39;, &#39;fill&#39;, &#39;filled&#39;, &#39;film&#39;, &#39;filmed&#39;, &#39;filming&#39;, &#39;filmmaker&#39;, &#39;filmmakers&#39;, &#39;films&#39;, &#39;final&#39;, &#39;finale&#39;, &#39;finally&#39;, &#39;financial&#39;, &#39;find&#39;, &#39;finding&#39;, &#39;finds&#39;, &#39;fine&#39;, &#39;finest&#39;, &#39;finger&#39;, &#39;finish&#39;, &#39;finished&#39;, &#39;fire&#39;, &#39;fired&#39;, &#39;firm&#39;, &#39;first&#39;, &#39;firstly&#39;, &#39;fish&#39;, &#39;fisher&#39;, &#39;fishing&#39;, &#39;fit&#39;, &#39;fits&#39;, &#39;fitting&#39;, &#39;five&#39;, &#39;fix&#39;, &#39;flair&#39;, &#39;flash&#39;, &#39;flashback&#39;, &#39;flashbacks&#39;, &#39;flat&#39;, &#39;flaw&#39;, &#39;flawed&#39;, &#39;flawless&#39;, &#39;flaws&#39;, &#39;flesh&#39;, &#39;flick&#39;, &#39;flicks&#39;, &#39;flies&#39;, &#39;flight&#39;, &#39;floating&#39;, &#39;floor&#39;, &#39;flop&#39;, &#39;florida&#39;, &#39;flow&#39;, &#39;fly&#39;, &#39;flying&#39;, &#39;flynn&#39;, &#39;focus&#39;, &#39;focused&#39;, &#39;focuses&#39;, &#39;focusing&#39;, &#39;folk&#39;, &#39;folks&#39;, &#39;follow&#39;, &#39;followed&#39;, &#39;following&#39;, &#39;follows&#39;, &#39;fond&#39;, &#39;fonda&#39;, &#39;food&#39;, &#39;fool&#39;, &#39;fooled&#39;, &#39;foot&#39;, &#39;footage&#39;, &#39;football&#39;, &#39;forbidden&#39;, &#39;force&#39;, &#39;forced&#39;, &#39;forces&#39;, &#39;ford&#39;, &#39;foreign&#39;, &#39;forest&#39;, &#39;forever&#39;, &#39;forget&#39;, &#39;forgettable&#39;, &#39;forgive&#39;, &#39;forgot&#39;, &#39;forgotten&#39;, &#39;form&#39;, &#39;format&#39;, &#39;former&#39;, &#39;forms&#39;, &#39;formula&#39;, &#39;formulaic&#39;, &#39;forth&#39;, &#39;fortunately&#39;, &#39;fortune&#39;, &#39;forty&#39;, &#39;forward&#39;, &#39;foster&#39;, &#39;fought&#39;, &#39;foul&#39;, &#39;found&#39;, &#39;four&#39;, &#39;fourth&#39;, &#39;fox&#39;, &#39;frame&#39;, &#39;france&#39;, &#39;franchise&#39;, &#39;francis&#39;, &#39;francisco&#39;, &#39;franco&#39;, &#39;frank&#39;, &#39;frankenstein&#39;, &#39;frankie&#39;, &#39;frankly&#39;, &#39;freak&#39;, &#39;fred&#39;, &#39;freddy&#39;, &#39;free&#39;, &#39;freedom&#39;, &#39;freeman&#39;, &#39;french&#39;, &#39;frequent&#39;, &#39;frequently&#39;, &#39;fresh&#39;, &#39;friday&#39;, &#39;friend&#39;, &#39;friendly&#39;, &#39;friends&#39;, &#39;friendship&#39;, &#39;frightening&#39;, &#39;front&#39;, &#39;frustrated&#39;, &#39;frustrating&#39;, &#39;frustration&#39;, &#39;fu&#39;, &#39;fulci&#39;, &#39;full&#39;, &#39;fuller&#39;, &#39;fully&#39;, &#39;fun&#39;, &#39;funeral&#39;, &#39;funnier&#39;, &#39;funniest&#39;, &#39;funny&#39;, &#39;furious&#39;, &#39;furthermore&#39;, &#39;fury&#39;, &#39;future&#39;, &#39;futuristic&#39;, &#39;fx&#39;, &#39;gabriel&#39;, &#39;gadget&#39;, &#39;gag&#39;, &#39;gags&#39;, &#39;gain&#39;, &#39;game&#39;, &#39;games&#39;, &#39;gandhi&#39;, &#39;gang&#39;, &#39;gangster&#39;, &#39;gangsters&#39;, &#39;garbage&#39;, &#39;garbo&#39;, &#39;garden&#39;, &#39;gary&#39;, &#39;gas&#39;, &#39;gave&#39;, &#39;gay&#39;, &#39;gem&#39;, &#39;gender&#39;, &#39;gene&#39;, &#39;general&#39;, &#39;generally&#39;, &#39;generated&#39;, &#39;generation&#39;, &#39;generations&#39;, &#39;generic&#39;, &#39;generous&#39;, &#39;genius&#39;, &#39;genre&#39;, &#39;genres&#39;, &#39;gentle&#39;, &#39;gentleman&#39;, &#39;genuine&#39;, &#39;genuinely&#39;, &#39;george&#39;, &#39;gerard&#39;, &#39;german&#39;, &#39;germans&#39;, &#39;germany&#39;, &#39;get&#39;, &#39;gets&#39;, &#39;getting&#39;, &#39;ghost&#39;, &#39;ghosts&#39;, &#39;giallo&#39;, &#39;giant&#39;, &#39;gift&#39;, &#39;gifted&#39;, &#39;ginger&#39;, &#39;girl&#39;, &#39;girlfriend&#39;, &#39;girls&#39;, &#39;give&#39;, &#39;given&#39;, &#39;gives&#39;, &#39;giving&#39;, &#39;glad&#39;, &#39;glass&#39;, &#39;glasses&#39;, &#39;glenn&#39;, &#39;glimpse&#39;, &#39;global&#39;, &#39;glorious&#39;, &#39;glory&#39;, &#39;glover&#39;, &#39;go&#39;, &#39;goal&#39;, &#39;god&#39;, &#39;godfather&#39;, &#39;godzilla&#39;, &#39;goes&#39;, &#39;going&#39;, &#39;gold&#39;, &#39;goldberg&#39;, &#39;golden&#39;, &#39;gone&#39;, &#39;gonna&#39;, &#39;good&#39;, &#39;goodness&#39;, &#39;goofy&#39;, &#39;gordon&#39;, &#39;gore&#39;, &#39;gorgeous&#39;, &#39;gory&#39;, &#39;got&#39;, &#39;gothic&#39;, &#39;gotta&#39;, &#39;gotten&#39;, &#39;government&#39;, &#39;grab&#39;, &#39;grabs&#39;, &#39;grace&#39;, &#39;grade&#39;, &#39;gradually&#39;, &#39;graham&#39;, &#39;grand&#39;, &#39;grandfather&#39;, &#39;grandmother&#39;, &#39;grant&#39;, &#39;granted&#39;, &#39;graphic&#39;, &#39;graphics&#39;, &#39;grasp&#39;, &#39;gratuitous&#39;, &#39;grave&#39;, &#39;gray&#39;, &#39;grayson&#39;, &#39;great&#39;, &#39;greater&#39;, &#39;greatest&#39;, &#39;greatly&#39;, &#39;greatness&#39;, &#39;greed&#39;, &#39;greedy&#39;, &#39;greek&#39;, &#39;green&#39;, &#39;greg&#39;, &#39;gregory&#39;, &#39;grew&#39;, &#39;grey&#39;, &#39;grief&#39;, &#39;griffith&#39;, &#39;grim&#39;, &#39;grinch&#39;, &#39;gripping&#39;, &#39;gritty&#39;, &#39;gross&#39;, &#39;ground&#39;, &#39;group&#39;, &#39;groups&#39;, &#39;grow&#39;, &#39;growing&#39;, &#39;grown&#39;, &#39;grows&#39;, &#39;gruesome&#39;, &#39;guarantee&#39;, &#39;guard&#39;, &#39;guess&#39;, &#39;guessed&#39;, &#39;guessing&#39;, &#39;guest&#39;, &#39;guide&#39;, &#39;guilt&#39;, &#39;guilty&#39;, &#39;gun&#39;, &#39;gundam&#39;, &#39;guns&#39;, &#39;guts&#39;, &#39;guy&#39;, &#39;guys&#39;, &#39;ha&#39;, &#39;hair&#39;, &#39;hal&#39;, &#39;half&#39;, &#39;halfway&#39;, &#39;hall&#39;, &#39;halloween&#39;, &#39;ham&#39;, &#39;hamilton&#39;, &#39;hamlet&#39;, &#39;hammer&#39;, &#39;hand&#39;, &#39;handed&#39;, &#39;handful&#39;, &#39;handle&#39;, &#39;handled&#39;, &#39;hands&#39;, &#39;handsome&#39;, &#39;hang&#39;, &#39;hanging&#39;, &#39;hank&#39;, &#39;hanks&#39;, &#39;happen&#39;, &#39;happened&#39;, &#39;happening&#39;, &#39;happens&#39;, &#39;happily&#39;, &#39;happiness&#39;, &#39;happy&#39;, &#39;hard&#39;, &#39;hardcore&#39;, &#39;harder&#39;, &#39;hardly&#39;, &#39;hardy&#39;, &#39;harm&#39;, &#39;harris&#39;, &#39;harry&#39;, &#39;harsh&#39;, &#39;hart&#39;, &#39;hartley&#39;, &#39;harvey&#39;, &#39;hat&#39;, &#39;hate&#39;, &#39;hated&#39;, &#39;hates&#39;, &#39;hatred&#39;, &#39;haunted&#39;, &#39;haunting&#39;, &#39;hawke&#39;, &#39;hbo&#39;, &#39;head&#39;, &#39;headed&#39;, &#39;heads&#39;, &#39;health&#39;, &#39;hear&#39;, &#39;heard&#39;, &#39;hearing&#39;, &#39;heart&#39;, &#39;hearted&#39;, &#39;hearts&#39;, &#39;heat&#39;, &#39;heaven&#39;, &#39;heavily&#39;, &#39;heavy&#39;, &#39;heck&#39;, &#39;heights&#39;, &#39;held&#39;, &#39;helen&#39;, &#39;helicopter&#39;, &#39;hell&#39;, &#39;hello&#39;, &#39;help&#39;, &#39;helped&#39;, &#39;helping&#39;, &#39;helps&#39;, &#39;hence&#39;, &#39;henry&#39;, &#39;hero&#39;, &#39;heroes&#39;, &#39;heroic&#39;, &#39;heroine&#39;, &#39;heston&#39;, &#39;hey&#39;, &#39;hidden&#39;, &#39;hide&#39;, &#39;hideous&#39;, &#39;hiding&#39;, &#39;high&#39;, &#39;higher&#39;, &#39;highest&#39;, &#39;highlight&#39;, &#39;highlights&#39;, &#39;highly&#39;, &#39;hilarious&#39;, &#39;hilariously&#39;, &#39;hill&#39;, &#39;hills&#39;, &#39;hint&#39;, &#39;hints&#39;, &#39;hip&#39;, &#39;hippie&#39;, &#39;hire&#39;, &#39;hired&#39;, &#39;historical&#39;, &#39;historically&#39;, &#39;history&#39;, &#39;hit&#39;, &#39;hitchcock&#39;, &#39;hitler&#39;, &#39;hits&#39;, &#39;hitting&#39;, &#39;ho&#39;, &#39;hoffman&#39;, &#39;hold&#39;, &#39;holding&#39;, &#39;holds&#39;, &#39;hole&#39;, &#39;holes&#39;, &#39;holiday&#39;, &#39;hollow&#39;, &#39;holly&#39;, &#39;hollywood&#39;, &#39;holmes&#39;, &#39;holy&#39;, &#39;homage&#39;, &#39;home&#39;, &#39;homeless&#39;, &#39;homer&#39;, &#39;homosexual&#39;, &#39;honest&#39;, &#39;honestly&#39;, &#39;honesty&#39;, &#39;hong&#39;, &#39;honor&#39;, &#39;hood&#39;, &#39;hook&#39;, &#39;hooked&#39;, &#39;hop&#39;, &#39;hope&#39;, &#39;hoped&#39;, &#39;hopefully&#39;, &#39;hopeless&#39;, &#39;hopes&#39;, &#39;hoping&#39;, &#39;hopper&#39;, &#39;horrendous&#39;, &#39;horrible&#39;, &#39;horribly&#39;, &#39;horrid&#39;, &#39;horrific&#39;, &#39;horrifying&#39;, &#39;horror&#39;, &#39;horrors&#39;, &#39;horse&#39;, &#39;horses&#39;, &#39;hospital&#39;, &#39;host&#39;, &#39;hot&#39;, &#39;hotel&#39;, &#39;hour&#39;, &#39;hours&#39;, &#39;house&#39;, &#39;household&#39;, &#39;houses&#39;, &#39;howard&#39;, &#39;however&#39;, &#39;hudson&#39;, &#39;huge&#39;, &#39;hugh&#39;, &#39;huh&#39;, &#39;human&#39;, &#39;humanity&#39;, &#39;humans&#39;, &#39;humble&#39;, &#39;humor&#39;, &#39;humorous&#39;, &#39;humour&#39;, &#39;hundred&#39;, &#39;hundreds&#39;, &#39;hung&#39;, &#39;hunt&#39;, &#39;hunter&#39;, &#39;hunters&#39;, &#39;hunting&#39;, &#39;hurt&#39;, &#39;hurts&#39;, &#39;husband&#39;, &#39;husbands&#39;, &#39;hyde&#39;, &#39;hype&#39;, &#39;hysterical&#39;, &#39;ian&#39;, &#39;ice&#39;, &#39;icon&#39;, &#39;idea&#39;, &#39;ideal&#39;, &#39;ideas&#39;, &#39;identify&#39;, &#39;identity&#39;, &#39;idiot&#39;, &#39;idiotic&#39;, &#39;idiots&#39;, &#39;ignorant&#39;, &#39;ignore&#39;, &#39;ignored&#39;, &#39;ii&#39;, &#39;iii&#39;, &#39;ill&#39;, &#39;illegal&#39;, &#39;illness&#39;, &#39;illogical&#39;, &#39;im&#39;, &#39;image&#39;, &#39;imagery&#39;, &#39;images&#39;, &#39;imagination&#39;, &#39;imaginative&#39;, &#39;imagine&#39;, &#39;imagined&#39;, &#39;imdb&#39;, &#39;imitation&#39;, &#39;immediate&#39;, &#39;immediately&#39;, &#39;immensely&#39;, &#39;impact&#39;, &#39;implausible&#39;, &#39;importance&#39;, &#39;important&#39;, &#39;importantly&#39;, &#39;impossible&#39;, &#39;impress&#39;, &#39;impressed&#39;, &#39;impression&#39;, &#39;impressive&#39;, &#39;improve&#39;, &#39;improved&#39;, &#39;improvement&#39;, &#39;inability&#39;, &#39;inane&#39;, &#39;inappropriate&#39;, &#39;incident&#39;, &#39;include&#39;, &#39;included&#39;, &#39;includes&#39;, &#39;including&#39;, &#39;incoherent&#39;, &#39;incompetent&#39;, &#39;incomprehensible&#39;, &#39;increasingly&#39;, &#39;incredible&#39;, &#39;incredibly&#39;, &#39;indeed&#39;, &#39;independent&#39;, &#39;india&#39;, &#39;indian&#39;, &#39;indians&#39;, &#39;indie&#39;, &#39;individual&#39;, &#39;individuals&#39;, &#39;inducing&#39;, &#39;indulgent&#39;, &#39;industry&#39;, &#39;inept&#39;, &#39;inevitable&#39;, &#39;inevitably&#39;, &#39;infamous&#39;, &#39;inferior&#39;, &#39;influence&#39;, &#39;influenced&#39;, &#39;information&#39;, &#39;ingredients&#39;, &#39;initial&#39;, &#39;initially&#39;, &#39;inner&#39;, &#39;innocence&#39;, &#39;innocent&#39;, &#39;innovative&#39;, &#39;insane&#39;, &#39;inside&#39;, &#39;insight&#39;, &#39;inspector&#39;, &#39;inspiration&#39;, &#39;inspired&#39;, &#39;inspiring&#39;, &#39;installment&#39;, &#39;instance&#39;, &#39;instant&#39;, &#39;instantly&#39;, &#39;instead&#39;, &#39;instinct&#39;, &#39;insult&#39;, &#39;insulting&#39;, &#39;integrity&#39;, &#39;intellectual&#39;, &#39;intelligence&#39;, &#39;intelligent&#39;, &#39;intended&#39;, &#39;intense&#39;, &#39;intensity&#39;, &#39;intent&#39;, &#39;intention&#39;, &#39;intentionally&#39;, &#39;intentions&#39;, &#39;interaction&#39;, &#39;interest&#39;, &#39;interested&#39;, &#39;interesting&#39;, &#39;interests&#39;, &#39;international&#39;, &#39;internet&#39;, &#39;interpretation&#39;, &#39;interview&#39;, &#39;interviews&#39;, &#39;intimate&#39;, &#39;intrigue&#39;, &#39;intrigued&#39;, &#39;intriguing&#39;, &#39;introduce&#39;, &#39;introduced&#39;, &#39;introduces&#39;, &#39;introduction&#39;, &#39;invasion&#39;, &#39;invented&#39;, &#39;inventive&#39;, &#39;investigate&#39;, &#39;investigation&#39;, &#39;invisible&#39;, &#39;involve&#39;, &#39;involved&#39;, &#39;involvement&#39;, &#39;involves&#39;, &#39;involving&#39;, &#39;iran&#39;, &#39;iraq&#39;, &#39;ireland&#39;, &#39;irish&#39;, &#39;iron&#39;, &#39;ironic&#39;, &#39;ironically&#39;, &#39;irony&#39;, &#39;irrelevant&#39;, &#39;irritating&#39;, &#39;island&#39;, &#39;isolated&#39;, &#39;israel&#39;, &#39;issue&#39;, &#39;issues&#39;, &#39;italian&#39;, &#39;italy&#39;, &#39;jack&#39;, &#39;jackie&#39;, &#39;jackson&#39;, &#39;jail&#39;, &#39;jake&#39;, &#39;james&#39;, &#39;jamie&#39;, &#39;jane&#39;, &#39;japan&#39;, &#39;japanese&#39;, &#39;jason&#39;, &#39;jaw&#39;, &#39;jaws&#39;, &#39;jay&#39;, &#39;jazz&#39;, &#39;jealous&#39;, &#39;jean&#39;, &#39;jeff&#39;, &#39;jeffrey&#39;, &#39;jennifer&#39;, &#39;jenny&#39;, &#39;jeremy&#39;, &#39;jerk&#39;, &#39;jerry&#39;, &#39;jesse&#39;, &#39;jessica&#39;, &#39;jesus&#39;, &#39;jet&#39;, &#39;jewish&#39;, &#39;jim&#39;, &#39;jimmy&#39;, &#39;joan&#39;, &#39;job&#39;, &#39;jobs&#39;, &#39;joe&#39;, &#39;joel&#39;, &#39;joey&#39;, &#39;john&#39;, &#39;johnny&#39;, &#39;johnson&#39;, &#39;join&#39;, &#39;joined&#39;, &#39;joke&#39;, &#39;jokes&#39;, &#39;jon&#39;, &#39;jonathan&#39;, &#39;jones&#39;, &#39;joseph&#39;, &#39;josh&#39;, &#39;journalist&#39;, &#39;journey&#39;, &#39;joy&#39;, &#39;jr&#39;, &#39;judge&#39;, &#39;judging&#39;, &#39;judy&#39;, &#39;julia&#39;, &#39;julian&#39;, &#39;julie&#39;, &#39;jump&#39;, &#39;jumped&#39;, &#39;jumping&#39;, &#39;jumps&#39;, &#39;june&#39;, &#39;jungle&#39;, &#39;junior&#39;, &#39;junk&#39;, &#39;justice&#39;, &#39;justify&#39;, &#39;justin&#39;, &#39;juvenile&#39;, &#39;kane&#39;, &#39;kansas&#39;, &#39;kapoor&#39;, &#39;karen&#39;, &#39;karloff&#39;, &#39;kate&#39;, &#39;kay&#39;, &#39;keaton&#39;, &#39;keep&#39;, &#39;keeping&#39;, &#39;keeps&#39;, &#39;keith&#39;, &#39;kelly&#39;, &#39;ken&#39;, &#39;kennedy&#39;, &#39;kenneth&#39;, &#39;kept&#39;, &#39;kevin&#39;, &#39;key&#39;, &#39;khan&#39;, &#39;kick&#39;, &#39;kicked&#39;, &#39;kicking&#39;, &#39;kicks&#39;, &#39;kid&#39;, &#39;kidding&#39;, &#39;kidnapped&#39;, &#39;kids&#39;, &#39;kill&#39;, &#39;killed&#39;, &#39;killer&#39;, &#39;killers&#39;, &#39;killing&#39;, &#39;killings&#39;, &#39;kills&#39;, &#39;kim&#39;, &#39;kind&#39;, &#39;kinda&#39;, &#39;kinds&#39;, &#39;king&#39;, &#39;kingdom&#39;, &#39;kirk&#39;, &#39;kiss&#39;, &#39;kissing&#39;, &#39;kitchen&#39;, &#39;knew&#39;, &#39;knife&#39;, &#39;knock&#39;, &#39;know&#39;, &#39;knowing&#39;, &#39;knowledge&#39;, &#39;known&#39;, &#39;knows&#39;, &#39;kolchak&#39;, &#39;kong&#39;, &#39;korean&#39;, &#39;kubrick&#39;, &#39;kudos&#39;, &#39;kumar&#39;, &#39;kung&#39;, &#39;kurosawa&#39;, &#39;kurt&#39;, &#39;kyle&#39;, &#39;la&#39;, &#39;lab&#39;, &#39;lack&#39;, &#39;lacked&#39;, &#39;lacking&#39;, &#39;lackluster&#39;, &#39;lacks&#39;, &#39;ladies&#39;, &#39;lady&#39;, &#39;laid&#39;, &#39;lake&#39;, &#39;lame&#39;, &#39;land&#39;, &#39;landing&#39;, &#39;landscape&#39;, &#39;landscapes&#39;, &#39;lane&#39;, &#39;language&#39;, &#39;large&#39;, &#39;largely&#39;, &#39;larger&#39;, &#39;larry&#39;, &#39;last&#39;, &#39;lasted&#39;, &#39;late&#39;, &#39;lately&#39;, &#39;later&#39;, &#39;latest&#39;, &#39;latin&#39;, &#39;latter&#39;, &#39;laugh&#39;, &#39;laughable&#39;, &#39;laughably&#39;, &#39;laughed&#39;, &#39;laughing&#39;, &#39;laughs&#39;, &#39;laughter&#39;, &#39;laura&#39;, &#39;laurel&#39;, &#39;law&#39;, &#39;lawrence&#39;, &#39;laws&#39;, &#39;lawyer&#39;, &#39;lay&#39;, &#39;lazy&#39;, &#39;le&#39;, &#39;lead&#39;, &#39;leader&#39;, &#39;leading&#39;, &#39;leads&#39;, &#39;league&#39;, &#39;learn&#39;, &#39;learned&#39;, &#39;learning&#39;, &#39;learns&#39;, &#39;least&#39;, &#39;leave&#39;, &#39;leaves&#39;, &#39;leaving&#39;, &#39;led&#39;, &#39;lee&#39;, &#39;left&#39;, &#39;leg&#39;, &#39;legacy&#39;, &#39;legal&#39;, &#39;legend&#39;, &#39;legendary&#39;, &#39;legs&#39;, &#39;lemmon&#39;, &#39;lena&#39;, &#39;length&#39;, &#39;lengthy&#39;, &#39;leo&#39;, &#39;leon&#39;, &#39;leonard&#39;, &#39;les&#39;, &#39;lesbian&#39;, &#39;leslie&#39;, &#39;less&#39;, &#39;lesser&#39;, &#39;lesson&#39;, &#39;lessons&#39;, &#39;let&#39;, &#39;lets&#39;, &#39;letter&#39;, &#39;letters&#39;, &#39;letting&#39;, &#39;level&#39;, &#39;levels&#39;, &#39;lewis&#39;, &#39;li&#39;, &#39;liberal&#39;, &#39;library&#39;, &#39;lie&#39;, &#39;lies&#39;, &#39;life&#39;, &#39;lifestyle&#39;, &#39;lifetime&#39;, &#39;light&#39;, &#39;lighting&#39;, &#39;lights&#39;, &#39;likable&#39;, &#39;like&#39;, &#39;liked&#39;, &#39;likely&#39;, &#39;likes&#39;, &#39;likewise&#39;, &#39;liking&#39;, &#39;lily&#39;, &#39;limited&#39;, &#39;limits&#39;, &#39;lincoln&#39;, &#39;linda&#39;, &#39;line&#39;, &#39;liners&#39;, &#39;lines&#39;, &#39;link&#39;, &#39;lion&#39;, &#39;lips&#39;, &#39;lisa&#39;, &#39;list&#39;, &#39;listed&#39;, &#39;listen&#39;, &#39;listening&#39;, &#39;lit&#39;, &#39;literally&#39;, &#39;literature&#39;, &#39;little&#39;, &#39;live&#39;, &#39;lived&#39;, &#39;lively&#39;, &#39;lives&#39;, &#39;living&#39;, &#39;lloyd&#39;, &#39;load&#39;, &#39;loaded&#39;, &#39;loads&#39;, &#39;local&#39;, &#39;location&#39;, &#39;locations&#39;, &#39;locked&#39;, &#39;logan&#39;, &#39;logic&#39;, &#39;logical&#39;, &#39;lol&#39;, &#39;london&#39;, &#39;lone&#39;, &#39;lonely&#39;, &#39;long&#39;, &#39;longer&#39;, &#39;look&#39;, &#39;looked&#39;, &#39;looking&#39;, &#39;looks&#39;, &#39;loose&#39;, &#39;loosely&#39;, &#39;lord&#39;, &#39;los&#39;, &#39;lose&#39;, &#39;loser&#39;, &#39;losers&#39;, &#39;loses&#39;, &#39;losing&#39;, &#39;loss&#39;, &#39;lost&#39;, &#39;lot&#39;, &#39;lots&#39;, &#39;lou&#39;, &#39;loud&#39;, &#39;louis&#39;, &#39;louise&#39;, &#39;lousy&#39;, &#39;lovable&#39;, &#39;love&#39;, &#39;loved&#39;, &#39;lovely&#39;, &#39;lover&#39;, &#39;lovers&#39;, &#39;loves&#39;, &#39;loving&#39;, &#39;low&#39;, &#39;lower&#39;, &#39;lowest&#39;, &#39;loyal&#39;, &#39;loyalty&#39;, &#39;lucas&#39;, &#39;luck&#39;, &#39;luckily&#39;, &#39;lucky&#39;, &#39;lucy&#39;, &#39;ludicrous&#39;, &#39;lugosi&#39;, &#39;luke&#39;, &#39;lumet&#39;, &#39;lundgren&#39;, &#39;lust&#39;, &#39;lying&#39;, &#39;lynch&#39;, &#39;lyrics&#39;, &#39;macarthur&#39;, &#39;machine&#39;, &#39;machines&#39;, &#39;macy&#39;, &#39;mad&#39;, &#39;made&#39;, &#39;madness&#39;, &#39;madonna&#39;, &#39;mafia&#39;, &#39;magazine&#39;, &#39;maggie&#39;, &#39;magic&#39;, &#39;magical&#39;, &#39;magnificent&#39;, &#39;maid&#39;, &#39;mail&#39;, &#39;main&#39;, &#39;mainly&#39;, &#39;mainstream&#39;, &#39;maintain&#39;, &#39;major&#39;, &#39;majority&#39;, &#39;make&#39;, &#39;maker&#39;, &#39;makers&#39;, &#39;makes&#39;, &#39;makeup&#39;, &#39;making&#39;, &#39;male&#39;, &#39;mall&#39;, &#39;malone&#39;, &#39;man&#39;, &#39;manage&#39;, &#39;managed&#39;, &#39;manager&#39;, &#39;manages&#39;, &#39;manhattan&#39;, &#39;maniac&#39;, &#39;manipulative&#39;, &#39;mankind&#39;, &#39;mann&#39;, &#39;manner&#39;, &#39;mansion&#39;, &#39;many&#39;, &#39;map&#39;, &#39;marc&#39;, &#39;march&#39;, &#39;margaret&#39;, &#39;maria&#39;, &#39;marie&#39;, &#39;mario&#39;, &#39;marion&#39;, &#39;mark&#39;, &#39;market&#39;, &#39;marketing&#39;, &#39;marks&#39;, &#39;marriage&#39;, &#39;married&#39;, &#39;marry&#39;, &#39;mars&#39;, &#39;marshall&#39;, &#39;martial&#39;, &#39;martin&#39;, &#39;marty&#39;, &#39;marvelous&#39;, &#39;mary&#39;, &#39;mask&#39;, &#39;masks&#39;, &#39;mass&#39;, &#39;massacre&#39;, &#39;masses&#39;, &#39;massive&#39;, &#39;master&#39;, &#39;masterful&#39;, &#39;masterpiece&#39;, &#39;masterpieces&#39;, &#39;masters&#39;, &#39;match&#39;, &#39;matched&#39;, &#39;matches&#39;, &#39;mate&#39;, &#39;material&#39;, &#39;matrix&#39;, &#39;matt&#39;, &#39;matter&#39;, &#39;matters&#39;, &#39;matthau&#39;, &#39;matthew&#39;, &#39;mature&#39;, &#39;max&#39;, &#39;may&#39;, &#39;maybe&#39;, &#39;mayor&#39;, &#39;mclaglen&#39;, &#39;mean&#39;, &#39;meaning&#39;, &#39;meaningful&#39;, &#39;meaningless&#39;, &#39;means&#39;, &#39;meant&#39;, &#39;meanwhile&#39;, &#39;measure&#39;, &#39;meat&#39;, &#39;mechanical&#39;, &#39;media&#39;, &#39;medical&#39;, &#39;mediocre&#39;, &#39;medium&#39;, &#39;meet&#39;, &#39;meeting&#39;, &#39;meets&#39;, &#39;mel&#39;, &#39;melodrama&#39;, &#39;melodramatic&#39;, &#39;melting&#39;, &#39;member&#39;, &#39;members&#39;, &#39;memorable&#39;, &#39;memories&#39;, &#39;memory&#39;, &#39;men&#39;, &#39;menace&#39;, &#39;menacing&#39;, &#39;mental&#39;, &#39;mentally&#39;, &#39;mention&#39;, &#39;mentioned&#39;, &#39;mentioning&#39;, &#39;mentions&#39;, &#39;mere&#39;, &#39;merely&#39;, &#39;merit&#39;, &#39;merits&#39;, &#39;meryl&#39;, &#39;mess&#39;, &#39;message&#39;, &#39;messages&#39;, &#39;messed&#39;, &#39;met&#39;, &#39;metal&#39;, &#39;metaphor&#39;, &#39;method&#39;, &#39;methods&#39;, &#39;mexican&#39;, &#39;mexico&#39;, &#39;mgm&#39;, &#39;michael&#39;, &#39;michelle&#39;, &#39;mickey&#39;, &#39;mid&#39;, &#39;middle&#39;, &#39;midnight&#39;, &#39;might&#39;, &#39;mighty&#39;, &#39;miike&#39;, &#39;mike&#39;, &#39;mild&#39;, &#39;mildly&#39;, &#39;mildred&#39;, &#39;mile&#39;, &#39;miles&#39;, &#39;military&#39;, &#39;milk&#39;, &#39;mill&#39;, &#39;miller&#39;, &#39;million&#39;, &#39;millionaire&#39;, &#39;millions&#39;, &#39;min&#39;, &#39;mind&#39;, &#39;minded&#39;, &#39;mindless&#39;, &#39;minds&#39;, &#39;mine&#39;, &#39;mini&#39;, &#39;minimal&#39;, &#39;minimum&#39;, &#39;minor&#39;, &#39;minute&#39;, &#39;minutes&#39;, &#39;miracle&#39;, &#39;mirror&#39;, &#39;miscast&#39;, &#39;miserable&#39;, &#39;miserably&#39;, &#39;misery&#39;, &#39;miss&#39;, &#39;missed&#39;, &#39;misses&#39;, &#39;missing&#39;, &#39;mission&#39;, &#39;mistake&#39;, &#39;mistaken&#39;, &#39;mistakes&#39;, &#39;mistress&#39;, &#39;mitchell&#39;, &#39;mix&#39;, &#39;mixed&#39;, &#39;mixture&#39;, &#39;miyazaki&#39;, &#39;mm&#39;, &#39;mob&#39;, &#39;model&#39;, &#39;models&#39;, &#39;modern&#39;, &#39;modesty&#39;, &#39;molly&#39;, &#39;mom&#39;, &#39;moment&#39;, &#39;moments&#39;, &#39;mon&#39;, &#39;money&#39;, &#39;monk&#39;, &#39;monkey&#39;, &#39;monkeys&#39;, &#39;monster&#39;, &#39;monsters&#39;, &#39;montage&#39;, &#39;montana&#39;, &#39;month&#39;, &#39;months&#39;, &#39;mood&#39;, &#39;moody&#39;, &#39;moon&#39;, &#39;moore&#39;, &#39;moral&#39;, &#39;morality&#39;, &#39;morgan&#39;, &#39;morning&#39;, &#39;moronic&#39;, &#39;morris&#39;, &#39;mostly&#39;, &#39;mother&#39;, &#39;motion&#39;, &#39;motivation&#39;, &#39;motivations&#39;, &#39;motives&#39;, &#39;mountain&#39;, &#39;mountains&#39;, &#39;mouse&#39;, &#39;mouth&#39;, &#39;move&#39;, &#39;moved&#39;, &#39;movement&#39;, &#39;movements&#39;, &#39;moves&#39;, &#39;movie&#39;, &#39;movies&#39;, &#39;moving&#39;, &#39;mr&#39;, &#39;mrs&#39;, &#39;ms&#39;, &#39;mst&#39;, &#39;mtv&#39;, &#39;much&#39;, &#39;multi&#39;, &#39;multiple&#39;, &#39;mummy&#39;, &#39;mundane&#39;, &#39;murder&#39;, &#39;murdered&#39;, &#39;murderer&#39;, &#39;murderous&#39;, &#39;murders&#39;, &#39;murphy&#39;, &#39;murray&#39;, &#39;museum&#39;, &#39;music&#39;, &#39;musical&#39;, &#39;musicals&#39;, &#39;muslim&#39;, &#39;must&#39;, &#39;myers&#39;, &#39;mysteries&#39;, &#39;mysterious&#39;, &#39;mystery&#39;, &#39;nail&#39;, &#39;naive&#39;, &#39;naked&#39;, &#39;name&#39;, &#39;named&#39;, &#39;namely&#39;, &#39;names&#39;, &#39;nancy&#39;, &#39;narration&#39;, &#39;narrative&#39;, &#39;narrator&#39;, &#39;nasty&#39;, &#39;nathan&#39;, &#39;nation&#39;, &#39;national&#39;, &#39;native&#39;, &#39;natural&#39;, &#39;naturally&#39;, &#39;nature&#39;, &#39;navy&#39;, &#39;nazi&#39;, &#39;nazis&#39;, &#39;nd&#39;, &#39;near&#39;, &#39;nearby&#39;, &#39;nearly&#39;, &#39;neat&#39;, &#39;necessarily&#39;, &#39;necessary&#39;, &#39;neck&#39;, &#39;ned&#39;, &#39;need&#39;, &#39;needed&#39;, &#39;needless&#39;, &#39;needs&#39;, &#39;negative&#39;, &#39;neighbor&#39;, &#39;neighborhood&#39;, &#39;neighbors&#39;, &#39;neil&#39;, &#39;neither&#39;, &#39;nelson&#39;, &#39;neo&#39;, &#39;nephew&#39;, &#39;nerd&#39;, &#39;nervous&#39;, &#39;network&#39;, &#39;never&#39;, &#39;nevertheless&#39;, &#39;new&#39;, &#39;newly&#39;, &#39;newman&#39;, &#39;news&#39;, &#39;newspaper&#39;, &#39;next&#39;, &#39;nice&#39;, &#39;nicely&#39;, &#39;nicholas&#39;, &#39;nicholson&#39;, &#39;nick&#39;, &#39;nicole&#39;, &#39;night&#39;, &#39;nightmare&#39;, &#39;nightmares&#39;, &#39;nights&#39;, &#39;nine&#39;, &#39;ninja&#39;, &#39;niro&#39;, &#39;noble&#39;, &#39;nobody&#39;, &#39;noir&#39;, &#39;noise&#39;, &#39;nominated&#39;, &#39;nomination&#39;, &#39;non&#39;, &#39;none&#39;, &#39;nonetheless&#39;, &#39;nonsense&#39;, &#39;nonsensical&#39;, &#39;normal&#39;, &#39;normally&#39;, &#39;norman&#39;, &#39;north&#39;, &#39;nose&#39;, &#39;nostalgia&#39;, &#39;nostalgic&#39;, &#39;notable&#39;, &#39;notably&#39;, &#39;notch&#39;, &#39;note&#39;, &#39;noted&#39;, &#39;notes&#39;, &#39;nothing&#39;, &#39;notice&#39;, &#39;noticed&#39;, &#39;notion&#39;, &#39;notorious&#39;, &#39;novak&#39;, &#39;novel&#39;, &#39;novels&#39;, &#39;nowadays&#39;, &#39;nowhere&#39;, &#39;nuclear&#39;, &#39;nude&#39;, &#39;nudity&#39;, &#39;number&#39;, &#39;numbers&#39;, &#39;numerous&#39;, &#39;nurse&#39;, &#39;nuts&#39;, &#39;nyc&#39;, &#39;object&#39;, &#39;objective&#39;, &#39;obnoxious&#39;, &#39;obscure&#39;, &#39;obsessed&#39;, &#39;obsession&#39;, &#39;obvious&#39;, &#39;obviously&#39;, &#39;occasion&#39;, &#39;occasional&#39;, &#39;occasionally&#39;, &#39;occur&#39;, &#39;occurred&#39;, &#39;occurs&#39;, &#39;ocean&#39;, &#39;odd&#39;, &#39;oddly&#39;, &#39;odds&#39;, &#39;offended&#39;, &#39;offensive&#39;, &#39;offer&#39;, &#39;offered&#39;, &#39;offering&#39;, &#39;offers&#39;, &#39;office&#39;, &#39;officer&#39;, &#39;officers&#39;, &#39;official&#39;, &#39;often&#39;, &#39;oh&#39;, &#39;oil&#39;, &#39;ok&#39;, &#39;okay&#39;, &#39;old&#39;, &#39;older&#39;, &#39;oliver&#39;, &#39;olivier&#39;, &#39;ollie&#39;, &#39;omen&#39;, &#39;one&#39;, &#39;ones&#39;, &#39;online&#39;, &#39;onto&#39;, &#39;open&#39;, &#39;opened&#39;, &#39;opening&#39;, &#39;opens&#39;, &#39;opera&#39;, &#39;operation&#39;, &#39;opinion&#39;, &#39;opinions&#39;, &#39;opportunities&#39;, &#39;opportunity&#39;, &#39;opposed&#39;, &#39;opposite&#39;, &#39;orange&#39;, &#39;order&#39;, &#39;ordered&#39;, &#39;orders&#39;, &#39;ordinary&#39;, &#39;original&#39;, &#39;originality&#39;, &#39;originally&#39;, &#39;orleans&#39;, &#39;orson&#39;, &#39;oscar&#39;, &#39;oscars&#39;, &#39;othello&#39;, &#39;others&#39;, &#39;otherwise&#39;, &#39;ought&#39;, &#39;outcome&#39;, &#39;outer&#39;, &#39;outfit&#39;, &#39;outrageous&#39;, &#39;outside&#39;, &#39;outstanding&#39;, &#39;overacting&#39;, &#39;overall&#39;, &#39;overcome&#39;, &#39;overdone&#39;, &#39;overlook&#39;, &#39;overlooked&#39;, &#39;overly&#39;, &#39;overrated&#39;, &#39;overwhelming&#39;, &#39;owen&#39;, &#39;owner&#39;, &#39;oz&#39;, &#39;pace&#39;, &#39;paced&#39;, &#39;pacing&#39;, &#39;pacino&#39;, &#39;pack&#39;, &#39;package&#39;, &#39;packed&#39;, &#39;page&#39;, &#39;paid&#39;, &#39;pain&#39;, &#39;painful&#39;, &#39;painfully&#39;, &#39;paint&#39;, &#39;painted&#39;, &#39;painting&#39;, &#39;pair&#39;, &#39;pal&#39;, &#39;palace&#39;, &#39;palance&#39;, &#39;palma&#39;, &#39;paltrow&#39;, &#39;pamela&#39;, &#39;pan&#39;, &#39;panic&#39;, &#39;pants&#39;, &#39;paper&#39;, &#39;par&#39;, &#39;parallel&#39;, &#39;paranoia&#39;, &#39;parent&#39;, &#39;parents&#39;, &#39;paris&#39;, &#39;park&#39;, &#39;parker&#39;, &#39;parody&#39;, &#39;part&#39;, &#39;particular&#39;, &#39;particularly&#39;, &#39;parties&#39;, &#39;partly&#39;, &#39;partner&#39;, &#39;parts&#39;, &#39;party&#39;, &#39;pass&#39;, &#39;passable&#39;, &#39;passed&#39;, &#39;passes&#39;, &#39;passing&#39;, &#39;passion&#39;, &#39;passionate&#39;, &#39;past&#39;, &#39;pat&#39;, &#39;path&#39;, &#39;pathetic&#39;, &#39;patience&#39;, &#39;patient&#39;, &#39;patients&#39;, &#39;patrick&#39;, &#39;paul&#39;, &#39;paulie&#39;, &#39;pay&#39;, &#39;paying&#39;, &#39;pays&#39;, &#39;peace&#39;, &#39;peak&#39;, &#39;pearl&#39;, &#39;people&#39;, &#39;peoples&#39;, &#39;per&#39;, &#39;perfect&#39;, &#39;perfection&#39;, &#39;perfectly&#39;, &#39;perform&#39;, &#39;performance&#39;, &#39;performances&#39;, &#39;performed&#39;, &#39;performer&#39;, &#39;performers&#39;, &#39;performing&#39;, &#39;performs&#39;, &#39;perhaps&#39;, &#39;period&#39;, &#39;perry&#39;, &#39;person&#39;, &#39;persona&#39;, &#39;personal&#39;, &#39;personalities&#39;, &#39;personality&#39;, &#39;personally&#39;, &#39;persons&#39;, &#39;perspective&#39;, &#39;pet&#39;, &#39;pete&#39;, &#39;peter&#39;, &#39;peters&#39;, &#39;petty&#39;, &#39;pg&#39;, &#39;phantom&#39;, &#39;phil&#39;, &#39;philip&#39;, &#39;philosophical&#39;, &#39;philosophy&#39;, &#39;phone&#39;, &#39;phony&#39;, &#39;photo&#39;, &#39;photographed&#39;, &#39;photographer&#39;, &#39;photography&#39;, &#39;photos&#39;, &#39;physical&#39;, &#39;physically&#39;, &#39;piano&#39;, &#39;pick&#39;, &#39;picked&#39;, &#39;picking&#39;, &#39;picks&#39;, &#39;picture&#39;, &#39;pictures&#39;, &#39;pie&#39;, &#39;piece&#39;, &#39;pieces&#39;, &#39;pierce&#39;, &#39;pig&#39;, &#39;pile&#39;, &#39;pilot&#39;, &#39;pin&#39;, &#39;pink&#39;, &#39;pit&#39;, &#39;pitch&#39;, &#39;pitt&#39;, &#39;pity&#39;, &#39;place&#39;, &#39;placed&#39;, &#39;places&#39;, &#39;plague&#39;, &#39;plain&#39;, &#39;plan&#39;, &#39;plane&#39;, &#39;planet&#39;, &#39;planned&#39;, &#39;planning&#39;, &#39;plans&#39;, &#39;plant&#39;, &#39;plastic&#39;, &#39;plausible&#39;, &#39;play&#39;, &#39;played&#39;, &#39;player&#39;, &#39;players&#39;, &#39;playing&#39;, &#39;plays&#39;, &#39;pleasant&#39;, &#39;pleasantly&#39;, &#39;please&#39;, &#39;pleased&#39;, &#39;pleasure&#39;, &#39;plenty&#39;, &#39;plight&#39;, &#39;plot&#39;, &#39;plots&#39;, &#39;plus&#39;, &#39;poem&#39;, &#39;poetic&#39;, &#39;poetry&#39;, &#39;poignant&#39;, &#39;point&#39;, &#39;pointed&#39;, &#39;pointless&#39;, &#39;points&#39;, &#39;pokemon&#39;, &#39;polanski&#39;, &#39;police&#39;, &#39;polished&#39;, &#39;political&#39;, &#39;politically&#39;, &#39;politics&#39;, &#39;pool&#39;, &#39;poor&#39;, &#39;poorly&#39;, &#39;pop&#39;, &#39;popcorn&#39;, &#39;pops&#39;, &#39;popular&#39;, &#39;popularity&#39;, &#39;population&#39;, &#39;porn&#39;, &#39;porno&#39;, &#39;portion&#39;, &#39;portrait&#39;, &#39;portray&#39;, &#39;portrayal&#39;, &#39;portrayed&#39;, &#39;portraying&#39;, &#39;portrays&#39;, &#39;position&#39;, &#39;positive&#39;, &#39;possessed&#39;, &#39;possibilities&#39;, &#39;possibility&#39;, &#39;possible&#39;, &#39;possibly&#39;, &#39;post&#39;, &#39;poster&#39;, &#39;pot&#39;, &#39;potential&#39;, &#39;potentially&#39;, &#39;poverty&#39;, &#39;powell&#39;, &#39;power&#39;, &#39;powerful&#39;, &#39;powers&#39;, &#39;practically&#39;, &#39;practice&#39;, &#39;praise&#39;, &#39;pre&#39;, &#39;precious&#39;, &#39;predictable&#39;, &#39;prefer&#39;, &#39;pregnant&#39;, &#39;premiere&#39;, &#39;premise&#39;, &#39;prepared&#39;, &#39;prequel&#39;, &#39;presence&#39;, &#39;present&#39;, &#39;presentation&#39;, &#39;presented&#39;, &#39;presents&#39;, &#39;president&#39;, &#39;press&#39;, &#39;pressure&#39;, &#39;preston&#39;, &#39;presumably&#39;, &#39;pretend&#39;, &#39;pretending&#39;, &#39;pretentious&#39;, &#39;pretty&#39;, &#39;prevent&#39;, &#39;preview&#39;, &#39;previous&#39;, &#39;previously&#39;, &#39;prey&#39;, &#39;price&#39;, &#39;priceless&#39;, &#39;pride&#39;, &#39;priest&#39;, &#39;primarily&#39;, &#39;primary&#39;, &#39;prime&#39;, &#39;prince&#39;, &#39;princess&#39;, &#39;principal&#39;, &#39;print&#39;, &#39;prior&#39;, &#39;prison&#39;, &#39;prisoner&#39;, &#39;prisoners&#39;, &#39;private&#39;, &#39;prize&#39;, &#39;pro&#39;, &#39;probably&#39;, &#39;problem&#39;, &#39;problems&#39;, &#39;proceedings&#39;, &#39;proceeds&#39;, &#39;process&#39;, &#39;produce&#39;, &#39;produced&#39;, &#39;producer&#39;, &#39;producers&#39;, &#39;producing&#39;, &#39;product&#39;, &#39;production&#39;, &#39;productions&#39;, &#39;professional&#39;, &#39;professor&#39;, &#39;profound&#39;, &#39;program&#39;, &#39;progress&#39;, &#39;progresses&#39;, &#39;project&#39;, &#39;projects&#39;, &#39;prom&#39;, &#39;promise&#39;, &#39;promised&#39;, &#39;promises&#39;, &#39;promising&#39;, &#39;proof&#39;, &#39;propaganda&#39;, &#39;proper&#39;, &#39;properly&#39;, &#39;property&#39;, &#39;props&#39;, &#39;prostitute&#39;, &#39;protagonist&#39;, &#39;protagonists&#39;, &#39;protect&#39;, &#39;proud&#39;, &#39;prove&#39;, &#39;proved&#39;, &#39;proves&#39;, &#39;provide&#39;, &#39;provided&#39;, &#39;provides&#39;, &#39;providing&#39;, &#39;provoking&#39;, &#39;pseudo&#39;, &#39;psychiatrist&#39;, &#39;psychic&#39;, &#39;psycho&#39;, &#39;psychological&#39;, &#39;psychotic&#39;, &#39;public&#39;, &#39;pull&#39;, &#39;pulled&#39;, &#39;pulling&#39;, &#39;pulls&#39;, &#39;pulp&#39;, &#39;punch&#39;, &#39;punishment&#39;, &#39;punk&#39;, &#39;puppet&#39;, &#39;purchase&#39;, &#39;purchased&#39;, &#39;pure&#39;, &#39;purely&#39;, &#39;purple&#39;, &#39;purpose&#39;, &#39;purposes&#39;, &#39;pursuit&#39;, &#39;push&#39;, &#39;pushed&#39;, &#39;pushing&#39;, &#39;put&#39;, &#39;puts&#39;, &#39;putting&#39;, &#39;qualities&#39;, &#39;quality&#39;, &#39;queen&#39;, &#39;quest&#39;, &#39;question&#39;, &#39;questionable&#39;, &#39;questions&#39;, &#39;quick&#39;, &#39;quickly&#39;, &#39;quiet&#39;, &#39;quinn&#39;, &#39;quirky&#39;, &#39;quit&#39;, &#39;quite&#39;, &#39;quote&#39;, &#39;quotes&#39;, &#39;rabbit&#39;, &#39;race&#39;, &#39;rachel&#39;, &#39;racial&#39;, &#39;racism&#39;, &#39;racist&#39;, &#39;radio&#39;, &#39;rage&#39;, &#39;rain&#39;, &#39;raines&#39;, &#39;raise&#39;, &#39;raised&#39;, &#39;raising&#39;, &#39;ralph&#39;, &#39;rambo&#39;, &#39;ramones&#39;, &#39;ran&#39;, &#39;random&#39;, &#39;randomly&#39;, &#39;randy&#39;, &#39;range&#39;, &#39;rangers&#39;, &#39;rank&#39;, &#39;ranks&#39;, &#39;rap&#39;, &#39;rape&#39;, &#39;raped&#39;, &#39;rare&#39;, &#39;rarely&#39;, &#39;rat&#39;, &#39;rate&#39;, &#39;rated&#39;, &#39;rather&#39;, &#39;rating&#39;, &#39;ratings&#39;, &#39;rats&#39;, &#39;rave&#39;, &#39;raw&#39;, &#39;ray&#39;, &#39;raymond&#39;, &#39;rd&#39;, &#39;reach&#39;, &#39;reached&#39;, &#39;reaches&#39;, &#39;reaching&#39;, &#39;react&#39;, &#39;reaction&#39;, &#39;reactions&#39;, &#39;read&#39;, &#39;reader&#39;, &#39;reading&#39;, &#39;reads&#39;, &#39;ready&#39;, &#39;real&#39;, &#39;realise&#39;, &#39;realism&#39;, &#39;realistic&#39;, &#39;reality&#39;, &#39;realize&#39;, &#39;realized&#39;, &#39;realizes&#39;, &#39;realizing&#39;, &#39;really&#39;, &#39;reason&#39;, &#39;reasonable&#39;, &#39;reasonably&#39;, &#39;reasons&#39;, &#39;rebel&#39;, &#39;recall&#39;, &#39;receive&#39;, &#39;received&#39;, &#39;receives&#39;, &#39;recent&#39;, &#39;recently&#39;, &#39;recognition&#39;, &#39;recognize&#39;, &#39;recognized&#39;, &#39;recommend&#39;, &#39;recommended&#39;, &#39;record&#39;, &#39;recorded&#39;, &#39;recording&#39;, &#39;red&#39;, &#39;redeeming&#39;, &#39;redemption&#39;, &#39;reduced&#39;, &#39;reed&#39;, &#39;reel&#39;, &#39;reference&#39;, &#39;references&#39;, &#39;reflect&#39;, &#39;reflection&#39;, &#39;refreshing&#39;, &#39;refused&#39;, &#39;refuses&#39;, &#39;regard&#39;, &#39;regarding&#39;, &#39;regardless&#39;, &#39;regret&#39;, &#39;regular&#39;, &#39;reid&#39;, &#39;relate&#39;, &#39;related&#39;, &#39;relation&#39;, &#39;relations&#39;, &#39;relationship&#39;, &#39;relationships&#39;, &#39;relative&#39;, &#39;relatively&#39;, &#39;relatives&#39;, &#39;release&#39;, &#39;released&#39;, &#39;relevant&#39;, &#39;relief&#39;, &#39;relies&#39;, &#39;religion&#39;, &#39;religious&#39;, &#39;remain&#39;, &#39;remained&#39;, &#39;remaining&#39;, &#39;remains&#39;, &#39;remake&#39;, &#39;remarkable&#39;, &#39;remarkably&#39;, &#39;remarks&#39;, &#39;remember&#39;, &#39;remembered&#39;, &#39;remind&#39;, &#39;reminded&#39;, &#39;reminds&#39;, &#39;reminiscent&#39;, &#39;remote&#39;, &#39;remotely&#39;, &#39;removed&#39;, &#39;rendition&#39;, &#39;rent&#39;, &#39;rental&#39;, &#39;rented&#39;, &#39;renting&#39;, &#39;repeat&#39;, &#39;repeated&#39;, &#39;repeatedly&#39;, &#39;repetitive&#39;, &#39;replaced&#39;, &#39;report&#39;, &#39;reporter&#39;, &#39;represent&#39;, &#39;represented&#39;, &#39;represents&#39;, &#39;reputation&#39;, &#39;required&#39;, &#39;requires&#39;, &#39;rescue&#39;, &#39;research&#39;, &#39;resemblance&#39;, &#39;resemble&#39;, &#39;resembles&#39;, &#39;resident&#39;, &#39;resist&#39;, &#39;resolution&#39;, &#39;resort&#39;, &#39;resources&#39;, &#39;respect&#39;, &#39;respected&#39;, &#39;respectively&#39;, &#39;response&#39;, &#39;responsibility&#39;, &#39;responsible&#39;, &#39;rest&#39;, &#39;restaurant&#39;, &#39;restored&#39;, &#39;result&#39;, &#39;resulting&#39;, &#39;results&#39;, &#39;retarded&#39;, &#39;retired&#39;, &#39;return&#39;, &#39;returned&#39;, &#39;returning&#39;, &#39;returns&#39;, &#39;reunion&#39;, &#39;reveal&#39;, &#39;revealed&#39;, &#39;revealing&#39;, &#39;reveals&#39;, &#39;revelation&#39;, &#39;revenge&#39;, &#39;review&#39;, &#39;reviewer&#39;, &#39;reviewers&#39;, &#39;reviews&#39;, &#39;revolution&#39;, &#39;revolutionary&#39;, &#39;revolves&#39;, &#39;rex&#39;, &#39;reynolds&#39;, &#39;rich&#39;, &#39;richard&#39;, &#39;richards&#39;, &#39;richardson&#39;, &#39;rick&#39;, &#39;rid&#39;, &#39;ridden&#39;, &#39;ride&#39;, &#39;ridiculous&#39;, &#39;ridiculously&#39;, &#39;riding&#39;, &#39;right&#39;, &#39;rights&#39;, &#39;ring&#39;, &#39;rings&#39;, &#39;rip&#39;, &#39;ripped&#39;, &#39;rise&#39;, &#39;rises&#39;, &#39;rising&#39;, &#39;risk&#39;, &#39;rita&#39;, &#39;ritter&#39;, &#39;rival&#39;, &#39;river&#39;, &#39;riveting&#39;, &#39;road&#39;, &#39;rob&#39;, &#39;robbery&#39;, &#39;robbins&#39;, &#39;robert&#39;, &#39;roberts&#39;, &#39;robin&#39;, &#39;robinson&#39;, &#39;robot&#39;, &#39;robots&#39;, &#39;rochester&#39;, &#39;rock&#39;, &#39;rocket&#39;, &#39;rocks&#39;, &#39;rocky&#39;, &#39;roger&#39;, &#39;rogers&#39;, &#39;role&#39;, &#39;roles&#39;, &#39;roll&#39;, &#39;rolled&#39;, &#39;rolling&#39;, &#39;roman&#39;, &#39;romance&#39;, &#39;romantic&#39;, &#39;romero&#39;, &#39;romp&#39;, &#39;ron&#39;, &#39;room&#39;, &#39;rooms&#39;, &#39;rooney&#39;, &#39;root&#39;, &#39;roots&#39;, &#39;rose&#39;, &#39;ross&#39;, &#39;roth&#39;, &#39;rotten&#39;, &#39;rough&#39;, &#39;round&#39;, &#39;routine&#39;, &#39;row&#39;, &#39;roy&#39;, &#39;royal&#39;, &#39;rubber&#39;, &#39;rubbish&#39;, &#39;ruby&#39;, &#39;ruin&#39;, &#39;ruined&#39;, &#39;ruins&#39;, &#39;rukh&#39;, &#39;rule&#39;, &#39;rules&#39;, &#39;run&#39;, &#39;running&#39;, &#39;runs&#39;, &#39;rural&#39;, &#39;rush&#39;, &#39;rushed&#39;, &#39;russell&#39;, &#39;russia&#39;, &#39;russian&#39;, &#39;ruth&#39;, &#39;ruthless&#39;, &#39;ryan&#39;, &#39;sabrina&#39;, &#39;sacrifice&#39;, &#39;sad&#39;, &#39;sadistic&#39;, &#39;sadly&#39;, &#39;sadness&#39;, &#39;safe&#39;, &#39;safety&#39;, &#39;saga&#39;, &#39;said&#39;, &#39;sake&#39;, &#39;sally&#39;, &#39;sam&#39;, &#39;samurai&#39;, &#39;san&#39;, &#39;sandler&#39;, &#39;sandra&#39;, &#39;santa&#39;, &#39;sappy&#39;, &#39;sarah&#39;, &#39;sat&#39;, &#39;satan&#39;, &#39;satire&#39;, &#39;satisfied&#39;, &#39;satisfy&#39;, &#39;satisfying&#39;, &#39;saturday&#39;, &#39;savage&#39;, &#39;save&#39;, &#39;saved&#39;, &#39;saves&#39;, &#39;saving&#39;, &#39;saw&#39;, &#39;say&#39;, &#39;saying&#39;, &#39;says&#39;, &#39;scale&#39;, &#39;scare&#39;, &#39;scarecrow&#39;, &#39;scared&#39;, &#39;scares&#39;, &#39;scary&#39;, &#39;scenario&#39;, &#39;scene&#39;, &#39;scenery&#39;, &#39;scenes&#39;, &#39;scheme&#39;, &#39;school&#39;, &#39;sci&#39;, &#39;science&#39;, &#39;scientific&#39;, &#39;scientist&#39;, &#39;scientists&#39;, &#39;scooby&#39;, &#39;scope&#39;, &#39;score&#39;, &#39;scores&#39;, &#39;scotland&#39;, &#39;scott&#39;, &#39;scottish&#39;, &#39;scream&#39;, &#39;screaming&#39;, &#39;screams&#39;, &#39;screen&#39;, &#39;screening&#39;, &#39;screenplay&#39;, &#39;screenwriter&#39;, &#39;script&#39;, &#39;scripted&#39;, &#39;scripts&#39;, &#39;scrooge&#39;, &#39;sea&#39;, &#39;seagal&#39;, &#39;sean&#39;, &#39;search&#39;, &#39;searching&#39;, &#39;season&#39;, &#39;seasons&#39;, &#39;seat&#39;, &#39;second&#39;, &#39;secondly&#39;, &#39;seconds&#39;, &#39;secret&#39;, &#39;secretary&#39;, &#39;secretly&#39;, &#39;secrets&#39;, &#39;section&#39;, &#39;security&#39;, &#39;see&#39;, &#39;seed&#39;, &#39;seeing&#39;, &#39;seek&#39;, &#39;seeking&#39;, &#39;seeks&#39;, &#39;seem&#39;, &#39;seemed&#39;, &#39;seemingly&#39;, &#39;seems&#39;, &#39;seen&#39;, &#39;sees&#39;, &#39;segment&#39;, &#39;segments&#39;, &#39;seldom&#39;, &#39;self&#39;, &#39;selfish&#39;, &#39;sell&#39;, &#39;sellers&#39;, &#39;selling&#39;, &#39;semi&#39;, &#39;send&#39;, &#39;sends&#39;, &#39;sense&#39;, &#39;senseless&#39;, &#39;senses&#39;, &#39;sensitive&#39;, &#39;sent&#39;, &#39;sentence&#39;, &#39;sentimental&#39;, &#39;separate&#39;, &#39;september&#39;, &#39;sequel&#39;, &#39;sequels&#39;, &#39;sequence&#39;, &#39;sequences&#39;, &#39;serial&#39;, &#39;series&#39;, &#39;serious&#39;, &#39;seriously&#39;, &#39;serve&#39;, &#39;served&#39;, &#39;serves&#39;, &#39;service&#39;, &#39;serving&#39;, &#39;set&#39;, &#39;sets&#39;, &#39;setting&#39;, &#39;settings&#39;, &#39;settle&#39;, &#39;seven&#39;, &#39;seventies&#39;, &#39;several&#39;, &#39;severe&#39;, &#39;sex&#39;, &#39;sexual&#39;, &#39;sexuality&#39;, &#39;sexually&#39;, &#39;sexy&#39;, &#39;sh&#39;, &#39;shadow&#39;, &#39;shadows&#39;, &#39;shake&#39;, &#39;shakespeare&#39;, &#39;shaky&#39;, &#39;shall&#39;, &#39;shallow&#39;, &#39;shame&#39;, &#39;shanghai&#39;, &#39;shape&#39;, &#39;share&#39;, &#39;shark&#39;, &#39;sharp&#39;, &#39;shaw&#39;, &#39;shed&#39;, &#39;sheer&#39;, &#39;shelf&#39;, &#39;shelley&#39;, &#39;sheriff&#39;, &#39;shine&#39;, &#39;shines&#39;, &#39;shining&#39;, &#39;ship&#39;, &#39;ships&#39;, &#39;shirley&#39;, &#39;shirt&#39;, &#39;shock&#39;, &#39;shocked&#39;, &#39;shocking&#39;, &#39;shoes&#39;, &#39;shoot&#39;, &#39;shooting&#39;, &#39;shoots&#39;, &#39;shop&#39;, &#39;short&#39;, &#39;shortly&#39;, &#39;shorts&#39;, &#39;shot&#39;, &#39;shots&#39;, &#39;show&#39;, &#39;showcase&#39;, &#39;showdown&#39;, &#39;showed&#39;, &#39;shower&#39;, &#39;showing&#39;, &#39;shown&#39;, &#39;shows&#39;, &#39;shut&#39;, &#39;shy&#39;, &#39;sick&#39;, &#39;sid&#39;, &#39;side&#39;, &#39;sidekick&#39;, &#39;sides&#39;, &#39;sidney&#39;, &#39;sight&#39;, &#39;sign&#39;, &#39;signed&#39;, &#39;significance&#39;, &#39;significant&#39;, &#39;signs&#39;, &#39;silence&#39;, &#39;silent&#39;, &#39;silly&#39;, &#39;silver&#39;, &#39;similar&#39;, &#39;similarities&#39;, &#39;similarly&#39;, &#39;simmons&#39;, &#39;simon&#39;, &#39;simple&#39;, &#39;simplicity&#39;, &#39;simplistic&#39;, &#39;simply&#39;, &#39;simpson&#39;, &#39;sin&#39;, &#39;sinatra&#39;, &#39;since&#39;, &#39;sincere&#39;, &#39;sing&#39;, &#39;singer&#39;, &#39;singers&#39;, &#39;singing&#39;, &#39;single&#39;, &#39;sings&#39;, &#39;sinister&#39;, &#39;sink&#39;, &#39;sir&#39;, &#39;sirk&#39;, &#39;sissy&#39;, &#39;sister&#39;, &#39;sisters&#39;, &#39;sit&#39;, &#39;sitcom&#39;, &#39;site&#39;, &#39;sits&#39;, &#39;sitting&#39;, &#39;situation&#39;, &#39;situations&#39;, &#39;six&#39;, &#39;sixties&#39;, &#39;size&#39;, &#39;skill&#39;, &#39;skills&#39;, &#39;skin&#39;, &#39;skip&#39;, &#39;skull&#39;, &#39;sky&#39;, &#39;slap&#39;, &#39;slapstick&#39;, &#39;slasher&#39;, &#39;slaughter&#39;, &#39;slave&#39;, &#39;sleazy&#39;, &#39;sleep&#39;, &#39;sleeping&#39;, &#39;slice&#39;, &#39;slick&#39;, &#39;slight&#39;, &#39;slightest&#39;, &#39;slightly&#39;, &#39;sloppy&#39;, &#39;slow&#39;, &#39;slowly&#39;, &#39;small&#39;, &#39;smaller&#39;, &#39;smart&#39;, &#39;smile&#39;, &#39;smiling&#39;, &#39;smith&#39;, &#39;smoke&#39;, &#39;smoking&#39;, &#39;smooth&#39;, &#39;snake&#39;, &#39;sneak&#39;, &#39;snl&#39;, &#39;snow&#39;, &#39;soap&#39;, &#39;soccer&#39;, &#39;social&#39;, &#39;society&#39;, &#39;soderbergh&#39;, &#39;soft&#39;, &#39;sold&#39;, &#39;soldier&#39;, &#39;soldiers&#39;, &#39;sole&#39;, &#39;solely&#39;, &#39;solid&#39;, &#39;solo&#39;, &#39;solution&#39;, &#39;solve&#39;, &#39;somebody&#39;, &#39;somehow&#39;, &#39;someone&#39;, &#39;something&#39;, &#39;sometimes&#39;, &#39;somewhat&#39;, &#39;somewhere&#39;, &#39;son&#39;, &#39;song&#39;, &#39;songs&#39;, &#39;sons&#39;, &#39;soon&#39;, &#39;sophisticated&#39;, &#39;sopranos&#39;, &#39;sorry&#39;, &#39;sort&#39;, &#39;sorts&#39;, &#39;soul&#39;, &#39;souls&#39;, &#39;sound&#39;, &#39;sounded&#39;, &#39;sounding&#39;, &#39;sounds&#39;, &#39;soundtrack&#39;, &#39;source&#39;, &#39;south&#39;, &#39;southern&#39;, &#39;soviet&#39;, &#39;space&#39;, &#39;spacey&#39;, &#39;spain&#39;, &#39;spanish&#39;, &#39;spare&#39;, &#39;spark&#39;, &#39;speak&#39;, &#39;speaking&#39;, &#39;speaks&#39;, &#39;special&#39;, &#39;specially&#39;, &#39;species&#39;, &#39;specific&#39;, &#39;specifically&#39;, &#39;spectacular&#39;, &#39;speech&#39;, &#39;speed&#39;, &#39;spell&#39;, &#39;spend&#39;, &#39;spending&#39;, &#39;spends&#39;, &#39;spent&#39;, &#39;spider&#39;, &#39;spielberg&#39;, &#39;spike&#39;, &#39;spin&#39;, &#39;spirit&#39;, &#39;spirited&#39;, &#39;spirits&#39;, &#39;spiritual&#39;, &#39;spite&#39;, &#39;splatter&#39;, &#39;splendid&#39;, &#39;split&#39;, &#39;spock&#39;, &#39;spoil&#39;, &#39;spoiled&#39;, &#39;spoiler&#39;, &#39;spoilers&#39;, &#39;spoke&#39;, &#39;spoken&#39;, &#39;spoof&#39;, &#39;spooky&#39;, &#39;sport&#39;, &#39;sports&#39;, &#39;spot&#39;, &#39;spots&#39;, &#39;spread&#39;, &#39;spring&#39;, &#39;spy&#39;, &#39;square&#39;, &#39;st&#39;, &#39;stack&#39;, &#39;staff&#39;, &#39;stage&#39;, &#39;staged&#39;, &#39;stale&#39;, &#39;stallone&#39;, &#39;stan&#39;, &#39;stand&#39;, &#39;standard&#39;, &#39;standards&#39;, &#39;standing&#39;, &#39;stands&#39;, &#39;stanley&#39;, &#39;stanwyck&#39;, &#39;star&#39;, &#39;stargate&#39;, &#39;staring&#39;, &#39;starred&#39;, &#39;starring&#39;, &#39;stars&#39;, &#39;start&#39;, &#39;started&#39;, &#39;starting&#39;, &#39;starts&#39;, &#39;state&#39;, &#39;stated&#39;, &#39;statement&#39;, &#39;states&#39;, &#39;station&#39;, &#39;status&#39;, &#39;stay&#39;, &#39;stayed&#39;, &#39;staying&#39;, &#39;stays&#39;, &#39;steal&#39;, &#39;stealing&#39;, &#39;steals&#39;, &#39;steel&#39;, &#39;stellar&#39;, &#39;step&#39;, &#39;stephen&#39;, &#39;steps&#39;, &#39;stereotype&#39;, &#39;stereotypes&#39;, &#39;stereotypical&#39;, &#39;steve&#39;, &#39;steven&#39;, &#39;stevens&#39;, &#39;stewart&#39;, &#39;stick&#39;, &#39;sticks&#39;, &#39;stiff&#39;, &#39;still&#39;, &#39;stiller&#39;, &#39;stilted&#39;, &#39;stinker&#39;, &#39;stinks&#39;, &#39;stock&#39;, &#39;stole&#39;, &#39;stolen&#39;, &#39;stomach&#39;, &#39;stone&#39;, &#39;stood&#39;, &#39;stooges&#39;, &#39;stop&#39;, &#39;stopped&#39;, &#39;stops&#39;, &#39;store&#39;, &#39;stories&#39;, &#39;storm&#39;, &#39;story&#39;, &#39;storyline&#39;, &#39;storytelling&#39;, &#39;straight&#39;, &#39;strange&#39;, &#39;strangely&#39;, &#39;stranger&#39;, &#39;strangers&#39;, &#39;streep&#39;, &#39;street&#39;, &#39;streets&#39;, &#39;streisand&#39;, &#39;strength&#39;, &#39;stress&#39;, &#39;stretch&#39;, &#39;stretched&#39;, &#39;strictly&#39;, &#39;strike&#39;, &#39;strikes&#39;, &#39;striking&#39;, &#39;string&#39;, &#39;strip&#39;, &#39;strong&#39;, &#39;stronger&#39;, &#39;strongly&#39;, &#39;struck&#39;, &#39;structure&#39;, &#39;struggle&#39;, &#39;struggles&#39;, &#39;struggling&#39;, &#39;stuart&#39;, &#39;stuck&#39;, &#39;student&#39;, &#39;students&#39;, &#39;studio&#39;, &#39;studios&#39;, &#39;study&#39;, &#39;stuff&#39;, &#39;stumbled&#39;, &#39;stunned&#39;, &#39;stunning&#39;, &#39;stunt&#39;, &#39;stunts&#39;, &#39;stupid&#39;, &#39;stupidity&#39;, &#39;style&#39;, &#39;styles&#39;, &#39;stylish&#39;, &#39;sub&#39;, &#39;subject&#39;, &#39;subjected&#39;, &#39;subjects&#39;, &#39;subplot&#39;, &#39;subplots&#39;, &#39;subsequent&#39;, &#39;substance&#39;, &#39;subtitles&#39;, &#39;subtle&#39;, &#39;subtlety&#39;, &#39;succeed&#39;, &#39;succeeded&#39;, &#39;succeeds&#39;, &#39;success&#39;, &#39;successful&#39;, &#39;successfully&#39;, &#39;suck&#39;, &#39;sucked&#39;, &#39;sucks&#39;, &#39;sudden&#39;, &#39;suddenly&#39;, &#39;sue&#39;, &#39;suffer&#39;, &#39;suffered&#39;, &#39;suffering&#39;, &#39;suffers&#39;, &#39;suffice&#39;, &#39;suggest&#39;, &#39;suggested&#39;, &#39;suggests&#39;, &#39;suicide&#39;, &#39;suit&#39;, &#39;suitable&#39;, &#39;suited&#39;, &#39;suits&#39;, &#39;sullivan&#39;, &#39;sum&#39;, &#39;summary&#39;, &#39;summer&#39;, &#39;sun&#39;, &#39;sunday&#39;, &#39;sunshine&#39;, &#39;super&#39;, &#39;superb&#39;, &#39;superbly&#39;, &#39;superficial&#39;, &#39;superhero&#39;, &#39;superior&#39;, &#39;superman&#39;, &#39;supernatural&#39;, &#39;support&#39;, &#39;supported&#39;, &#39;supporting&#39;, &#39;suppose&#39;, &#39;supposed&#39;, &#39;supposedly&#39;, &#39;sure&#39;, &#39;surely&#39;, &#39;surface&#39;, &#39;surfing&#39;, &#39;surprise&#39;, &#39;surprised&#39;, &#39;surprises&#39;, &#39;surprising&#39;, &#39;surprisingly&#39;, &#39;surreal&#39;, &#39;surrounded&#39;, &#39;surrounding&#39;, &#39;survival&#39;, &#39;survive&#39;, &#39;survived&#39;, &#39;surviving&#39;, &#39;survivor&#39;, &#39;survivors&#39;, &#39;susan&#39;, &#39;suspect&#39;, &#39;suspects&#39;, &#39;suspend&#39;, &#39;suspense&#39;, &#39;suspenseful&#39;, &#39;suspicious&#39;, &#39;sutherland&#39;, &#39;swear&#39;, &#39;swedish&#39;, &#39;sweet&#39;, &#39;swim&#39;, &#39;swimming&#39;, &#39;switch&#39;, &#39;sword&#39;, &#39;symbolism&#39;, &#39;sympathetic&#39;, &#39;sympathy&#39;, &#39;synopsis&#39;, &#39;system&#39;, &#39;table&#39;, &#39;tacky&#39;, &#39;tad&#39;, &#39;tag&#39;, &#39;take&#39;, &#39;taken&#39;, &#39;takes&#39;, &#39;taking&#39;, &#39;tale&#39;, &#39;talent&#39;, &#39;talented&#39;, &#39;talents&#39;, &#39;tales&#39;, &#39;talk&#39;, &#39;talked&#39;, &#39;talking&#39;, &#39;talks&#39;, &#39;tall&#39;, &#39;tame&#39;, &#39;tank&#39;, &#39;tap&#39;, &#39;tape&#39;, &#39;tarantino&#39;, &#39;target&#39;, &#39;tarzan&#39;, &#39;task&#39;, &#39;taste&#39;, &#39;taught&#39;, &#39;taxi&#39;, &#39;taylor&#39;, &#39;tea&#39;, &#39;teach&#39;, &#39;teacher&#39;, &#39;teaching&#39;, &#39;team&#39;, &#39;tear&#39;, &#39;tears&#39;, &#39;tech&#39;, &#39;technical&#39;, &#39;technically&#39;, &#39;technicolor&#39;, &#39;technique&#39;, &#39;techniques&#39;, &#39;technology&#39;, &#39;ted&#39;, &#39;tedious&#39;, &#39;teen&#39;, &#39;teenage&#39;, &#39;teenager&#39;, &#39;teenagers&#39;, &#39;teens&#39;, &#39;teeth&#39;, &#39;television&#39;, &#39;tell&#39;, &#39;telling&#39;, &#39;tells&#39;, &#39;temple&#39;, &#39;ten&#39;, &#39;tend&#39;, &#39;tender&#39;, &#39;tends&#39;, &#39;tense&#39;, &#39;tension&#39;, &#39;term&#39;, &#39;terms&#39;, &#39;terrible&#39;, &#39;terribly&#39;, &#39;terrific&#39;, &#39;terrifying&#39;, &#39;territory&#39;, &#39;terror&#39;, &#39;terrorist&#39;, &#39;terrorists&#39;, &#39;terry&#39;, &#39;test&#39;, &#39;testament&#39;, &#39;texas&#39;, &#39;text&#39;, &#39;th&#39;, &#39;thank&#39;, &#39;thankfully&#39;, &#39;thanks&#39;, &#39;thats&#39;, &#39;theater&#39;, &#39;theaters&#39;, &#39;theatre&#39;, &#39;theatrical&#39;, &#39;theme&#39;, &#39;themes&#39;, &#39;theory&#39;, &#39;therefore&#39;, &#39;thick&#39;, &#39;thief&#39;, &#39;thin&#39;, &#39;thing&#39;, &#39;things&#39;, &#39;think&#39;, &#39;thinking&#39;, &#39;thinks&#39;, &#39;third&#39;, &#39;thirty&#39;, &#39;thomas&#39;, &#39;thompson&#39;, &#39;thoroughly&#39;, &#39;though&#39;, &#39;thought&#39;, &#39;thoughtful&#39;, &#39;thoughts&#39;, &#39;thousand&#39;, &#39;thousands&#39;, &#39;threat&#39;, &#39;threatening&#39;, &#39;three&#39;, &#39;threw&#39;, &#39;thrill&#39;, &#39;thriller&#39;, &#39;thrillers&#39;, &#39;thrilling&#39;, &#39;thrills&#39;, &#39;throat&#39;, &#39;throughout&#39;, &#39;throw&#39;, &#39;throwing&#39;, &#39;thrown&#39;, &#39;throws&#39;, &#39;thru&#39;, &#39;thugs&#39;, &#39;thumbs&#39;, &#39;thus&#39;, &#39;ticket&#39;, &#39;tie&#39;, &#39;tied&#39;, &#39;ties&#39;, &#39;tiger&#39;, &#39;tight&#39;, &#39;till&#39;, &#39;tim&#39;, &#39;time&#39;, &#39;timeless&#39;, &#39;times&#39;, &#39;timing&#39;, &#39;timon&#39;, &#39;timothy&#39;, &#39;tiny&#39;, &#39;tired&#39;, &#39;tiresome&#39;, &#39;titanic&#39;, &#39;title&#39;, &#39;titled&#39;, &#39;titles&#39;, &#39;today&#39;, &#39;todd&#39;, &#39;together&#39;, &#39;toilet&#39;, &#39;told&#39;, &#39;tom&#39;, &#39;tomatoes&#39;, &#39;tommy&#39;, &#39;tone&#39;, &#39;tongue&#39;, &#39;tonight&#39;, &#39;tons&#39;, &#39;tony&#39;, &#39;took&#39;, &#39;tooth&#39;, &#39;top&#39;, &#39;topic&#39;, &#39;topless&#39;, &#39;torn&#39;, &#39;torture&#39;, &#39;tortured&#39;, &#39;total&#39;, &#39;totally&#39;, &#39;touch&#39;, &#39;touched&#39;, &#39;touches&#39;, &#39;touching&#39;, &#39;tough&#39;, &#39;tour&#39;, &#39;toward&#39;, &#39;towards&#39;, &#39;town&#39;, &#39;toy&#39;, &#39;toys&#39;, &#39;track&#39;, &#39;tracks&#39;, &#39;tracy&#39;, &#39;trade&#39;, &#39;trademark&#39;, &#39;tradition&#39;, &#39;traditional&#39;, &#39;tragedy&#39;, &#39;tragic&#39;, &#39;trail&#39;, &#39;trailer&#39;, &#39;trailers&#39;, &#39;train&#39;, &#39;trained&#39;, &#39;training&#39;, &#39;transfer&#39;, &#39;transformation&#39;, &#39;transition&#39;, &#39;translation&#39;, &#39;trap&#39;, &#39;trapped&#39;, &#39;trash&#39;, &#39;trashy&#39;, &#39;travel&#39;, &#39;traveling&#39;, &#39;travels&#39;, &#39;travesty&#39;, &#39;treasure&#39;, &#39;treat&#39;, &#39;treated&#39;, &#39;treatment&#39;, &#39;treats&#39;, &#39;tree&#39;, &#39;trees&#39;, &#39;trek&#39;, &#39;tremendous&#39;, &#39;trial&#39;, &#39;tribe&#39;, &#39;tribute&#39;, &#39;trick&#39;, &#39;tricks&#39;, &#39;tried&#39;, &#39;tries&#39;, &#39;trilogy&#39;, &#39;trio&#39;, &#39;trip&#39;, &#39;trite&#39;, &#39;triumph&#39;, &#39;troops&#39;, &#39;trouble&#39;, &#39;troubled&#39;, &#39;troubles&#39;, &#39;truck&#39;, &#39;true&#39;, &#39;truly&#39;, &#39;trust&#39;, &#39;truth&#39;, &#39;try&#39;, &#39;trying&#39;, &#39;tube&#39;, &#39;tune&#39;, &#39;tunes&#39;, &#39;turkey&#39;, &#39;turn&#39;, &#39;turned&#39;, &#39;turner&#39;, &#39;turning&#39;, &#39;turns&#39;, &#39;tv&#39;, &#39;twelve&#39;, &#39;twenty&#39;, &#39;twice&#39;, &#39;twilight&#39;, &#39;twin&#39;, &#39;twins&#39;, &#39;twist&#39;, &#39;twisted&#39;, &#39;twists&#39;, &#39;two&#39;, &#39;type&#39;, &#39;types&#39;, &#39;typical&#39;, &#39;typically&#39;, &#39;ugly&#39;, &#39;uk&#39;, &#39;ultimate&#39;, &#39;ultimately&#39;, &#39;ultra&#39;, &#39;un&#39;, &#39;unable&#39;, &#39;unaware&#39;, &#39;unbearable&#39;, &#39;unbelievable&#39;, &#39;unbelievably&#39;, &#39;uncle&#39;, &#39;uncomfortable&#39;, &#39;unconvincing&#39;, &#39;underground&#39;, &#39;underlying&#39;, &#39;underrated&#39;, &#39;understand&#39;, &#39;understandable&#39;, &#39;understanding&#39;, &#39;understated&#39;, &#39;understood&#39;, &#39;undoubtedly&#39;, &#39;uneven&#39;, &#39;unexpected&#39;, &#39;unexpectedly&#39;, &#39;unfair&#39;, &#39;unfolds&#39;, &#39;unforgettable&#39;, &#39;unfortunate&#39;, &#39;unfortunately&#39;, &#39;unfunny&#39;, &#39;unhappy&#39;, &#39;uninspired&#39;, &#39;unintentional&#39;, &#39;unintentionally&#39;, &#39;uninteresting&#39;, &#39;union&#39;, &#39;unique&#39;, &#39;unit&#39;, &#39;united&#39;, &#39;universal&#39;, &#39;universe&#39;, &#39;university&#39;, &#39;unknown&#39;, &#39;unless&#39;, &#39;unlike&#39;, &#39;unlikely&#39;, &#39;unnecessary&#39;, &#39;unoriginal&#39;, &#39;unpleasant&#39;, &#39;unpredictable&#39;, &#39;unreal&#39;, &#39;unrealistic&#39;, &#39;unseen&#39;, &#39;unsettling&#39;, &#39;unusual&#39;, &#39;unwatchable&#39;, &#39;uplifting&#39;, &#39;upon&#39;, &#39;upper&#39;, &#39;ups&#39;, &#39;upset&#39;, &#39;urban&#39;, &#39;urge&#39;, &#39;us&#39;, &#39;usa&#39;, &#39;use&#39;, &#39;used&#39;, &#39;useful&#39;, &#39;useless&#39;, &#39;user&#39;, &#39;uses&#39;, &#39;using&#39;, &#39;ustinov&#39;, &#39;usual&#39;, &#39;usually&#39;, &#39;utter&#39;, &#39;utterly&#39;, &#39;uwe&#39;, &#39;vacation&#39;, &#39;vague&#39;, &#39;vaguely&#39;, &#39;valentine&#39;, &#39;valley&#39;, &#39;valuable&#39;, &#39;value&#39;, &#39;values&#39;, &#39;vampire&#39;, &#39;vampires&#39;, &#39;van&#39;, &#39;vance&#39;, &#39;variety&#39;, &#39;various&#39;, &#39;vast&#39;, &#39;vegas&#39;, &#39;vehicle&#39;, &#39;vengeance&#39;, &#39;verhoeven&#39;, &#39;version&#39;, &#39;versions&#39;, &#39;versus&#39;, &#39;veteran&#39;, &#39;vhs&#39;, &#39;via&#39;, &#39;vice&#39;, &#39;vicious&#39;, &#39;victim&#39;, &#39;victims&#39;, &#39;victor&#39;, &#39;victoria&#39;, &#39;victory&#39;, &#39;video&#39;, &#39;videos&#39;, &#39;vietnam&#39;, &#39;view&#39;, &#39;viewed&#39;, &#39;viewer&#39;, &#39;viewers&#39;, &#39;viewing&#39;, &#39;viewings&#39;, &#39;views&#39;, &#39;village&#39;, &#39;villain&#39;, &#39;villains&#39;, &#39;vincent&#39;, &#39;violence&#39;, &#39;violent&#39;, &#39;virgin&#39;, &#39;virginia&#39;, &#39;virtually&#39;, &#39;virus&#39;, &#39;visible&#39;, &#39;vision&#39;, &#39;visit&#39;, &#39;visits&#39;, &#39;visual&#39;, &#39;visually&#39;, &#39;visuals&#39;, &#39;vivid&#39;, &#39;voice&#39;, &#39;voiced&#39;, &#39;voices&#39;, &#39;voight&#39;, &#39;von&#39;, &#39;vote&#39;, &#39;vs&#39;, &#39;vulnerable&#39;, &#39;wacky&#39;, &#39;wait&#39;, &#39;waited&#39;, &#39;waiting&#39;, &#39;waitress&#39;, &#39;wake&#39;, &#39;walk&#39;, &#39;walked&#39;, &#39;walken&#39;, &#39;walker&#39;, &#39;walking&#39;, &#39;walks&#39;, &#39;wall&#39;, &#39;wallace&#39;, &#39;walls&#39;, &#39;walsh&#39;, &#39;walter&#39;, &#39;wandering&#39;, &#39;wang&#39;, &#39;wanna&#39;, &#39;wannabe&#39;, &#39;want&#39;, &#39;wanted&#39;, &#39;wanting&#39;, &#39;wants&#39;, &#39;war&#39;, &#39;ward&#39;, &#39;warm&#39;, &#39;warming&#39;, &#39;warmth&#39;, &#39;warn&#39;, &#39;warned&#39;, &#39;warner&#39;, &#39;warning&#39;, &#39;warren&#39;, &#39;warrior&#39;, &#39;warriors&#39;, &#39;wars&#39;, &#39;washington&#39;, &#39;waste&#39;, &#39;wasted&#39;, &#39;wasting&#39;, &#39;watch&#39;, &#39;watchable&#39;, &#39;watched&#39;, &#39;watches&#39;, &#39;watching&#39;, &#39;water&#39;, &#39;waters&#39;, &#39;watson&#39;, &#39;wave&#39;, &#39;waves&#39;, &#39;way&#39;, &#39;wayne&#39;, &#39;ways&#39;, &#39;weak&#39;, &#39;weakest&#39;, &#39;wealth&#39;, &#39;wealthy&#39;, &#39;weapon&#39;, &#39;weapons&#39;, &#39;wear&#39;, &#39;wearing&#39;, &#39;wears&#39;, &#39;web&#39;, &#39;website&#39;, &#39;wedding&#39;, &#39;week&#39;, &#39;weekend&#39;, &#39;weeks&#39;, &#39;weight&#39;, &#39;weird&#39;, &#39;welcome&#39;, &#39;well&#39;, &#39;welles&#39;, &#39;wells&#39;, &#39;wendy&#39;, &#39;went&#39;, &#39;werewolf&#39;, &#39;wes&#39;, &#39;west&#39;, &#39;western&#39;, &#39;westerns&#39;, &#39;wet&#39;, &#39;whale&#39;, &#39;whatever&#39;, &#39;whats&#39;, &#39;whatsoever&#39;, &#39;whenever&#39;, &#39;whereas&#39;, &#39;whether&#39;, &#39;whilst&#39;, &#39;white&#39;, &#39;whoever&#39;, &#39;whole&#39;, &#39;wholly&#39;, &#39;whoopi&#39;, &#39;whose&#39;, &#39;wicked&#39;, &#39;wide&#39;, &#39;widely&#39;, &#39;widmark&#39;, &#39;widow&#39;, &#39;wife&#39;, &#39;wild&#39;, &#39;wilderness&#39;, &#39;william&#39;, &#39;williams&#39;, &#39;willie&#39;, &#39;willing&#39;, &#39;willis&#39;, &#39;wilson&#39;, &#39;win&#39;, &#39;wind&#39;, &#39;window&#39;, &#39;winds&#39;, &#39;wing&#39;, &#39;winner&#39;, &#39;winning&#39;, &#39;wins&#39;, &#39;winter&#39;, &#39;winters&#39;, &#39;wisdom&#39;, &#39;wise&#39;, &#39;wish&#39;, &#39;wished&#39;, &#39;wishes&#39;, &#39;wishing&#39;, &#39;wit&#39;, &#39;witch&#39;, &#39;witches&#39;, &#39;within&#39;, &#39;without&#39;, &#39;witness&#39;, &#39;witnessed&#39;, &#39;witnesses&#39;, &#39;witty&#39;, &#39;wives&#39;, &#39;wizard&#39;, &#39;wolf&#39;, &#39;woman&#39;, &#39;women&#39;, &#39;wonder&#39;, &#39;wondered&#39;, &#39;wonderful&#39;, &#39;wonderfully&#39;, &#39;wondering&#39;, &#39;wonders&#39;, &#39;wont&#39;, &#39;woo&#39;, &#39;wood&#39;, &#39;wooden&#39;, &#39;woods&#39;, &#39;woody&#39;, &#39;word&#39;, &#39;words&#39;, &#39;wore&#39;, &#39;work&#39;, &#39;worked&#39;, &#39;worker&#39;, &#39;workers&#39;, &#39;working&#39;, &#39;works&#39;, &#39;world&#39;, &#39;worlds&#39;, &#39;worn&#39;, &#39;worried&#39;, &#39;worry&#39;, &#39;worse&#39;, &#39;worst&#39;, &#39;worth&#39;, &#39;worthless&#39;, &#39;worthwhile&#39;, &#39;worthy&#39;, &#39;would&#39;, &#39;wound&#39;, &#39;wounded&#39;, &#39;wow&#39;, &#39;wrap&#39;, &#39;wrapped&#39;, &#39;wreck&#39;, &#39;wrestling&#39;, &#39;wretched&#39;, &#39;write&#39;, &#39;writer&#39;, &#39;writers&#39;, &#39;writes&#39;, &#39;writing&#39;, &#39;written&#39;, &#39;wrong&#39;, &#39;wrote&#39;, &#39;ww&#39;, &#39;wwii&#39;, &#39;ya&#39;, &#39;yard&#39;, &#39;yeah&#39;, &#39;year&#39;, &#39;years&#39;, &#39;yelling&#39;, &#39;yellow&#39;, &#39;yes&#39;, &#39;yesterday&#39;, &#39;yet&#39;, &#39;york&#39;, &#39;young&#39;, &#39;younger&#39;, &#39;youth&#39;, &#39;zero&#39;, &#39;zizek&#39;, &#39;zombie&#39;, &#39;zombies&#39;, &#39;zone&#39;]
+</code></pre><h2 id="3-建模并测试"><a href="#3-建模并测试" class="headerlink" title="3 建模并测试"></a>3 建模并测试</h2><h3 id="3-1-建立模型"><a href="#3-1-建立模型" class="headerlink" title="3.1 建立模型"></a>3.1 建立模型</h3><p>这里选择随机森林模型，参数介绍以及调参方法见：Sklearn-RandomForest随机森林<a href="https://blog.csdn.net/cherdw/article/details/54971771" target="_blank" rel="noopener">https://blog.csdn.net/cherdw/article/details/54971771</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"Training the random forest..."</span>)</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line">forest=RandomForestClassifier(n_estimators=<span class="number">100</span>)</span><br><span class="line">forest=forest.fit(train_data_features,train[<span class="string">"sentiment"</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>Training the random forest...
+</code></pre><h3 id="3-2-模型测试"><a href="#3-2-模型测试" class="headerlink" title="3.2 模型测试"></a>3.2 模型测试</h3><p>(1)模型测试之前，需要准备测试数据，以及提取测试数据的特征</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取测试数据</span></span><br><span class="line">test=pd.read_csv(<span class="string">"./data/testData.tsv"</span>, header=<span class="number">0</span>, delimiter=<span class="string">'\t'</span>,quoting=<span class="number">3</span>)</span><br><span class="line">print(test.shape)</span><br><span class="line"><span class="comment"># test.head()</span></span><br></pre></td></tr></table></figure>
+<pre><code>(25000, 2)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对测试数据进行清洗</span></span><br><span class="line">num_reviews=len(test[<span class="string">'review'</span>])</span><br><span class="line">clean_test_reviews=[]</span><br><span class="line"></span><br><span class="line">print(<span class="string">"cleaning and parsing the test set movie reviews ..\n"</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,num_reviews):</span><br><span class="line">    <span class="keyword">if</span>((i+<span class="number">1</span>)%<span class="number">1000</span>==<span class="number">0</span>):</span><br><span class="line">        print(<span class="string">"Review %d of %d \n"</span>%(i+<span class="number">1</span>,num_reviews))</span><br><span class="line">    clean_review=review_to_words(test[<span class="string">"review"</span>][i])</span><br><span class="line">    clean_test_reviews.append(clean_review)</span><br></pre></td></tr></table></figure>
+<pre><code>cleaning and parsing the test set movie reviews ..
+
+
+
+/home/xiongzy/anaconda3/lib/python3.6/site-packages/bs4/__init__.py:181: UserWarning: No parser was explicitly specified, so I&#39;m using the best available HTML parser for this system (&quot;lxml&quot;). This usually isn&#39;t a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.
+
+The code that caused this warning is on line 193 of the file /home/xiongzy/anaconda3/lib/python3.6/runpy.py. To get rid of this warning, change code that looks like this:
+
+ BeautifulSoup(YOUR_MARKUP})
+
+to this:
+
+ BeautifulSoup(YOUR_MARKUP, &quot;lxml&quot;)
+
+  markup_type=markup_type))
+
+
+Review 1000 of 25000 
+
+Review 2000 of 25000 
+
+Review 3000 of 25000 
+
+Review 4000 of 25000 
+
+Review 5000 of 25000 
+
+Review 6000 of 25000 
+
+Review 7000 of 25000 
+
+Review 8000 of 25000 
+
+Review 9000 of 25000 
+
+Review 10000 of 25000 
+
+Review 11000 of 25000 
+
+Review 12000 of 25000 
+
+Review 13000 of 25000 
+
+Review 14000 of 25000 
+
+Review 15000 of 25000 
+
+Review 16000 of 25000 
+
+Review 17000 of 25000 
+
+Review 18000 of 25000 
+
+Review 19000 of 25000 
+
+Review 20000 of 25000 
+
+Review 21000 of 25000 
+
+Review 22000 of 25000 
+
+Review 23000 of 25000 
+
+Review 24000 of 25000 
+
+Review 25000 of 25000 
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 提取测试集数据的特征</span></span><br><span class="line">test_data_features=vectorizer.transform(clean_test_reviews)</span><br><span class="line">test_data_features=test_data_features.toarray()</span><br></pre></td></tr></table></figure>
+<p>(2)预测</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result=forest.predict(test_data_features)</span><br></pre></td></tr></table></figure>
+<p>(3)整理输出数据格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output=pd.DataFrame(data=&#123;<span class="string">"id"</span>:test[<span class="string">"id"</span>],<span class="string">"sentiment"</span>:result&#125;)</span><br><span class="line">output.to_csv(<span class="string">"Bag_of_Words_modle.csv"</span>,index=<span class="keyword">False</span>,quoting=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com" rel="external nofollow noreferrer">IrvingBei</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://bei.dreamcykj.com/2018/06/13/Bag of Words Meets Bags of Popcorn(1)-Bag of Words/">http://bei.dreamcykj.com/2018/06/13/Bag of Words Meets Bags of Popcorn(1)-Bag of Words/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Kaggle/">
+                                    <span class="chip bg-color">Kaggle</span>
+                                </a>
+                            
+                                <a href="/tags/文本分类/">
+                                    <span class="chip bg-color">文本分类</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/06/14/Bag of Words Meets Bags of Popcorn(2)-tfidf (1)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Bag of Words Meets Bags of Popcorn(2)-tfidf">
+                        
+                        <span class="card-title">Bag of Words Meets Bags of Popcorn(2)-tfidf</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            本篇是kaggle之电影评论文本情感分类（Bag of Words Meets Bags of Popcorn）实现的第二篇，语言模型选择的是TFIDF主要参考：https://www.kaggle.com/rajathmc/bag-of-
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-06-14
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Kaggle/" class="post-category">
+                                    Kaggle
+                                </a>
+                            
+                            <a href="/categories/Kaggle/nlp/" class="post-category">
+                                    nlp
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Kaggle/">
+                        <span class="chip bg-color">Kaggle</span>
+                    </a>
+                    
+                    <a href="/tags/文本分类/">
+                        <span class="chip bg-color">文本分类</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/06/09/一种利用web服务实现模型常驻内存的简单方法(1)(1)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="一种利用web服务实现模型常驻内存的简单方法">
+                        
+                        <span class="card-title">一种利用web服务实现模型常驻内存的简单方法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            利用python的web服务快速实现模型常驻内存，本方法很low，但是真的很快速，半个小时都能实现。
+
+1、背景前段时间有这样一个需求，通过php接收微信服务器发送来的消息，然后把消息发送给python功能逻辑处理程序。在前期是直接使用ph
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Experiment/" class="post-category">
+                                    Experiment
+                                </a>
+                            
+                            <a href="/categories/Experiment/Python/" class="post-category">
+                                    Python
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/实验教程/">
+                        <span class="chip bg-color">实验教程</span>
+                    </a>
+                    
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 山不过来，我就过去<br />'
+            + '文章作者: IrvingBei<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="http://bei.dreamcykj.com" target="_blank">IrvingBei</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2017";
+                    var startMonth = "09";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/IrvingBei" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:irvingbei@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+    
+
+</body>
+
+</html>
