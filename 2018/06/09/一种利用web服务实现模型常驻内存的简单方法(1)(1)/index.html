@@ -421,7 +421,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    981
+                    980
                 </div>
                 
 
@@ -457,79 +457,110 @@
 </blockquote>
 <p>Flask是一个使用 Python 编写的轻量级 Web 应用框架，使用时，只需要在python中引入即可，因为需要处理get或者post请求，同时引入request，接下来就按照流程来编写代码即可。主要步骤如下：<br>(1)flask的简单实验</p>
 <ul>
-<li>引入包创建一个flask应用<pre class=" language-lang-python"><code class="language-lang-python">from flask import Flask,request
+<li>引入包创建一个flask应用</li>
+</ul>
+<pre class=" language-lang-Python"><code class="language-lang-Python">from flask import Flask,request
 app = Flask(__name__)
 </code></pre>
-</li>
-<li>定义一个方法<pre class=" language-lang-python"><code class="language-lang-python">def hello():
-      print("hello world")
+<ul>
+<li>定义一个方法</li>
+</ul>
+<pre class=" language-lang-Python"><code class="language-lang-Python">def hello():
+        print("hello world")
 </code></pre>
-</li>
-<li>运行应用<pre class=" language-lang-python"><code class="language-lang-python">app.debug = True
+<ul>
+<li>运行应用</li>
+</ul>
+<pre class=" language-lang-Python"><code class="language-lang-Python">app.debug = True
 app.run()
 </code></pre>
-完整代码：<br>```python<br>from flask import Flask,request<br>app = Flask(<strong>name</strong>)</li>
-</ul>
-<h1 id="加载模型"><a href="#加载模型" class="headerlink" title="加载模型"></a>加载模型</h1><h1 id="处理请求"><a href="#处理请求" class="headerlink" title="处理请求"></a>处理请求</h1><p>@app.route(‘/hello’)<br>def hello():<br>    return(“hello world”)</p>
-<p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    app.debug = True<br>    app.run()</p>
-<pre><code>此时运行该程序，在浏览器地址栏输入：127.0.0.1:5000/hello，此时浏览器中就会显示hello world，好了，那么接下来的事情就简单了。只需要把上面加载模型和处理请求部分的代码稍作修改就可以了。
+<p>完整代码：</p>
+<pre class=" language-lang-Python"><code class="language-lang-Python">from flask import Flask,request
+app = Flask(__name__)
+# 加载模型
+# 处理请求
+@app.route('/hello')
+def hello():
+    return("hello world")
 
-* 加载模型
-```python
-model= load_model_to_memory()  # 原来加载模型的那些代码
-</code></pre><ul>
-<li>接收请求并处理<pre class=" language-lang-python"><code class="language-lang-python"># 处理请求
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
+</code></pre>
+<p>此时运行该程序，在浏览器地址栏输入：127.0.0.1:5000/hello，此时浏览器中就会显示hello world，好了，那么接下来的事情就简单了。只需要把上面加载模型和处理请求部分的代码稍作修改就可以了。</p>
+<ul>
+<li>加载模型</li>
+</ul>
+<pre class=" language-lang-Python"><code class="language-lang-Python">model= load_model_to_memory()  # 原来加载模型的那些代码
+</code></pre>
+<ul>
+<li>接收请求并处理</li>
+</ul>
+<pre class=" language-lang-Python"><code class="language-lang-Python"># 处理请求
 @app.route('/deal', methods=['GET'])
 def deal():
-      # 获取php发来的消息
-      question = request.args.get('question',"default question")   # 键值 默认值
-      # 对消息进行解码
-      question=urllib.parse.unquote(question)
-      result = main_function(model)  # 该函数就是原来的主要功能逻辑处理函数
-      # 返回处理结果
-      return (urllib.parse.quote(result))
+        # 获取php发来的消息
+        question = request.args.get('question',"default question")   # 键值 默认值
+        # 对消息进行解码
+        question=urllib.parse.unquote(question)
+        result = main_function(model)  # 该函数就是原来的主要功能逻辑处理函数
+        # 返回处理结果
+        return (urllib.parse.quote(result))
 </code></pre>
-（2）php与python之间通信<br>上面的程序一直运行着，于是可以通过该url地址向python程序发送请求。在php中构造get或者post请求的方法可以见另一篇文章<a href="http://bei.dreamcykj.com/2018/06/08/%E5%88%A9%E7%94%A8php%E7%9A%84curl%E5%AE%9E%E7%8E%B0post%E5%92%8Cget%E8%AF%B7%E6%B1%82%281%29/%22%E5%88%A9%E7%94%A8php%E7%9A%84curl%E5%AE%9E%E7%8E%B0post%E5%92%8Cget%E8%AF%B7%E6%B1%82%22">利用php的curl实现post和get请求</a> ，这样就实现了php与python之间的通信，如果是在linux中，可以创建一个tmux会话窗口来运行上面的那个python程序，一直运行下去。<h3 id="3、完整代码"><a href="#3、完整代码" class="headerlink" title="3、完整代码"></a>3、完整代码</h3></li>
-<li><p>PHP</p>
-<pre class=" language-lang-php"><code class="language-lang-php">// 通过get方式将问题传给python的web服务
-  public static function send_question_to_python_get($request)
-  {
-      //本地接收问题的python服务的url
-      $base_url="http://127.0.0.1:5000/login?question=";
-      // 获取问题，并将其编码
-      $question=$request['content'];
-      $en_question=urlencode($question);
-      $url=$base_url.$en_question;
-
-      $ch = curl_init();
-      //设置选项，包括URL
-      curl_setopt($ch, CURLOPT_URL, $url);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_HEADER, 0);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);//绕过ssl验证
-      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-      //执行并获取HTML文档内容
-      $output = curl_exec($ch);
-      $output=urldecode($output);
-      //释放curl句柄
-      curl_close($ch);
-      return $output;
-  }
-</code></pre>
-</li>
-<li><p>Python<br>```python<br>from flask import Flask,url_for,request<br>import urllib.parse<br>app = Flask(<strong>name</strong>)</p>
-</li>
+<p>（2）php与python之间通信<br>上面的程序一直运行着，于是可以通过该url地址向python程序发送请求。在php中构造get或者post请求的方法可以见另一篇文章<a href="http://bei.dreamcykj.com/2018/06/08/%E5%88%A9%E7%94%A8php%E7%9A%84curl%E5%AE%9E%E7%8E%B0post%E5%92%8Cget%E8%AF%B7%E6%B1%82%281%29/%22%E5%88%A9%E7%94%A8php%E7%9A%84curl%E5%AE%9E%E7%8E%B0post%E5%92%8Cget%E8%AF%B7%E6%B1%82%22">利用php的curl实现post和get请求</a> ，这样就实现了php与python之间的通信，如果是在linux中，可以创建一个tmux会话窗口来运行上面的那个python程序，一直运行下去。</p>
+<h3 id="3、完整代码"><a href="#3、完整代码" class="headerlink" title="3、完整代码"></a>3、完整代码</h3><ul>
+<li>PHP</li>
 </ul>
-<h1 id="将模型加载到内存"><a href="#将模型加载到内存" class="headerlink" title="将模型加载到内存"></a>将模型加载到内存</h1><p>model = load_model_to_memory()</p>
-<h1 id="处理请求-1"><a href="#处理请求-1" class="headerlink" title="处理请求"></a>处理请求</h1><p>@app.route(‘/deal’, methods=[‘GET’])<br>def deal():</p>
-<pre><code>    # 获取php发来的消息
-    question = request.args.get(&#39;question&#39;,&quot;default question&quot;)   # 键值 默认值
-    # 对消息进行解码
-    question=urllib.parse.unquote(question)
-    result = main_function(model)  # 该函数就是原来的主要功能逻辑处理函数
-    # 返回处理结果
-    return (urllib.parse.quote(result))
-</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    app.debug = True<br>    app.run()<br>```</p>
+<pre class=" language-lang-PHP"><code class="language-lang-PHP">// 通过get方式将问题传给python的web服务
+    public static function send_question_to_python_get($request)
+    {
+        //本地接收问题的python服务的url
+        $base_url="http://127.0.0.1:5000/login?question=";
+        // 获取问题，并将其编码
+        $question=$request['content'];
+        $en_question=urlencode($question);
+        $url=$base_url.$en_question;
+
+        $ch = curl_init();
+        //设置选项，包括URL
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);//绕过ssl验证
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        //执行并获取HTML文档内容
+        $output = curl_exec($ch);
+        $output=urldecode($output);
+        //释放curl句柄
+        curl_close($ch);
+        return $output;
+    }
+</code></pre>
+<ul>
+<li>Python</li>
+</ul>
+<pre class=" language-lang-Python"><code class="language-lang-Python">from flask import Flask,url_for,request
+import urllib.parse
+app = Flask(__name__)
+
+# 将模型加载到内存
+model = load_model_to_memory()
+
+# 处理请求
+@app.route('/deal', methods=['GET'])
+def deal():
+        # 获取php发来的消息
+        question = request.args.get('question',"default question")   # 键值 默认值
+        # 对消息进行解码
+        question=urllib.parse.unquote(question)
+        result = main_function(model)  # 该函数就是原来的主要功能逻辑处理函数
+        # 返回处理结果
+        return (urllib.parse.quote(result))
+
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
+</code></pre>
 <h3 id="4、相关链接"><a href="#4、相关链接" class="headerlink" title="4、相关链接"></a>4、相关链接</h3><p>【1】<a href="https://blog.csdn.net/u011054333/article/details/70151857" target="_blank" rel="noopener">Flask快速入门</a><br>【2】<a href="http://bei.dreamcykj.com/2018/06/08/%E5%88%A9%E7%94%A8php%E7%9A%84curl%E5%AE%9E%E7%8E%B0post%E5%92%8Cget%E8%AF%B7%E6%B1%82%281%29/">利用php的curl实现post和get请求</a></p>
 
             </div>
