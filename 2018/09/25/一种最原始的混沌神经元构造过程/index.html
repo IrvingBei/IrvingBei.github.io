@@ -573,6 +573,32 @@ $$\sum_{j = 1}^{N}\text{wij}\sum_{d = 0}^{t}{k_{f}^{d}x_{j}(t - d)}</script><p>�
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '02c466130912cbc57410',
+        clientSecret: '5b093c033318389cf950f378e2c399a1e5417701',
+        repo: 'IrvingBei.github.io',
+        owner: 'IrvingBei',
+        admin: "IrvingBei",
+        id: '2018-09-25T13-56-50',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
 
     
 
