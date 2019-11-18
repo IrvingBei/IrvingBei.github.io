@@ -27,9 +27,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -450,14 +450,73 @@
 </blockquote>
 <p>在上一篇中，主要介绍了如何从接收到的用户问题中抽取关键信息，以及如何识别用户的意图，那么接下来就将介绍在得到了这些信息后，如何在知识图谱中查询答案。我在处理这个问题时，想得很直接，简单来说，每个问题模板就对应了一个用户意图，那么就按照每个意图来写查询语句，这是一种简单粗暴的方法，优点就是就只有简单了，缺点当然很多了，比如不利于维护以及扩展等。现在要有维护扩展的意识，但是具体实现是，如果想快速实现一个demo的话，可以使用这种简单粗暴方法。下面就对获取答案进行介绍。</p>
 <p>首先，我定义了一个问题模板的方法字典，每一个key对应模板的编号，value就是根据该模板来查询答案的方法，结构如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">self.q_template_dict=&#123;</span><br><span class="line">            0:self.get_movie_rating,</span><br><span class="line">            1:self.get_movie_releasedate,</span><br><span class="line">            2:self.get_movie_type,</span><br><span class="line">            3:self.get_movie_introduction,</span><br><span class="line">            4:self.get_movie_actor_list,</span><br><span class="line">            5:self.get_actor_info,</span><br><span class="line">            6:self.get_actor_act_type_movie,</span><br><span class="line">            7:self.get_actor_act_movie_list,</span><br><span class="line">            8:self.get_movie_rating_bigger,</span><br><span class="line">            9:self.get_movie_rating_smaller,</span><br><span class="line">            10:self.get_actor_movie_type,</span><br><span class="line">            11:self.get_cooperation_movie_list,</span><br><span class="line">            12:self.get_actor_movie_num,</span><br><span class="line">            13:self.get_actor_birthday</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-<p>当我们得到用户问题，以及该问题的模板后需要做那些工作呢？<br>首先时利用上一篇介绍的方法来获取问题的关键信息，然后就根据模板编号来调用相应的方法，整体框架的代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def get_question_answer(self,question,template):</span><br><span class="line">    # 如果问题模板的格式不正确则结束</span><br><span class="line">    assert len(str(template).strip().split(&quot;\t&quot;))==2</span><br><span class="line">    template_id,template_str=int(str(template).strip().split(&quot;\t&quot;)[0]),str(template).strip().split(&quot;\t&quot;)[1]</span><br><span class="line">    self.template_id=template_id</span><br><span class="line">    self.template_str2list=str(template_str).split()</span><br><span class="line"></span><br><span class="line">    # 预处理问题</span><br><span class="line">    question_word,question_flag=[],[]</span><br><span class="line">    for one in question:</span><br><span class="line">        word, flag = one.split(&quot;/&quot;)</span><br><span class="line">        question_word.append(str(word).strip())</span><br><span class="line">        question_flag.append(str(flag).strip())</span><br><span class="line">    assert len(question_flag)==len(question_word)</span><br><span class="line">    self.question_word=question_word</span><br><span class="line">    self.question_flag=question_flag</span><br><span class="line">    self.raw_question=question</span><br><span class="line">    # 根据问题模板来做对应的处理，获取答案</span><br><span class="line">    answer=self.q_template_dict[template_id]()</span><br><span class="line">    return answer</span><br></pre></td></tr></table></figure></p>
-<p>进入到对应的方法中，利用Cypher语言来构建查询语句，其基本形式是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">match(n)-[r] -(b)</span><br></pre></td></tr></table></figure></p>
-<p>Cypher语言不太懂没关系，也可以直接使用python的库py2neo来操作图数据库neo4j。这里只涉及到查询操作，所以我直接构造了Cypher查询语句，然后使用py2neo库的run方法来查询，数据库的链接和查询我单独的写了一个类，在需要的时候调用即可：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from py2neo import Graph,Node,Relationship,NodeMatcher</span><br><span class="line"></span><br><span class="line">class Query():</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.graph=Graph(&quot;http://localhost:7474&quot;, username=&quot;neo4j&quot;,password=&quot;123456&quot;)</span><br><span class="line"></span><br><span class="line">    # 问题类型0，查询电影得分</span><br><span class="line">    def run(self,cql):</span><br><span class="line">        # find_rela  = test_graph.run(&quot;match (n:Person&#123;name:&apos;张学友&apos;&#125;)-[actedin]-(m:Movie) return m.title&quot;)</span><br><span class="line">        result=[]</span><br><span class="line">        find_rela = self.graph.run(cql)</span><br><span class="line">        for i in find_rela:</span><br><span class="line">            result.append(i.items()[0][1])</span><br><span class="line">        return result</span><br></pre></td></tr></table></figure>
-<p>比如这里以查询某部电影的演员列表为例，查询答案的代码为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 4:nm 演员列表</span><br><span class="line">    def get_movie_actor_list(self):</span><br><span class="line">        movie_name=self.get_movie_name()</span><br><span class="line">        cql = f&quot;match(n:Person)-[r:actedin]-&gt;(m:Movie) where m.title=&apos;&#123;movie_name&#125;&apos; return n.name&quot;</span><br><span class="line">        print(cql)</span><br><span class="line">        answer = self.graph.run(cql)</span><br><span class="line">        answer_set = set(answer)</span><br><span class="line">        answer_list = list(answer_set)</span><br><span class="line">        answer = &quot;、&quot;.join(answer_list)</span><br><span class="line">        final_answer = movie_name + &quot;由&quot; + str(answer) + &quot;等演员主演！&quot;</span><br><span class="line">        return final_answer</span><br></pre></td></tr></table></figure>
-<p>主要是构造Cypher语句，然后调用py2neo的run方法，对得到的答案进行处理这几步，得到答案返回即可。</p>
+<pre><code>self.q_template_dict={
+            0:self.get_movie_rating,
+            1:self.get_movie_releasedate,
+            2:self.get_movie_type,
+            3:self.get_movie_introduction,
+            4:self.get_movie_actor_list,
+            5:self.get_actor_info,
+            6:self.get_actor_act_type_movie,
+            7:self.get_actor_act_movie_list,
+            8:self.get_movie_rating_bigger,
+            9:self.get_movie_rating_smaller,
+            10:self.get_actor_movie_type,
+            11:self.get_cooperation_movie_list,
+            12:self.get_actor_movie_num,
+            13:self.get_actor_birthday
+        }
+</code></pre><p>当我们得到用户问题，以及该问题的模板后需要做那些工作呢？<br>首先时利用上一篇介绍的方法来获取问题的关键信息，然后就根据模板编号来调用相应的方法，整体框架的代码如下：</p>
+<pre><code>    def get_question_answer(self,question,template):
+        # 如果问题模板的格式不正确则结束
+        assert len(str(template).strip().split(&quot;\t&quot;))==2
+        template_id,template_str=int(str(template).strip().split(&quot;\t&quot;)[0]),str(template).strip().split(&quot;\t&quot;)[1]
+        self.template_id=template_id
+        self.template_str2list=str(template_str).split()
+
+        # 预处理问题
+        question_word,question_flag=[],[]
+        for one in question:
+            word, flag = one.split(&quot;/&quot;)
+            question_word.append(str(word).strip())
+            question_flag.append(str(flag).strip())
+        assert len(question_flag)==len(question_word)
+        self.question_word=question_word
+        self.question_flag=question_flag
+        self.raw_question=question
+        # 根据问题模板来做对应的处理，获取答案
+        answer=self.q_template_dict[template_id]()
+        return answer
+</code></pre><p>进入到对应的方法中，利用Cypher语言来构建查询语句，其基本形式是：</p>
+<pre><code>match(n)-[r] -(b)
+</code></pre><p>Cypher语言不太懂没关系，也可以直接使用python的库py2neo来操作图数据库neo4j。这里只涉及到查询操作，所以我直接构造了Cypher查询语句，然后使用py2neo库的run方法来查询，数据库的链接和查询我单独的写了一个类，在需要的时候调用即可：</p>
+<pre><code>from py2neo import Graph,Node,Relationship,NodeMatcher
+
+class Query():
+    def __init__(self):
+        self.graph=Graph(&quot;http://localhost:7474&quot;, username=&quot;neo4j&quot;,password=&quot;123456&quot;)
+
+    # 问题类型0，查询电影得分
+    def run(self,cql):
+        # find_rela  = test_graph.run(&quot;match (n:Person{name:&#39;张学友&#39;})-[actedin]-(m:Movie) return m.title&quot;)
+        result=[]
+        find_rela = self.graph.run(cql)
+        for i in find_rela:
+            result.append(i.items()[0][1])
+        return result
+</code></pre><p>比如这里以查询某部电影的演员列表为例，查询答案的代码为：</p>
+<pre><code># 4:nm 演员列表
+    def get_movie_actor_list(self):
+        movie_name=self.get_movie_name()
+        cql = f&quot;match(n:Person)-[r:actedin]-&gt;(m:Movie) where m.title=&#39;{movie_name}&#39; return n.name&quot;
+        print(cql)
+        answer = self.graph.run(cql)
+        answer_set = set(answer)
+        answer_list = list(answer_set)
+        answer = &quot;、&quot;.join(answer_list)
+        final_answer = movie_name + &quot;由&quot; + str(answer) + &quot;等演员主演！&quot;
+        return final_answer
+</code></pre><p>主要是构造Cypher语句，然后调用py2neo的run方法，对得到的答案进行处理这几步，得到答案返回即可。</p>
 <p>这个系列这里也就差不多了吧，除了目录，也只有4篇，所以这并不是一个很详细的教程，主要是想帮助大家对代码的理解，理清思路或者扰乱思路。在做试验的时候，我就是先理清思路再写的，这或许是一个不错的方法，由于这个教程不是很详细，大家有被我搅晕的地方，可以给我发邮件（irvingbei@qq.com ）或者直接评论，也可以去网上找找资料。最后，这也是一个python版本，很好上手，大家不妨试一试。</p>
 
             </div>
@@ -594,32 +653,33 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备/">
+                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取">
                         
-                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备</span>
+                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             
-貌似很久没有写了，这段时间一直在忙着准备复试，就有点耽误了，好吧，今天继续写。你们的魔鬼又来啦  （什么鬼 
+啦啦啦，终于快写完了，虽然我也知道并没有写什么实质性的东西，至少我坚持下来啦，后面再慢慢多拧拧，少一些水分。
 
-在上一篇中，我对整个系统的业务逻辑啰里啰唆的梳理了一遍，如果你被我绕晕了，那也没关系，因为不用看上面那篇也能继续往下走，当你自
+在上一篇中，主要介绍了如何从接收到的用户问题中抽取关键信息，以及如何识别用户的意图，那么接下来就将介绍在得到了这些信息后，如何
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-04-16
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-04-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -636,6 +696,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -658,22 +719,22 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍/">
+                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理">
                         
-                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍</span>
+                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             
-昨天把这个教程的目录给理出来了，然后今天就想趁着这满腔热情（无心搬砖）把剩下的教程也写了。 对于整个系统，不管具体细节是怎么实现的，是逻辑一定要理清楚，于是这一节主要介绍各个模块的逻辑，为什么要这么做。
+今天冷得，我在五月份穿了三件衣服，你敢相信。。。
 
-首先我简单的画了一个示意图（这叫
+这篇主要介绍对用户问题的处理，也就是从获取用户问题到明白用户意图这个过程，主要涉及到命名实体识别（这个任务简单，我就用词性标注来代替了），问题分类，以及填充问题模板这几个部分。介绍的时候
                         
                     </div>
                     <div class="publish-info">

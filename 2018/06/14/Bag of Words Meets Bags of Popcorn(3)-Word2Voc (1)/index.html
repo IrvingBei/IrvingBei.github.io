@@ -25,9 +25,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -444,20 +444,81 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>词带模型：<a href="http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn%281%29-Bag%20of%20Words/">Bag of Words Meets Bags of Popcorn(1)-Bag of Words</a><br>Tfidf模型：<a href="http://bei.dreamcykj.com/2018/06/14/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn%282%29-tfidf%20%281%29/">Bag of Words Meets Bags of Popcorn(2)-tfidf</a><br>这一节采用词向量<br><a id="more"></a></p>
-<h4 id="1、读取数据"><a href="#1、读取数据" class="headerlink" title="1、读取数据"></a>1、读取数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">train=pd.read_csv(<span class="string">'./data/labeledTrainData.tsv'</span>,header=<span class="number">0</span>,delimiter=<span class="string">"\t"</span>,quoting=<span class="number">3</span>)</span><br><span class="line">test=pd.read_csv(<span class="string">"./data/testData.tsv"</span>,header=<span class="number">0</span>,delimiter=<span class="string">"\t"</span>,quoting=<span class="number">3</span>)</span><br><span class="line">unlabeled_train=pd.read_csv(<span class="string">"./data/unlabeledTrainData.tsv"</span>,header=<span class="number">0</span>,delimiter=<span class="string">"\t"</span>,quoting=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 查看数据的大小</span></span><br><span class="line">print(<span class="string">"read %d labeled train reviews,%d labeled test reviews and %d unlabeled reviews\n"</span>%(train[<span class="string">"review"</span>].size,len(test),len(unlabeled_train)))</span><br></pre></td></tr></table></figure>
+<h4 id="1、读取数据"><a href="#1、读取数据" class="headerlink" title="1、读取数据"></a>1、读取数据</h4><pre class=" language-lang-python"><code class="language-lang-python">import pandas as pd
+train=pd.read_csv('./data/labeledTrainData.tsv',header=0,delimiter="\t",quoting=3)
+test=pd.read_csv("./data/testData.tsv",header=0,delimiter="\t",quoting=3)
+unlabeled_train=pd.read_csv("./data/unlabeledTrainData.tsv",header=0,delimiter="\t",quoting=3)
+# 查看数据的大小
+print("read %d labeled train reviews,%d labeled test reviews and %d unlabeled reviews\n"%(train["review"].size,len(test),len(unlabeled_train)))
+</code></pre>
 <pre><code>read 25000 labeled train reviews,25000 labeled test reviews and 50000 unlabeled reviews
-</code></pre><h4 id="2、数据清洗"><a href="#2、数据清洗" class="headerlink" title="2、数据清洗"></a>2、数据清洗</h4><h5 id="2、1-对每一句评论进行数据清洗"><a href="#2、1-对每一句评论进行数据清洗" class="headerlink" title="2、1 对每一句评论进行数据清洗"></a>2、1 对每一句评论进行数据清洗</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re </span><br><span class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> stopwords</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">review_to_wordlist</span><span class="params">(review,remove_stopwords=False)</span>:</span></span><br><span class="line">    <span class="comment"># 去掉html标签</span></span><br><span class="line">    review_text=BeautifulSoup(review).get_text()</span><br><span class="line">    <span class="comment"># 去掉标点符号和非法字符</span></span><br><span class="line">    review_text=re.sub(<span class="string">"[^a-zA-Z]"</span>,<span class="string">" "</span>,review_text)</span><br><span class="line">    <span class="comment"># 全部转化为小写,并以空格分割</span></span><br><span class="line">    words=review_text.lower().split()</span><br><span class="line">    <span class="comment"># 去停用词</span></span><br><span class="line">    <span class="keyword">if</span> remove_stopwords:</span><br><span class="line">        stops=set(stopwords.words(<span class="string">"english"</span>))</span><br><span class="line">        words=[w <span class="keyword">for</span> w <span class="keyword">in</span> words <span class="keyword">if</span> w <span class="keyword">not</span> <span class="keyword">in</span> stops]</span><br><span class="line">    <span class="keyword">return</span> words</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="2、数据清洗"><a href="#2、数据清洗" class="headerlink" title="2、数据清洗"></a>2、数据清洗</h4><h5 id="2、1-对每一句评论进行数据清洗"><a href="#2、1-对每一句评论进行数据清洗" class="headerlink" title="2、1 对每一句评论进行数据清洗"></a>2、1 对每一句评论进行数据清洗</h5><pre class=" language-lang-python"><code class="language-lang-python">from bs4 import BeautifulSoup
+import re 
+from nltk.corpus import stopwords
+
+def review_to_wordlist(review,remove_stopwords=False):
+    # 去掉html标签
+    review_text=BeautifulSoup(review).get_text()
+    # 去掉标点符号和非法字符
+    review_text=re.sub("[^a-zA-Z]"," ",review_text)
+    # 全部转化为小写,并以空格分割
+    words=review_text.lower().split()
+    # 去停用词
+    if remove_stopwords:
+        stops=set(stopwords.words("english"))
+        words=[w for w in words if w not in stops]
+    return words
+</code></pre>
 <h5 id="2-2-对每一篇评论进行数据清洗"><a href="#2-2-对每一篇评论进行数据清洗" class="headerlink" title="2.2 对每一篇评论进行数据清洗"></a>2.2 对每一篇评论进行数据清洗</h5><p>将评论段落转换为句子，返回句子列表，每个句子由一堆词组成</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk.data</span><br><span class="line">tokenizer=nltk.data.load(<span class="string">"tokenizers/punkt/english.pickle"</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">review_to_sentences</span><span class="params">(review,tokenizer,remove_stopwords=False)</span>:</span></span><br><span class="line">    <span class="comment"># 将评论按句子分割</span></span><br><span class="line">    raw_sentences=tokenizer.tokenize(review.strip())</span><br><span class="line">    <span class="comment"># 对一个评论的每一句话进行清洗</span></span><br><span class="line">    sentences=[]</span><br><span class="line">    <span class="keyword">for</span> raw_sentence <span class="keyword">in</span> raw_sentences:</span><br><span class="line">        <span class="keyword">if</span> len(raw_sentence)&gt;<span class="number">0</span>:</span><br><span class="line">            <span class="comment"># 调用数据清洗方法，对该句评论进行清洗</span></span><br><span class="line">            sentences.append(review_to_wordlist(raw_sentence,remove_stopwords))</span><br><span class="line">    <span class="comment"># 返回清洗后的这一篇评论</span></span><br><span class="line">    <span class="keyword">return</span> sentences</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">import nltk.data
+tokenizer=nltk.data.load("tokenizers/punkt/english.pickle")
+def review_to_sentences(review,tokenizer,remove_stopwords=False):
+    # 将评论按句子分割
+    raw_sentences=tokenizer.tokenize(review.strip())
+    # 对一个评论的每一句话进行清洗
+    sentences=[]
+    for raw_sentence in raw_sentences:
+        if len(raw_sentence)>0:
+            # 调用数据清洗方法，对该句评论进行清洗
+            sentences.append(review_to_wordlist(raw_sentence,remove_stopwords))
+    # 返回清洗后的这一篇评论
+    return sentences
+</code></pre>
 <h4 id="3、构造语料集"><a href="#3、构造语料集" class="headerlink" title="3、构造语料集"></a>3、构造语料集</h4><p>语料集中的数据包括已标注好的训练集和未标注好的训练集</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sentences=[] <span class="comment"># 装有所有评论数据的一个list，相当于一个语料集,格式为：[[a.b.c].[a.b.c.d]...]</span></span><br><span class="line">print(<span class="string">"Parsing sentences from training set"</span>)</span><br><span class="line"><span class="keyword">for</span> review <span class="keyword">in</span> train[<span class="string">"review"</span>]:</span><br><span class="line">    sentences+=review_to_sentences(review,tokenizer)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Parsing sentence from unlabeled set"</span>)</span><br><span class="line"><span class="keyword">for</span> review <span class="keyword">in</span> unlabeled_train[<span class="string">"review"</span>]:</span><br><span class="line">    sentences+=review_to_sentences(review,tokenizer)</span><br><span class="line"><span class="comment"># 查看语料集的大小</span></span><br><span class="line">print(len(sentences))</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">sentences=[] # 装有所有评论数据的一个list，相当于一个语料集,格式为：[[a.b.c].[a.b.c.d]...]
+print("Parsing sentences from training set")
+for review in train["review"]:
+    sentences+=review_to_sentences(review,tokenizer)
+
+print("Parsing sentence from unlabeled set")
+for review in unlabeled_train["review"]:
+    sentences+=review_to_sentences(review,tokenizer)
+# 查看语料集的大小
+print(len(sentences))
+</code></pre>
 <pre><code>Parsing sentences from training set
 795538
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看部分数据</span></span><br><span class="line">print(sentences[<span class="number">0</span>])</span><br><span class="line">print(sentences[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+</code></pre><pre class=" language-lang-python"><code class="language-lang-python"># 查看部分数据
+print(sentences[0])
+print(sentences[1])
+</code></pre>
 <pre><code>[&#39;with&#39;, &#39;all&#39;, &#39;this&#39;, &#39;stuff&#39;, &#39;going&#39;, &#39;down&#39;, &#39;at&#39;, &#39;the&#39;, &#39;moment&#39;, &#39;with&#39;, &#39;mj&#39;, &#39;i&#39;, &#39;ve&#39;, &#39;started&#39;, &#39;listening&#39;, &#39;to&#39;, &#39;his&#39;, &#39;music&#39;, &#39;watching&#39;, &#39;the&#39;, &#39;odd&#39;, &#39;documentary&#39;, &#39;here&#39;, &#39;and&#39;, &#39;there&#39;, &#39;watched&#39;, &#39;the&#39;, &#39;wiz&#39;, &#39;and&#39;, &#39;watched&#39;, &#39;moonwalker&#39;, &#39;again&#39;]
 [&#39;maybe&#39;, &#39;i&#39;, &#39;just&#39;, &#39;want&#39;, &#39;to&#39;, &#39;get&#39;, &#39;a&#39;, &#39;certain&#39;, &#39;insight&#39;, &#39;into&#39;, &#39;this&#39;, &#39;guy&#39;, &#39;who&#39;, &#39;i&#39;, &#39;thought&#39;, &#39;was&#39;, &#39;really&#39;, &#39;cool&#39;, &#39;in&#39;, &#39;the&#39;, &#39;eighties&#39;, &#39;just&#39;, &#39;to&#39;, &#39;maybe&#39;, &#39;make&#39;, &#39;up&#39;, &#39;my&#39;, &#39;mind&#39;, &#39;whether&#39;, &#39;he&#39;, &#39;is&#39;, &#39;guilty&#39;, &#39;or&#39;, &#39;innocent&#39;]
 </code></pre><h4 id="4、构建word2vec模型"><a href="#4、构建word2vec模型" class="headerlink" title="4、构建word2vec模型"></a>4、构建word2vec模型</h4><p>这里主要使用gensim里的word2vec，相关介绍和使用情况见：python︱gensim训练word2vec及相关函数与功能理解 <a href="https://blog.csdn.net/sinat_26917383/article/details/69803018" target="_blank" rel="noopener">https://blog.csdn.net/sinat_26917383/article/details/69803018</a></p>
-<h5 id="4、1训练模型"><a href="#4、1训练模型" class="headerlink" title="4、1训练模型"></a>4、1训练模型</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gensim,logging</span><br><span class="line">logging.basicConfig(format=<span class="string">"%(asctime)s : %(levelname)s : %(message)s"</span>,level=logging.INFO)</span><br><span class="line"></span><br><span class="line">num_features=<span class="number">300</span></span><br><span class="line">min_word_count=<span class="number">40</span></span><br><span class="line">num_workers=<span class="number">4</span></span><br><span class="line">context=<span class="number">10</span></span><br><span class="line">downsampling=<span class="number">1e-3</span></span><br><span class="line">print(<span class="string">"Training model..."</span>)</span><br><span class="line">model=gensim.models.Word2Vec(sentences,workers=num_workers,size=num_features,min_count=min_word_count,window=context,sample=downsampling)</span><br><span class="line">model.init_sims(replace=<span class="keyword">True</span>)</span><br><span class="line">model_name=<span class="string">"300features_40minwords_10context"</span></span><br><span class="line">model.save(<span class="string">"./data/"</span>+model_name)</span><br></pre></td></tr></table></figure>
+<h5 id="4、1训练模型"><a href="#4、1训练模型" class="headerlink" title="4、1训练模型"></a>4、1训练模型</h5><pre class=" language-lang-python"><code class="language-lang-python">import gensim,logging
+logging.basicConfig(format="%(asctime)s : %(levelname)s : %(message)s",level=logging.INFO)
+
+num_features=300
+min_word_count=40
+num_workers=4
+context=10
+downsampling=1e-3
+print("Training model...")
+model=gensim.models.Word2Vec(sentences,workers=num_workers,size=num_features,min_count=min_word_count,window=context,sample=downsampling)
+model.init_sims(replace=True)
+model_name="300features_40minwords_10context"
+model.save("./data/"+model_name)
+</code></pre>
 <pre><code>2018-06-14 16:17:04,394 : INFO : collecting all words and their counts
 2018-06-14 16:17:04,394 : INFO : PROGRESS: at sentence #0, processed 0 words, keeping 0 word types
 2018-06-14 16:17:04,439 : INFO : PROGRESS: at sentence #10000, processed 225803 words, keeping 17776 word types
@@ -647,14 +708,18 @@ Training model...
 2018-06-14 16:18:13,826 : INFO : not storing attribute cum_table
 2018-06-14 16:18:14,267 : INFO : saved ./data/300features_40minwords_10context
 </code></pre><h5 id="4、2-预览模型"><a href="#4、2-预览模型" class="headerlink" title="4、2 预览模型"></a>4、2 预览模型</h5><p>(1) 找出不匹配的词语</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.doesnt_match(<span class="string">"man woman child kitchen"</span>.split())</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">model.doesnt_match("man woman child kitchen".split())
+</code></pre>
 <pre><code>&#39;kitchen&#39;
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.doesnt_match(<span class="string">"france england germany berlin"</span>.split())</span><br></pre></td></tr></table></figure>
+</code></pre><pre class=" language-lang-python"><code class="language-lang-python">model.doesnt_match("france england germany berlin".split())
+</code></pre>
 <pre><code>&#39;berlin&#39;
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.doesnt_match(<span class="string">"paris berlin london austria"</span>.split())</span><br></pre></td></tr></table></figure>
+</code></pre><pre class=" language-lang-python"><code class="language-lang-python">model.doesnt_match("paris berlin london austria".split())
+</code></pre>
 <pre><code>&#39;paris&#39;
 </code></pre><p>(2)匹配相似的词</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.most_similar(<span class="string">"man"</span>)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">model.most_similar("man")
+</code></pre>
 <pre><code>[(&#39;woman&#39;, 0.6306251883506775),
  (&#39;lady&#39;, 0.5747369527816772),
  (&#39;lad&#39;, 0.5607120990753174),
@@ -665,7 +730,8 @@ Training model...
  (&#39;guy&#39;, 0.5132095813751221),
  (&#39;gentleman&#39;, 0.5126838088035583),
  (&#39;chap&#39;, 0.5047199130058289)]
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.most_similar(<span class="string">"queen"</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><pre class=" language-lang-python"><code class="language-lang-python">model.most_similar("queen")
+</code></pre>
 <pre><code>[(&#39;princess&#39;, 0.665077805519104),
  (&#39;belle&#39;, 0.6354636549949646),
  (&#39;bride&#39;, 0.6334044933319092),
@@ -676,7 +742,8 @@ Training model...
  (&#39;showgirl&#39;, 0.5766100883483887),
  (&#39;seductress&#39;, 0.576302170753479),
  (&#39;maria&#39;, 0.5733033418655396)]
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.most_similar(<span class="string">"awful"</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><pre class=" language-lang-python"><code class="language-lang-python">model.most_similar("awful")
+</code></pre>
 <pre><code>[(&#39;terrible&#39;, 0.7602646350860596),
  (&#39;atrocious&#39;, 0.7441849708557129),
  (&#39;horrible&#39;, 0.7187424898147583),
@@ -688,7 +755,8 @@ Training model...
  (&#39;lousy&#39;, 0.6283937692642212),
  (&#39;amateurish&#39;, 0.616948127746582)]
 </code></pre><p>（3）查看模型内部词向量内容</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model[<span class="string">'flower'</span>]</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">model['flower']
+</code></pre>
 <pre><code>array([-0.04672493,  0.08882798, -0.00798039,  0.01940776,  0.00703776,
        -0.0983417 , -0.03383616,  0.01253733,  0.1013744 , -0.06382444,
         0.05575086, -0.03603694, -0.1734672 , -0.10947284,  0.04083061,
@@ -750,11 +818,57 @@ Training model...
        -0.06571205,  0.05439528,  0.0557172 ,  0.02308842, -0.02448075,
         0.00975912,  0.06725417,  0.04760227, -0.06176807, -0.0582995 ],
       dtype=float32)
-</code></pre><h4 id="5、使用Word2vec特征"><a href="#5、使用Word2vec特征" class="headerlink" title="5、使用Word2vec特征"></a>5、使用Word2vec特征</h4><h5 id="5、1-构造向量化方法"><a href="#5、1-构造向量化方法" class="headerlink" title="5、1  构造向量化方法"></a>5、1  构造向量化方法</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment"># 返回特征词向量</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getWordVecs</span><span class="params">(wordList,model)</span>:</span></span><br><span class="line">    vecs = []</span><br><span class="line">    <span class="comment"># 对于一条评论中的每一个单词</span></span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> wordList:</span><br><span class="line">        word = word.replace(<span class="string">'\n'</span>,<span class="string">''</span>)</span><br><span class="line">        <span class="comment">#print word</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            vecs.append(model[word])</span><br><span class="line">        <span class="keyword">except</span> KeyError:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> np.array(vecs, dtype=<span class="string">'float'</span>)</span><br><span class="line"><span class="comment"># 将评论转化为向量模型</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reviews_to_vec</span><span class="params">(review_list,model)</span>:</span></span><br><span class="line">    review_vecs=[]</span><br><span class="line">    <span class="comment"># 对于每一条评论，将其向量化</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> review_list:</span><br><span class="line">        <span class="comment"># 将字符串按照空格分割成列表</span></span><br><span class="line">        <span class="comment">#wordList=line.split()</span></span><br><span class="line">        <span class="comment"># 得到一条评论的矩阵向量,一条语句即可得到一个二维矩阵，行数为词的个数，列数为模型设定的维度；</span></span><br><span class="line">        vecs = getWordVecs(line, model)</span><br><span class="line">        <span class="comment"># 根据得到的矩阵计算矩阵均值作为当前语句的特征词向量</span></span><br><span class="line">        <span class="keyword">if</span> len(vecs) &gt; <span class="number">0</span>:</span><br><span class="line">            vecsArray = sum(np.array(vecs)) / len(vecs)  <span class="comment"># mean</span></span><br><span class="line">            review_vecs.append(vecsArray)</span><br><span class="line">    <span class="comment"># 返回词向量表示的所有评论</span></span><br><span class="line">    <span class="keyword">return</span> review_vecs</span><br></pre></td></tr></table></figure>
-<h5 id="5、2-将数据向量化"><a href="#5、2-将数据向量化" class="headerlink" title="5、2 将数据向量化"></a>5、2 将数据向量化</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">num_reviews=len(train)</span><br><span class="line">clean_train_reviews=[] <span class="comment"># 存放的是评论列表，一条评论是由单词列表组成的</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,num_reviews):</span><br><span class="line">    temp_review=review_to_wordlist(train[<span class="string">"review"</span>][i],<span class="keyword">True</span>)</span><br><span class="line">    clean_train_reviews.append(temp_review)</span><br><span class="line"><span class="comment"># 查看清洗后的数据</span></span><br><span class="line">print(clean_train_reviews[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对测试集做相同的操作</span></span><br><span class="line">num_reviews=len(test)</span><br><span class="line">clean_test_reviews=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,num_reviews):</span><br><span class="line">    temp_review=review_to_wordlist(test[<span class="string">'review'</span>][i],<span class="keyword">True</span>)</span><br><span class="line">    clean_test_reviews.append(temp_review)</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="5、使用Word2vec特征"><a href="#5、使用Word2vec特征" class="headerlink" title="5、使用Word2vec特征"></a>5、使用Word2vec特征</h4><h5 id="5、1-构造向量化方法"><a href="#5、1-构造向量化方法" class="headerlink" title="5、1  构造向量化方法"></a>5、1  构造向量化方法</h5><pre class=" language-lang-python"><code class="language-lang-python">import numpy as np
+# 返回特征词向量
+def getWordVecs(wordList,model):
+    vecs = []
+    # 对于一条评论中的每一个单词
+    for word in wordList:
+        word = word.replace('\n','')
+        #print word
+        try:
+            vecs.append(model[word])
+        except KeyError:
+            continue
+    return np.array(vecs, dtype='float')
+# 将评论转化为向量模型
+def reviews_to_vec(review_list,model):
+    review_vecs=[]
+    # 对于每一条评论，将其向量化
+    for line in review_list:
+        # 将字符串按照空格分割成列表
+        #wordList=line.split()
+        # 得到一条评论的矩阵向量,一条语句即可得到一个二维矩阵，行数为词的个数，列数为模型设定的维度；
+        vecs = getWordVecs(line, model)
+        # 根据得到的矩阵计算矩阵均值作为当前语句的特征词向量
+        if len(vecs) > 0:
+            vecsArray = sum(np.array(vecs)) / len(vecs)  # mean
+            review_vecs.append(vecsArray)
+    # 返回词向量表示的所有评论
+    return review_vecs
+</code></pre>
+<h5 id="5、2-将数据向量化"><a href="#5、2-将数据向量化" class="headerlink" title="5、2 将数据向量化"></a>5、2 将数据向量化</h5><pre class=" language-lang-python"><code class="language-lang-python">num_reviews=len(train)
+clean_train_reviews=[] # 存放的是评论列表，一条评论是由单词列表组成的
+for i in range(0,num_reviews):
+    temp_review=review_to_wordlist(train["review"][i],True)
+    clean_train_reviews.append(temp_review)
+# 查看清洗后的数据
+print(clean_train_reviews[0])
+
+# 对测试集做相同的操作
+num_reviews=len(test)
+clean_test_reviews=[]
+for i in range(0,num_reviews):
+    temp_review=review_to_wordlist(test['review'][i],True)
+    clean_test_reviews.append(temp_review)
+</code></pre>
 <pre><code>    [&#39;stuff&#39;, &#39;going&#39;, &#39;moment&#39;, &#39;mj&#39;, &#39;started&#39;, &#39;listening&#39;, &#39;music&#39;, &#39;watching&#39;, &#39;odd&#39;, &#39;documentary&#39;, &#39;watched&#39;, &#39;wiz&#39;, &#39;watched&#39;, &#39;moonwalker&#39;, &#39;maybe&#39;, &#39;want&#39;, &#39;get&#39;, &#39;certain&#39;, &#39;insight&#39;, &#39;guy&#39;, &#39;thought&#39;, &#39;really&#39;, &#39;cool&#39;, &#39;eighties&#39;, &#39;maybe&#39;, &#39;make&#39;, &#39;mind&#39;, &#39;whether&#39;, &#39;guilty&#39;, &#39;innocent&#39;, &#39;moonwalker&#39;, &#39;part&#39;, &#39;biography&#39;, &#39;part&#39;, &#39;feature&#39;, &#39;film&#39;, &#39;remember&#39;, &#39;going&#39;, &#39;see&#39;, &#39;cinema&#39;, &#39;originally&#39;, &#39;released&#39;, &#39;subtle&#39;, &#39;messages&#39;, &#39;mj&#39;, &#39;feeling&#39;, &#39;towards&#39;, &#39;press&#39;, &#39;also&#39;, &#39;obvious&#39;, &#39;message&#39;, &#39;drugs&#39;, &#39;bad&#39;, &#39;kay&#39;, &#39;visually&#39;, &#39;impressive&#39;, &#39;course&#39;, &#39;michael&#39;, &#39;jackson&#39;, &#39;unless&#39;, &#39;remotely&#39;, &#39;like&#39;, &#39;mj&#39;, &#39;anyway&#39;, &#39;going&#39;, &#39;hate&#39;, &#39;find&#39;, &#39;boring&#39;, &#39;may&#39;, &#39;call&#39;, &#39;mj&#39;, &#39;egotist&#39;, &#39;consenting&#39;, &#39;making&#39;, &#39;movie&#39;, &#39;mj&#39;, &#39;fans&#39;, &#39;would&#39;, &#39;say&#39;, &#39;made&#39;, &#39;fans&#39;, &#39;true&#39;, &#39;really&#39;, &#39;nice&#39;, &#39;actual&#39;, &#39;feature&#39;, &#39;film&#39;, &#39;bit&#39;, &#39;finally&#39;, &#39;starts&#39;, &#39;minutes&#39;, &#39;excluding&#39;, &#39;smooth&#39;, &#39;criminal&#39;, &#39;sequence&#39;, &#39;joe&#39;, &#39;pesci&#39;, &#39;convincing&#39;, &#39;psychopathic&#39;, &#39;powerful&#39;, &#39;drug&#39;, &#39;lord&#39;, &#39;wants&#39;, &#39;mj&#39;, &#39;dead&#39;, &#39;bad&#39;, &#39;beyond&#39;, &#39;mj&#39;, &#39;overheard&#39;, &#39;plans&#39;, &#39;nah&#39;, &#39;joe&#39;, &#39;pesci&#39;, &#39;character&#39;, &#39;ranted&#39;, &#39;wanted&#39;, &#39;people&#39;, &#39;know&#39;, &#39;supplying&#39;, &#39;drugs&#39;, &#39;etc&#39;, &#39;dunno&#39;, &#39;maybe&#39;, &#39;hates&#39;, &#39;mj&#39;, &#39;music&#39;, &#39;lots&#39;, &#39;cool&#39;, &#39;things&#39;, &#39;like&#39;, &#39;mj&#39;, &#39;turning&#39;, &#39;car&#39;, &#39;robot&#39;, &#39;whole&#39;, &#39;speed&#39;, &#39;demon&#39;, &#39;sequence&#39;, &#39;also&#39;, &#39;director&#39;, &#39;must&#39;, &#39;patience&#39;, &#39;saint&#39;, &#39;came&#39;, &#39;filming&#39;, &#39;kiddy&#39;, &#39;bad&#39;, &#39;sequence&#39;, &#39;usually&#39;, &#39;directors&#39;, &#39;hate&#39;, &#39;working&#39;, &#39;one&#39;, &#39;kid&#39;, &#39;let&#39;, &#39;alone&#39;, &#39;whole&#39;, &#39;bunch&#39;, &#39;performing&#39;, &#39;complex&#39;, &#39;dance&#39;, &#39;scene&#39;, &#39;bottom&#39;, &#39;line&#39;, &#39;movie&#39;, &#39;people&#39;, &#39;like&#39;, &#39;mj&#39;, &#39;one&#39;, &#39;level&#39;, &#39;another&#39;, &#39;think&#39;, &#39;people&#39;, &#39;stay&#39;, &#39;away&#39;, &#39;try&#39;, &#39;give&#39;, &#39;wholesome&#39;, &#39;message&#39;, &#39;ironically&#39;, &#39;mj&#39;, &#39;bestest&#39;, &#39;buddy&#39;, &#39;movie&#39;, &#39;girl&#39;, &#39;michael&#39;, &#39;jackson&#39;, &#39;truly&#39;, &#39;one&#39;, &#39;talented&#39;, &#39;people&#39;, &#39;ever&#39;, &#39;grace&#39;, &#39;planet&#39;, &#39;guilty&#39;, &#39;well&#39;, &#39;attention&#39;, &#39;gave&#39;, &#39;subject&#39;, &#39;hmmm&#39;, &#39;well&#39;, &#39;know&#39;, &#39;people&#39;, &#39;different&#39;, &#39;behind&#39;, &#39;closed&#39;, &#39;doors&#39;, &#39;know&#39;, &#39;fact&#39;, &#39;either&#39;, &#39;extremely&#39;, &#39;nice&#39;, &#39;stupid&#39;, &#39;guy&#39;, &#39;one&#39;, &#39;sickest&#39;, &#39;liars&#39;, &#39;hope&#39;, &#39;latter&#39;]
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将清洗后的数据用向量表示</span></span><br><span class="line">train_vec=reviews_to_vec(clean_train_reviews,model)</span><br><span class="line">test_vec=reviews_to_vec(clean_test_reviews,model)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(train_vec[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+</code></pre><pre class=" language-lang-python"><code class="language-lang-python"># 将清洗后的数据用向量表示
+train_vec=reviews_to_vec(clean_train_reviews,model)
+test_vec=reviews_to_vec(clean_test_reviews,model)
+</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">print(train_vec[0])
+</code></pre>
 <pre><code>[-4.12214540e-02 -3.79349139e-02  4.92058553e-03  3.83373492e-02
  -2.45657221e-03  8.18741966e-03 -8.79610906e-03 -1.77715521e-03
   1.32088760e-02  1.10860562e-02  1.07725587e-02 -2.03826056e-03
@@ -830,9 +944,31 @@ Training model...
   4.05624122e-03  2.18779668e-02 -3.30929946e-04  8.58893936e-03
   8.00503015e-03  7.86819680e-04 -6.07566445e-03  3.53654486e-03
  -1.95318875e-02  1.86700427e-02  8.84436153e-03  7.88514732e-03]
-</code></pre><h4 id="6、建模和预测"><a href="#6、建模和预测" class="headerlink" title="6、建模和预测"></a>6、建模和预测</h4><h5 id="6、1-采用随机森林模型"><a href="#6、1-采用随机森林模型" class="headerlink" title="6、1 采用随机森林模型"></a>6、1 采用随机森林模型</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> cross_val_score</span><br><span class="line"></span><br><span class="line">forest = RandomForestClassifier( n_estimators = <span class="number">100</span>, n_jobs=<span class="number">2</span>)</span><br><span class="line">print(<span class="string">"Fitting a random forest to labeled training data..."</span>)</span><br><span class="line">forest = forest.fit( train_vec, train[<span class="string">'sentiment'</span>] )</span><br><span class="line">print(<span class="string">"随机森林分类器10折交叉验证得分: "</span>, np.mean(cross_val_score(forest, train_vec, train[<span class="string">'sentiment'</span>], cv=<span class="number">10</span>, scoring=<span class="string">'roc_auc'</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试集</span></span><br><span class="line">result = forest.predict(test_vec)</span><br><span class="line"></span><br><span class="line">output = pd.DataFrame( data=&#123;<span class="string">"id"</span>:test[<span class="string">"id"</span>], <span class="string">"sentiment"</span>:result&#125; )</span><br><span class="line">output.to_csv( <span class="string">"./data/rf_word2vec.csv"</span>, index=<span class="keyword">False</span>, quoting=<span class="number">3</span> )</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="6、建模和预测"><a href="#6、建模和预测" class="headerlink" title="6、建模和预测"></a>6、建模和预测</h4><h5 id="6、1-采用随机森林模型"><a href="#6、1-采用随机森林模型" class="headerlink" title="6、1 采用随机森林模型"></a>6、1 采用随机森林模型</h5><pre class=" language-lang-python"><code class="language-lang-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.cross_validation import cross_val_score
+
+forest = RandomForestClassifier( n_estimators = 100, n_jobs=2)
+print("Fitting a random forest to labeled training data...")
+forest = forest.fit( train_vec, train['sentiment'] )
+print("随机森林分类器10折交叉验证得分: ", np.mean(cross_val_score(forest, train_vec, train['sentiment'], cv=10, scoring='roc_auc')))
+
+# 测试集
+result = forest.predict(test_vec)
+
+output = pd.DataFrame( data={"id":test["id"], "sentiment":result} )
+output.to_csv( "./data/rf_word2vec.csv", index=False, quoting=3 )
+</code></pre>
 <pre><code>随机森林分类器10折交叉验证得分:  0.91351312
-</code></pre><h5 id="6、2-采用逻辑回归模型"><a href="#6、2-采用逻辑回归模型" class="headerlink" title="6、2  采用逻辑回归模型"></a>6、2  采用逻辑回归模型</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression <span class="keyword">as</span> LR</span><br><span class="line">model = LR()                             <span class="comment"># 逻辑回归模型</span></span><br><span class="line">model.fit(train_vec,train[<span class="string">"sentiment"</span>])</span><br><span class="line">print(<span class="string">"10折交叉验证："</span>)</span><br><span class="line">print(np.mean(cross_val_score(model,train_vec,train[<span class="string">"sentiment"</span>],scoring=<span class="string">"roc_auc"</span>)))</span><br><span class="line">test_predicted=np.array(model.predict(test_vec))</span><br><span class="line">output=pd.DataFrame(data=&#123;<span class="string">"id"</span>:test[<span class="string">"id"</span>],<span class="string">"sentiment"</span>:test_predicted&#125;)</span><br><span class="line"><span class="comment"># 写入文件</span></span><br><span class="line">output.to_csv(<span class="string">"./data/LR_word2vec.csv"</span>,index=<span class="keyword">False</span>,quoting=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><h5 id="6、2-采用逻辑回归模型"><a href="#6、2-采用逻辑回归模型" class="headerlink" title="6、2  采用逻辑回归模型"></a>6、2  采用逻辑回归模型</h5><pre class=" language-lang-python"><code class="language-lang-python">from sklearn.linear_model import LogisticRegression as LR
+model = LR()                             # 逻辑回归模型
+model.fit(train_vec,train["sentiment"])
+print("10折交叉验证：")
+print(np.mean(cross_val_score(model,train_vec,train["sentiment"],scoring="roc_auc")))
+test_predicted=np.array(model.predict(test_vec))
+output=pd.DataFrame(data={"id":test["id"],"sentiment":test_predicted})
+# 写入文件
+output.to_csv("./data/LR_word2vec.csv",index=False,quoting=3)
+</code></pre>
 <pre><code>10折交叉验证：
 0.927272555469929
 </code></pre>

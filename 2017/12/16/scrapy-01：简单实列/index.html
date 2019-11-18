@@ -27,9 +27,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -418,7 +418,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    422
+                    423
                 </div>
                 
 
@@ -445,12 +445,45 @@
 <p>最近开始学习自然语言处理，在自然语言处理的过程中，获取语料，处理语料都是非常重要的一部，因此在开始入门学习自然语言处理的同时，也开始练习一些爬虫，暑假时学过一点，但是也忘得差不多了，于是重新开始，并记录下来、<br><a id="more"></a></p>
 </blockquote>
 <h4 id="1-scrapy库介绍"><a href="#1-scrapy库介绍" class="headerlink" title="1  scrapy库介绍"></a>1  scrapy库介绍</h4><p>（1）具体的介绍可以自行百度</p>
-<p>（2）安装方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#利用pip安装</span><br><span class="line">pip install scrapy</span><br><span class="line">#利用conda安装</span><br><span class="line">conda install scrapy</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-scrapy的简单使用"><a href="#2-scrapy的简单使用" class="headerlink" title="2 scrapy的简单使用"></a>2 scrapy的简单使用</h4><p>（1）代码实例</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># coding: utf-8</span><br><span class="line"></span><br><span class="line">import scrapy</span><br><span class="line">from w3lib.html import remove_tags</span><br><span class="line"></span><br><span class="line">#定义一个类，继承了scrapy，spider</span><br><span class="line">class StackOvverflowSpider(scrapy.Spider):</span><br><span class="line">   #爬虫项目的名字，在整个项目中，这个名字需要唯一</span><br><span class="line">   name=&quot;stackoverflow&quot;</span><br><span class="line">   #指定爬虫开始的网址链接</span><br><span class="line">   start_urls=[&quot;http://stackoverflow.com/questions?sort=votes&quot;]</span><br><span class="line">   </span><br><span class="line">   #爬虫项目的回调函数</span><br><span class="line">   def parse(self,response):</span><br><span class="line">       #通过css样式来获取需要遍历的链接，</span><br><span class="line">       for href in response.css(&quot;.question-summary h3 a::attr(href)&quot;):</span><br><span class="line">           #组装成完整的链接</span><br><span class="line">           full_url=response.urljoin(href.extract())</span><br><span class="line">           #对每一个完整的链接，传给回调函数，在回调函数中抓取页面内容</span><br><span class="line">           yield scrapy.Request(full_url,callback=self.parse_question)</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   def parse_question(self,response):</span><br><span class="line">       yield&#123;</span><br><span class="line">           #指定要抓取的内容，title是抓取结果中保存的字段，后面对应的是他的页面上的内容，后面的css中的类名，需要事先打开网页源代码查看。</span><br><span class="line">           &apos;title&apos;:response.css(&apos;h1 a::text&apos;).extract()[0],</span><br><span class="line">           &apos;votes&apos;:response.css(&apos;.question .vote-count-post::text&apos;).extract()[0],</span><br><span class="line">           &apos;body&apos;:response.css(&apos;.question .post-text&apos;).extract()[0]</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-<p>（2）运行代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy runspider  scrapy_1.py -o abc.csv</span><br></pre></td></tr></table></figure>
-<p>（3）代码讲解：见代码中的注释</p>
+<p>（2）安装方法：</p>
+<pre><code>#利用pip安装
+pip install scrapy
+#利用conda安装
+conda install scrapy
+</code></pre><h4 id="2-scrapy的简单使用"><a href="#2-scrapy的简单使用" class="headerlink" title="2 scrapy的简单使用"></a>2 scrapy的简单使用</h4><p>（1）代码实例</p>
+<pre><code>
+# coding: utf-8
+
+import scrapy
+from w3lib.html import remove_tags
+
+#定义一个类，继承了scrapy，spider
+class StackOvverflowSpider(scrapy.Spider):
+   #爬虫项目的名字，在整个项目中，这个名字需要唯一
+   name=&quot;stackoverflow&quot;
+   #指定爬虫开始的网址链接
+   start_urls=[&quot;http://stackoverflow.com/questions?sort=votes&quot;]
+
+   #爬虫项目的回调函数
+   def parse(self,response):
+       #通过css样式来获取需要遍历的链接，
+       for href in response.css(&quot;.question-summary h3 a::attr(href)&quot;):
+           #组装成完整的链接
+           full_url=response.urljoin(href.extract())
+           #对每一个完整的链接，传给回调函数，在回调函数中抓取页面内容
+           yield scrapy.Request(full_url,callback=self.parse_question)
+
+
+   def parse_question(self,response):
+       yield{
+           #指定要抓取的内容，title是抓取结果中保存的字段，后面对应的是他的页面上的内容，后面的css中的类名，需要事先打开网页源代码查看。
+           &#39;title&#39;:response.css(&#39;h1 a::text&#39;).extract()[0],
+           &#39;votes&#39;:response.css(&#39;.question .vote-count-post::text&#39;).extract()[0],
+           &#39;body&#39;:response.css(&#39;.question .post-text&#39;).extract()[0]
+       }
+</code></pre><p>（2）运行代码</p>
+<pre><code>scrapy runspider  scrapy_1.py -o abc.csv
+</code></pre><p>（3）代码讲解：见代码中的注释</p>
 
             </div>
             <hr/>
@@ -600,8 +633,8 @@
                         
                             前面看了一个爬虫的小例子，那么接下来就；来看看创建一个爬虫的步骤有哪些。
 1 创建工程项目的简单步骤（1）开始一个爬虫项目进入一个你要创建爬虫的目录下面，在命令行窗口中执行如下代码：
-1scrapy startproject 项目名
-其中项
+scrapy startproject 项目名
+其中项目
                         
                     </div>
                     <div class="publish-info">
@@ -655,7 +688,8 @@
                     <div class="summary block-with-text">
                         
                             一、基本要求使用jieba对垃圾短信数据集进行分词，然后统计其中的单词出现的个数，找到出现频次最高的top100个词。
-二、完整代码123456789101112131415161718192021222324252627282930313
+二、完整代码# -*- coding: UTF-8 -*-
+from collections import Counte
                         
                     </div>
                     <div class="publish-info">

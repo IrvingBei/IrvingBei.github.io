@@ -24,9 +24,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -423,7 +423,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    560
+                    550
                 </div>
                 
 
@@ -450,10 +450,18 @@
 <h3 id="1、使用stanfordcorenlp接口"><a href="#1、使用stanfordcorenlp接口" class="headerlink" title="1、使用stanfordcorenlp接口"></a>1、使用stanfordcorenlp接口</h3><p>见链接：<a href="https://blog.csdn.net/qq_35203425/article/details/80451243" target="_blank" rel="noopener">Python中使用Stanford CoreNLP</a><br>这篇文档中将这种方法讲得很清楚，因此直接贴上链接，访问原文即可、、</p>
 <h3 id="2、使用官方Python接口python-stanford-corenlp"><a href="#2、使用官方Python接口python-stanford-corenlp" class="headerlink" title="2、使用官方Python接口python-stanford-corenlp"></a>2、使用官方Python接口python-stanford-corenlp</h3><p>见链接：<a href="https://blog.csdn.net/thriving_fcl/article/details/76595253?locationNum=4&amp;fps=1" target="_blank" rel="noopener">CoreNLP Python接口处理中文</a><br>在这篇文章中，作者是用的linux系统，并且拥有root权限。我这里提供另外两种不同环境的配置过程。</p>
 <h4 id="1-windows-10-环境"><a href="#1-windows-10-环境" class="headerlink" title="(1)windows 10 环境"></a>(1)windows 10 环境</h4><p>在该环境下，配置环境变量与上文中的方法有一些不一样。具体方法是：<br>电脑右键-&gt;属性-&gt;高级属性-&gt;环境变量-&gt;新增-&gt;添加变量名javanlp，路径值为之前解压coreNLP得到的目录。</p>
-<h4 id="2-linux-下不具有root权限的环境"><a href="#2-linux-下不具有root权限的环境" class="headerlink" title="(2)linux 下不具有root权限的环境"></a>(2)linux 下不具有root权限的环境</h4><p>在这种环境下，只需要在原文修改client.py里面初始化部分的代码的基础上再修改下即可。（路径：python-stanford-corenlp\corenlp\client.py）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># assert os.getenv(</span><br><span class="line">#     &quot;JAVANLP_HOME&quot;) is not None, &quot;Please define $JAVANLP_HOME where your CoreNLP Java checkout is&quot;</span><br><span class="line">start_cmd = &apos;java -Xmx&#123;memory&#125;g -cp &quot;&#123;javanlp&#125;/*&quot; edu.stanford.nlp.pipeline.StanfordCoreNLPServer -serverProperties StanfordCoreNLP-chinese.properties -port &#123;port&#125; -timeout &#123;timeout&#125;&apos;.format(</span><br><span class="line">                memory=allocate_mem,</span><br><span class="line">                javanlp=&quot;/home/xiongzy/anaconda3/coreNLP/stanford-corenlp-full-2016-10-31&quot;,</span><br></pre></td></tr></table></figure></p>
-<p>注释掉：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># assert os.getenv(</span><br><span class="line">#     &quot;JAVANLP_HOME&quot;) is not None, &quot;Please define $JAVANLP_HOME where your CoreNLP Java checkout is&quot;</span><br></pre></td></tr></table></figure></p>
-<p>将javanlp改为具体的值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javanlp=&quot;/home/xiongzy/anaconda3/coreNLP/stanford-corenlp-full-2016-10-31&quot;</span><br></pre></td></tr></table></figure></p>
-<p>然后进入python-stanford-corenlp目录重新重新安装即可python setup.py install</p>
+<h4 id="2-linux-下不具有root权限的环境"><a href="#2-linux-下不具有root权限的环境" class="headerlink" title="(2)linux 下不具有root权限的环境"></a>(2)linux 下不具有root权限的环境</h4><p>在这种环境下，只需要在原文修改client.py里面初始化部分的代码的基础上再修改下即可。（路径：python-stanford-corenlp\corenlp\client.py）</p>
+<pre><code># assert os.getenv(
+#     &quot;JAVANLP_HOME&quot;) is not None, &quot;Please define $JAVANLP_HOME where your CoreNLP Java checkout is&quot;
+start_cmd = &#39;java -Xmx{memory}g -cp &quot;{javanlp}/*&quot; edu.stanford.nlp.pipeline.StanfordCoreNLPServer -serverProperties StanfordCoreNLP-chinese.properties -port {port} -timeout {timeout}&#39;.format(
+                memory=allocate_mem,
+                javanlp=&quot;/home/xiongzy/anaconda3/coreNLP/stanford-corenlp-full-2016-10-31&quot;,
+</code></pre><p>注释掉：</p>
+<pre><code># assert os.getenv(
+#     &quot;JAVANLP_HOME&quot;) is not None, &quot;Please define $JAVANLP_HOME where your CoreNLP Java checkout is&quot;
+</code></pre><p>将javanlp改为具体的值：</p>
+<pre><code>javanlp=&quot;/home/xiongzy/anaconda3/coreNLP/stanford-corenlp-full-2016-10-31&quot;
+</code></pre><p>然后进入python-stanford-corenlp目录重新重新安装即可python setup.py install</p>
 <h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><h4 id="（1）关闭server"><a href="#（1）关闭server" class="headerlink" title="（1）关闭server"></a>（1）关闭server</h4><p>每次第一种方法的代码中，每次使用后需要手动关闭server，nlp.close()。<br>第二种方法不用手动关闭，其自动关闭</p>
 <h4 id="（2）利用网页进行分析"><a href="#（2）利用网页进行分析" class="headerlink" title="（2）利用网页进行分析"></a>（2）利用网页进行分析</h4><p>当server处于开启状态时，可以通过ip:port(如：localhost:9000)打开网页版的分析器。效果如图。<br><img src="https://img-blog.csdn.net/20180822111913416?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="Stanford coreNLP"></p>
 
@@ -611,7 +619,8 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：12345from 
+                            在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：
+from nltk
                         
                     </div>
                     <div class="publish-info">

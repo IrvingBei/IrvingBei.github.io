@@ -7,7 +7,8 @@
     <meta name="keywords" content="【NLTK基础教程】01-1 三种获取网页中有效文本的方法, IrvingBei">
     <meta name="description" content="本篇是《NLTK基础教程》第一章的第三节，向NLTK迈进中的一个例子，获取网页中的文本的三种方法。
 1 抓取网页这里主要是用了urllib库中的函数来抓取指定网页，代码如下：
-1234import urllib.requestrespons">
+import urllib.request
+response=u">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -26,9 +27,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -417,7 +418,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    577
+                    584
                 </div>
                 
 
@@ -442,23 +443,41 @@
             <div id="articleContent">
                 <p>本篇是《NLTK基础教程》第一章的第三节，向NLTK迈进中的一个例子，获取网页中的文本的三种方法。<br><a id="more"></a></p>
 <h4 id="1-抓取网页"><a href="#1-抓取网页" class="headerlink" title="1 抓取网页"></a>1 抓取网页</h4><p>这里主要是用了urllib库中的函数来抓取指定网页，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import urllib.request</span><br><span class="line">response=urllib.request.urlopen(&apos;http://python.org&apos;)</span><br><span class="line">html=response.read()</span><br><span class="line">print(len(html))</span><br></pre></td></tr></table></figure>
-<p>由于python版本的关系，哈哈，这里有个坑，那我就指出来吧！以后如果有坑的地方，我还是先踩下！嘿嘿。</p>
+<pre><code>import urllib.request
+response=urllib.request.urlopen(&#39;http://python.org&#39;)
+html=response.read()
+print(len(html))
+</code></pre><p>由于python版本的关系，哈哈，这里有个坑，那我就指出来吧！以后如果有坑的地方，我还是先踩下！嘿嘿。</p>
 <p>==【踩坑专业专用标记】==<br>（1）如果你的python版本是2.x，那么你的前两句代码应该如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import urllib2</span><br><span class="line">response=urllib2.urlopen(&apos;http://python.org&apos;)</span><br></pre></td></tr></table></figure>
-<p>(2)如果你的python版本是3.x，那么就使用最上面的代码就可以了，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import urllib.request</span><br><span class="line">response=urllib.request.urlopen(&apos;http://python.org&apos;)</span><br></pre></td></tr></table></figure>
-<h4 id="2-获取网页中的文本"><a href="#2-获取网页中的文本" class="headerlink" title="2 获取网页中的文本"></a>2 获取网页中的文本</h4><p>好吧，前期抓取网页的准备工作完成了，那么接下来获取网页中的有效文本（也就是想办法去掉html标签和多余的字符），教材中简单的讲了三种方法，我感觉挺有用的，也会经常用到，于是就记录下来了。<br>（1）方法一：要清理掉html标签，一种可行的做法是只选取其中的标记，包括数字和字符，然后替换掉就可以了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tokens=[tok for tok in html.split()]</span><br><span class="line">print(&quot;total no of tokens :&quot;+str(len(tokens)))</span><br><span class="line">print(tokens[0:100])</span><br></pre></td></tr></table></figure>
-<p>当然匹配这些无用字符还有更简洁的版本，也就是通过正则表达式来实现，见方法二。<br>（2）方法二：利用正则表达是来匹配无用字符。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import re</span><br><span class="line">tokens=re.split(&quot;\w+&quot;,html)</span><br><span class="line">print(len(tokens))</span><br><span class="line">print(tokens[0:100])</span><br></pre></td></tr></table></figure>
-<p>以上两种方法都是从方面来获取有效文本。<br>（3）方法三；通过ntlk来获取网页中有效文本。<br>还是直接上代码吧，简单粗暴😏。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import nltk</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line">soup = BeautifulSoup(html)</span><br><span class="line">text = soup.get_text()</span><br><span class="line">tokens=[tok for tok in text.split()]</span><br><span class="line">print(tokens[0:100])</span><br></pre></td></tr></table></figure>
-<p>好吧，这里也有个坑，也就是nltk中的clean_html()方法不可用了，需要用BeautifulSoup的 get_text()方法。</p>
-<p>==【踩坑专业专用标记】==<br>因此教材上的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clean=nltk.clean_html(html)</span><br></pre></td></tr></table></figure></p>
-<p>应该改为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from bs4 import BeautifulSoup</span><br><span class="line">soup = BeautifulSoup(html)</span><br><span class="line">text = soup.get_text()</span><br></pre></td></tr></table></figure>
-<p>好吧，到这里，这三种方法就介绍完了，如果有什么问题，欢迎留言。</p>
+<pre><code>import urllib2
+response=urllib2.urlopen(&#39;http://python.org&#39;)
+</code></pre><p>(2)如果你的python版本是3.x，那么就使用最上面的代码就可以了，即：</p>
+<pre><code>import urllib.request
+response=urllib.request.urlopen(&#39;http://python.org&#39;)
+</code></pre><h4 id="2-获取网页中的文本"><a href="#2-获取网页中的文本" class="headerlink" title="2 获取网页中的文本"></a>2 获取网页中的文本</h4><p>好吧，前期抓取网页的准备工作完成了，那么接下来获取网页中的有效文本（也就是想办法去掉html标签和多余的字符），教材中简单的讲了三种方法，我感觉挺有用的，也会经常用到，于是就记录下来了。<br>（1）方法一：要清理掉html标签，一种可行的做法是只选取其中的标记，包括数字和字符，然后替换掉就可以了。</p>
+<pre><code>tokens=[tok for tok in html.split()]
+print(&quot;total no of tokens :&quot;+str(len(tokens)))
+print(tokens[0:100])
+</code></pre><p>当然匹配这些无用字符还有更简洁的版本，也就是通过正则表达式来实现，见方法二。<br>（2）方法二：利用正则表达是来匹配无用字符。</p>
+<pre><code>import re
+tokens=re.split(&quot;\w+&quot;,html)
+print(len(tokens))
+print(tokens[0:100])
+</code></pre><p>以上两种方法都是从方面来获取有效文本。<br>（3）方法三；通过ntlk来获取网页中有效文本。<br>还是直接上代码吧，简单粗暴😏。</p>
+<pre><code>import nltk
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(html)
+text = soup.get_text()
+tokens=[tok for tok in text.split()]
+print(tokens[0:100])
+</code></pre><p>好吧，这里也有个坑，也就是nltk中的clean_html()方法不可用了，需要用BeautifulSoup的 get_text()方法。</p>
+<p>==【踩坑专业专用标记】==<br>因此教材上的代码：</p>
+<pre><code>clean=nltk.clean_html(html)
+</code></pre><p>应该改为：</p>
+<pre><code>from bs4 import BeautifulSoup
+soup = BeautifulSoup(html)
+text = soup.get_text()
+</code></pre><p>好吧，到这里，这三种方法就介绍完了，如果有什么问题，欢迎留言。</p>
 
             </div>
             <hr/>
@@ -607,7 +626,10 @@
                     <div class="summary block-with-text">
                         
                             在上篇中，简单的介绍了三种获取有效文本的方法，那么接下来就利用nltk来统计这些文本中出现的次数。我们首先来看下传统统计词频的方法：
-12345678910import operatorfreq_dis=&#123;&#125;for to
+import operator
+freq_dis={}
+for tok in tokens:
+    if
                         
                     </div>
                     <div class="publish-info">

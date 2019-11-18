@@ -24,9 +24,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -426,7 +426,8 @@
                                 
                                     1  任务描述本实验利用提供的20个种类的数据集，完成KQA的任务。
 2 具体实现任务整体流程如图所示：
-（1）引入必要的包12345678910111213from __future__ import print_functionfrom
+（1）引入必要的包from __future__ import print_function
+from functools impor
                                 
                             </div>
                             <div class="publish-info">
@@ -492,8 +493,12 @@
                             <div class="summary block-with-text">
                                 
                                     快速将非数值型目标变量转化为数值型变量，比如把[‘L’,’M’,’N’]转化为[1,2,3]或多维向量类型
-转化前：1df_train.y.value_counts()
-12345678C    620R    477G    361M  
+转化前：
+df_train.y.value_counts()
+C    620
+R    477
+G    361
+M    353
                                 
                             </div>
                             <div class="publish-info">

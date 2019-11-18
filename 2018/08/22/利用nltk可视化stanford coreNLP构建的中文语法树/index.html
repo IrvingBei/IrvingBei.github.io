@@ -5,7 +5,8 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="利用nltk可视化stanford coreNLP构建的中文语法树, IrvingBei">
-    <meta name="description" content="在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：12345from ">
+    <meta name="description" content="在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：
+from nltk">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -24,9 +25,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -423,7 +424,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    199
+                    200
                 </div>
                 
 
@@ -446,10 +447,19 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from nltk.tree import Tree</span><br><span class="line">from stanfordcorenlp import StanfordCoreNLP</span><br><span class="line">sentence = &apos;我叫小米&apos;</span><br><span class="line">with StanfordCoreNLP(r&apos;E:\ProgramData\Anaconda3\coreNLP\stanford-corenlp-full-2016-10-31&apos;, lang=&apos;zh&apos;) as nlp:</span><br><span class="line">    Tree.fromstring(nlp.parse(sentence)).draw()</span><br></pre></td></tr></table></figure></p>
-<p>这里是通过stanfordcorenlp库来使用coreNLP的。<br>直接返回的结果是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(ROOT</span><br><span class="line">  (IP</span><br><span class="line">    (NP (PN 我))</span><br><span class="line">    (VP (VV 叫)</span><br><span class="line">      (NP (NN 小米)))))</span><br></pre></td></tr></table></figure>
-<p>可视化：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ksh.png" alt="句法结构"><br>关于环境部署可见：<a href="https://blog.csdn.net/xyz1584172808/article/details/81940664" target="_blank" rel="noopener">两种在Python中使用Stanford CoreNLP的方法</a><br>当然这里也可以使用Stanford parser 来构建中文语法树，可视化方法类似。链接见：<a href="https://blog.csdn.net/baiyi_canggou/article/details/59056759" target="_blank" rel="noopener">NLTK中使用Stanford parser 构建中文语法树</a></p>
+                <p>在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：</p>
+<pre><code>from nltk.tree import Tree
+from stanfordcorenlp import StanfordCoreNLP
+sentence = &#39;我叫小米&#39;
+with StanfordCoreNLP(r&#39;E:\ProgramData\Anaconda3\coreNLP\stanford-corenlp-full-2016-10-31&#39;, lang=&#39;zh&#39;) as nlp:
+    Tree.fromstring(nlp.parse(sentence)).draw()
+</code></pre><p>这里是通过stanfordcorenlp库来使用coreNLP的。<br>直接返回的结果是：</p>
+<pre><code>(ROOT
+  (IP
+    (NP (PN 我))
+    (VP (VV 叫)
+      (NP (NN 小米)))))
+</code></pre><p>可视化：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ksh.png" alt="句法结构"><br>关于环境部署可见：<a href="https://blog.csdn.net/xyz1584172808/article/details/81940664" target="_blank" rel="noopener">两种在Python中使用Stanford CoreNLP的方法</a><br>当然这里也可以使用Stanford parser 来构建中文语法树，可视化方法类似。链接见：<a href="https://blog.csdn.net/baiyi_canggou/article/details/59056759" target="_blank" rel="noopener">NLTK中使用Stanford parser 构建中文语法树</a></p>
 
             </div>
             <hr/>
@@ -606,7 +616,8 @@
                     <div class="summary block-with-text">
                         
                             1  任务描述本实验室利用卷积神经网络对imdb数据进行文本分类
-2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包1234567from __future__ import print_fu
+2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包
+from __future__ import print_function
                         
                     </div>
                     <div class="publish-info">

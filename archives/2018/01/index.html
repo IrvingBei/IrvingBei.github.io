@@ -24,9 +24,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -616,7 +616,10 @@
                             <div class="summary block-with-text">
                                 
                                     在上篇中，简单的介绍了三种获取有效文本的方法，那么接下来就利用nltk来统计这些文本中出现的次数。我们首先来看下传统统计词频的方法：
-12345678910import operatorfreq_dis=&#123;&#125;for to
+import operator
+freq_dis={}
+for tok in tokens:
+    if
                                 
                             </div>
                             <div class="publish-info">
@@ -681,7 +684,8 @@
                                 
                                     本篇是《NLTK基础教程》第一章的第三节，向NLTK迈进中的一个例子，获取网页中的文本的三种方法。
 1 抓取网页这里主要是用了urllib库中的函数来抓取指定网页，代码如下：
-1234import urllib.requestrespons
+import urllib.request
+response=u
                                 
                             </div>
                             <div class="publish-info">

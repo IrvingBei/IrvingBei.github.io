@@ -25,9 +25,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -453,30 +453,99 @@
 <h3 id="3-sequence-loss-by-example（）函数的计算过程（以TF的ptb构建语言模型例子为例）"><a href="#3-sequence-loss-by-example（）函数的计算过程（以TF的ptb构建语言模型例子为例）" class="headerlink" title="3  sequence_loss_by_example（）函数的计算过程（以TF的ptb构建语言模型例子为例）"></a>3  sequence_loss_by_example（）函数的计算过程（以TF的ptb构建语言模型例子为例）</h3><blockquote>
 <p>注：例子中的batch_size=20，num_steps=20，为了更直观的查看各个数据的维度，我将num_steps改为了15.（因为本例是通过上一个词预测下一个词，其实num_steps改为多少并没有影响）。</p>
 </blockquote>
-<h4 id="（1）LSTM的输出"><a href="#（1）LSTM的输出" class="headerlink" title="（1）LSTM的输出"></a>（1）LSTM的输出</h4><p>LSTM的隐藏层的单元个数为200，因此，LSTM每一步的输出数据的维度为（batch_size,hidden_size）。有因为LSTM展开的时间步数为num_steps，于是通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">outputs.append(cell_output)</span><br></pre></td></tr></table></figure></p>
-<p>将每一时刻的输出都收集起来，这样，最后的outputs是一个list，其样式为：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/1.png" alt="LSTM的全部输出"><br>图中黄色的部分表示同一个序列在LSTM不同时刻的输出。<br>紧接着对outputs进行拼接和reshape，其过程如下图：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/2.png" alt="拼接输出"><br>将每一时刻的输出在第1维上拼接（上图），这样每一行就完整的表示了一个序列。reshape后的结构如下图：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/3.png" alt="outputs的reshape结果"><br>其中每一种颜色表示一个序列，同一种颜色中的各个块表示这个序列的不同时刻。<br>以上就是LSTM的输出，并对其适当变形。接下来通过一个全连接层，将每一时刻的输出映射成字典大小。</p>
-<h4 id="（2）通过全连接层"><a href="#（2）通过全连接层" class="headerlink" title="（2）通过全连接层"></a>（2）通过全连接层</h4><p>这部分就是常见的y=wx+b的构造形式，通过以下代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">softmax_w = tf.get_variable( &quot;softmax_w&quot;, [size, vocab_size], dtype=tf.float32)</span><br><span class="line">softmax_b = tf.get_variable(&quot;softmax_b&quot;, [vocab_size], dtype=tf.float32)</span><br><span class="line"> # 网络的最后输出(相当于最后添加了一个全连接层)</span><br><span class="line">logits = tf.matmul(output, softmax_w) + softmax_b   # logits shape:batch_size*num_step,vocab_size</span><br></pre></td></tr></table></figure></p>
-<p>通过全连接层后，得到logits，其维度为（batch_size<em>num_step,vocab_size），在本例中就是300</em>10000（本例的词汇表大小是10000）。</p>
+<h4 id="（1）LSTM的输出"><a href="#（1）LSTM的输出" class="headerlink" title="（1）LSTM的输出"></a>（1）LSTM的输出</h4><p>LSTM的隐藏层的单元个数为200，因此，LSTM每一步的输出数据的维度为（batch_size,hidden_size）。有因为LSTM展开的时间步数为num_steps，于是通过</p>
+<pre><code>outputs.append(cell_output)
+</code></pre><p>将每一时刻的输出都收集起来，这样，最后的outputs是一个list，其样式为：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/1.png" alt="LSTM的全部输出"><br>图中黄色的部分表示同一个序列在LSTM不同时刻的输出。<br>紧接着对outputs进行拼接和reshape，其过程如下图：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/2.png" alt="拼接输出"><br>将每一时刻的输出在第1维上拼接（上图），这样每一行就完整的表示了一个序列。reshape后的结构如下图：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/ptb/3.png" alt="outputs的reshape结果"><br>其中每一种颜色表示一个序列，同一种颜色中的各个块表示这个序列的不同时刻。<br>以上就是LSTM的输出，并对其适当变形。接下来通过一个全连接层，将每一时刻的输出映射成字典大小。</p>
+<h4 id="（2）通过全连接层"><a href="#（2）通过全连接层" class="headerlink" title="（2）通过全连接层"></a>（2）通过全连接层</h4><p>这部分就是常见的y=wx+b的构造形式，通过以下代码实现：</p>
+<pre><code>softmax_w = tf.get_variable( &quot;softmax_w&quot;, [size, vocab_size], dtype=tf.float32)
+softmax_b = tf.get_variable(&quot;softmax_b&quot;, [vocab_size], dtype=tf.float32)
+ # 网络的最后输出(相当于最后添加了一个全连接层)
+logits = tf.matmul(output, softmax_w) + softmax_b   # logits shape:batch_size*num_step,vocab_size
+</code></pre><p>通过全连接层后，得到logits，其维度为（batch_size<em>num_step,vocab_size），在本例中就是300</em>10000（本例的词汇表大小是10000）。</p>
 <h4 id="（3）执行tf-contrib-legacy-seq2seq-sequence-loss-by-example函数"><a href="#（3）执行tf-contrib-legacy-seq2seq-sequence-loss-by-example函数" class="headerlink" title="（3）执行tf.contrib.legacy_seq2seq.sequence_loss_by_example函数"></a>（3）执行tf.contrib.legacy_seq2seq.sequence_loss_by_example函数</h4><p>关于这个函数的定义，解释之类的，可以参考<a href="https://blog.csdn.net/appleml/article/details/54017873" target="_blank" rel="noopener">这个解释</a>，小例子可以参考<a href="https://blog.csdn.net/UESTC_C2_403/article/details/72792889" target="_blank" rel="noopener">这个</a>。前一篇博客的解释看得有些稀里糊涂的，后面就找了后面那个例子来跑跑，但是这两个都没有讲清楚内部是怎么计算的，后面我又参考了tensorflow的<a href="https://blog.csdn.net/u012436149/article/details/52874718" target="_blank" rel="noopener">损失函数源代码</a>，找到这个函数，可以看到这个函数在内部调用的是sparse_softmax_cross_entropy_with_logits()函数，好嘛，接下来就一步一步的来看整个计算过程。<br><strong>首先</strong>来看输入的数据： logits和targets</p>
 <ul>
 <li>logits数据的格式在前面已经介绍了，为（300<em>10000）的矩阵，300为num_steps</em>batch_size得到，10000为词汇表大小，这个数据表示的意思是：每一行表示一个时刻（对应一个预测的单词），每num_steps行对应一个序列，一共有batch_size个num_steps行（因为这是一个batch大小的数据）。</li>
 <li>输出targets的维度可以看到其形状为（batch_size,num_steps）（即20<em>15），表示的意思是，一个batch中有20条数据，而每一条数据有15个时间步，一个时间步对应一个单词。为了让预测的单词的顺序和targets中真实单词的顺序对应上，于是将targets的维度变成了（300，）（即：20</em>15），这样一个元素对应logits中的一行，每15个数据就表示一个序列。</li>
 </ul>
 <p><strong>接下来</strong>，就将上面的输入以及权重w（通常设置为1）传入sequence_loss_by_example函数。下面是这个函数的实现代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def sequence_loss_by_example(logits, targets, weights,</span><br><span class="line">                             average_across_timesteps=True,</span><br><span class="line">                             softmax_loss_function=None, name=None):</span><br><span class="line">#logits: List of 2D Tensors of shape [batch_size x num_decoder_symbols].</span><br><span class="line">#targets: List of 1D batch-sized int32 Tensors of the same length as logits.</span><br><span class="line">#weights: List of 1D batch-sized float-Tensors of the same length as logits.</span><br><span class="line">#return:log_pers 形状是 [batch_size].</span><br><span class="line">   for logit, target, weight in zip(logits, targets, weights):</span><br><span class="line">      if softmax_loss_function is None:</span><br><span class="line">        # TODO(irving,ebrevdo): This reshape is needed because</span><br><span class="line">        # sequence_loss_by_example is called with scalars sometimes, which</span><br><span class="line">        # violates our general scalar strictness policy.</span><br><span class="line">        target = array_ops.reshape(target, [-1])</span><br><span class="line">        crossent = nn_ops.sparse_softmax_cross_entropy_with_logits(</span><br><span class="line">            logit, target)</span><br><span class="line">      else:</span><br><span class="line">        crossent = softmax_loss_function(logit, target)</span><br><span class="line">      log_perp_list.append(crossent * weight)</span><br><span class="line">    log_perps = math_ops.add_n(log_perp_list)</span><br><span class="line">    if average_across_timesteps:</span><br><span class="line">      total_size = math_ops.add_n(weights) </span><br><span class="line">      total_size += 1e-12  # Just to avoid division by 0 for all-0 weights.</span><br><span class="line">      log_perps /= total_size</span><br><span class="line">  return log_perps</span><br></pre></td></tr></table></figure>
-<p>可以看到函数内部主要是调用sparse_softmax_cross_entropy_with_logits函数，然后再加权平均后返回。<br>那么这个sparse_softmax_cross_entropy_with_logits函数是怎么计算的呢？这里有个<a href="https://blog.csdn.net/u012193416/article/details/77918732" target="_blank" rel="noopener">小例子</a>，可以看到他是将softmax和cross_entropy放在一起计算，这里就涉及到文章开头所复习得softmax和交叉熵的计算过程了。<br><strong>于是</strong>，我们知道了，针对于一个logits元素和一个targets元素，比如这个例子中取logits[0]，其维度为（10000，），targets[0]，它就是单独的一个整型的数，表示单词在词汇表中的id号。<strong>先计算logits[0]中各个元素的相对概率（即计算softmax），然后利用交叉熵公式计算预测值和真实值之间的交叉熵。</strong></p>
+<pre><code>def sequence_loss_by_example(logits, targets, weights,
+                             average_across_timesteps=True,
+                             softmax_loss_function=None, name=None):
+#logits: List of 2D Tensors of shape [batch_size x num_decoder_symbols].
+#targets: List of 1D batch-sized int32 Tensors of the same length as logits.
+#weights: List of 1D batch-sized float-Tensors of the same length as logits.
+#return:log_pers 形状是 [batch_size].
+   for logit, target, weight in zip(logits, targets, weights):
+      if softmax_loss_function is None:
+        # TODO(irving,ebrevdo): This reshape is needed because
+        # sequence_loss_by_example is called with scalars sometimes, which
+        # violates our general scalar strictness policy.
+        target = array_ops.reshape(target, [-1])
+        crossent = nn_ops.sparse_softmax_cross_entropy_with_logits(
+            logit, target)
+      else:
+        crossent = softmax_loss_function(logit, target)
+      log_perp_list.append(crossent * weight)
+    log_perps = math_ops.add_n(log_perp_list)
+    if average_across_timesteps:
+      total_size = math_ops.add_n(weights) 
+      total_size += 1e-12  # Just to avoid division by 0 for all-0 weights.
+      log_perps /= total_size
+  return log_perps
+</code></pre><p>可以看到函数内部主要是调用sparse_softmax_cross_entropy_with_logits函数，然后再加权平均后返回。<br>那么这个sparse_softmax_cross_entropy_with_logits函数是怎么计算的呢？这里有个<a href="https://blog.csdn.net/u012193416/article/details/77918732" target="_blank" rel="noopener">小例子</a>，可以看到他是将softmax和cross_entropy放在一起计算，这里就涉及到文章开头所复习得softmax和交叉熵的计算过程了。<br><strong>于是</strong>，我们知道了，针对于一个logits元素和一个targets元素，比如这个例子中取logits[0]，其维度为（10000，），targets[0]，它就是单独的一个整型的数，表示单词在词汇表中的id号。<strong>先计算logits[0]中各个元素的相对概率（即计算softmax），然后利用交叉熵公式计算预测值和真实值之间的交叉熵。</strong></p>
 <blockquote>
 <p>这个函数直接使用标签数据的，而不是采用one-hot编码形式（另一个函数softmax_cross_entropy_with_logits必须是one-hot形式的数据，具体见<a href="https://blog.csdn.net/zchang81/article/details/70225220" target="_blank" rel="noopener">softmax_cross_entropy_with_logits函数详解</a>）</p>
 </blockquote>
 <p>为了验证这个计算过程，我将这个例子中的logits[0]，targets[0]以及通过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">loss = tf.contrib.legacy_seq2seq.sequence_loss_by_example(    # 这个函数先求解softmax，再求解交叉熵</span><br><span class="line">        [logits],</span><br><span class="line">        [tf.reshape(input_.targets, [-1])],</span><br><span class="line">        [tf.ones([batch_size * num_steps], dtype=tf.float32)])</span><br></pre></td></tr></table></figure>
-<p>得到的loss（这里取loss[0]）取出，单独通过tf.nn.softmax以及交叉熵公式来依存计算这个过程。<br>首先来看下通过例子源代码取出的数据情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">logits shape:</span><br><span class="line">(10000,)</span><br><span class="line">logits value:</span><br><span class="line">[ 7.8470936   8.238499    8.979608   ... -0.73421586 -0.913356</span><br><span class="line"> -0.7552418 ]</span><br><span class="line">target value:</span><br><span class="line">9971</span><br><span class="line">loss value:</span><br><span class="line">11.060587</span><br></pre></td></tr></table></figure>
-<p>自己计算的代码为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line"># 将单词id转化为one-hot模式</span><br><span class="line">target=list([0]*10000)</span><br><span class="line">target[9971]=1</span><br><span class="line">target=np.array(target)</span><br><span class="line"># 转化为张量</span><br><span class="line">logits=tf.convert_to_tensor(r[&apos;logits&apos;],dtype=float)</span><br><span class="line">y_=tf.convert_to_tensor(target,dtype=float)</span><br><span class="line"></span><br><span class="line"># 法1，分开计算----------------------------------------------------</span><br><span class="line"># 计算softmax</span><br><span class="line">y=tf.nn.softmax(logits)</span><br><span class="line"># 计算交叉熵</span><br><span class="line">cross_entropy=-tf.reduce_sum(y_*tf.log(y))</span><br><span class="line"># 法2，调用函数计算-------------------------------------------------</span><br><span class="line"># 调用函数计算</span><br><span class="line">cross_entropy2=tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=logits,labels=y_))</span><br><span class="line"></span><br><span class="line">with tf.Session() as sess:</span><br><span class="line">    softmax=sess.run(y)</span><br><span class="line">    c_e=sess.run(cross_entropy)</span><br><span class="line">    c_e2=sess.run(cross_entropy2)</span><br><span class="line">    print(&quot;softmax:\n&quot;,softmax)</span><br><span class="line">    print(&quot;cross_entropy:\n&quot;,c_e)</span><br><span class="line">    print(&quot;function:\n&quot;,c_e2)</span><br></pre></td></tr></table></figure>
-<p>运行结果为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">softmax:</span><br><span class="line"> [5.8356632e-02 8.6312823e-02 1.8110682e-01 ... 1.0946491e-05 9.1511438e-06</span><br><span class="line"> 1.0718737e-05]</span><br><span class="line">cross_entropy:</span><br><span class="line"> 11.060587</span><br><span class="line">function:</span><br><span class="line"> 11.060587</span><br></pre></td></tr></table></figure>
-<p>可以看到，不管是分开计算还是调用函数计算，其结果和例子源代码中得到的结果相同。这就是sparse_softmax_cross_entropy_with_logits函数的计算过程，tf.contrib.legacy_seq2seq.sequence_loss_by_example函数的计算过程就是在其内部的每个时间步中调用sparse_softmax_cross_entropy_with_logits函数即可。</p>
+<pre><code>loss = tf.contrib.legacy_seq2seq.sequence_loss_by_example(    # 这个函数先求解softmax，再求解交叉熵
+        [logits],
+        [tf.reshape(input_.targets, [-1])],
+        [tf.ones([batch_size * num_steps], dtype=tf.float32)])
+</code></pre><p>得到的loss（这里取loss[0]）取出，单独通过tf.nn.softmax以及交叉熵公式来依存计算这个过程。<br>首先来看下通过例子源代码取出的数据情况：</p>
+<pre><code>logits shape:
+(10000,)
+logits value:
+[ 7.8470936   8.238499    8.979608   ... -0.73421586 -0.913356
+ -0.7552418 ]
+target value:
+9971
+loss value:
+11.060587
+</code></pre><p>自己计算的代码为：</p>
+<pre><code>import tensorflow as tf
+# 将单词id转化为one-hot模式
+target=list([0]*10000)
+target[9971]=1
+target=np.array(target)
+# 转化为张量
+logits=tf.convert_to_tensor(r[&#39;logits&#39;],dtype=float)
+y_=tf.convert_to_tensor(target,dtype=float)
+
+# 法1，分开计算----------------------------------------------------
+# 计算softmax
+y=tf.nn.softmax(logits)
+# 计算交叉熵
+cross_entropy=-tf.reduce_sum(y_*tf.log(y))
+# 法2，调用函数计算-------------------------------------------------
+# 调用函数计算
+cross_entropy2=tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=logits,labels=y_))
+
+with tf.Session() as sess:
+    softmax=sess.run(y)
+    c_e=sess.run(cross_entropy)
+    c_e2=sess.run(cross_entropy2)
+    print(&quot;softmax:\n&quot;,softmax)
+    print(&quot;cross_entropy:\n&quot;,c_e)
+    print(&quot;function:\n&quot;,c_e2)
+</code></pre><p>运行结果为：</p>
+<pre><code>softmax:
+ [5.8356632e-02 8.6312823e-02 1.8110682e-01 ... 1.0946491e-05 9.1511438e-06
+ 1.0718737e-05]
+cross_entropy:
+ 11.060587
+function:
+ 11.060587
+</code></pre><p>可以看到，不管是分开计算还是调用函数计算，其结果和例子源代码中得到的结果相同。这就是sparse_softmax_cross_entropy_with_logits函数的计算过程，tf.contrib.legacy_seq2seq.sequence_loss_by_example函数的计算过程就是在其内部的每个时间步中调用sparse_softmax_cross_entropy_with_logits函数即可。</p>
 <h3 id="4-小结"><a href="#4-小结" class="headerlink" title="4  小结"></a>4  小结</h3><p>本文通过tensorflow官方提供的基于LSTM的语言模型ptb_word_lm.py例子中的部分代码，对tf.contrib.legacy_seq2seq.sequence_loss_by_example函数的计算过程进行了简单的介绍，这其中的理论知识可以查看前文中链接到的哪些博文，这里只是纯介绍计算过程，因为这也是我最近遇到的问题。我也不知道有没有错，如果文中有写错或者理解错误的地方，请大家及时联系我纠正，谢谢！</p>
 <h3 id="参考文献（时间仓促，就没单独整理了）"><a href="#参考文献（时间仓促，就没单独整理了）" class="headerlink" title="参考文献（时间仓促，就没单独整理了）"></a>参考文献（时间仓促，就没单独整理了）</h3><p>【1】前文提到的所有链接<br>【2】tensorflow官方文档以及官方代码</p>
 

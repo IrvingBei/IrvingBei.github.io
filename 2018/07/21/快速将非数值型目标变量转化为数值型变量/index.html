@@ -6,8 +6,12 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="快速将非数值型目标变量转化为数值型变量, IrvingBei">
     <meta name="description" content="快速将非数值型目标变量转化为数值型变量，比如把[‘L’,’M’,’N’]转化为[1,2,3]或多维向量类型
-转化前：1df_train.y.value_counts()
-12345678C    620R    477G    361M  ">
+转化前：
+df_train.y.value_counts()
+C    620
+R    477
+G    361
+M    353">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -26,9 +30,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -421,7 +425,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    271
+                    286
                 </div>
                 
 
@@ -445,14 +449,59 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>快速将非数值型目标变量转化为数值型变量，比如把[‘L’,’M’,’N’]转化为[1,2,3]或多维向量类型<a id="more"></a></p>
-<p>转化前：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_train.y.value_counts()</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C    620</span><br><span class="line">R    477</span><br><span class="line">G    361</span><br><span class="line">M    353</span><br><span class="line">L    267</span><br><span class="line">T    216</span><br><span class="line">E     87</span><br><span class="line">Name: y, dtype: int64</span><br></pre></td></tr></table></figure>
-<h3 id="法1：转化为一维型"><a href="#法1：转化为一维型" class="headerlink" title="法1：转化为一维型"></a>法1：转化为一维型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import preprocessing</span><br><span class="line"># 获取目标变量列</span><br><span class="line">data_y=df_train[&apos;y&apos;]</span><br><span class="line"># 获取目标变量值</span><br><span class="line">y_labels=list(data_y.value_counts().index)</span><br><span class="line"># 创建标签预处理器</span><br><span class="line">le=preprocessing.LabelEncoder()</span><br><span class="line">le.fit(y_labels)</span><br><span class="line"></span><br><span class="line"># 对每一个标签值进行映射</span><br><span class="line">y=data_y.map(lambda x :le.transform([x])[0])</span><br><span class="line">y.value_counts()</span><br></pre></td></tr></table></figure>
-<p>转化后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0    620</span><br><span class="line">5    477</span><br><span class="line">2    361</span><br><span class="line">4    353</span><br><span class="line">3    267</span><br><span class="line">6    216</span><br><span class="line">1     87</span><br><span class="line">Name: y, dtype: int64</span><br></pre></td></tr></table></figure></p>
-<h3 id="法2：转化为多维型"><a href="#法2：转化为多维型" class="headerlink" title="法2：转化为多维型"></a>法2：转化为多维型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from keras.utils.np_utils import to_categorical</span><br><span class="line">from sklearn import preprocessing</span><br><span class="line"># 获取目标变量列</span><br><span class="line">data_y=df_train[&apos;y&apos;]</span><br><span class="line"># 获取目标变量值</span><br><span class="line">y_labels=list(data_y.value_counts().index)</span><br><span class="line"># 创建标签预处理器</span><br><span class="line">le=preprocessing.LabelEncoder()</span><br><span class="line">le.fit(y_labels)</span><br><span class="line"># 获取标签的类别数</span><br><span class="line">num_labels=len(y_labels)</span><br><span class="line"></span><br><span class="line"># 对每一个标签值进行映射</span><br><span class="line">y=to_categorical(data_y.map(lambda x :le.transform([x])[0]),num_labels)</span><br><span class="line">print(y[:5])</span><br></pre></td></tr></table></figure>
-<p>转化后：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array([[0., 0., 0., 0., 0., 0., 1.],</span><br><span class="line">       [0., 0., 0., 0., 0., 0., 1.],</span><br><span class="line">       [0., 0., 1., 0., 0., 0., 0.],</span><br><span class="line">       [0., 0., 1., 0., 0., 0., 0.],</span><br><span class="line">       [0., 0., 1., 0., 0., 0., 0.]])</span><br></pre></td></tr></table></figure>
+<p>转化前：</p>
+<pre><code>df_train.y.value_counts()
+</code></pre><pre><code>C    620
+R    477
+G    361
+M    353
+L    267
+T    216
+E     87
+Name: y, dtype: int64
+</code></pre><h3 id="法1：转化为一维型"><a href="#法1：转化为一维型" class="headerlink" title="法1：转化为一维型"></a>法1：转化为一维型</h3><pre><code>from sklearn import preprocessing
+# 获取目标变量列
+data_y=df_train[&#39;y&#39;]
+# 获取目标变量值
+y_labels=list(data_y.value_counts().index)
+# 创建标签预处理器
+le=preprocessing.LabelEncoder()
+le.fit(y_labels)
 
+# 对每一个标签值进行映射
+y=data_y.map(lambda x :le.transform([x])[0])
+y.value_counts()
+</code></pre><p>转化后：</p>
+<pre><code>0    620
+5    477
+2    361
+4    353
+3    267
+6    216
+1     87
+Name: y, dtype: int64
+</code></pre><h3 id="法2：转化为多维型"><a href="#法2：转化为多维型" class="headerlink" title="法2：转化为多维型"></a>法2：转化为多维型</h3><pre><code>from keras.utils.np_utils import to_categorical
+from sklearn import preprocessing
+# 获取目标变量列
+data_y=df_train[&#39;y&#39;]
+# 获取目标变量值
+y_labels=list(data_y.value_counts().index)
+# 创建标签预处理器
+le=preprocessing.LabelEncoder()
+le.fit(y_labels)
+# 获取标签的类别数
+num_labels=len(y_labels)
+
+# 对每一个标签值进行映射
+y=to_categorical(data_y.map(lambda x :le.transform([x])[0]),num_labels)
+print(y[:5])
+</code></pre><p>转化后：</p>
+<pre><code>array([[0., 0., 0., 0., 0., 0., 1.],
+       [0., 0., 0., 0., 0., 0., 1.],
+       [0., 0., 1., 0., 0., 0., 0.],
+       [0., 0., 1., 0., 0., 0., 0.],
+       [0., 0., 1., 0., 0., 0., 0.]])
+</code></pre>
             </div>
             <hr/>
 
@@ -605,7 +654,8 @@
                         
                             1  任务描述本实验利用提供的20个种类的数据集，完成KQA的任务。
 2 具体实现任务整体流程如图所示：
-（1）引入必要的包12345678910111213from __future__ import print_functionfrom
+（1）引入必要的包from __future__ import print_function
+from functools impor
                         
                     </div>
                     <div class="publish-info">

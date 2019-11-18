@@ -25,9 +25,9 @@ Given an array of integers nums, write a method that returns the “pivot” ind
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -416,7 +416,7 @@ Given an array of integers nums, write a method that returns the “pivot” ind
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    357
+                    347
                 </div>
                 
 
@@ -443,8 +443,40 @@ Given an array of integers nums, write a method that returns the “pivot” ind
 <p>Given an array of integers nums, write a method that returns the “pivot” index of this array.<br>We define the pivot index as the index where the sum of the numbers to the left of the index is equal to the sum of the numbers to the right of the index.<br>If no such index exists, we should return -1. If there are multiple pivot indexes, you should return the left-most pivot index.<br><a id="more"></a></p>
 </blockquote>
 <h3 id="1-基本思路"><a href="#1-基本思路" class="headerlink" title="1 基本思路"></a>1 基本思路</h3><p>可以利用空间换时间，依次将从左边累加和从右边累加的结果分别保存在两个数组中，然后逐一比较这两个累加数组，当相等，则返回当前下标。<br>为什么两个累加数组中，相同索引i所对应的数组元素值想等，该下i标就是所要求的呢？因为左边累加的数组减去当前元素，就是i左边所有元素之和，而右累加数组减去当前元素，就是i右边元素之和，而减去的元素值是同一个，所有i满足条件。</p>
-<h3 id="2-完整代码"><a href="#2-完整代码" class="headerlink" title="2 完整代码"></a>2 完整代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int pivotIndex(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">        //获取数组中元素个数</span><br><span class="line">        int len=nums.size();</span><br><span class="line">        int* a=new int[len];</span><br><span class="line">        int* b=new int[len];</span><br><span class="line">        if(len==0)</span><br><span class="line">            return -1;</span><br><span class="line">        if(len==1)</span><br><span class="line">            return 0;</span><br><span class="line">        int sumi=0;</span><br><span class="line">        int sumj=0;</span><br><span class="line">        int i=0;</span><br><span class="line">        int j=len-1;</span><br><span class="line">        for(i=0;i&lt;len;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            sumi=nums[i]+sumi;</span><br><span class="line">            a[i]=sumi;</span><br><span class="line">        &#125;</span><br><span class="line">        for(j=len-1;j&gt;-1;j--)</span><br><span class="line">        &#123;</span><br><span class="line">            sumj=sumj+nums[j];</span><br><span class="line">            b[j]=sumj;</span><br><span class="line">        &#125;</span><br><span class="line">        for(i=0;i&lt;len;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(a[i]==b[i])</span><br><span class="line">                return i;</span><br><span class="line">        &#125;</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
+<h3 id="2-完整代码"><a href="#2-完整代码" class="headerlink" title="2 完整代码"></a>2 完整代码</h3><pre><code>class Solution {
+public:
+    int pivotIndex(vector&lt;int&gt;&amp; nums) {
+        //获取数组中元素个数
+        int len=nums.size();
+        int* a=new int[len];
+        int* b=new int[len];
+        if(len==0)
+            return -1;
+        if(len==1)
+            return 0;
+        int sumi=0;
+        int sumj=0;
+        int i=0;
+        int j=len-1;
+        for(i=0;i&lt;len;i++)
+        {
+            sumi=nums[i]+sumi;
+            a[i]=sumi;
+        }
+        for(j=len-1;j&gt;-1;j--)
+        {
+            sumj=sumj+nums[j];
+            b[j]=sumj;
+        }
+        for(i=0;i&lt;len;i++)
+        {
+            if(a[i]==b[i])
+                return i;
+        }
+        return -1;
+    }
+};
+</code></pre>
             </div>
             <hr/>
 
@@ -593,7 +625,8 @@ Given an array of integers nums, write a method that returns the “pivot” ind
                         
                             本篇是《NLTK基础教程》第一章的第三节，向NLTK迈进中的一个例子，获取网页中的文本的三种方法。
 1 抓取网页这里主要是用了urllib库中的函数来抓取指定网页，代码如下：
-1234import urllib.requestrespons
+import urllib.request
+response=u
                         
                     </div>
                     <div class="publish-info">
@@ -650,7 +683,7 @@ Given an array of integers nums, write a method that returns the “pivot” ind
 上一篇中我们简单的介绍了利用线性回归分析并预测波士顿房价数据集，那么在这一篇中，将使用相同的模型来对红酒数据集进行分析。
 
 1 基本要求利用线性回归，对红酒数据集进行分析。数据集下载地址。
-2 完整代码123456789101112131
+2 完整代码#-*- coding: UTF-8
                         
                     </div>
                     <div class="publish-info">

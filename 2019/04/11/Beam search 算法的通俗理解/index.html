@@ -24,9 +24,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -438,10 +438,11 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。<br>在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。<br>有如下从中文到英语的翻译：<br>中文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我 爱 学习，学习 使 我 快乐</span><br></pre></td></tr></table></figure></p>
-<p>英语：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I love learning, learning makes me happy</span><br></pre></td></tr></table></figure>
-<p>在这个测试中，中文的词汇表是{我，爱，学习，使，快乐}，长度为5。英语的词汇表是{I, love, learning, make, me, happy}（全部转化为小写），长度为6。那么首先使用seq2seq中的编码器对中文序列（记这个中文序列为$X$）进行编码，得到语义向量$C$。<br><img src="https://img-blog.csdnimg.cn/20190411204526407.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="seq2seq"><br>得到语义向量$C$后，进入解码阶段，依次翻译成目标语言。在正式解码之前，有一个参数需要设置，那就是beam search中的beam size，这个参数就相当于top-k中的k，选择前k个最有可能的结果。在本例中，我们选择beam size=3。</p>
+                <p>Beam search 算法在文本生成中用得比较多，用于选择较优的结果（可能并不是最优的）。接下来将以seq2seq机器翻译为例来说明这个Beam search的算法思想。<br>在机器翻译中，beam search算法在测试的时候用的，因为在训练过程中，每一个decoder的输出是有与之对应的正确答案做参照，也就不需要beam search去加大输出的准确率。<br>有如下从中文到英语的翻译：<br>中文：</p>
+<pre><code>我 爱 学习，学习 使 我 快乐
+</code></pre><p>英语：</p>
+<pre><code>I love learning, learning makes me happy
+</code></pre><p>在这个测试中，中文的词汇表是{我，爱，学习，使，快乐}，长度为5。英语的词汇表是{I, love, learning, make, me, happy}（全部转化为小写），长度为6。那么首先使用seq2seq中的编码器对中文序列（记这个中文序列为$X$）进行编码，得到语义向量$C$。<br><img src="https://img-blog.csdnimg.cn/20190411204526407.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="seq2seq"><br>得到语义向量$C$后，进入解码阶段，依次翻译成目标语言。在正式解码之前，有一个参数需要设置，那就是beam search中的beam size，这个参数就相当于top-k中的k，选择前k个最有可能的结果。在本例中，我们选择beam size=3。</p>
 <p>来看解码器的第一个输出$y_1$，在给定语义向量$C$的情况下，首先选择英语词汇表中最有可能k个单词，也就是依次选择条件概率$P(y_1|C)$前3大对应的单词，比如这里概率最大的前三个单词依次是$I$，$learning$，$happy$。</p>
 <p>接着生成第二个输出$y_2$，在这个时候我们得到了那些东西呢，首先我们得到了编码阶段的语义向量$C$，还有第一个输出$y_1$。此时有个问题，$y_1$有三个，怎么作为这一时刻的输入呢（解码阶段需要将前一时刻的输出作为当前时刻的输入），答案就是都试下，具体做法是：</p>
 <ul>

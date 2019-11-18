@@ -25,9 +25,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -447,14 +447,159 @@
 <h3 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1  基本概念"></a>1  基本概念</h3><p>一个分类模型(分类器)是一个将某个实例映射到一个特定类的过程.分类器的结果可以是给出该实例所属的类别，也可以给定该实例属于某个类别的概率。<br>首先来考虑一个两类预测问题(双分类器),其结果要么是真(p)要么是假(n).在双分类器中有4类可能的输出.如果输出的预测是p而真实的结果也是p,那么这就叫做真阳性(TP);然而如果真实的结果是n,则这就叫做假阳性(FP).相反的来说,一个真阴性发生在预测结果和实际结果都为n的时候,而假阴性是当预测输出是n而实际值是p的时候，这几种情况可以用下面的矩阵来组织。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/roc1.png" alt="分类情况"><br>举一个现实世界中的恰当的例子,考虑一个检测一个人是否得一种病的测试.一个假阳性就是一个人被测试是有这种病的,但实际却没有的情况.一个假阴性就是一个人被测试是健康的,但实际却是得病的情况。<br>上面那个矩阵就称为混淆矩阵：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/fpr-and-tpr.png" alt="混淆矩阵"><br>由图中公式可知各个指标的含义：<br><strong>precision</strong>：预测为对的当中，原本为对的比例（越大越好，1为理想状态）<br><strong>recall：</strong>原本为对的当中，预测为对的比例（越大越好，1为理想状态）<br><strong>F-measure</strong>：F度量是对准确率和召回率做一个权衡（越大越好，1为理想状态，此时precision为1，recall为1）<br><strong>accuracy</strong>：预测对的（包括原本是对预测为对，原本是错的预测为错两种情形）占整个的比例（越大越好，1为理想状态）<br><strong>fp rate</strong>：原本是错的预测为对的比例（越小越好，0为理想状态）<br><strong>tp rate</strong>：原本是对的预测为对的比例（越大越好，1为理想状态）<br>在了解了上述的一些指标的含义以及计算公式后，接下来就可以进入ROC曲线了。<br>如下示例图中，曲线的横坐标为false positive rate（FPR），纵坐标为true positive rate（TPR）。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/Roccurves.png" alt="ROC曲线示例"><br>要生成一个ROC曲线,只需要真阳性率(TPR)和假阳性率(FPR)。TPR决定了一个分类器或者一个诊断测试在所有阳性样本中能正确区分的阳性案例的性能.而FPR是决定了在所有阴性的样本中有多少假阳性的判断. ROC曲线中分别将FPR和TPR定义为x和y轴,这样就描述了真阳性(获利)和假阳性(成本)之间的博弈.而TPR就可以定义为灵敏度,而FPR就定义为1-特异度,因此ROC曲线有时候也叫做灵敏度和1-特异度图像.每一个预测结果在ROC曲线中以一个点代表.<br>有了ROC曲线后，可以引出AUC的含义：ROC曲线下的面积（越大越好，1为理想状态）</p>
 <h3 id="2-ROC曲线图中的特殊点和线"><a href="#2-ROC曲线图中的特殊点和线" class="headerlink" title="2  ROC曲线图中的特殊点和线"></a>2  ROC曲线图中的特殊点和线</h3><h4 id="（1）ROC曲线图中的四个点"><a href="#（1）ROC曲线图中的四个点" class="headerlink" title="（1）ROC曲线图中的四个点"></a>（1）ROC曲线图中的四个点</h4><p>第一个点，(0,1)，即FPR=0, TPR=1，这意味着FN（false negative）=0，并且FP（false positive）=0。这是一个完美的分类器，它将所有的样本都正确分类。第二个点，(1,0)，即FPR=1，TPR=0，类似地分析可以发现这是一个最糟糕的分类器，因为它成功避开了所有的正确答案。第三个点，(0,0)，即FPR=TPR=0，即FP（false positive）=TP（true positive）=0，可以发现该分类器预测所有的样本都为负样本（negative）。类似的，第四个点（1,1），分类器实际上预测所有的样本都为正样本。经过以上的分析，，ROC曲线越接近左上角，该分类器的性能越好。</p>
 <h4 id="（2）ROC曲线图中的一条特殊线"><a href="#（2）ROC曲线图中的一条特殊线" class="headerlink" title="（2）ROC曲线图中的一条特殊线"></a>（2）ROC曲线图中的一条特殊线</h4><p>考虑ROC曲线图中的虚线y=x上的点。这条对角线上的点其实表示的是一个采用随机猜测策略的分类器的结果，例如(0.5,0.5)，表示该分类器随机对于一半的样本猜测其为正样本，另外一半的样本为负样本。</p>
-<h3 id="3-如何画ROC曲线"><a href="#3-如何画ROC曲线" class="headerlink" title="3  如何画ROC曲线"></a>3  如何画ROC曲线</h3><p>对于一个特定的分类器和测试数据集，每一个实例都会得到一个分类结果，通过统计，利用上述公式，可以得到一组FPR和TPR结果，而要得到一个曲线，实际上需要一系列FPR和TPR的值。那么这一系列值是怎么构造出来的呢？<br>在ROC曲线的定义中，有“as its discrimination threshold is varied.”这样一句话，而在本文最开始也提到了分类器的结果可以是“概率输出”，即表示分类器认为某个样本具有多大的概率属于正样本（或负样本），于是如果设置不同的threshold，那么分类结果就会有所变动，因此可以得到一系列FPR和TPR的值。<br>接下来就是利用python实现ROC曲线，sklearn.metrics有roc_curve, auc两个函数，本文主要就是通过这两个函数实现二分类和多分类的ROC曲线。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fpr, tpr, thresholds  =  roc_curve(y_test, scores)</span><br></pre></td></tr></table></figure></p>
-<p>其中y_test为测试集的结果，scores为模型预测的测试集得分（注意：通过decision_function(x_test)计算scores的值）；fpr,tpr,thresholds 分别为假正率、真正率和阈值。（应该是不同阈值下的真正率和假正率）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roc_auc =auc(fpr, tpr)</span><br></pre></td></tr></table></figure></p>
-<p>其中roc_auc为计算的acu的值。</p>
-<h4 id="（1）二分类问题中的ROC曲线"><a href="#（1）二分类问题中的ROC曲线" class="headerlink" title="（1）二分类问题中的ROC曲线"></a>（1）二分类问题中的ROC曲线</h4><p>本实例中的数据来源于sklearn中的鸢尾花（iris）数据，代码来源于LZ_Zack的博客，在最后参考链接里面会给出原博客的链接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from sklearn import svm, datasets</span><br><span class="line">from sklearn.metrics import roc_curve, auc  ###计算roc和auc</span><br><span class="line">from sklearn import cross_validation</span><br><span class="line"> </span><br><span class="line"># Import some data to play with</span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"> </span><br><span class="line">##变为2分类</span><br><span class="line">X, y = X[y != 2], y[y != 2]</span><br><span class="line"> </span><br><span class="line"># Add noisy features to make the problem harder</span><br><span class="line">random_state = np.random.RandomState(0)</span><br><span class="line">n_samples, n_features = X.shape</span><br><span class="line">X = np.c_[X, random_state.randn(n_samples, 200 * n_features)]</span><br><span class="line"> </span><br><span class="line"># shuffle and split training and test sets</span><br><span class="line">X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=.3,random_state=0)</span><br><span class="line"> </span><br><span class="line"># Learn to predict each class against the other</span><br><span class="line">svm = svm.SVC(kernel=&apos;linear&apos;, probability=True,random_state=random_state)</span><br><span class="line"> </span><br><span class="line">###通过decision_function()计算得到的y_score的值，用在roc_curve()函数中</span><br><span class="line">y_score = svm.fit(X_train, y_train).decision_function(X_test)</span><br><span class="line"> </span><br><span class="line"># Compute ROC curve and ROC area for each class</span><br><span class="line">fpr,tpr,threshold = roc_curve(y_test, y_score) ###计算真正率和假正率</span><br><span class="line">roc_auc = auc(fpr,tpr) ###计算auc的值</span><br><span class="line"> </span><br><span class="line">plt.figure()</span><br><span class="line">lw = 2</span><br><span class="line">plt.figure(figsize=(10,10))</span><br><span class="line">plt.plot(fpr, tpr, color=&apos;darkorange&apos;,</span><br><span class="line">         lw=lw, label=&apos;ROC curve (area = %0.2f)&apos; % roc_auc) ###假正率为横坐标，真正率为纵坐标做曲线</span><br><span class="line">plt.plot([0, 1], [0, 1], color=&apos;navy&apos;, lw=lw, linestyle=&apos;--&apos;)</span><br><span class="line">plt.xlim([0.0, 1.0])</span><br><span class="line">plt.ylim([0.0, 1.05])</span><br><span class="line">plt.xlabel(&apos;False Positive Rate&apos;)</span><br><span class="line">plt.ylabel(&apos;True Positive Rate&apos;)</span><br><span class="line">plt.title(&apos;Receiver operating characteristic example&apos;)</span><br><span class="line">plt.legend(loc=&quot;lower right&quot;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
-<p>该实例的ROC图如下所示：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/roc2.png" alt="二分类的ROC曲线"></p>
-<h4 id="（2）多分类问题中的ROC曲线"><a href="#（2）多分类问题中的ROC曲线" class="headerlink" title="（2）多分类问题中的ROC曲线"></a>（2）多分类问题中的ROC曲线</h4><p>对于多分类问题，ROC曲线的获取主要有两种方法：<br>假设测试样本个数为m，类别个数为n。在训练完成后，计算出每个测试样本的在各类别下的概率或置信度，得到一个[m， n]形状的矩阵P，每一行表示一个测试样本在各类别下概率值（按类别标签排序）。相应地，将每个测试样本的标签转换为类似二进制的形式，每个位置用来标记是否属于对应的类别（也按标签排序，这样才和前面对应），由此也可以获得一个[m， n]的标签矩阵L。<br>①方法一：每种类别下，都可以得到m个测试样本为该类别的概率（矩阵P中的列）。所以，根据概率矩阵P和标签矩阵L中对应的每一列，可以计算出各个阈值下的假正例率（FPR）和真正例率（TPR），从而绘制出一条ROC曲线。这样总共可以绘制出n条ROC曲线。最后对n条ROC曲线取平均，即可得到最终的ROC曲线。<br>②方法二：<br>首先，对于一个测试样本：1）标签只由0和1组成，1的位置表明了它的类别（可对应二分类问题中的‘’正’’），0就表示其他类别（‘’负‘’）；2）要是分类器对该测试样本分类正确，则该样本标签中1对应的位置在概率矩阵P中的值是大于0对应的位置的概率值的。基于这两点，将标签矩阵L和概率矩阵P分别按行展开，转置后形成两列，这就得到了一个二分类的结果。所以，此方法经过计算后可以直接得到最终的ROC曲线。<br>上面的两个方法得到的ROC曲线是不同的，当然曲线下的面积AUC也是不一样的。 在python中，方法1和方法2分别对应sklearn.metrics.roc_auc_score函数中参数average值为’macro’和’micro’的情况。下面参考sklearn官网提供的例子，对两种方法进行实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"># 引入必要的库</span><br><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from itertools import cycle</span><br><span class="line">from sklearn import svm, datasets</span><br><span class="line">from sklearn.metrics import roc_curve, auc</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">from sklearn.preprocessing import label_binarize</span><br><span class="line">from sklearn.multiclass import OneVsRestClassifier</span><br><span class="line">from scipy import interp</span><br><span class="line"></span><br><span class="line"># 加载数据</span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"># 将标签二值化</span><br><span class="line">y = label_binarize(y, classes=[0, 1, 2])</span><br><span class="line"># 设置种类</span><br><span class="line">n_classes = y.shape[1]</span><br><span class="line"></span><br><span class="line"># 训练模型并预测</span><br><span class="line">random_state = np.random.RandomState(0)</span><br><span class="line">n_samples, n_features = X.shape</span><br><span class="line"></span><br><span class="line"># shuffle and split training and test sets</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.5,random_state=0)</span><br><span class="line"></span><br><span class="line"># Learn to predict each class against the other</span><br><span class="line">classifier = OneVsRestClassifier(svm.SVC(kernel=&apos;linear&apos;, probability=True,</span><br><span class="line">                                 random_state=random_state))</span><br><span class="line">y_score = classifier.fit(X_train, y_train).decision_function(X_test)</span><br><span class="line"></span><br><span class="line"># 计算每一类的ROC</span><br><span class="line">fpr = dict()</span><br><span class="line">tpr = dict()</span><br><span class="line">roc_auc = dict()</span><br><span class="line">for i in range(n_classes):</span><br><span class="line">    fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])</span><br><span class="line">    roc_auc[i] = auc(fpr[i], tpr[i])</span><br><span class="line"></span><br><span class="line"># Compute micro-average ROC curve and ROC area（方法二）</span><br><span class="line">fpr[&quot;micro&quot;], tpr[&quot;micro&quot;], _ = roc_curve(y_test.ravel(), y_score.ravel())</span><br><span class="line">roc_auc[&quot;micro&quot;] = auc(fpr[&quot;micro&quot;], tpr[&quot;micro&quot;])</span><br><span class="line"></span><br><span class="line"># Compute macro-average ROC curve and ROC area（方法一）</span><br><span class="line"># First aggregate all false positive rates</span><br><span class="line">all_fpr = np.unique(np.concatenate([fpr[i] for i in range(n_classes)]))</span><br><span class="line"># Then interpolate all ROC curves at this points</span><br><span class="line">mean_tpr = np.zeros_like(all_fpr)</span><br><span class="line">for i in range(n_classes):</span><br><span class="line">    mean_tpr += interp(all_fpr, fpr[i], tpr[i])</span><br><span class="line"># Finally average it and compute AUC</span><br><span class="line">mean_tpr /= n_classes</span><br><span class="line">fpr[&quot;macro&quot;] = all_fpr</span><br><span class="line">tpr[&quot;macro&quot;] = mean_tpr</span><br><span class="line">roc_auc[&quot;macro&quot;] = auc(fpr[&quot;macro&quot;], tpr[&quot;macro&quot;])</span><br><span class="line"></span><br><span class="line"># Plot all ROC curves</span><br><span class="line">lw=2</span><br><span class="line">plt.figure()</span><br><span class="line">plt.plot(fpr[&quot;micro&quot;], tpr[&quot;micro&quot;],</span><br><span class="line">         label=&apos;micro-average ROC curve (area = &#123;0:0.2f&#125;)&apos;</span><br><span class="line">               &apos;&apos;.format(roc_auc[&quot;micro&quot;]),</span><br><span class="line">         color=&apos;deeppink&apos;, linestyle=&apos;:&apos;, linewidth=4)</span><br><span class="line"></span><br><span class="line">plt.plot(fpr[&quot;macro&quot;], tpr[&quot;macro&quot;],</span><br><span class="line">         label=&apos;macro-average ROC curve (area = &#123;0:0.2f&#125;)&apos;</span><br><span class="line">               &apos;&apos;.format(roc_auc[&quot;macro&quot;]),</span><br><span class="line">         color=&apos;navy&apos;, linestyle=&apos;:&apos;, linewidth=4)</span><br><span class="line"></span><br><span class="line">colors = cycle([&apos;aqua&apos;, &apos;darkorange&apos;, &apos;cornflowerblue&apos;])</span><br><span class="line">for i, color in zip(range(n_classes), colors):</span><br><span class="line">    plt.plot(fpr[i], tpr[i], color=color, lw=lw,</span><br><span class="line">             label=&apos;ROC curve of class &#123;0&#125; (area = &#123;1:0.2f&#125;)&apos;</span><br><span class="line">             &apos;&apos;.format(i, roc_auc[i]))</span><br><span class="line"></span><br><span class="line">plt.plot([0, 1], [0, 1], &apos;k--&apos;, lw=lw)</span><br><span class="line">plt.xlim([0.0, 1.0])</span><br><span class="line">plt.ylim([0.0, 1.05])</span><br><span class="line">plt.xlabel(&apos;False Positive Rate&apos;)</span><br><span class="line">plt.ylabel(&apos;True Positive Rate&apos;)</span><br><span class="line">plt.title(&apos;Some extension of Receiver operating characteristic to multi-class&apos;)</span><br><span class="line">plt.legend(loc=&quot;lower right&quot;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
-<p>画出的ROC曲线如下图所示。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/roc3.png" alt="多分类的ROC曲线"><br>如果是只需画出具体的某一类的ROC曲线，只需要修改下画图代码即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">lw = 2</span><br><span class="line">plt.plot(fpr[2], tpr[2], color=&apos;darkorange&apos;,</span><br><span class="line">         lw=lw, label=&apos;ROC curve (area = %0.2f)&apos; % roc_auc[2])</span><br><span class="line">plt.plot([0, 1], [0, 1], color=&apos;navy&apos;, lw=lw, linestyle=&apos;--&apos;)</span><br><span class="line">plt.xlim([0.0, 1.0])</span><br><span class="line">plt.ylim([0.0, 1.05])</span><br><span class="line">plt.xlabel(&apos;False Positive Rate&apos;)</span><br><span class="line">plt.ylabel(&apos;True Positive Rate&apos;)</span><br><span class="line">plt.title(&apos;Receiver operating characteristic example&apos;)</span><br><span class="line">plt.legend(loc=&quot;lower right&quot;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
-<p>画出的ROC曲线如下图所示。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/roc4.png" alt="ROC曲线"></p>
+<h3 id="3-如何画ROC曲线"><a href="#3-如何画ROC曲线" class="headerlink" title="3  如何画ROC曲线"></a>3  如何画ROC曲线</h3><p>对于一个特定的分类器和测试数据集，每一个实例都会得到一个分类结果，通过统计，利用上述公式，可以得到一组FPR和TPR结果，而要得到一个曲线，实际上需要一系列FPR和TPR的值。那么这一系列值是怎么构造出来的呢？<br>在ROC曲线的定义中，有“as its discrimination threshold is varied.”这样一句话，而在本文最开始也提到了分类器的结果可以是“概率输出”，即表示分类器认为某个样本具有多大的概率属于正样本（或负样本），于是如果设置不同的threshold，那么分类结果就会有所变动，因此可以得到一系列FPR和TPR的值。<br>接下来就是利用python实现ROC曲线，sklearn.metrics有roc_curve, auc两个函数，本文主要就是通过这两个函数实现二分类和多分类的ROC曲线。</p>
+<pre><code>fpr, tpr, thresholds  =  roc_curve(y_test, scores)
+</code></pre><p>其中y_test为测试集的结果，scores为模型预测的测试集得分（注意：通过decision_function(x_test)计算scores的值）；fpr,tpr,thresholds 分别为假正率、真正率和阈值。（应该是不同阈值下的真正率和假正率）。</p>
+<pre><code>roc_auc =auc(fpr, tpr)
+</code></pre><p>其中roc_auc为计算的acu的值。</p>
+<h4 id="（1）二分类问题中的ROC曲线"><a href="#（1）二分类问题中的ROC曲线" class="headerlink" title="（1）二分类问题中的ROC曲线"></a>（1）二分类问题中的ROC曲线</h4><p>本实例中的数据来源于sklearn中的鸢尾花（iris）数据，代码来源于LZ_Zack的博客，在最后参考链接里面会给出原博客的链接。</p>
+<pre><code># -*- coding: utf-8 -*-
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import svm, datasets
+from sklearn.metrics import roc_curve, auc  ###计算roc和auc
+from sklearn import cross_validation
+
+# Import some data to play with
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+##变为2分类
+X, y = X[y != 2], y[y != 2]
+
+# Add noisy features to make the problem harder
+random_state = np.random.RandomState(0)
+n_samples, n_features = X.shape
+X = np.c_[X, random_state.randn(n_samples, 200 * n_features)]
+
+# shuffle and split training and test sets
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=.3,random_state=0)
+
+# Learn to predict each class against the other
+svm = svm.SVC(kernel=&#39;linear&#39;, probability=True,random_state=random_state)
+
+###通过decision_function()计算得到的y_score的值，用在roc_curve()函数中
+y_score = svm.fit(X_train, y_train).decision_function(X_test)
+
+# Compute ROC curve and ROC area for each class
+fpr,tpr,threshold = roc_curve(y_test, y_score) ###计算真正率和假正率
+roc_auc = auc(fpr,tpr) ###计算auc的值
+
+plt.figure()
+lw = 2
+plt.figure(figsize=(10,10))
+plt.plot(fpr, tpr, color=&#39;darkorange&#39;,
+         lw=lw, label=&#39;ROC curve (area = %0.2f)&#39; % roc_auc) ###假正率为横坐标，真正率为纵坐标做曲线
+plt.plot([0, 1], [0, 1], color=&#39;navy&#39;, lw=lw, linestyle=&#39;--&#39;)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel(&#39;False Positive Rate&#39;)
+plt.ylabel(&#39;True Positive Rate&#39;)
+plt.title(&#39;Receiver operating characteristic example&#39;)
+plt.legend(loc=&quot;lower right&quot;)
+plt.show()
+</code></pre><p>该实例的ROC图如下所示：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/roc2.png" alt="二分类的ROC曲线"></p>
+<h4 id="（2）多分类问题中的ROC曲线"><a href="#（2）多分类问题中的ROC曲线" class="headerlink" title="（2）多分类问题中的ROC曲线"></a>（2）多分类问题中的ROC曲线</h4><p>对于多分类问题，ROC曲线的获取主要有两种方法：<br>假设测试样本个数为m，类别个数为n。在训练完成后，计算出每个测试样本的在各类别下的概率或置信度，得到一个[m， n]形状的矩阵P，每一行表示一个测试样本在各类别下概率值（按类别标签排序）。相应地，将每个测试样本的标签转换为类似二进制的形式，每个位置用来标记是否属于对应的类别（也按标签排序，这样才和前面对应），由此也可以获得一个[m， n]的标签矩阵L。<br>①方法一：每种类别下，都可以得到m个测试样本为该类别的概率（矩阵P中的列）。所以，根据概率矩阵P和标签矩阵L中对应的每一列，可以计算出各个阈值下的假正例率（FPR）和真正例率（TPR），从而绘制出一条ROC曲线。这样总共可以绘制出n条ROC曲线。最后对n条ROC曲线取平均，即可得到最终的ROC曲线。<br>②方法二：<br>首先，对于一个测试样本：1）标签只由0和1组成，1的位置表明了它的类别（可对应二分类问题中的‘’正’’），0就表示其他类别（‘’负‘’）；2）要是分类器对该测试样本分类正确，则该样本标签中1对应的位置在概率矩阵P中的值是大于0对应的位置的概率值的。基于这两点，将标签矩阵L和概率矩阵P分别按行展开，转置后形成两列，这就得到了一个二分类的结果。所以，此方法经过计算后可以直接得到最终的ROC曲线。<br>上面的两个方法得到的ROC曲线是不同的，当然曲线下的面积AUC也是不一样的。 在python中，方法1和方法2分别对应sklearn.metrics.roc_auc_score函数中参数average值为’macro’和’micro’的情况。下面参考sklearn官网提供的例子，对两种方法进行实现。</p>
+<pre><code># 引入必要的库
+import numpy as np
+import matplotlib.pyplot as plt
+from itertools import cycle
+from sklearn import svm, datasets
+from sklearn.metrics import roc_curve, auc
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import label_binarize
+from sklearn.multiclass import OneVsRestClassifier
+from scipy import interp
+
+# 加载数据
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+# 将标签二值化
+y = label_binarize(y, classes=[0, 1, 2])
+# 设置种类
+n_classes = y.shape[1]
+
+# 训练模型并预测
+random_state = np.random.RandomState(0)
+n_samples, n_features = X.shape
+
+# shuffle and split training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.5,random_state=0)
+
+# Learn to predict each class against the other
+classifier = OneVsRestClassifier(svm.SVC(kernel=&#39;linear&#39;, probability=True,
+                                 random_state=random_state))
+y_score = classifier.fit(X_train, y_train).decision_function(X_test)
+
+# 计算每一类的ROC
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+for i in range(n_classes):
+    fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+
+# Compute micro-average ROC curve and ROC area（方法二）
+fpr[&quot;micro&quot;], tpr[&quot;micro&quot;], _ = roc_curve(y_test.ravel(), y_score.ravel())
+roc_auc[&quot;micro&quot;] = auc(fpr[&quot;micro&quot;], tpr[&quot;micro&quot;])
+
+# Compute macro-average ROC curve and ROC area（方法一）
+# First aggregate all false positive rates
+all_fpr = np.unique(np.concatenate([fpr[i] for i in range(n_classes)]))
+# Then interpolate all ROC curves at this points
+mean_tpr = np.zeros_like(all_fpr)
+for i in range(n_classes):
+    mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+# Finally average it and compute AUC
+mean_tpr /= n_classes
+fpr[&quot;macro&quot;] = all_fpr
+tpr[&quot;macro&quot;] = mean_tpr
+roc_auc[&quot;macro&quot;] = auc(fpr[&quot;macro&quot;], tpr[&quot;macro&quot;])
+
+# Plot all ROC curves
+lw=2
+plt.figure()
+plt.plot(fpr[&quot;micro&quot;], tpr[&quot;micro&quot;],
+         label=&#39;micro-average ROC curve (area = {0:0.2f})&#39;
+               &#39;&#39;.format(roc_auc[&quot;micro&quot;]),
+         color=&#39;deeppink&#39;, linestyle=&#39;:&#39;, linewidth=4)
+
+plt.plot(fpr[&quot;macro&quot;], tpr[&quot;macro&quot;],
+         label=&#39;macro-average ROC curve (area = {0:0.2f})&#39;
+               &#39;&#39;.format(roc_auc[&quot;macro&quot;]),
+         color=&#39;navy&#39;, linestyle=&#39;:&#39;, linewidth=4)
+
+colors = cycle([&#39;aqua&#39;, &#39;darkorange&#39;, &#39;cornflowerblue&#39;])
+for i, color in zip(range(n_classes), colors):
+    plt.plot(fpr[i], tpr[i], color=color, lw=lw,
+             label=&#39;ROC curve of class {0} (area = {1:0.2f})&#39;
+             &#39;&#39;.format(i, roc_auc[i]))
+
+plt.plot([0, 1], [0, 1], &#39;k--&#39;, lw=lw)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel(&#39;False Positive Rate&#39;)
+plt.ylabel(&#39;True Positive Rate&#39;)
+plt.title(&#39;Some extension of Receiver operating characteristic to multi-class&#39;)
+plt.legend(loc=&quot;lower right&quot;)
+plt.show()
+</code></pre><p>画出的ROC曲线如下图所示。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/roc3.png" alt="多分类的ROC曲线"><br>如果是只需画出具体的某一类的ROC曲线，只需要修改下画图代码即可。</p>
+<pre><code>plt.figure()
+lw = 2
+plt.plot(fpr[2], tpr[2], color=&#39;darkorange&#39;,
+         lw=lw, label=&#39;ROC curve (area = %0.2f)&#39; % roc_auc[2])
+plt.plot([0, 1], [0, 1], color=&#39;navy&#39;, lw=lw, linestyle=&#39;--&#39;)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel(&#39;False Positive Rate&#39;)
+plt.ylabel(&#39;True Positive Rate&#39;)
+plt.title(&#39;Receiver operating characteristic example&#39;)
+plt.legend(loc=&quot;lower right&quot;)
+plt.show()
+</code></pre><p>画出的ROC曲线如下图所示。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/roc4.png" alt="ROC曲线"></p>
 <h3 id="4-参考文献"><a href="#4-参考文献" class="headerlink" title="4  参考文献"></a>4  参考文献</h3><p>【1】(Fawcett, 2006)，Fawcett, T. (2006). An introduction to ROC analysis. Pattern recognition letters, 27(8), 861-874.<br>【2】Davis, J., &amp; Goadrich, M. (2006, June). The relationship between Precision-Recall and ROC curves. In Proceedings of the 23rd international conference on Machine learning (pp. 233-240). ACM.<br>【3】<a href="http://alexkong.net/2013/06/introduction-to-auc-and-roc/" target="_blank" rel="noopener">ROC和AUC介绍以及如何计算AUC</a><br>【4】<a href="https://www.cnblogs.com/haoguoeveryone/p/haoguo_5.html" target="_blank" rel="noopener">ROC曲线、AUC、Precision、Recall、F-measure理解及Python实现</a><br>【5】<a href="https://www.cnblogs.com/linkr/articles/2317072.html" target="_blank" rel="noopener">ROC曲线</a><br>【6】<a href="https://blog.csdn.net/YE1215172385/article/details/79443552" target="_blank" rel="noopener">多分类下的ROC曲线和AUC</a><br>【7】<a href="https://blog.csdn.net/lz_peter/article/details/78054914" target="_blank" rel="noopener">用Python画ROC曲线</a></p>
 
             </div>
@@ -669,7 +814,9 @@
                     <div class="summary block-with-text">
                         
                             1  任务描述本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务
-2 具体实现（1）引入必要的包123456from __future__ import print_functionimport numpy as npfro
+2 具体实现（1）引入必要的包from __future__ import print_function
+import numpy as np
+from ke
                         
                     </div>
                     <div class="publish-info">

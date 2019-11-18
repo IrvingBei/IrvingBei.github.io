@@ -6,7 +6,8 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="Keras examples-imdb_cnn[利用卷积神经网络对文本进行分类], IrvingBei">
     <meta name="description" content="1  任务描述本实验室利用卷积神经网络对imdb数据进行文本分类
-2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包1234567from __future__ import print_fu">
+2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包
+from __future__ import print_function">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -25,9 +26,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -420,7 +421,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    858
+                    869
                 </div>
                 
 
@@ -444,23 +445,77 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h3 id="1-任务描述"><a href="#1-任务描述" class="headerlink" title="1  任务描述"></a>1  任务描述</h3><p>本实验室利用卷积神经网络对imdb数据进行文本分类</p>
-<h3 id="2-实验过程"><a href="#2-实验过程" class="headerlink" title="2 实验过程"></a>2 实验过程</h3><h4 id="（1）引入实验中所涉及到的包"><a href="#（1）引入实验中所涉及到的包" class="headerlink" title="（1）引入实验中所涉及到的包"></a>（1）引入实验中所涉及到的包</h4><p>数据集包、数据预处理包、网络模型包、网络各层结构所对应的包<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing <span class="keyword">import</span> sequence</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense,Dropout,Activation</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Embedding </span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Conv1D,GlobalMaxPooling1D</span><br><span class="line"><span class="keyword">from</span> keras.datasets <span class="keyword">import</span> imdb</span><br></pre></td></tr></table></figure></p>
-<h4 id="（2）设置网络结构中的一些常数"><a href="#（2）设置网络结构中的一些常数" class="headerlink" title="（2）设置网络结构中的一些常数"></a>（2）设置网络结构中的一些常数</h4><p>主要包含了两方面的常数：一是数据处理过程中，词向量维度，词汇表长度等相关的参数；二是网络结构中参数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置词汇表的长度，在数据预处理过程中，选择词汇字典中前max_features索引的词汇。</span></span><br><span class="line">max_features=<span class="number">5000</span></span><br><span class="line"><span class="comment"># 将每个句子填充或截断至maxlen长度</span></span><br><span class="line">maxlen=<span class="number">400</span></span><br><span class="line">batch_size=<span class="number">32</span></span><br><span class="line"><span class="comment"># 设置词向量的维度</span></span><br><span class="line">embedding_dims=<span class="number">50</span></span><br><span class="line">filters=<span class="number">250</span></span><br><span class="line">kernel_size=<span class="number">3</span></span><br><span class="line"><span class="comment"># 设置全连接层中，神经元的个数</span></span><br><span class="line">hidden_dims=<span class="number">250</span></span><br><span class="line">epochs=<span class="number">2</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="（3）加载数据与数据预处理"><a href="#（3）加载数据与数据预处理" class="headerlink" title="（3）加载数据与数据预处理"></a>（3）加载数据与数据预处理</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"loading data..."</span>)</span><br><span class="line">(x_train,y_train),(x_test,y_test)=imdb.load_data(num_words=max_features)</span><br><span class="line">print(len(x_train),<span class="string">"train sequences"</span>)</span><br><span class="line">print(len(x_test),<span class="string">"test sequences"</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"pad sequences (samples*time)"</span>)</span><br><span class="line"><span class="comment"># 将每一条数据填充至相同的长度</span></span><br><span class="line">x_train=sequence.pad_sequences(x_train,maxlen=maxlen)</span><br><span class="line">x_test=sequence.pad_sequences(x_test,maxlen=maxlen)</span><br><span class="line">print(<span class="string">"x_train.shape:"</span>,x_train.shape)</span><br><span class="line">print(<span class="string">"x_test.shape:"</span>,x_test.shape)</span><br></pre></td></tr></table></figure>
+<h3 id="2-实验过程"><a href="#2-实验过程" class="headerlink" title="2 实验过程"></a>2 实验过程</h3><h4 id="（1）引入实验中所涉及到的包"><a href="#（1）引入实验中所涉及到的包" class="headerlink" title="（1）引入实验中所涉及到的包"></a>（1）引入实验中所涉及到的包</h4><p>数据集包、数据预处理包、网络模型包、网络各层结构所对应的包</p>
+<pre class=" language-lang-python"><code class="language-lang-python">from __future__ import print_function
+from keras.preprocessing import sequence
+from keras.models import Sequential
+from keras.layers import Dense,Dropout,Activation
+from keras.layers import Embedding 
+from keras.layers import Conv1D,GlobalMaxPooling1D
+from keras.datasets import imdb
+</code></pre>
+<h4 id="（2）设置网络结构中的一些常数"><a href="#（2）设置网络结构中的一些常数" class="headerlink" title="（2）设置网络结构中的一些常数"></a>（2）设置网络结构中的一些常数</h4><p>主要包含了两方面的常数：一是数据处理过程中，词向量维度，词汇表长度等相关的参数；二是网络结构中参数</p>
+<pre class=" language-lang-python"><code class="language-lang-python"># 设置词汇表的长度，在数据预处理过程中，选择词汇字典中前max_features索引的词汇。
+max_features=5000
+# 将每个句子填充或截断至maxlen长度
+maxlen=400
+batch_size=32
+# 设置词向量的维度
+embedding_dims=50
+filters=250
+kernel_size=3
+# 设置全连接层中，神经元的个数
+hidden_dims=250
+epochs=2
+</code></pre>
+<h4 id="（3）加载数据与数据预处理"><a href="#（3）加载数据与数据预处理" class="headerlink" title="（3）加载数据与数据预处理"></a>（3）加载数据与数据预处理</h4><pre class=" language-lang-python"><code class="language-lang-python">print("loading data...")
+(x_train,y_train),(x_test,y_test)=imdb.load_data(num_words=max_features)
+print(len(x_train),"train sequences")
+print(len(x_test),"test sequences")
+
+print("pad sequences (samples*time)")
+# 将每一条数据填充至相同的长度
+x_train=sequence.pad_sequences(x_train,maxlen=maxlen)
+x_test=sequence.pad_sequences(x_test,maxlen=maxlen)
+print("x_train.shape:",x_train.shape)
+print("x_test.shape:",x_test.shape)
+</code></pre>
 <pre><code>loading data...
 25000 train sequences
 25000 test sequences
 pad sequences (samples*time)
 x_train.shape: (25000, 400)
 x_test.shape: (25000, 400)
-</code></pre><h4 id="（4）建立模型"><a href="#（4）建立模型" class="headerlink" title="（4）建立模型"></a>（4）建立模型</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"Build model..."</span>)</span><br><span class="line"><span class="comment"># 采用序列模型</span></span><br><span class="line">model=Sequential()</span><br><span class="line"><span class="comment"># 添加词嵌入层，词嵌入层只能作为神经网络的第一层</span></span><br><span class="line">model.add(Embedding(max_features,embedding_dims,input_length=maxlen))</span><br><span class="line">model.add(Dropout(<span class="number">0.2</span>))</span><br><span class="line">model.add(Conv1D(filters,kernel_size,padding=<span class="string">"valid"</span>,activation=<span class="string">'relu'</span>,strides=<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 使用maxpooling</span></span><br><span class="line">model.add(GlobalMaxPooling1D())</span><br><span class="line"><span class="comment"># 添加全连接层</span></span><br><span class="line">model.add(Dense(hidden_dims))</span><br><span class="line">model.add(Dropout(<span class="number">0.2</span>))</span><br><span class="line">model.add(Activation(<span class="string">'relu'</span>))</span><br><span class="line"><span class="comment"># 输出层</span></span><br><span class="line">model.add(Dense(<span class="number">1</span>))</span><br><span class="line">model.add(Activation(<span class="string">"sigmoid"</span>))</span><br><span class="line"></span><br><span class="line">model.compile(loss=<span class="string">"binary_crossentropy"</span>,optimizer=<span class="string">'adam'</span>,metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line"></span><br><span class="line">model.fit(x_train,y_train,batch_size=batch_size,epochs=epochs,validation_data=(x_test,y_test))</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="（4）建立模型"><a href="#（4）建立模型" class="headerlink" title="（4）建立模型"></a>（4）建立模型</h4><pre class=" language-lang-python"><code class="language-lang-python">print("Build model...")
+# 采用序列模型
+model=Sequential()
+# 添加词嵌入层，词嵌入层只能作为神经网络的第一层
+model.add(Embedding(max_features,embedding_dims,input_length=maxlen))
+model.add(Dropout(0.2))
+model.add(Conv1D(filters,kernel_size,padding="valid",activation='relu',strides=1))
+# 使用maxpooling
+model.add(GlobalMaxPooling1D())
+# 添加全连接层
+model.add(Dense(hidden_dims))
+model.add(Dropout(0.2))
+model.add(Activation('relu'))
+# 输出层
+model.add(Dense(1))
+model.add(Activation("sigmoid"))
+
+model.compile(loss="binary_crossentropy",optimizer='adam',metrics=['accuracy'])
+
+model.fit(x_train,y_train,batch_size=batch_size,epochs=epochs,validation_data=(x_test,y_test))
+</code></pre>
 <pre><code>Build model...
 Train on 25000 samples, validate on 25000 samples
 Epoch 1/2
 25000/25000 [==============================] - 64s 3ms/step - loss: 0.4040 - acc: 0.8005 - val_loss: 0.3088 - val_acc: 0.8657
 Epoch 2/2
 25000/25000 [==============================] - 63s 3ms/step - loss: 0.2305 - acc: 0.9086 - val_loss: 0.2977 - val_acc: 0.8765
-</code></pre><h4 id="（5）网络结构"><a href="#（5）网络结构" class="headerlink" title="（5）网络结构"></a>（5）网络结构</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> plot_model</span><br><span class="line">plot_model(model,to_file=<span class="string">"./imdb_cnn.png"</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="（5）网络结构"><a href="#（5）网络结构" class="headerlink" title="（5）网络结构"></a>（5）网络结构</h4><pre class=" language-lang-python"><code class="language-lang-python">from keras.utils import plot_model
+plot_model(model,to_file="./imdb_cnn.png")
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/keras04.png" alt="网络结构"></p>
 <h3 id="3-小结"><a href="#3-小结" class="headerlink" title="3 小结"></a>3 小结</h3><p>这次实验采用了卷积神经网络来对文本数据进行分类。而不是使用以往的RNN（LSTM/BiLSTM等），这样实验下来，对keras中其他结构的使用也进一步熟悉。在本实验中，主要有以下几点收获：</p>
 <h4 id="（1）常用层的使用"><a href="#（1）常用层的使用" class="headerlink" title="（1）常用层的使用"></a>（1）常用层的使用</h4><p>常用层对应于core模块，其定义了一系列常用的网络层，在本次实验中主要用到了全连接层、激活层和Dropout层。这几层都比较简单，具体介绍见<a href="https://keras-cn.readthedocs.io/en/latest/layers/core_layer/" target="_blank" rel="noopener">https://keras-cn.readthedocs.io/en/latest/layers/core_layer/</a></p>
@@ -617,7 +672,10 @@ Epoch 2/2
                     <div class="summary block-with-text">
                         
                             常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。
-1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyp
+1 引入相应的库# 引入必要的库
+import numpy as np
+import matplotlib.pyplot as plt
+fr
                         
                     </div>
                     <div class="publish-info">
@@ -674,7 +732,8 @@ Epoch 2/2
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：12345from 
+                            在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：
+from nltk
                         
                     </div>
                     <div class="publish-info">

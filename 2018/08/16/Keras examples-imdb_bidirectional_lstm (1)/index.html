@@ -6,7 +6,9 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="Keras examples-imdb_bidirectional_lstm, IrvingBei">
     <meta name="description" content="1  任务描述本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务
-2 具体实现（1）引入必要的包123456from __future__ import print_functionimport numpy as npfro">
+2 具体实现（1）引入必要的包from __future__ import print_function
+import numpy as np
+from ke">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -25,9 +27,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -444,23 +446,65 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h3 id="1-任务描述"><a href="#1-任务描述" class="headerlink" title="1  任务描述"></a>1  任务描述</h3><p>本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务</p>
-<h3 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2 具体实现"></a>2 具体实现</h3><h4 id="（1）引入必要的包"><a href="#（1）引入必要的包" class="headerlink" title="（1）引入必要的包"></a>（1）引入必要的包</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing <span class="keyword">import</span> sequence</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense,Dropout,Embedding,LSTM,Bidirectional</span><br><span class="line"><span class="keyword">from</span> keras.datasets <span class="keyword">import</span> imdb</span><br></pre></td></tr></table></figure>
-<h4 id="（2）设置一些常量"><a href="#（2）设置一些常量" class="headerlink" title="（2）设置一些常量"></a>（2）设置一些常量</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置最大特征的数量，对于文本，就是处理的最大单词数量。若被设置为整数，则被限制为待处理数据集中最常见的max_features个单词</span></span><br><span class="line">max_features=<span class="number">20000</span></span><br><span class="line"><span class="comment"># 设置每个文本序列的最大长度，当序列的长度小于maxlen时，将用0来进行填充，当序列的长度大于maxlen时，则进行截断</span></span><br><span class="line">maxlen=<span class="number">100</span></span><br><span class="line"><span class="comment"># 设置训练的轮次</span></span><br><span class="line">batch_size=<span class="number">32</span></span><br></pre></td></tr></table></figure>
-<h4 id="（3）加载数据"><a href="#（3）加载数据" class="headerlink" title="（3）加载数据"></a>（3）加载数据</h4><p>在Keras的数据集中有IMDB数据集，因此只需要按照格式加载即可<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"loading data ..."</span>)</span><br><span class="line"><span class="comment"># 加载数据</span></span><br><span class="line">(x_train,y_train),(x_test,y_test)=imdb.load_data(num_words=max_features)</span><br><span class="line"><span class="comment"># 查看数据大小</span></span><br><span class="line">print(len(x_train),<span class="string">'train sequences'</span>)</span><br><span class="line">print(len(x_test),<span class="string">'test sequences'</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2 具体实现"></a>2 具体实现</h3><h4 id="（1）引入必要的包"><a href="#（1）引入必要的包" class="headerlink" title="（1）引入必要的包"></a>（1）引入必要的包</h4><pre class=" language-lang-python"><code class="language-lang-python">from __future__ import print_function
+import numpy as np
+from keras.preprocessing import sequence
+from keras.models import Sequential
+from keras.layers import Dense,Dropout,Embedding,LSTM,Bidirectional
+from keras.datasets import imdb
+</code></pre>
+<h4 id="（2）设置一些常量"><a href="#（2）设置一些常量" class="headerlink" title="（2）设置一些常量"></a>（2）设置一些常量</h4><pre class=" language-lang-python"><code class="language-lang-python"># 设置最大特征的数量，对于文本，就是处理的最大单词数量。若被设置为整数，则被限制为待处理数据集中最常见的max_features个单词
+max_features=20000
+# 设置每个文本序列的最大长度，当序列的长度小于maxlen时，将用0来进行填充，当序列的长度大于maxlen时，则进行截断
+maxlen=100
+# 设置训练的轮次
+batch_size=32
+</code></pre>
+<h4 id="（3）加载数据"><a href="#（3）加载数据" class="headerlink" title="（3）加载数据"></a>（3）加载数据</h4><p>在Keras的数据集中有IMDB数据集，因此只需要按照格式加载即可</p>
+<pre class=" language-lang-python"><code class="language-lang-python">print("loading data ...")
+# 加载数据
+(x_train,y_train),(x_test,y_test)=imdb.load_data(num_words=max_features)
+# 查看数据大小
+print(len(x_train),'train sequences')
+print(len(x_test),'test sequences')
+</code></pre>
 <pre><code>loading data ...
 25000 train sequences
 25000 test sequences
-</code></pre><h4 id="（4）数据处理"><a href="#（4）数据处理" class="headerlink" title="（4）数据处理"></a>（4）数据处理</h4><p>首先查看数据格式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(x_train[<span class="number">0</span>])</span><br></pre></td></tr></table></figure></p>
+</code></pre><h4 id="（4）数据处理"><a href="#（4）数据处理" class="headerlink" title="（4）数据处理"></a>（4）数据处理</h4><p>首先查看数据格式</p>
+<pre class=" language-lang-python"><code class="language-lang-python">print(x_train[0])
+</code></pre>
 <pre><code>[1, 14, 22, 16, 43, 530, 973, 1622, 1385, 65, 458, 4468, 66, 3941, 4, 173, 36, 256, 5, 25, 100, 43, 838, 112, 50, 670, 2, 9, 35, 480, 284, 5, 150, 4, 172, 112, 167, 2, 336, 385, 39, 4, 172, 4536, 1111, 17, 546, 38, 13, 447, 4, 192, 50, 16, 6, 147, 2025, 19, 14, 22, 4, 1920, 4613, 469, 4, 22, 71, 87, 12, 16, 43, 530, 38, 76, 15, 13, 1247, 4, 22, 17, 515, 17, 12, 16, 626, 18, 19193, 5, 62, 386, 12, 8, 316, 8, 106, 5, 4, 2223, 5244, 16, 480, 66, 3785, 33, 4, 130, 12, 16, 38, 619, 5, 25, 124, 51, 36, 135, 48, 25, 1415, 33, 6, 22, 12, 215, 28, 77, 52, 5, 14, 407, 16, 82, 10311, 8, 4, 107, 117, 5952, 15, 256, 4, 2, 7, 3766, 5, 723, 36, 71, 43, 530, 476, 26, 400, 317, 46, 7, 4, 12118, 1029, 13, 104, 88, 4, 381, 15, 297, 98, 32, 2071, 56, 26, 141, 6, 194, 7486, 18, 4, 226, 22, 21, 134, 476, 26, 480, 5, 144, 30, 5535, 18, 51, 36, 28, 224, 92, 25, 104, 4, 226, 65, 16, 38, 1334, 88, 12, 16, 283, 5, 16, 4472, 113, 103, 32, 15, 16, 5345, 19, 178, 32]
-</code></pre><p>可以看出，每一条文本都已经处理成了序列形式。在序列中，每一个单词都用其字典中对应的索引表示。因此这里省去了很多文本基本预处理的步骤。<br>接下来查看标签数据格式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(y_train[:<span class="number">10</span>])</span><br></pre></td></tr></table></figure></p>
+</code></pre><p>可以看出，每一条文本都已经处理成了序列形式。在序列中，每一个单词都用其字典中对应的索引表示。因此这里省去了很多文本基本预处理的步骤。<br>接下来查看标签数据格式</p>
+<pre class=" language-lang-python"><code class="language-lang-python">print(y_train[:10])
+</code></pre>
 <pre><code>[1 0 0 1 0 0 1 0 1 0]
 </code></pre><p>看来是极性情感分类，积极，消极两种情感。</p>
 <p>由于训练集中的文本已经表示成了序列模型，因此只需要利用pad_sequences将每个序列整理成相同长度即可。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'Pad sequences (samples x time)'</span>)</span><br><span class="line"><span class="comment"># 将文本序列处理成长度相同的序列</span></span><br><span class="line">x_train = sequence.pad_sequences(x_train, maxlen=maxlen)</span><br><span class="line">x_test = sequence.pad_sequences(x_test, maxlen=maxlen)</span><br><span class="line">print(<span class="string">'x_train shape:'</span>, x_train.shape)</span><br><span class="line">print(<span class="string">'x_test shape:'</span>, x_test.shape)</span><br><span class="line">y_train = np.array(y_train)</span><br><span class="line">y_test = np.array(y_test)</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-python"><code class="language-lang-python">print('Pad sequences (samples x time)')
+# 将文本序列处理成长度相同的序列
+x_train = sequence.pad_sequences(x_train, maxlen=maxlen)
+x_test = sequence.pad_sequences(x_test, maxlen=maxlen)
+print('x_train shape:', x_train.shape)
+print('x_test shape:', x_test.shape)
+y_train = np.array(y_train)
+y_test = np.array(y_test)
+</code></pre>
 <pre><code>Pad sequences (samples x time)
 x_train shape: (25000, 100)
 x_test shape: (25000, 100)
-</code></pre><h4 id="（5）创建模型及训练"><a href="#（5）创建模型及训练" class="headerlink" title="（5）创建模型及训练"></a>（5）创建模型及训练</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建网络结构</span></span><br><span class="line">model=Sequential()</span><br><span class="line">model.add(Embedding(max_features,<span class="number">128</span>,input_length=maxlen))</span><br><span class="line">model.add(Bidirectional(LSTM(<span class="number">64</span>)))</span><br><span class="line">model.add(Dropout(<span class="number">0.5</span>))</span><br><span class="line">model.add(Dense(<span class="number">1</span>,activation=<span class="string">'sigmoid'</span>))</span><br><span class="line"><span class="comment"># 编译模型</span></span><br><span class="line">model.compile(<span class="string">'adam'</span>,<span class="string">'binary_crossentropy'</span>,metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">print(<span class="string">'Train...'</span>)</span><br><span class="line">model.fit(x_train, y_train,batch_size=batch_size,epochs=<span class="number">4</span>,validation_data=[x_test, y_test])</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="（5）创建模型及训练"><a href="#（5）创建模型及训练" class="headerlink" title="（5）创建模型及训练"></a>（5）创建模型及训练</h4><pre class=" language-lang-python"><code class="language-lang-python"># 创建网络结构
+model=Sequential()
+model.add(Embedding(max_features,128,input_length=maxlen))
+model.add(Bidirectional(LSTM(64)))
+model.add(Dropout(0.5))
+model.add(Dense(1,activation='sigmoid'))
+# 编译模型
+model.compile('adam','binary_crossentropy',metrics=['accuracy'])
+# 训练模型
+print('Train...')
+model.fit(x_train, y_train,batch_size=batch_size,epochs=4,validation_data=[x_test, y_test])
+</code></pre>
 <pre><code>Train...
 Train on 25000 samples, validate on 25000 samples
 Epoch 1/4
@@ -471,7 +515,9 @@ Epoch 3/4
 25000/25000 [==============================] - 71s 3ms/step - loss: 0.1345 - acc: 0.9510 - val_loss: 0.4588 - val_acc: 0.8368
 Epoch 4/4
 25000/25000 [==============================] - 71s 3ms/step - loss: 0.0791 - acc: 0.9731 - val_loss: 0.5615 - val_acc: 0.8232
-</code></pre><h4 id="（6）可视化网络结构"><a href="#（6）可视化网络结构" class="headerlink" title="（6）可视化网络结构"></a>（6）可视化网络结构</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> plot_model</span><br><span class="line">plot_model(model,to_file=<span class="string">"./imdb_bidirectional_lstm.png"</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="（6）可视化网络结构"><a href="#（6）可视化网络结构" class="headerlink" title="（6）可视化网络结构"></a>（6）可视化网络结构</h4><pre class=" language-lang-python"><code class="language-lang-python">from keras.utils import plot_model
+plot_model(model,to_file="./imdb_bidirectional_lstm.png")
+</code></pre>
 <p><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/imdb_bidirectional_lstm.png" alt="网络结构"></p>
 <h3 id="3-小结"><a href="#3-小结" class="headerlink" title="3 小结"></a>3 小结</h3><p>大概半个月没写这一类代码了，有些方法的使用有点模糊了，通过这个例子，可以快速的回忆起相关的知识点来，于是也把相关的知识点又重新整理了下。在本例子中，主要的知识点有以下几点：</p>
 <h4 id="（1）填充序列pad-sequences"><a href="#（1）填充序列pad-sequences" class="headerlink" title="（1）填充序列pad_sequences"></a>（1）填充序列pad_sequences</h4><p>方法原型：<br>keras.preprocessing.sequence.pad_sequences(sequences,maxlen=None, dtype=’int32’,padding=’pre’, truncating=’pre’, value=0.)<br>其主要功能就是将sequences列表中的每个序列填充或截断成maxlen的长度，填充的位置由padding参数决定，截断的位置由truncating参数决定。</p>
@@ -688,7 +734,8 @@ Epoch 4/4
                         
                             1  任务描述本实验利用提供的20个种类的数据集，完成KQA的任务。
 2 具体实现任务整体流程如图所示：
-（1）引入必要的包12345678910111213from __future__ import print_functionfrom
+（1）引入必要的包from __future__ import print_function
+from functools impor
                         
                     </div>
                     <div class="publish-info">

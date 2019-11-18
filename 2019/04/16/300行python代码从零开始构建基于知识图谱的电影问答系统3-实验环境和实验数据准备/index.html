@@ -27,9 +27,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -450,8 +450,9 @@
 </blockquote>
 <p>在上一篇中，我对整个系统的业务逻辑啰里啰唆的梳理了一遍，如果你被我绕晕了，那也没关系，因为不用看上面那篇也能继续往下走，当你自己理清楚他的逻辑的时候，你就会有一种踏破铁鞋无觅处，柳暗花明又一村的感觉，好吧下面言归正传。</p>
 <p>这一篇主要介绍实验的准备工作，也就是为后续工作铺平道路，主要包含实验环境和实验数据准备两部分，那么接下来就依次介绍这两个。</p>
-<h3 id="1、实验环境的搭建"><a href="#1、实验环境的搭建" class="headerlink" title="1、实验环境的搭建"></a>1、实验环境的搭建</h3><h5 id="（1）python环境的安装"><a href="#（1）python环境的安装" class="headerlink" title="（1）python环境的安装"></a>（1）python环境的安装</h5><p>本教程是基于python实现的，所以最基本的python环境要有，我的python版本是3.6，建议直接下载对应版本的anaconda来安装python，python环境搭建的具体细节这里就不做过多的介绍了，网上有很多，也可以直接参考anaconda官网。<br>接下来是安装依赖库，我把本项目涉及到的<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/blob/master/requirements.txt" target="_blank" rel="noopener">依赖库</a>打包好了，可以直接使用下面的命令来安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure></p>
-<p>哦，对了，这个项目基于webpy库来搭建的，上面的库里面已经包含了，但是这里安装可以会出错，那就等其他库装好了再来装他。</p>
+<h3 id="1、实验环境的搭建"><a href="#1、实验环境的搭建" class="headerlink" title="1、实验环境的搭建"></a>1、实验环境的搭建</h3><h5 id="（1）python环境的安装"><a href="#（1）python环境的安装" class="headerlink" title="（1）python环境的安装"></a>（1）python环境的安装</h5><p>本教程是基于python实现的，所以最基本的python环境要有，我的python版本是3.6，建议直接下载对应版本的anaconda来安装python，python环境搭建的具体细节这里就不做过多的介绍了，网上有很多，也可以直接参考anaconda官网。<br>接下来是安装依赖库，我把本项目涉及到的<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/blob/master/requirements.txt" target="_blank" rel="noopener">依赖库</a>打包好了，可以直接使用下面的命令来安装：</p>
+<pre><code>pip install -r requirements.txt
+</code></pre><p>哦，对了，这个项目基于webpy库来搭建的，上面的库里面已经包含了，但是这里安装可以会出错，那就等其他库装好了再来装他。</p>
 <blockquote>
 <p>2019年5月10日09:03:18更新：webpy安装方式：<br><img src="https://img-blog.csdnimg.cn/20190510090408838.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="webpy安装方式"></p>
 </blockquote>
@@ -459,8 +460,8 @@
 <h5 id="（2）知识图谱基本介绍"><a href="#（2）知识图谱基本介绍" class="headerlink" title="（2）知识图谱基本介绍"></a>（2）知识图谱基本介绍</h5><p>关于知识图谱，我自己也没研究得多深，所以请大家移步机器之心科普性的文章→ <a href="https://www.jiqizhixin.com/articles/2018-06-20-4" target="_blank" rel="noopener">这是一份通俗易懂的知识图谱技术与应用指南</a>，读了这篇文章，相信你对知识图谱有了一个初步的印象，其实质就是利用三元组来表示实体的一些信息，而关于这些信息的存储，一种是基于RDF的存储；另一种是基于图数据库的存储。而本项目采用的是图数据库存储，主要是图数据库较简单，还直观，要是你搞了半天，一个像样一点的东西都没搞出来，你还有继续搞下去的信心吗？于是我就选择了图数据库neo4j，关于这个数据库的安装，请参照<a href="https://blog.csdn.net/qq_30843221/article/details/53306540" target="_blank" rel="noopener">关于ubuntu下neo4j的安装与使用</a>不管你是在win下安装，还是linux下安装都是可以的，因为这些坑我都踩过了，另外，我这里给出来的链接都是我之前实验时，成功了的教程，如果我再重复写一遍，貌似也没有多少意思，倒不如直接把他们的链接给出来，同时也我对这些文章的感谢。好了，到了现在，python的开发环境有了，知识图谱的存储环境有了，就差数据了，所谓万事俱备只欠东风。<br><img src="https://img-blog.csdnimg.cn/20190506201635126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="这是安装好的数据库界面"></p>
 <h3 id="2、实验数据"><a href="#2、实验数据" class="headerlink" title="2、实验数据"></a>2、实验数据</h3><p>数据来源于IMDB数据库，这是一个关于电影演员、电影、电视节目、电视明星和电影制作的在线数据库。我们需要哪些数据呢？想想我们的目标是啥，我们要查询某部电影的信息，比如电影的评分，上映时间、大体讲了啥内容等，也可能查询某位演员的个人信息，演了那些电影等，好了，这里就出现了两个实体，$电影$，$人物$，然后人物和电影之间有着直接的关系：<strong>[act]</strong>，即某人出演了某部电影，于是可以用这个关系连链接演员和电影，此外，图数据库的好处在这里就凸显出来了，除了这种实体与实体的关系外，图数据库还可以链接实体和他的属性，所以，为了说明这种情况，单独构造了电影的类型，他是电影的属性，电影和他之间的关系是<strong>is</strong>。那么理下关系，主要有电影和人物这两个实体，他们之间的关系是出演，比如李连杰出演了《卧虎藏龙》，除此之外，实体还有自己的属性，特别的，对电影的类型这一属性单独处理。数据的格式如下：<br>全部数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204004599.png" alt="全部数据文件"><br>人物实体数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204109978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="人物实体数据文件"><br>人物和电影之间的关系链接：<br><img src="https://img-blog.csdnimg.cn/2019050620420781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这里的pid指的是personid，mid指的是movieid，是不是和传统的关系型数据库很像。</p>
 <p>前面对数据的情况进行了介绍，那么怎么获取这样的数据呢？一种方法是爬去imdb上的数据，按照上面的说明来处理，另一种当然是直接下载我这处理好的数据啦，然后把数据csv文件放入neo4j安装目录下的import目录下，链接：<a href="https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ</a><br>提取码：7qv1<br>复制这段内容后打开百度网盘手机App，操作更方便哦我的路径是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E:\neo4j-community-3.5.3-windows\neo4j-community-3.5.3\import</span><br></pre></td></tr></table></figure>
-<p>然后你们参照着这个来找吧。</p>
+<pre><code>E:\neo4j-community-3.5.3-windows\neo4j-community-3.5.3\import
+</code></pre><p>然后你们参照着这个来找吧。</p>
 <p>上一篇中提到了问题分类的训练集怎么构造的，也提到了问题模板，<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/tree/master/movie_QA_with_KQ/data/question" target="_blank" rel="noopener">github</a>上也有相关数据，可以直接下载，其中A是问题分类的训练数据，B是问题模板。<br><img src="https://img-blog.csdnimg.cn/20190506205317373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="问题分类相关数据集"><br>好吧，今天就写到这里了，我感觉又是一大堆废话，才写没多久，哎，大家先讲究着看，如果实在看不下去了就去找其他教程吧。希望以后空闲时间多一点的时候，多一些干活，少一些废话，保质保量。</p>
 
             </div>
@@ -597,33 +598,32 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备/">
+                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍">
                         
-                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备</span>
+                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统2-系统业务逻辑介绍</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             
-貌似很久没有写了，这段时间一直在忙着准备复试，就有点耽误了，好吧，今天继续写。你们的魔鬼又来啦  （什么鬼 
+昨天把这个教程的目录给理出来了，然后今天就想趁着这满腔热情（无心搬砖）把剩下的教程也写了。 对于整个系统，不管具体细节是怎么实现的，是逻辑一定要理清楚，于是这一节主要介绍各个模块的逻辑，为什么要这么做。
 
-在上一篇中，我对整个系统的业务逻辑啰里啰唆的梳理了一遍，如果你被我绕晕了，那也没关系，因为不用看上面那篇也能继续往下走，当你自
+首先我简单的画了一个示意图（这叫
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-04-16
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-04-16
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -640,7 +640,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -663,22 +662,21 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取/">
+                <a href="/2019/04/16/我的搬砖工具（科研工具）推荐-附下载链接/">
                     <div class="card-image">
                         
+                        <img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/1.jpg" class="responsive-img" alt="我的搬砖工具（科研工具）推荐-附下载链接">
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取">
-                        
-                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取</span>
+                        <span class="card-title">我的搬砖工具（科研工具）推荐-附下载链接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-啦啦啦，终于快写完了，虽然我也知道并没有写什么实质性的东西，至少我坚持下来啦，后面再慢慢多拧拧，少一些水分。
-
-在上一篇中，主要介绍了如何从接收到的用户问题中抽取关键信息，以及如何识别用户的意图，那么接下来就将介绍在得到了这些信息后，如何
+                            论文搜索：
+semantic scholar or 谷歌学术  or   谷歌学术搜索按钮插件  
+NLP论文list:  ACL Anthology
+第一个国内都可以访问，后面的需要访问国外，如果学校图书馆可以上谷歌学术的话，可以直接使用
                         
                     </div>
                     <div class="publish-info">

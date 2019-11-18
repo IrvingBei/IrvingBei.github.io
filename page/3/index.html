@@ -24,9 +24,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -433,7 +433,10 @@
                         <div class="summary block-with-text">
                             
                                 常见的文本分类中，二分类问题居多，多分类问题其实也挺常见的，这里简单给出一个多分类的实验demo。
-1 引入相应的库123456789101112# 引入必要的库import numpy as npimport matplotlib.pyp
+1 引入相应的库# 引入必要的库
+import numpy as np
+import matplotlib.pyplot as plt
+fr
                             
                         </div>
                         <div class="publish-info">
@@ -489,7 +492,8 @@
                         <div class="summary block-with-text">
                             
                                 1  任务描述本实验室利用卷积神经网络对imdb数据进行文本分类
-2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包1234567from __future__ import print_fu
+2 实验过程（1）引入实验中所涉及到的包数据集包、数据预处理包、网络模型包、网络各层结构所对应的包
+from __future__ import print_function
                             
                         </div>
                         <div class="publish-info">
@@ -544,7 +548,8 @@
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：12345from 
+                                在stanford coreNLP的网页中直接以树的形式可视化了解析结果。但在IDE中，利用python调用coreNLP server后返回的是字符串格式。这是可以利用nltk中的Tree类来可视化解析结果。代码如下：
+from nltk
                             
                         </div>
                         <div class="publish-info">
@@ -719,7 +724,9 @@
                         <div class="summary block-with-text">
                             
                                 1  任务描述本实验是训练一个双向LSTM，并在IMDB数据集上完成情感分类任务
-2 具体实现（1）引入必要的包123456from __future__ import print_functionimport numpy as npfro
+2 具体实现（1）引入必要的包from __future__ import print_function
+import numpy as np
+from ke
                             
                         </div>
                         <div class="publish-info">
@@ -776,7 +783,8 @@
                             
                                 1  任务描述本实验利用提供的20个种类的数据集，完成KQA的任务。
 2 具体实现任务整体流程如图所示：
-（1）引入必要的包12345678910111213from __future__ import print_functionfrom
+（1）引入必要的包from __future__ import print_function
+from functools impor
                             
                         </div>
                         <div class="publish-info">
@@ -832,8 +840,12 @@
                         <div class="summary block-with-text">
                             
                                 快速将非数值型目标变量转化为数值型变量，比如把[‘L’,’M’,’N’]转化为[1,2,3]或多维向量类型
-转化前：1df_train.y.value_counts()
-12345678C    620R    477G    361M  
+转化前：
+df_train.y.value_counts()
+C    620
+R    477
+G    361
+M    353
                             
                         </div>
                         <div class="publish-info">

@@ -24,9 +24,9 @@
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
     
-    <script src="/libs/jquery/jquery.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    <script src="/libs/jquery/jquery.min.js"></script>
     
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
@@ -415,7 +415,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    477
+                    474
                 </div>
                 
 
@@ -439,12 +439,26 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>文本歧义，书中的定义式从原生数据中获取一段机器可读的已经格式化文本之前所要做的所有预处理工作，以及所有繁复的任务。该过程涉及到数据再加工，文本清理，特定项处理，标识化处理，词干提取或词型还原以及停用词移除等操作。<br><a id="more"></a><br>好吧，书中将文本歧义定义为数据预处理这一些列工作，难到文本歧义不应该是一个文本，多个意思，从而有歧义这个意思吗？没搞懂（问号脸.jpg）.如果是把文本歧义理解成通过一系列数据预处理工作，消除文本歧义，好吧，貌似说得通。那也不纠结那么多了，下面看一个例子，解析一个csv文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import csv</span><br><span class="line">with open(&apos;example.csv&apos;) as f:</span><br><span class="line">    reader=csv.reader(f,delimiter=&apos;,&apos;,quotechar=&apos;&quot;&apos;)</span><br><span class="line">    for line in reader:</span><br><span class="line">        print line[1]</span><br></pre></td></tr></table></figure>
-<p>代码说明：<br>这几句代码整体上是没有什么问题的，这里只是提下csv的reader方法的参数：<br>①delimiter：一行中的分隔符<br>②quotechar：每个字段用的类型符号<br>这里就会涉及到处理文档类型的一般流程，具体见下图：<br><img src="http://img.blog.csdn.net/20180122210720461?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"><br>在大多数情况下，我们所遇到的这些数据中的某一个，而python中也有对于这些数据格式最常见的封装格式。通过该模块，我们可以使用各种不同的分离器和引用符等工具。<br>接下来，我们再来看一个json文件示例：<br>①json数据为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;array&quot;:[1,2,3,4],</span><br><span class="line">	&quot;boolean&quot;:True,</span><br><span class="line">	&quot;object&quot;:&#123;</span><br><span class="line">		&quot;a&quot;:&quot;b&quot;</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;string&quot;:&quot;hello world&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>②处理该字符串的解析代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">jsonfile=open(&quot;example.json&quot;)</span><br><span class="line">data=json.load(jsonfile)</span><br><span class="line">print(data[&apos;string&apos;])</span><br></pre></td></tr></table></figure>
-<p>好吧，这个就记录到这里吧！</p>
+<pre><code>import csv
+with open(&#39;example.csv&#39;) as f:
+    reader=csv.reader(f,delimiter=&#39;,&#39;,quotechar=&#39;&quot;&#39;)
+    for line in reader:
+        print line[1]
+</code></pre><p>代码说明：<br>这几句代码整体上是没有什么问题的，这里只是提下csv的reader方法的参数：<br>①delimiter：一行中的分隔符<br>②quotechar：每个字段用的类型符号<br>这里就会涉及到处理文档类型的一般流程，具体见下图：<br><img src="http://img.blog.csdn.net/20180122210720461?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"><br>在大多数情况下，我们所遇到的这些数据中的某一个，而python中也有对于这些数据格式最常见的封装格式。通过该模块，我们可以使用各种不同的分离器和引用符等工具。<br>接下来，我们再来看一个json文件示例：<br>①json数据为：</p>
+<pre><code>{
+    &quot;array&quot;:[1,2,3,4],
+    &quot;boolean&quot;:True,
+    &quot;object&quot;:{
+        &quot;a&quot;:&quot;b&quot;
+    },
+    &quot;string&quot;:&quot;hello world&quot;
+}
+</code></pre><p>②处理该字符串的解析代码如下：</p>
+<pre><code>import json
+jsonfile=open(&quot;example.json&quot;)
+data=json.load(jsonfile)
+print(data[&#39;string&#39;])
+</code></pre><p>好吧，这个就记录到这里吧！</p>
 
             </div>
             <hr/>
@@ -647,7 +661,10 @@
                     <div class="summary block-with-text">
                         
                             在上篇中，简单的介绍了三种获取有效文本的方法，那么接下来就利用nltk来统计这些文本中出现的次数。我们首先来看下传统统计词频的方法：
-12345678910import operatorfreq_dis=&#123;&#125;for to
+import operator
+freq_dis={}
+for tok in tokens:
+    if
                         
                     </div>
                     <div class="publish-info">
