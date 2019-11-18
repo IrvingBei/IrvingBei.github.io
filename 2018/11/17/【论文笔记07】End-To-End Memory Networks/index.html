@@ -228,7 +228,7 @@
         
         <li><div class="divider"></div></li>
         <li>
-            <a href="https://github.com/wen-fei" class="waves-effect waves-light" target="_blank">
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
                 <i class="fab fa-github-square fa-fw"></i>Fork Me
             </a>
         </li>
@@ -284,7 +284,7 @@
     }
 </style>
 
-<a href="https://github.com/wen-fei" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
    data-tooltip="Fork Me" data-position="left" data-delay="50">
     <svg viewBox="0 0 250 250" aria-hidden="true">
         <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -303,7 +303,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -739,29 +739,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2018/11/19/【论文笔记09】Teaching Machines to Read and Comprehend/">
+                <a href="/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/45.png" class="responsive-img" alt="【论文笔记09】Teaching Machines to Read and Comprehend">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading">
                         
-                        <span class="card-title">【论文笔记09】Teaching Machines to Read and Comprehend</span>
+                        <span class="card-title">【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            本文主要做出了两个大的贡献：
-
-给出了阅读理解数据集的构造方法，并开源了两个阅读理解数据集；
-提出了三种神经网络模型作为baseline，以方便后面的研究者进行相关的研究。
-
-1 数据构造主要是从新闻网站中抓取新闻作为文章，新闻的摘要去掉一
+                            本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2018-11-19
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-11-17
                         </span>
                         <span class="publish-author">
                             
@@ -801,24 +796,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/11/17/【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading/">
+                <a href="/2018/11/02/【论文笔记06】Memory Network/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="【论文笔记06】Memory Network">
                         
-                        <span class="card-title">【论文笔记08】Dynamic Entity Representation with Max-pooling Improves Machine Reading</span>
+                        <span class="card-title">【论文笔记06】Memory Network</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            本文模型之前的模型都是用一个静态的向量来表示一个entity，与上下文没有关系。而本文最大的贡献在于提出了一种动态表示entity的模型，根据不同的上下文对同样的entity有不同的表示。模型还是采用双向LSTM来构建，这时实体表示由四部分
+                            1  问题和解决办法（1）问题
+
+当遇到有若干个句子并且句子之间有联系的时候,RNN和LSTM就不能很好地解决；
+对于句子间的这种长期依赖，于是需要从记忆中提取信息；
+
+（2）解决办法
+
+本文提出了实现长期记忆的框架，实现了如何从长期记忆中
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-11-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-11-02
                             </span>
                         <span class="publish-author">
                             
@@ -843,8 +845,8 @@
                         <span class="chip bg-color">论文笔记</span>
                     </a>
                     
-                    <a href="/tags/阅读理解/">
-                        <span class="chip bg-color">阅读理解</span>
+                    <a href="/tags/记忆网络/">
+                        <span class="chip bg-color">记忆网络</span>
                     </a>
                     
                 </div>
@@ -1060,15 +1062,6 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/wen-fei" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-        <i class="fab fa-github"></i>
-    </a>
-
-
-
-    <a href="mailto:tengyun.zhang.cs@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
 
 
 
@@ -1080,9 +1073,6 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="https://www.zhihu.com/people/tenyun/activities" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/tenyun/activities" data-position="top" data-delay="50">
-        <i class="fab fa-zhihu1">知</i>
-    </a>
 
 
 
