@@ -527,9 +527,6 @@ cs">
 <div id="article-share">
     
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
 
     
 
@@ -586,22 +583,21 @@ cs">
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2017/12/13/《统计学习方法》-感知机模型学习笔记/">
+                <a href="/2017/12/13/【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="【笔记】01：《统计学习方法》-感知机模型学习笔记">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频">
                         
-                        <span class="card-title">【笔记】01：《统计学习方法》-感知机模型学习笔记</span>
+                        <span class="card-title">【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                             用简单的方法学习 ——北北
-感知机模型描述:   这一部分主要介绍感知机是什么？
-
-假设输入空间（输入空间即为特征空间，由实例的各种特征组成）是χ⊆R*，输出空间是Y={-1,+1}。当输入x∈χ表示实例的特征向量，对应于输入空间（特征向
+                            一、基本要求使用jieba对垃圾短信数据集进行分词，然后统计其中的单词出现的个数，找到出现频次最高的top100个词。
+二、完整代码# -*- coding: UTF-8 -*-
+from collections import Counte
                         
                     </div>
                     <div class="publish-info">
@@ -612,12 +608,12 @@ cs">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/NOTES/" class="post-category">
-                                    NOTES
+                            <a href="/categories/NLP/" class="post-category">
+                                    NLP
                                 </a>
                             
-                            <a href="/categories/NOTES/Statistical/" class="post-category">
-                                    Statistical
+                            <a href="/categories/NLP/MDCourse/" class="post-category">
+                                    MDCourse
                                 </a>
                             
                             
@@ -627,8 +623,8 @@ cs">
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/笔记/">
-                        <span class="chip bg-color">笔记</span>
+                    <a href="/tags/自然语言处理/">
+                        <span class="chip bg-color">自然语言处理</span>
                     </a>
                     
                 </div>
@@ -1013,20 +1009,6 @@ $(function () {
     <!-- Baidu Analytics -->
 
     <!-- Baidu Push -->
-
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
     
     <script src="/libs/others/clicklove.js" async="async"></script>
