@@ -4,11 +4,40 @@
   
     
     <entry>
-      <title>300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备</title>
-      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/"/>
-      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/</url>
+      <title>300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理</title>
+      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F4-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%A2%84%E5%A4%84%E7%90%86/"/>
+      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F4-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%A2%84%E5%A4%84%E7%90%86/</url>
       
-        <content type="html"><![CDATA[<blockquote><p>貌似很久没有写了，这段时间一直在忙着准备复试，就有点耽误了，好吧，今天继续写。<del>你们的魔鬼又来啦</del>  （什么鬼 </p></blockquote><p>在上一篇中，我对整个系统的业务逻辑啰里啰唆的梳理了一遍，如果你被我绕晕了，那也没关系，因为不用看上面那篇也能继续往下走，当你自己理清楚他的逻辑的时候，你就会有一种踏破铁鞋无觅处，柳暗花明又一村的感觉，好吧下面言归正传。</p><p>这一篇主要介绍实验的准备工作，也就是为后续工作铺平道路，主要包含实验环境和实验数据准备两部分，那么接下来就依次介绍这两个。</p><h3 id="1、实验环境的搭建"><a href="#1、实验环境的搭建" class="headerlink" title="1、实验环境的搭建"></a>1、实验环境的搭建</h3><h5 id="（1）python环境的安装"><a href="#（1）python环境的安装" class="headerlink" title="（1）python环境的安装"></a>（1）python环境的安装</h5><p>本教程是基于python实现的，所以最基本的python环境要有，我的python版本是3.6，建议直接下载对应版本的anaconda来安装python，python环境搭建的具体细节这里就不做过多的介绍了，网上有很多，也可以直接参考anaconda官网。<br>接下来是安装依赖库，我把本项目涉及到的<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/blob/master/requirements.txt" target="_blank" rel="noopener">依赖库</a>打包好了，可以直接使用下面的命令来安装：</p><pre><code>pip install -r requirements.txt</code></pre><p>哦，对了，这个项目基于webpy库来搭建的，上面的库里面已经包含了，但是这里安装可以会出错，那就等其他库装好了再来装他。</p><blockquote><p>2019年5月10日09:03:18更新：webpy安装方式：<br><img src="https://img-blog.csdnimg.cn/20190510090408838.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="webpy安装方式"></p></blockquote><p>通过上述步骤，那么基本的环境就搭建好了，这好比修一座房子，四面墙砌好了。</p><h5 id="（2）知识图谱基本介绍"><a href="#（2）知识图谱基本介绍" class="headerlink" title="（2）知识图谱基本介绍"></a>（2）知识图谱基本介绍</h5><p>关于知识图谱，我自己也没研究得多深，所以请大家移步机器之心科普性的文章→ <a href="https://www.jiqizhixin.com/articles/2018-06-20-4" target="_blank" rel="noopener">这是一份通俗易懂的知识图谱技术与应用指南</a>，读了这篇文章，相信你对知识图谱有了一个初步的印象，其实质就是利用三元组来表示实体的一些信息，而关于这些信息的存储，一种是基于RDF的存储；另一种是基于图数据库的存储。而本项目采用的是图数据库存储，主要是图数据库较简单，还直观，要是你搞了半天，一个像样一点的东西都没搞出来，你还有继续搞下去的信心吗？于是我就选择了图数据库neo4j，关于这个数据库的安装，请参照<a href="https://blog.csdn.net/qq_30843221/article/details/53306540" target="_blank" rel="noopener">关于ubuntu下neo4j的安装与使用</a>不管你是在win下安装，还是linux下安装都是可以的，因为这些坑我都踩过了，另外，我这里给出来的链接都是我之前实验时，成功了的教程，如果我再重复写一遍，貌似也没有多少意思，倒不如直接把他们的链接给出来，同时也我对这些文章的感谢。好了，到了现在，python的开发环境有了，知识图谱的存储环境有了，就差数据了，所谓万事俱备只欠东风。<br><img src="https://img-blog.csdnimg.cn/20190506201635126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="这是安装好的数据库界面"></p><h3 id="2、实验数据"><a href="#2、实验数据" class="headerlink" title="2、实验数据"></a>2、实验数据</h3><p>数据来源于IMDB数据库，这是一个关于电影演员、电影、电视节目、电视明星和电影制作的在线数据库。我们需要哪些数据呢？想想我们的目标是啥，我们要查询某部电影的信息，比如电影的评分，上映时间、大体讲了啥内容等，也可能查询某位演员的个人信息，演了那些电影等，好了，这里就出现了两个实体，$电影$，$人物$，然后人物和电影之间有着直接的关系：<strong>[act]</strong>，即某人出演了某部电影，于是可以用这个关系连链接演员和电影，此外，图数据库的好处在这里就凸显出来了，除了这种实体与实体的关系外，图数据库还可以链接实体和他的属性，所以，为了说明这种情况，单独构造了电影的类型，他是电影的属性，电影和他之间的关系是<strong>is</strong>。那么理下关系，主要有电影和人物这两个实体，他们之间的关系是出演，比如李连杰出演了《卧虎藏龙》，除此之外，实体还有自己的属性，特别的，对电影的类型这一属性单独处理。数据的格式如下：<br>全部数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204004599.png" alt="全部数据文件"><br>人物实体数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204109978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="人物实体数据文件"><br>人物和电影之间的关系链接：<br><img src="https://img-blog.csdnimg.cn/2019050620420781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这里的pid指的是personid，mid指的是movieid，是不是和传统的关系型数据库很像。</p><p>前面对数据的情况进行了介绍，那么怎么获取这样的数据呢？一种方法是爬去imdb上的数据，按照上面的说明来处理，另一种当然是直接下载我这处理好的数据啦，然后把数据csv文件放入neo4j安装目录下的import目录下，链接：<a href="https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ</a><br>提取码：7qv1<br>复制这段内容后打开百度网盘手机App，操作更方便哦我的路径是：</p><pre><code>E:\neo4j-community-3.5.3-windows\neo4j-community-3.5.3\import</code></pre><p>然后你们参照着这个来找吧。</p><p>上一篇中提到了问题分类的训练集怎么构造的，也提到了问题模板，<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/tree/master/movie_QA_with_KQ/data/question" target="_blank" rel="noopener">github</a>上也有相关数据，可以直接下载，其中A是问题分类的训练数据，B是问题模板。<br><img src="https://img-blog.csdnimg.cn/20190506205317373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="问题分类相关数据集"><br>好吧，今天就写到这里了，我感觉又是一大堆废话，才写没多久，哎，大家先讲究着看，如果实在看不下去了就去找其他教程吧。希望以后空闲时间多一点的时候，多一些干活，少一些废话，保质保量。</p>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>今天冷得，我在五月份穿了三件衣服，你敢相信。。。</p></blockquote><p>这篇主要介绍对用户问题的处理，也就是从获取用户问题到明白用户意图这个过程，主要涉及到命名实体识别（这个任务简单，我就用词性标注来代替了），问题分类，以及填充问题模板这几个部分。介绍的时候，可能会用一些代码来说明，但是下面列出来的代码并不完整，完整的代码请参照github。这些代码只是辅助理解整个过程，这样去看代码的时候才容易理清函数之间的来龙去脉。再说明下，这个系统适合那些刚入门没多久，通过实现一个小东西来练练手的同学，而这篇教程，可以看作是代码的说明书，帮助理解代码，主要还是梳理逻辑。</p><h5 id="关键信息抽取"><a href="#关键信息抽取" class="headerlink" title="关键信息抽取"></a>关键信息抽取</h5><p>这部分就是通过命名实体识别来获取用户问题中的人名，电影名等信息，而在实验过程中，在这一部分我们其实用的词性标注，因为我发现，词性标注工具可以把人名标注出来，如下使用jieba进行词性标注时的含义：</p><pre><code>nr    人名    名词代码 n和“人(ren)”的声母并在一起。</code></pre><p>所以，只要我们把问题词性标注后，找到对应的nr对应的单词，那就是人名啦，电影名称的识别和这个差不多。这就是这部分的主要思路，接下来就看下代码是怎么实现的。</p><ul><li>用户问题词性标注</li></ul><p>功能的实现就是下面这个函数：</p><pre><code>    def question_posseg(self):        jieba.load_userdict(&quot;./data/userdict3.txt&quot;)        clean_question = re.sub(&quot;[\s+\.\!\/_,$%^*(+\&quot;\&#39;)]+|[+——()?【】“”！，。？、~@#￥%……&amp;*（）]+&quot;,&quot;&quot;,self.raw_question)        self.clean_question=clean_question        question_seged=jieba.posseg.cut(str(clean_question))        result=[]        question_word, question_flag = [], []        for w in question_seged:            temp_word=f&quot;{w.word}/{w.flag}&quot;            result.append(temp_word)            # 预处理问题            word, flag = w.word,w.flag            question_word.append(str(word).strip())            question_flag.append(str(flag).strip())        assert len(question_flag) == len(question_word)        self.question_word = question_word        self.question_flag = question_flag        print(result)        return result</code></pre><p>jieba的词性标注和分词是同步进行的，所以如果分词不准确的话，那么词性标注往往也会出错，比如说电影《卧虎藏龙》，被jieba分词分为：</p><pre><code>卧虎  藏龙</code></pre><p>这样肯定就不能识别出卧虎藏龙这个实体了啊，人名也是同样的道理，如果把一个演员的姓名分开了，也就不能标注出这样一个人名了，于是我就加了一个自定义字典，把所涉及到的所有电影，所有人名都加到了这个字典中，这样以来，jieba分词的时候就会参考字典里面的词来进行分词和词性标注了，自定义词典的格式如下：</p><pre><code>太极气功 15 nm功夫小子 15 nm大师 15 nm...陈雅伦 15 nr李修贤 15 nr黄锦燊 15 nr潘恒生 15 nr林熙蕾 15 nr锺丽缇 15 nr...恐怖 15 ng动作 15 ng喜剧 15 ng历史 15 ng</code></pre><p>这样涉及到的电影名，人名以及电影类型就不会被jieba分词分开了，此外还需要去掉问题中的特殊字符，这些操作搞完了后就可以进行分词和词性标注了，处理后把结果返回即可。</p><ul><li>问题分类和模板填充</li></ul><p>接下来是对用户的问题进行分类，获取对应问题模板，从而明白用户的意图，首先要使用前面介绍的根据用户习惯构造的各种各样的问题来训练一个分类器，我这里使用的sklearn里面的贝叶斯分类器。<br>首先是组织训练数据：</p><pre><code># 获取训练数据    def read_train_data(self):        train_x=[]        train_y=[]        file_list=getfilelist(&quot;./data/question/&quot;)        # 遍历所有文件        for one_file in file_list:            # 获取文件名中的数字            num = re.sub(r&#39;\D&#39;, &quot;&quot;, one_file)            # 如果该文件名有数字，则读取该文件            if str(num).strip()!=&quot;&quot;:                # 设置当前文件下的数据标签                label_num=int(num)                # 读取文件内容                with(open(one_file,&quot;r&quot;,encoding=&quot;utf-8&quot;)) as fr:                    data_list=fr.readlines()                    for one_line in data_list:                        word_list=list(jieba.cut(str(one_line).strip()))                        # 将这一行加入结果集                        train_x.append(&quot; &quot;.join(word_list))                        train_y.append(label_num)        return train_x,train_y</code></pre><p>接着是训练多分类贝叶斯分类器模型，并返回：</p><pre><code># 训练并测试模型-NB    def train_model_NB(self):        X_train, y_train = self.train_x, self.train_y        self.tv = TfidfVectorizer()        train_data = self.tv.fit_transform(X_train).toarray()        clf = MultinomialNB(alpha=0.01)        clf.fit(train_data, y_train)        return clf</code></pre><p>利用训练好的模型来对新问题进行分类：</p><pre><code># 预测    def predict(self,question):        question=[&quot; &quot;.join(list(jieba.cut(question)))]        test_data=self.tv.transform(question).toarray()        y_predict = self.model.predict(test_data)[0]        # print(&quot;question type:&quot;,y_predict)        return y_predict</code></pre><p>返回用户问题所属的类别编号，这个编号也就对应一个问题模板：</p><pre><code>0:nm 评分1:nm 上映时间2:nm 类型3:nm 简介4:nm 演员列表5:nnt 介绍6:nnt ng 电影作品7:nnt 电影作品8:nnt 参演评分 大于 x9:nnt 参演评分 小于 x10:nnt 电影类型11:nnt nnr 合作 电影列表12:nnt 电影数量13:nnt 出生日期</code></pre><p>数字和模板的对应关系可以提前存到一个字典中，当预测出编号后，直接通过这个编号作为字典的key值，这样就查询出问题模板了。比如预测的结果是2，则对应的问题模板 $nm 类型$，表示询问某部电影的类型，再结合前一阶段获取的电影名字，则可以组成一个新的问题，比如：</p><pre><code>卧虎藏龙 类型</code></pre><p>上面对涉及到的重点部分进行了介绍，这里小结一下，当遇到一个新问题时：</p><pre><code>1、得到原始问题；2、抽取问题中的关键信息，比如从问题“张学友的个人介绍”中抽取出张学友这个人名；3、使用分类模型来预测问题类别，预测出模板编号，查询字典得到问题模板；如dict[5]:nnt 介绍；4、替换模板中的抽象内容，得到：张学友 介绍。</code></pre><p>大体思路是这样。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Experiment </category>
+          
+          <category> Python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 知识图谱 </tag>
+            
+            <tag> 问答系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取</title>
+      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/"/>
+      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>啦啦啦，终于快写完了，虽然我也知道并没有写什么实质性的东西，至少我坚持下来啦，后面再慢慢多拧拧，少一些水分。</p></blockquote><p>在上一篇中，主要介绍了如何从接收到的用户问题中抽取关键信息，以及如何识别用户的意图，那么接下来就将介绍在得到了这些信息后，如何在知识图谱中查询答案。我在处理这个问题时，想得很直接，简单来说，每个问题模板就对应了一个用户意图，那么就按照每个意图来写查询语句，这是一种简单粗暴的方法，优点就是就只有简单了，缺点当然很多了，比如不利于维护以及扩展等。现在要有维护扩展的意识，但是具体实现是，如果想快速实现一个demo的话，可以使用这种简单粗暴方法。下面就对获取答案进行介绍。</p><p>首先，我定义了一个问题模板的方法字典，每一个key对应模板的编号，value就是根据该模板来查询答案的方法，结构如下：</p><pre><code>self.q_template_dict={            0:self.get_movie_rating,            1:self.get_movie_releasedate,            2:self.get_movie_type,            3:self.get_movie_introduction,            4:self.get_movie_actor_list,            5:self.get_actor_info,            6:self.get_actor_act_type_movie,            7:self.get_actor_act_movie_list,            8:self.get_movie_rating_bigger,            9:self.get_movie_rating_smaller,            10:self.get_actor_movie_type,            11:self.get_cooperation_movie_list,            12:self.get_actor_movie_num,            13:self.get_actor_birthday        }</code></pre><p>当我们得到用户问题，以及该问题的模板后需要做那些工作呢？<br>首先时利用上一篇介绍的方法来获取问题的关键信息，然后就根据模板编号来调用相应的方法，整体框架的代码如下：</p><pre><code>    def get_question_answer(self,question,template):        # 如果问题模板的格式不正确则结束        assert len(str(template).strip().split(&quot;\t&quot;))==2        template_id,template_str=int(str(template).strip().split(&quot;\t&quot;)[0]),str(template).strip().split(&quot;\t&quot;)[1]        self.template_id=template_id        self.template_str2list=str(template_str).split()        # 预处理问题        question_word,question_flag=[],[]        for one in question:            word, flag = one.split(&quot;/&quot;)            question_word.append(str(word).strip())            question_flag.append(str(flag).strip())        assert len(question_flag)==len(question_word)        self.question_word=question_word        self.question_flag=question_flag        self.raw_question=question        # 根据问题模板来做对应的处理，获取答案        answer=self.q_template_dict[template_id]()        return answer</code></pre><p>进入到对应的方法中，利用Cypher语言来构建查询语句，其基本形式是：</p><pre><code>match(n)-[r] -(b)</code></pre><p>Cypher语言不太懂没关系，也可以直接使用python的库py2neo来操作图数据库neo4j。这里只涉及到查询操作，所以我直接构造了Cypher查询语句，然后使用py2neo库的run方法来查询，数据库的链接和查询我单独的写了一个类，在需要的时候调用即可：</p><pre><code>from py2neo import Graph,Node,Relationship,NodeMatcherclass Query():    def __init__(self):        self.graph=Graph(&quot;http://localhost:7474&quot;, username=&quot;neo4j&quot;,password=&quot;123456&quot;)    # 问题类型0，查询电影得分    def run(self,cql):        # find_rela  = test_graph.run(&quot;match (n:Person{name:&#39;张学友&#39;})-[actedin]-(m:Movie) return m.title&quot;)        result=[]        find_rela = self.graph.run(cql)        for i in find_rela:            result.append(i.items()[0][1])        return result</code></pre><p>比如这里以查询某部电影的演员列表为例，查询答案的代码为：</p><pre><code># 4:nm 演员列表    def get_movie_actor_list(self):        movie_name=self.get_movie_name()        cql = f&quot;match(n:Person)-[r:actedin]-&gt;(m:Movie) where m.title=&#39;{movie_name}&#39; return n.name&quot;        print(cql)        answer = self.graph.run(cql)        answer_set = set(answer)        answer_list = list(answer_set)        answer = &quot;、&quot;.join(answer_list)        final_answer = movie_name + &quot;由&quot; + str(answer) + &quot;等演员主演！&quot;        return final_answer</code></pre><p>主要是构造Cypher语句，然后调用py2neo的run方法，对得到的答案进行处理这几步，得到答案返回即可。</p><p>这个系列这里也就差不多了吧，除了目录，也只有4篇，所以这并不是一个很详细的教程，主要是想帮助大家对代码的理解，理清思路或者扰乱思路。在做试验的时候，我就是先理清思路再写的，这或许是一个不错的方法，由于这个教程不是很详细，大家有被我搅晕的地方，可以给我发邮件（irvingbei@qq.com ）或者直接评论，也可以去网上找找资料。最后，这也是一个python版本，很好上手，大家不妨试一试。</p>]]></content>
       
       
       <categories>
@@ -62,11 +91,11 @@
     
     
     <entry>
-      <title>300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理</title>
-      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F4-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%A2%84%E5%A4%84%E7%90%86/"/>
-      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F4-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%A2%84%E5%A4%84%E7%90%86/</url>
+      <title>300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备</title>
+      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/"/>
+      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/</url>
       
-        <content type="html"><![CDATA[<blockquote><p>今天冷得，我在五月份穿了三件衣服，你敢相信。。。</p></blockquote><p>这篇主要介绍对用户问题的处理，也就是从获取用户问题到明白用户意图这个过程，主要涉及到命名实体识别（这个任务简单，我就用词性标注来代替了），问题分类，以及填充问题模板这几个部分。介绍的时候，可能会用一些代码来说明，但是下面列出来的代码并不完整，完整的代码请参照github。这些代码只是辅助理解整个过程，这样去看代码的时候才容易理清函数之间的来龙去脉。再说明下，这个系统适合那些刚入门没多久，通过实现一个小东西来练练手的同学，而这篇教程，可以看作是代码的说明书，帮助理解代码，主要还是梳理逻辑。</p><h5 id="关键信息抽取"><a href="#关键信息抽取" class="headerlink" title="关键信息抽取"></a>关键信息抽取</h5><p>这部分就是通过命名实体识别来获取用户问题中的人名，电影名等信息，而在实验过程中，在这一部分我们其实用的词性标注，因为我发现，词性标注工具可以把人名标注出来，如下使用jieba进行词性标注时的含义：</p><pre><code>nr    人名    名词代码 n和“人(ren)”的声母并在一起。</code></pre><p>所以，只要我们把问题词性标注后，找到对应的nr对应的单词，那就是人名啦，电影名称的识别和这个差不多。这就是这部分的主要思路，接下来就看下代码是怎么实现的。</p><ul><li>用户问题词性标注</li></ul><p>功能的实现就是下面这个函数：</p><pre><code>    def question_posseg(self):        jieba.load_userdict(&quot;./data/userdict3.txt&quot;)        clean_question = re.sub(&quot;[\s+\.\!\/_,$%^*(+\&quot;\&#39;)]+|[+——()?【】“”！，。？、~@#￥%……&amp;*（）]+&quot;,&quot;&quot;,self.raw_question)        self.clean_question=clean_question        question_seged=jieba.posseg.cut(str(clean_question))        result=[]        question_word, question_flag = [], []        for w in question_seged:            temp_word=f&quot;{w.word}/{w.flag}&quot;            result.append(temp_word)            # 预处理问题            word, flag = w.word,w.flag            question_word.append(str(word).strip())            question_flag.append(str(flag).strip())        assert len(question_flag) == len(question_word)        self.question_word = question_word        self.question_flag = question_flag        print(result)        return result</code></pre><p>jieba的词性标注和分词是同步进行的，所以如果分词不准确的话，那么词性标注往往也会出错，比如说电影《卧虎藏龙》，被jieba分词分为：</p><pre><code>卧虎  藏龙</code></pre><p>这样肯定就不能识别出卧虎藏龙这个实体了啊，人名也是同样的道理，如果把一个演员的姓名分开了，也就不能标注出这样一个人名了，于是我就加了一个自定义字典，把所涉及到的所有电影，所有人名都加到了这个字典中，这样以来，jieba分词的时候就会参考字典里面的词来进行分词和词性标注了，自定义词典的格式如下：</p><pre><code>太极气功 15 nm功夫小子 15 nm大师 15 nm...陈雅伦 15 nr李修贤 15 nr黄锦燊 15 nr潘恒生 15 nr林熙蕾 15 nr锺丽缇 15 nr...恐怖 15 ng动作 15 ng喜剧 15 ng历史 15 ng</code></pre><p>这样涉及到的电影名，人名以及电影类型就不会被jieba分词分开了，此外还需要去掉问题中的特殊字符，这些操作搞完了后就可以进行分词和词性标注了，处理后把结果返回即可。</p><ul><li>问题分类和模板填充</li></ul><p>接下来是对用户的问题进行分类，获取对应问题模板，从而明白用户的意图，首先要使用前面介绍的根据用户习惯构造的各种各样的问题来训练一个分类器，我这里使用的sklearn里面的贝叶斯分类器。<br>首先是组织训练数据：</p><pre><code># 获取训练数据    def read_train_data(self):        train_x=[]        train_y=[]        file_list=getfilelist(&quot;./data/question/&quot;)        # 遍历所有文件        for one_file in file_list:            # 获取文件名中的数字            num = re.sub(r&#39;\D&#39;, &quot;&quot;, one_file)            # 如果该文件名有数字，则读取该文件            if str(num).strip()!=&quot;&quot;:                # 设置当前文件下的数据标签                label_num=int(num)                # 读取文件内容                with(open(one_file,&quot;r&quot;,encoding=&quot;utf-8&quot;)) as fr:                    data_list=fr.readlines()                    for one_line in data_list:                        word_list=list(jieba.cut(str(one_line).strip()))                        # 将这一行加入结果集                        train_x.append(&quot; &quot;.join(word_list))                        train_y.append(label_num)        return train_x,train_y</code></pre><p>接着是训练多分类贝叶斯分类器模型，并返回：</p><pre><code># 训练并测试模型-NB    def train_model_NB(self):        X_train, y_train = self.train_x, self.train_y        self.tv = TfidfVectorizer()        train_data = self.tv.fit_transform(X_train).toarray()        clf = MultinomialNB(alpha=0.01)        clf.fit(train_data, y_train)        return clf</code></pre><p>利用训练好的模型来对新问题进行分类：</p><pre><code># 预测    def predict(self,question):        question=[&quot; &quot;.join(list(jieba.cut(question)))]        test_data=self.tv.transform(question).toarray()        y_predict = self.model.predict(test_data)[0]        # print(&quot;question type:&quot;,y_predict)        return y_predict</code></pre><p>返回用户问题所属的类别编号，这个编号也就对应一个问题模板：</p><pre><code>0:nm 评分1:nm 上映时间2:nm 类型3:nm 简介4:nm 演员列表5:nnt 介绍6:nnt ng 电影作品7:nnt 电影作品8:nnt 参演评分 大于 x9:nnt 参演评分 小于 x10:nnt 电影类型11:nnt nnr 合作 电影列表12:nnt 电影数量13:nnt 出生日期</code></pre><p>数字和模板的对应关系可以提前存到一个字典中，当预测出编号后，直接通过这个编号作为字典的key值，这样就查询出问题模板了。比如预测的结果是2，则对应的问题模板 $nm 类型$，表示询问某部电影的类型，再结合前一阶段获取的电影名字，则可以组成一个新的问题，比如：</p><pre><code>卧虎藏龙 类型</code></pre><p>上面对涉及到的重点部分进行了介绍，这里小结一下，当遇到一个新问题时：</p><pre><code>1、得到原始问题；2、抽取问题中的关键信息，比如从问题“张学友的个人介绍”中抽取出张学友这个人名；3、使用分类模型来预测问题类别，预测出模板编号，查询字典得到问题模板；如dict[5]:nnt 介绍；4、替换模板中的抽象内容，得到：张学友 介绍。</code></pre><p>大体思路是这样。</p>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>貌似很久没有写了，这段时间一直在忙着准备复试，就有点耽误了，好吧，今天继续写。<del>你们的魔鬼又来啦</del>  （什么鬼 </p></blockquote><p>在上一篇中，我对整个系统的业务逻辑啰里啰唆的梳理了一遍，如果你被我绕晕了，那也没关系，因为不用看上面那篇也能继续往下走，当你自己理清楚他的逻辑的时候，你就会有一种踏破铁鞋无觅处，柳暗花明又一村的感觉，好吧下面言归正传。</p><p>这一篇主要介绍实验的准备工作，也就是为后续工作铺平道路，主要包含实验环境和实验数据准备两部分，那么接下来就依次介绍这两个。</p><h3 id="1、实验环境的搭建"><a href="#1、实验环境的搭建" class="headerlink" title="1、实验环境的搭建"></a>1、实验环境的搭建</h3><h5 id="（1）python环境的安装"><a href="#（1）python环境的安装" class="headerlink" title="（1）python环境的安装"></a>（1）python环境的安装</h5><p>本教程是基于python实现的，所以最基本的python环境要有，我的python版本是3.6，建议直接下载对应版本的anaconda来安装python，python环境搭建的具体细节这里就不做过多的介绍了，网上有很多，也可以直接参考anaconda官网。<br>接下来是安装依赖库，我把本项目涉及到的<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/blob/master/requirements.txt" target="_blank" rel="noopener">依赖库</a>打包好了，可以直接使用下面的命令来安装：</p><pre><code>pip install -r requirements.txt</code></pre><p>哦，对了，这个项目基于webpy库来搭建的，上面的库里面已经包含了，但是这里安装可以会出错，那就等其他库装好了再来装他。</p><blockquote><p>2019年5月10日09:03:18更新：webpy安装方式：<br><img src="https://img-blog.csdnimg.cn/20190510090408838.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="webpy安装方式"></p></blockquote><p>通过上述步骤，那么基本的环境就搭建好了，这好比修一座房子，四面墙砌好了。</p><h5 id="（2）知识图谱基本介绍"><a href="#（2）知识图谱基本介绍" class="headerlink" title="（2）知识图谱基本介绍"></a>（2）知识图谱基本介绍</h5><p>关于知识图谱，我自己也没研究得多深，所以请大家移步机器之心科普性的文章→ <a href="https://www.jiqizhixin.com/articles/2018-06-20-4" target="_blank" rel="noopener">这是一份通俗易懂的知识图谱技术与应用指南</a>，读了这篇文章，相信你对知识图谱有了一个初步的印象，其实质就是利用三元组来表示实体的一些信息，而关于这些信息的存储，一种是基于RDF的存储；另一种是基于图数据库的存储。而本项目采用的是图数据库存储，主要是图数据库较简单，还直观，要是你搞了半天，一个像样一点的东西都没搞出来，你还有继续搞下去的信心吗？于是我就选择了图数据库neo4j，关于这个数据库的安装，请参照<a href="https://blog.csdn.net/qq_30843221/article/details/53306540" target="_blank" rel="noopener">关于ubuntu下neo4j的安装与使用</a>不管你是在win下安装，还是linux下安装都是可以的，因为这些坑我都踩过了，另外，我这里给出来的链接都是我之前实验时，成功了的教程，如果我再重复写一遍，貌似也没有多少意思，倒不如直接把他们的链接给出来，同时也我对这些文章的感谢。好了，到了现在，python的开发环境有了，知识图谱的存储环境有了，就差数据了，所谓万事俱备只欠东风。<br><img src="https://img-blog.csdnimg.cn/20190506201635126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="这是安装好的数据库界面"></p><h3 id="2、实验数据"><a href="#2、实验数据" class="headerlink" title="2、实验数据"></a>2、实验数据</h3><p>数据来源于IMDB数据库，这是一个关于电影演员、电影、电视节目、电视明星和电影制作的在线数据库。我们需要哪些数据呢？想想我们的目标是啥，我们要查询某部电影的信息，比如电影的评分，上映时间、大体讲了啥内容等，也可能查询某位演员的个人信息，演了那些电影等，好了，这里就出现了两个实体，$电影$，$人物$，然后人物和电影之间有着直接的关系：<strong>[act]</strong>，即某人出演了某部电影，于是可以用这个关系连链接演员和电影，此外，图数据库的好处在这里就凸显出来了，除了这种实体与实体的关系外，图数据库还可以链接实体和他的属性，所以，为了说明这种情况，单独构造了电影的类型，他是电影的属性，电影和他之间的关系是<strong>is</strong>。那么理下关系，主要有电影和人物这两个实体，他们之间的关系是出演，比如李连杰出演了《卧虎藏龙》，除此之外，实体还有自己的属性，特别的，对电影的类型这一属性单独处理。数据的格式如下：<br>全部数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204004599.png" alt="全部数据文件"><br>人物实体数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204109978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="人物实体数据文件"><br>人物和电影之间的关系链接：<br><img src="https://img-blog.csdnimg.cn/2019050620420781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这里的pid指的是personid，mid指的是movieid，是不是和传统的关系型数据库很像。</p><p>前面对数据的情况进行了介绍，那么怎么获取这样的数据呢？一种方法是爬去imdb上的数据，按照上面的说明来处理，另一种当然是直接下载我这处理好的数据啦，然后把数据csv文件放入neo4j安装目录下的import目录下，链接：<a href="https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ</a><br>提取码：7qv1<br>复制这段内容后打开百度网盘手机App，操作更方便哦我的路径是：</p><pre><code>E:\neo4j-community-3.5.3-windows\neo4j-community-3.5.3\import</code></pre><p>然后你们参照着这个来找吧。</p><p>上一篇中提到了问题分类的训练集怎么构造的，也提到了问题模板，<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/tree/master/movie_QA_with_KQ/data/question" target="_blank" rel="noopener">github</a>上也有相关数据，可以直接下载，其中A是问题分类的训练数据，B是问题模板。<br><img src="https://img-blog.csdnimg.cn/20190506205317373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="问题分类相关数据集"><br>好吧，今天就写到这里了，我感觉又是一大堆废话，才写没多久，哎，大家先讲究着看，如果实在看不下去了就去找其他教程吧。希望以后空闲时间多一点的时候，多一些干活，少一些废话，保质保量。</p>]]></content>
       
       
       <categories>
@@ -96,35 +125,6 @@
       <url>/2019/04/16/%E6%88%91%E7%9A%84%E6%90%AC%E7%A0%96%E5%B7%A5%E5%85%B7%EF%BC%88%E7%A7%91%E7%A0%94%E5%B7%A5%E5%85%B7%EF%BC%89%E6%8E%A8%E8%8D%90-%E9%99%84%E4%B8%8B%E8%BD%BD%E9%93%BE%E6%8E%A5/</url>
       
         <content type="html"><![CDATA[<h3 id="论文搜索："><a href="#论文搜索：" class="headerlink" title="论文搜索："></a><strong>论文搜索：</strong></h3><ul><li><a href="https://www.semanticscholar.org/" target="_blank" rel="noopener">semantic scholar</a> or 谷歌学术  or   谷歌学术搜索按钮插件  </li><li><p>NLP论文list:  <a href="https://aclanthology.coli.uni-saarland.de/" target="_blank" rel="noopener">ACL Anthology</a></p><p>第一个国内都可以访问，后面的需要访问国外，如果学校图书馆可以上谷歌学术的话，可以直接使用后两个。做自然语言处理的可以在ACL网站上找最新的论文。</p></li></ul><h3 id="文献管理工具："><a href="#文献管理工具：" class="headerlink" title="文献管理工具："></a>文献管理工具：</h3><p><a href="https://www.mendeley.com/?interaction_required=true" target="_blank" rel="noopener"><strong>Mendeley</strong></a></p><p>之前不习惯用文献管理工具，就把论文分门别类的放在指定的文件夹下，但是找起来非常不方便，后面找到了mendeley，也慢慢的习惯了，后面还给整个小组安利这款文献管理工具，刚开始使用可能不太熟悉，网上有相应的教程。对了，他还会根据你的文献，给你推荐论文。</p><h3 id="pdf阅读器："><a href="#pdf阅读器：" class="headerlink" title="pdf阅读器："></a>pdf阅读器：</h3><p> <a href="https://blog.csdn.net/xintingandzhouyang/article/details/82558235" target="_blank" rel="noopener"><strong>Adobe Acrobat 2017</strong></a></p><p>虽然mendeley里面也可以阅读pdf，里面的highlight功能和notes功能也特别好用，但是因为大部分用有道词典划词翻译的时候可能会出现多余的空格，以至于不能准确的翻译。然后也因为另一个工作不得不使用acorbat，所以干脆就都使用这个阅读器了（是缘分让我们相遇）。这个软件是集阅读和编辑于一身，所以我把福析阅读器都给卸载了。</p><h3 id="思维导图工具："><a href="#思维导图工具：" class="headerlink" title="思维导图工具："></a>思维导图工具：</h3><p><a href="https://blog.csdn.net/qq_16093323/article/details/80967867" target="_blank" rel="noopener"><strong>xmind 8 pro 破解版</strong></a></p><p>pro版有各种模板，也可以直接将思维导图转化为word，ppt等格式。有人推荐幕布，这个没用过，大家也可以试试。</p><h3 id="根据论文找代码"><a href="#根据论文找代码" class="headerlink" title="根据论文找代码"></a>根据论文找代码</h3><p><a href="https://paperswithcode.com/" target="_blank" rel="noopener"><strong>paperswithcode</strong></a><br><strong>github</strong><br>这个网站上，输入论文名字，就会匹配出对应的代码，也会给出当前任务的SOTA的分数和代码等信息。不过有时候在这个网站上搜不到，这个时候可以直接在github上搜索.</p><h3 id="论文翻译工具"><a href="#论文翻译工具" class="headerlink" title="论文翻译工具"></a>论文翻译工具</h3><p><a href="http://tongtianta.site/" target="_blank" rel="noopener">通天塔</a></p><p>免费的论文翻译喔</p><h3 id="将word格式转化为markdown格式"><a href="#将word格式转化为markdown格式" class="headerlink" title="将word格式转化为markdown格式"></a>将word格式转化为markdown格式</h3><p><a href="https://word2md.com/" target="_blank" rel="noopener"><strong>word2md</strong></a><br>只需要散步就可以将将word格式转化markdown格式，前提是你word的格式很标准，我是这么用的，首先使用上面的思维导图对论文做笔记，然后转化为word，如果要发博客的话，就通过这个工具将word格式转为md格式，手动调整的地方很少。</p><h3 id="将markdown文件排版为微信公众号文章"><a href="#将markdown文件排版为微信公众号文章" class="headerlink" title="将markdown文件排版为微信公众号文章"></a>将markdown文件排版为微信公众号文章</h3><p><a href="http://blog.didispace.com/tools/online-markdown/" target="_blank" rel="noopener"><strong>markdown转化工具</strong></a><br>如果你不需要啥花里胡哨的东西，这个基本上就够用了，专业的微信排版工具可以使用135编辑器，他那个封面图的做的还可以。</p><h3 id="论文书写工具"><a href="#论文书写工具" class="headerlink" title="论文书写工具"></a>论文书写工具</h3><ul><li><a href="https://www.overleaf.com/" target="_blank" rel="noopener"><strong>overleaf</strong></a></li><li><a href="http://www.tablesgenerator.com/" target="_blank" rel="noopener"><strong>tablegenerator</strong></a></li></ul><p>这个也是我给同学强烈安利的一个文具，在线latex编辑器，还可以多人合作，还有各种会议期刊的模板，简直不要太好，后面一个是快速生成表格代码的工具。论文中的矢量图的处理过程为：visio画图=》保存成pdf=》使用上面推荐的pdf编辑器对pdf进行裁剪=》另存为eps格式。</p><h3 id="人工智能领域国际会议投稿deadline"><a href="#人工智能领域国际会议投稿deadline" class="headerlink" title="人工智能领域国际会议投稿deadline"></a>人工智能领域国际会议投稿deadline</h3><ul><li><a href="https://aideadlin.es/?sub=NLP,RO,SP,ML,CV" target="_blank" rel="noopener"><strong>AI Conference Deadlines</strong></a></li></ul><h3 id="英语写作相关"><a href="#英语写作相关" class="headerlink" title="英语写作相关"></a>英语写作相关</h3><ul><li>语法检查工具： Grammaly、1Checker、ginger</li><li>词语搭配工具：Writefull、Linggle</li></ul><p>上面那三个软件建议都安装，反正也不大，可以是单独的安装，也可以安装成office的插件，也可以在添加到谷歌浏览器的插件，这样在office里面写英语，网页上写英语，语法啥的都有提示，慢慢的你就有写英语的信心了。</p><h3 id="效率工具"><a href="#效率工具" class="headerlink" title="效率工具"></a>效率工具</h3><ul><li>文件搜索工具：listry</li></ul><p><strong><em>有空补充</em></strong></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Experiment </category>
-          
-          <category> Python </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 知识图谱 </tag>
-            
-            <tag> 问答系统 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取</title>
-      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/"/>
-      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p>啦啦啦，终于快写完了，虽然我也知道并没有写什么实质性的东西，至少我坚持下来啦，后面再慢慢多拧拧，少一些水分。</p></blockquote><p>在上一篇中，主要介绍了如何从接收到的用户问题中抽取关键信息，以及如何识别用户的意图，那么接下来就将介绍在得到了这些信息后，如何在知识图谱中查询答案。我在处理这个问题时，想得很直接，简单来说，每个问题模板就对应了一个用户意图，那么就按照每个意图来写查询语句，这是一种简单粗暴的方法，优点就是就只有简单了，缺点当然很多了，比如不利于维护以及扩展等。现在要有维护扩展的意识，但是具体实现是，如果想快速实现一个demo的话，可以使用这种简单粗暴方法。下面就对获取答案进行介绍。</p><p>首先，我定义了一个问题模板的方法字典，每一个key对应模板的编号，value就是根据该模板来查询答案的方法，结构如下：</p><pre><code>self.q_template_dict={            0:self.get_movie_rating,            1:self.get_movie_releasedate,            2:self.get_movie_type,            3:self.get_movie_introduction,            4:self.get_movie_actor_list,            5:self.get_actor_info,            6:self.get_actor_act_type_movie,            7:self.get_actor_act_movie_list,            8:self.get_movie_rating_bigger,            9:self.get_movie_rating_smaller,            10:self.get_actor_movie_type,            11:self.get_cooperation_movie_list,            12:self.get_actor_movie_num,            13:self.get_actor_birthday        }</code></pre><p>当我们得到用户问题，以及该问题的模板后需要做那些工作呢？<br>首先时利用上一篇介绍的方法来获取问题的关键信息，然后就根据模板编号来调用相应的方法，整体框架的代码如下：</p><pre><code>    def get_question_answer(self,question,template):        # 如果问题模板的格式不正确则结束        assert len(str(template).strip().split(&quot;\t&quot;))==2        template_id,template_str=int(str(template).strip().split(&quot;\t&quot;)[0]),str(template).strip().split(&quot;\t&quot;)[1]        self.template_id=template_id        self.template_str2list=str(template_str).split()        # 预处理问题        question_word,question_flag=[],[]        for one in question:            word, flag = one.split(&quot;/&quot;)            question_word.append(str(word).strip())            question_flag.append(str(flag).strip())        assert len(question_flag)==len(question_word)        self.question_word=question_word        self.question_flag=question_flag        self.raw_question=question        # 根据问题模板来做对应的处理，获取答案        answer=self.q_template_dict[template_id]()        return answer</code></pre><p>进入到对应的方法中，利用Cypher语言来构建查询语句，其基本形式是：</p><pre><code>match(n)-[r] -(b)</code></pre><p>Cypher语言不太懂没关系，也可以直接使用python的库py2neo来操作图数据库neo4j。这里只涉及到查询操作，所以我直接构造了Cypher查询语句，然后使用py2neo库的run方法来查询，数据库的链接和查询我单独的写了一个类，在需要的时候调用即可：</p><pre><code>from py2neo import Graph,Node,Relationship,NodeMatcherclass Query():    def __init__(self):        self.graph=Graph(&quot;http://localhost:7474&quot;, username=&quot;neo4j&quot;,password=&quot;123456&quot;)    # 问题类型0，查询电影得分    def run(self,cql):        # find_rela  = test_graph.run(&quot;match (n:Person{name:&#39;张学友&#39;})-[actedin]-(m:Movie) return m.title&quot;)        result=[]        find_rela = self.graph.run(cql)        for i in find_rela:            result.append(i.items()[0][1])        return result</code></pre><p>比如这里以查询某部电影的演员列表为例，查询答案的代码为：</p><pre><code># 4:nm 演员列表    def get_movie_actor_list(self):        movie_name=self.get_movie_name()        cql = f&quot;match(n:Person)-[r:actedin]-&gt;(m:Movie) where m.title=&#39;{movie_name}&#39; return n.name&quot;        print(cql)        answer = self.graph.run(cql)        answer_set = set(answer)        answer_list = list(answer_set)        answer = &quot;、&quot;.join(answer_list)        final_answer = movie_name + &quot;由&quot; + str(answer) + &quot;等演员主演！&quot;        return final_answer</code></pre><p>主要是构造Cypher语句，然后调用py2neo的run方法，对得到的答案进行处理这几步，得到答案返回即可。</p><p>这个系列这里也就差不多了吧，除了目录，也只有4篇，所以这并不是一个很详细的教程，主要是想帮助大家对代码的理解，理清思路或者扰乱思路。在做试验的时候，我就是先理清思路再写的，这或许是一个不错的方法，由于这个教程不是很详细，大家有被我搅晕的地方，可以给我发邮件（irvingbei@qq.com ）或者直接评论，也可以去网上找找资料。最后，这也是一个python版本，很好上手，大家不妨试一试。</p>]]></content>
       
       
       <categories>
@@ -223,9 +223,9 @@
       
         <tags>
             
-            <tag> 阅读理解 </tag>
-            
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
         </tags>
       
@@ -252,9 +252,9 @@
       
         <tags>
             
-            <tag> 阅读理解 </tag>
-            
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
         </tags>
       
@@ -424,9 +424,9 @@
       
         <tags>
             
-            <tag> 阅读理解 </tag>
-            
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
         </tags>
       
@@ -482,9 +482,9 @@
       
         <tags>
             
-            <tag> 阅读理解 </tag>
-            
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
         </tags>
       
@@ -540,9 +540,9 @@
       
         <tags>
             
-            <tag> 阅读理解 </tag>
-            
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
         </tags>
       
@@ -569,9 +569,9 @@
       
         <tags>
             
-            <tag> 阅读理解 </tag>
-            
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
         </tags>
       
@@ -598,9 +598,9 @@
       
         <tags>
             
-            <tag> 笔记 </tag>
-            
             <tag> Tensorflow </tag>
+            
+            <tag> 笔记 </tag>
             
         </tags>
       
@@ -627,7 +627,36 @@
       
         <tags>
             
+            <tag> 论文笔记 </tag>
+            
             <tag> 阅读理解 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【论文笔记01】Phrase-Based &amp; Neural Unsupervised Machine Translation</title>
+      <link href="/2018/10/13/%E3%80%90%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B001%E3%80%91Phrase-Based%20&amp;%20Neural%20Unsupervised%20Machine%20Translation/"/>
+      <url>/2018/10/13/%E3%80%90%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B001%E3%80%91Phrase-Based%20&amp;%20Neural%20Unsupervised%20Machine%20Translation/</url>
+      
+        <content type="html"><![CDATA[<p>这篇论文来源于EMNLP2018，<a href="https://arxiv.org/abs/1804.07755" target="_blank" rel="noopener">论文地址</a>，这次采用了思维导图的方式记录笔记，思维导图的缩略图如下：<img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/pnumt/p1.png" alt="论文笔记思维导图"></p><p>该思维导图较大，于是上传时进行了压缩，可以直接点击思维导图地址进行交互式的访问或下载，<a href="http://219.153.130.77:8094/swdt.html" target="_blank" rel="noopener">思维导图地址</a>，<a href="http://118.24.7.16/swdt.html" target="_blank" rel="noopener">备用思维导图地址</a></p><p>效果图：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/pnumt/p2.png" alt="交互式思维导图截图"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> NOTES </category>
+          
+          <category> Papers </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器翻译 </tag>
             
             <tag> 论文笔记 </tag>
             
@@ -656,38 +685,9 @@
       
         <tags>
             
+            <tag> 论文笔记 </tag>
+            
             <tag> 阅读理解 </tag>
-            
-            <tag> 论文笔记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>【论文笔记01】Phrase-Based &amp; Neural Unsupervised Machine Translation</title>
-      <link href="/2018/10/13/%E3%80%90%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B001%E3%80%91Phrase-Based%20&amp;%20Neural%20Unsupervised%20Machine%20Translation/"/>
-      <url>/2018/10/13/%E3%80%90%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B001%E3%80%91Phrase-Based%20&amp;%20Neural%20Unsupervised%20Machine%20Translation/</url>
-      
-        <content type="html"><![CDATA[<p>这篇论文来源于EMNLP2018，<a href="https://arxiv.org/abs/1804.07755" target="_blank" rel="noopener">论文地址</a>，这次采用了思维导图的方式记录笔记，思维导图的缩略图如下：<img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/pnumt/p1.png" alt="论文笔记思维导图"></p><p>该思维导图较大，于是上传时进行了压缩，可以直接点击思维导图地址进行交互式的访问或下载，<a href="http://219.153.130.77:8094/swdt.html" target="_blank" rel="noopener">思维导图地址</a>，<a href="http://118.24.7.16/swdt.html" target="_blank" rel="noopener">备用思维导图地址</a></p><p>效果图：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/pnumt/p2.png" alt="交互式思维导图截图"></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> NOTES </category>
-          
-          <category> Papers </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 论文笔记 </tag>
-            
-            <tag> 机器翻译 </tag>
             
         </tags>
       
@@ -1517,33 +1517,6 @@
     
     
     <entry>
-      <title>【笔记】01：《统计学习方法》-感知机模型学习笔记</title>
-      <link href="/2017/12/13/%E3%80%8A%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E3%80%8B-%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-      <url>/2017/12/13/%E3%80%8A%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E3%80%8B-%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[<p> 用简单的方法学习 ——北北</p><p><a id="more"></a><strong>感知机模型描述</strong><br>:   这一部分主要介绍感知机是什么？</p><blockquote><p>假设输入空间（输入空间即为特征空间，由实例的各种特征组成）是χ⊆R*，输出空间是Y={-1,+1}。当输入x∈χ表示实例的特征向量，对应于输入空间（特征向量）的点，输出y∈Y表示实例的类别。由输入空间到输出空间的如下函数：</p><script type="math/tex; mode=display">f(x) = sign(w·x+b)</script><p>其中，w和b为感知机模型，w∈R*叫做权值或权值向量（在多数情况下，w是一个列向量），b∈R叫做偏置。</p></blockquote><p><strong><em>Tips：</em></strong><br>（1）w·x表示w和x的内积，若w=（w1，w2，w3），x=（x1，x2，x3），则</p><pre><code>$$w·x=∑wi·xi=w1·x1+w2·x2+w3·x3$$</code></pre><p>（2）sign(x)是一个符号函数，它根据x的输出1或-1</p><blockquote><p>感知机是一种线性分类模型，属于判别模型，其几何解释是线性方程<script type="math/tex">w·x+b=0</script>对应于特征空间的一个超平面S（二维情况下，该线性方程退化为一条直线），其中，w是超平面的法向量，b是平面的截距（如果是二维情况下，b就是在坐标轴上的截距），这个超平面将特征空间分为两部分，位于两部分的点分别被分为正负两类。因此，超平面称之为分离超平面（二维情况下是分割线）。<br>    <img src="http://img.blog.csdn.net/20170916103921608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="感知机模型"></p></blockquote><p><strong>感知机学习策略</strong><br>:   这一部分主要介绍如何衡量模型中的参数的好坏。<br>感知机学习的目标是求得一个能够将训练集正实例和负实例完全正确分开的分离超平面，为在这个寻找超平面的过程中（即确定感知机模型参数w，b），就需要衡量每次得到的模型参数的好坏，那么如何衡量呢？而通常使用损失函数来度量预测值与真实值之间的差距。于是我们在求最好的模型参数就相当于求极小化的损失函数。<br>再想想感知机的学习目标（将正实例和负实例完全正确分开），如果把分错了类型的点（误分类点）的多少作为衡量呢？效果会怎么样？这样的话，如果模型参数差，那么分错的点就很多，如果模型参数好的话，分错的点就很少，貌似有点道理。但是把误分类点的总数作为损失函数的话，此时的损失函数不是参数w，b的连续可导函数，所以不能直接使用误分类点总数。有没有办法将误分类总数转化为其他的衡量方式呢？于是想到将误分类点到超平面的S的总距离作为损失函数，而就是感知机的学习策略。</p><p>首先，输入空间R*中任意一点x0到超平面S的距离可以表示成：</p><script type="math/tex; mode=display">d= \dfrac{1}{||w||} |w·x0+b|$$**Tips:**（1）对这个公式的理解可以来源于中学的点到平面的距离公式，$$d = \dfrac{|Ax0+By0+Cz0+D|}{\sqrt{A^2+B^2+C^2 }} $$公式中的平面方程为Ax+By+Cz+D=0，点P的坐标(x0,y0,z0)，d为点P到平面的距离。（2）||w||是w的l2范数，即：$$||w||={\sqrt{w1^2+w2^2+...+wn^2}}$$这个形式看着像传统点到平面公式的分母，实际上，它就是距离公式中的分母，在传统的公式中，分母是各个变量前面系数的平方和开根号，而现在对于超平面：w·x+b=0，变量前面的系数是w，且w是个向量，这就是公式中||w||的由来。同理，公式中的b相当于传统公式中的D。 接下来我们来想想如何打开绝对值得问题，对于误分类的数据（xi,yi)来说,$$-yi(w·xi+b)>0$$总是成立的，因为当w·xi+b>0时，yi=-1；当w·xi+b<0时，yi=1。故误分类点到超平面的距离是$$-\dfrac{1}{||w||}·yi· （w·xi+b）</script><p> 假设误分类点的集合为M，则所有误分类点到超平面S的总距离为<script type="math/tex">-\dfrac{1}{||w||}∑yi· （w·xi+b）</script>其中，xi∈M。若不考虑$\dfrac{1}{||w||}$，就得到来感知机学习的损失函数：<script type="math/tex">L(w,b)=-∑yi· （w·xi+b）</script><br>其中，xi∈M。</p><p><strong>感知机学习算法</strong><br>:   这一部分主要介绍如何找到最好的参数，主要有原始形式的算法和对偶形式的算法。<br><strong>原始形式</strong><br><img src="http://img.blog.csdn.net/20170916151514384?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><strong>对偶形式</strong>(未完待续)</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> NOTES </category>
-          
-          <category> Statistical </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 笔记 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>【自然语言处理入门】01：利用jieba对数据集进行分词，并统计词频</title>
       <link href="/2017/12/13/%E3%80%90%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%85%A5%E9%97%A8%E3%80%9101%EF%BC%9A%E5%88%A9%E7%94%A8jieba%E5%AF%B9%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D%EF%BC%8C%E5%B9%B6%E7%BB%9F%E8%AE%A1%E8%AF%8D%E9%A2%91/"/>
       <url>/2017/12/13/%E3%80%90%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%85%A5%E9%97%A8%E3%80%9101%EF%BC%9A%E5%88%A9%E7%94%A8jieba%E5%AF%B9%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D%EF%BC%8C%E5%B9%B6%E7%BB%9F%E8%AE%A1%E8%AF%8D%E9%A2%91/</url>
@@ -1563,6 +1536,33 @@
         <tags>
             
             <tag> 自然语言处理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>【笔记】01：《统计学习方法》-感知机模型学习笔记</title>
+      <link href="/2017/12/13/%E3%80%8A%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E3%80%8B-%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <url>/2017/12/13/%E3%80%8A%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E3%80%8B-%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<p> 用简单的方法学习 ——北北</p><p><a id="more"></a><strong>感知机模型描述</strong><br>:   这一部分主要介绍感知机是什么？</p><blockquote><p>假设输入空间（输入空间即为特征空间，由实例的各种特征组成）是χ⊆R*，输出空间是Y={-1,+1}。当输入x∈χ表示实例的特征向量，对应于输入空间（特征向量）的点，输出y∈Y表示实例的类别。由输入空间到输出空间的如下函数：</p><script type="math/tex; mode=display">f(x) = sign(w·x+b)</script><p>其中，w和b为感知机模型，w∈R*叫做权值或权值向量（在多数情况下，w是一个列向量），b∈R叫做偏置。</p></blockquote><p><strong><em>Tips：</em></strong><br>（1）w·x表示w和x的内积，若w=（w1，w2，w3），x=（x1，x2，x3），则</p><pre><code>$$w·x=∑wi·xi=w1·x1+w2·x2+w3·x3$$</code></pre><p>（2）sign(x)是一个符号函数，它根据x的输出1或-1</p><blockquote><p>感知机是一种线性分类模型，属于判别模型，其几何解释是线性方程<script type="math/tex">w·x+b=0</script>对应于特征空间的一个超平面S（二维情况下，该线性方程退化为一条直线），其中，w是超平面的法向量，b是平面的截距（如果是二维情况下，b就是在坐标轴上的截距），这个超平面将特征空间分为两部分，位于两部分的点分别被分为正负两类。因此，超平面称之为分离超平面（二维情况下是分割线）。<br>    <img src="http://img.blog.csdn.net/20170916103921608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="感知机模型"></p></blockquote><p><strong>感知机学习策略</strong><br>:   这一部分主要介绍如何衡量模型中的参数的好坏。<br>感知机学习的目标是求得一个能够将训练集正实例和负实例完全正确分开的分离超平面，为在这个寻找超平面的过程中（即确定感知机模型参数w，b），就需要衡量每次得到的模型参数的好坏，那么如何衡量呢？而通常使用损失函数来度量预测值与真实值之间的差距。于是我们在求最好的模型参数就相当于求极小化的损失函数。<br>再想想感知机的学习目标（将正实例和负实例完全正确分开），如果把分错了类型的点（误分类点）的多少作为衡量呢？效果会怎么样？这样的话，如果模型参数差，那么分错的点就很多，如果模型参数好的话，分错的点就很少，貌似有点道理。但是把误分类点的总数作为损失函数的话，此时的损失函数不是参数w，b的连续可导函数，所以不能直接使用误分类点总数。有没有办法将误分类总数转化为其他的衡量方式呢？于是想到将误分类点到超平面的S的总距离作为损失函数，而就是感知机的学习策略。</p><p>首先，输入空间R*中任意一点x0到超平面S的距离可以表示成：</p><script type="math/tex; mode=display">d= \dfrac{1}{||w||} |w·x0+b|$$**Tips:**（1）对这个公式的理解可以来源于中学的点到平面的距离公式，$$d = \dfrac{|Ax0+By0+Cz0+D|}{\sqrt{A^2+B^2+C^2 }} $$公式中的平面方程为Ax+By+Cz+D=0，点P的坐标(x0,y0,z0)，d为点P到平面的距离。（2）||w||是w的l2范数，即：$$||w||={\sqrt{w1^2+w2^2+...+wn^2}}$$这个形式看着像传统点到平面公式的分母，实际上，它就是距离公式中的分母，在传统的公式中，分母是各个变量前面系数的平方和开根号，而现在对于超平面：w·x+b=0，变量前面的系数是w，且w是个向量，这就是公式中||w||的由来。同理，公式中的b相当于传统公式中的D。 接下来我们来想想如何打开绝对值得问题，对于误分类的数据（xi,yi)来说,$$-yi(w·xi+b)>0$$总是成立的，因为当w·xi+b>0时，yi=-1；当w·xi+b<0时，yi=1。故误分类点到超平面的距离是$$-\dfrac{1}{||w||}·yi· （w·xi+b）</script><p> 假设误分类点的集合为M，则所有误分类点到超平面S的总距离为<script type="math/tex">-\dfrac{1}{||w||}∑yi· （w·xi+b）</script>其中，xi∈M。若不考虑$\dfrac{1}{||w||}$，就得到来感知机学习的损失函数：<script type="math/tex">L(w,b)=-∑yi· （w·xi+b）</script><br>其中，xi∈M。</p><p><strong>感知机学习算法</strong><br>:   这一部分主要介绍如何找到最好的参数，主要有原始形式的算法和对偶形式的算法。<br><strong>原始形式</strong><br><img src="http://img.blog.csdn.net/20170916151514384?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><strong>对偶形式</strong>(未完待续)</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> NOTES </category>
+          
+          <category> Statistical </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 笔记 </tag>
             
         </tags>
       
