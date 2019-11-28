@@ -642,38 +642,39 @@ nnt的电影作品有哪些
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理/">
+                <a href="/2019/11/28/小记BertTokenizer中英文分词/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="小记BertTokenizer中英文分词">
                         
-                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统4-用户问题预处理</span>
+                        <span class="card-title">小记BertTokenizer中英文分词</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-今天冷得，我在五月份穿了三件衣服，你敢相信。。。
+                            使用Hugging Face提供的pytorch接口来使用bert，这篇主要记录下BertTokenizer中英文分词情况。
 
-这篇主要介绍对用户问题的处理，也就是从获取用户问题到明白用户意图这个过程，主要涉及到命名实体识别（这个任务简单，我就用词性标注来代替了），问题分类，以及填充问题模板这几个部分。介绍的时候
+1、准备pip install pytorch-pretrained-bert
+
+2、分词思路BertToken
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-04-16
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-11-28
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Experiment/" class="post-category">
-                                    Experiment
+                            <a href="/categories/NLP/" class="post-category">
+                                    NLP
                                 </a>
                             
-                            <a href="/categories/Experiment/Python/" class="post-category">
-                                    Python
+                            <a href="/categories/NLP/深度学习/" class="post-category">
+                                    深度学习
                                 </a>
                             
                             
@@ -683,12 +684,12 @@ nnt的电影作品有哪些
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/知识图谱/">
-                        <span class="chip bg-color">知识图谱</span>
+                    <a href="/tags/NLP/">
+                        <span class="chip bg-color">NLP</span>
                     </a>
                     
-                    <a href="/tags/问答系统/">
-                        <span class="chip bg-color">问答系统</span>
+                    <a href="/tags/Bert/">
+                        <span class="chip bg-color">Bert</span>
                     </a>
                     
                 </div>
@@ -702,22 +703,22 @@ nnt的电影作品有哪些
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备/">
+                <a href="/2019/04/16/300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取">
                         
-                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备</span>
+                        <span class="card-title">300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             
-貌似很久没有写了，这段时间一直在忙着准备复试，就有点耽误了，好吧，今天继续写。你们的魔鬼又来啦  （什么鬼 
+啦啦啦，终于快写完了，虽然我也知道并没有写什么实质性的东西，至少我坚持下来啦，后面再慢慢多拧拧，少一些水分。
 
-在上一篇中，我对整个系统的业务逻辑啰里啰唆的梳理了一遍，如果你被我绕晕了，那也没关系，因为不用看上面那篇也能继续往下走，当你自
+在上一篇中，主要介绍了如何从接收到的用户问题中抽取关键信息，以及如何识别用户的意图，那么接下来就将介绍在得到了这些信息后，如何
                         
                     </div>
                     <div class="publish-info">
