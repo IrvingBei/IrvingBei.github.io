@@ -423,7 +423,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    846
+                    985
                 </div>
                 
 
@@ -459,10 +459,21 @@
 </ul>
 <p>要在此模型下对单词进行记号化，tokenizer首先检查整个单词是否在词汇表中。如果没有，则尝试将单词分解为词汇表中包含的尽可能大的子单词，最后将单词分解为单个字符。注意，由于这个原因，我们总是可以将一个单词表示为至少是它的单个字符的集合。<br>因此，不是将词汇表中的单词分配给诸如“OOV”或“UNK”之类的全集令牌，而是将词汇表中没有的单词分解为子单词和字符令牌，然后我们可以为它们生成嵌入。</p>
 <p>例如，对于词汇表中没有的单词embedding，我们没有将“embeddings”和词汇表之外的每个单词分配给一个重载的未知词汇表标记，而是将其拆分为子单词标记[‘ em ‘、’ ##bed ‘、’ ##ding ‘、’ ##s ‘]，这些标记将保留原单词的一些上下文含义。我们甚至可以平均这些子单词的嵌入向量来为原始单词生成一个近似的向量。</p>
-<h3 id="3、分词源代码"><a href="#3、分词源代码" class="headerlink" title="3、分词源代码"></a>3、分词源代码</h3><p>BERT的分词是Python的代码，打开tokenization.py就能看到这个文件里的代码还是很容易理解的。主要有两类，一类是功能性方法，另一类是不同的分词方法类。</p>
+<h3 id="3、简述分词源代码"><a href="#3、简述分词源代码" class="headerlink" title="3、简述分词源代码"></a>3、简述分词源代码</h3><p>BERT的分词是Python的代码，打开tokenization.py就能看到这个文件里的代码还是很容易理解的。主要有两类，一类是功能性方法，另一类是不同的分词方法类。</p>
 <h4 id="3-1-功能性方法"><a href="#3-1-功能性方法" class="headerlink" title="3.1  功能性方法"></a>3.1  功能性方法</h4><p>主要包含了5个功能方法：<br><strong>load_vocab(vocab_file)</strong> ：主要是加载词汇表，构建一个有序字典，并建立词汇和id之间的映射关系<br><strong>whitespace_tokenize(text)</strong>：将给定文本按照空格进行分词。<br><strong>_is_punctuation(char)</strong>：判断给定字符是否是标点符号；<br><strong>_is_control(char)</strong>：判断给定的字符是否是转义字符；<br><strong>_is_whitespace(char)</strong>：判断给定的支付是否是空白符；</p>
-<h4 id="3-2-三种分词方法"><a href="#3-2-三种分词方法" class="headerlink" title="3.2  三种分词方法"></a>3.2  三种分词方法</h4><p>（1）最常用的分词方法<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/20191128205055.png" alt="常用分词方法"><br>构造函数需要传入参数词典vocab_file和do_lower_case，函数首先调用load_vocab加载词典，建立词到id的映射关系。接下来是构造BasicTokenizer和WordpieceTokenizer。前者是根据空格等进行普通的分词，而后者会把前者的结果再细粒度的切分为WordPiece。<br>tokenize函数实现分词，它先调用BasicTokenizer进行分词，接着调用WordpieceTokenizer把前者的结果再做细粒度切分。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/20191128205606.png" alt="tokenize函数实现分词"><br>（2）BasicTokenizer<br>（3）WordpieceTokenizer</p>
-<h3 id="4、相关链接"><a href="#4、相关链接" class="headerlink" title="4、相关链接"></a>4、相关链接</h3><p>【1】<a href="https://blog.csdn.net/u011984148/article/details/99921480" target="_blank" rel="noopener">BERT中的词向量指南，非常的全面，非常的干货</a><br>【2】<a href="https://blog.csdn.net/jiaowoshouzi/article/details/89388794" target="_blank" rel="noopener">一本读懂BERT(实践篇)</a></p>
+<h4 id="3-2-三种分词方法"><a href="#3-2-三种分词方法" class="headerlink" title="3.2  三种分词方法"></a>3.2  三种分词方法</h4><p>（1）最常用的分词方法<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/20191128205055.png" alt="常用分词方法"><br>构造函数需要传入参数词典vocab_file和do_lower_case，函数首先调用load_vocab加载词典，建立词到id的映射关系。接下来是构造BasicTokenizer和WordpieceTokenizer。前者是根据空格等进行普通的分词，而后者会把前者的结果再细粒度的切分为WordPiece。<br>tokenize函数实现分词，它先调用BasicTokenizer进行分词，接着调用WordpieceTokenizer把前者的结果再做细粒度切分。<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/20191128205606.png" alt="tokenize函数实现分词"><br>（2）BasicTokenizer<br>（3）WordpieceTokenizer<br>后面这两种分词方法不做详细介绍，需要深入了解的可以直接查看源代码。</p>
+<h3 id="4、简单用法demo"><a href="#4、简单用法demo" class="headerlink" title="4、简单用法demo"></a>4、简单用法demo</h3><p>首先要下载预训练好的模型，然后放在指定目录下：<br><img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/20191203153325.png" alt="下载的支持中文的预训练模型"></p>
+<pre class=" language-lang-Python"><code class="language-lang-Python">from pytorch-pretrained-bert.tokenization import BertTokenizer
+# 加载bert分词器
+tokenizer = BertTokenizer.from_pretrained('./bert-base-chinese', do_lower_case=True)
+print(tokenizer.tokenize("我要去看北京的天安门"))
+print(tokenizer.tokenize("I will go to BeiJing"))
+</code></pre>
+<p>分词结果（中文是将文本分成单个字，而不是词语）：</p>
+<pre class=" language-lang-Python"><code class="language-lang-Python">['我', '要', '去', '看', '北', '京', '的', '天', '安', '门']
+['i', 'will', 'go', 'to', 'be', '##i', '##jing']
+</code></pre>
+<h3 id="5、相关链接"><a href="#5、相关链接" class="headerlink" title="5、相关链接"></a>5、相关链接</h3><p>【1】<a href="https://blog.csdn.net/u011984148/article/details/99921480" target="_blank" rel="noopener">BERT中的词向量指南，非常的全面，非常的干货</a><br>【2】<a href="https://blog.csdn.net/jiaowoshouzi/article/details/89388794" target="_blank" rel="noopener">一本读懂BERT(实践篇)</a></p>
 
             </div>
             <hr/>
