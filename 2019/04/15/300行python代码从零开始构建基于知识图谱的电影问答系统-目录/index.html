@@ -407,12 +407,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Experiment/" class="post-category">
-                                Experiment
-                            </a>
-                        
-                            <a href="/categories/Experiment/Python/" class="post-category">
-                                Python
+                            <a href="/categories/实验/" class="post-category">
+                                实验
                             </a>
                         
                     </div>
@@ -474,11 +470,11 @@
 </blockquote>
 <p>接下来根据业务逻辑从以下几个问题入手来介绍整个构建过程：</p>
 <ul>
-<li><a href="https://blog.csdn.net/xyz1584172808/article/details/89336478" target="_blank" rel="noopener">系统的整体逻辑是怎么样的？（系统业务逻辑介绍）</a></li>
-<li><a href="https://blog.csdn.net/xyz1584172808/article/details/89891248" target="_blank" rel="noopener">需要做那些准备工作？（实验环境和实验数据准备）</a></li>
-<li><a href="https://blog.csdn.net/xyz1584172808/article/details/89914745" target="_blank" rel="noopener">接收到用户的问题后需要怎么处理用户问题？（用户问题预处理）</a></li>
-<li><a href="https://blog.csdn.net/xyz1584172808/article/details/89914745" target="_blank" rel="noopener">怎么识别用户到底问的啥？（用户问题分类）</a></li>
-<li><p><a href="https://blog.csdn.net/xyz1584172808/article/details/89947813" target="_blank" rel="noopener">如果根据用户问题来查找答案？（答案获取）</a></p>
+<li><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F2-%E7%B3%BB%E7%BB%9F%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E4%BB%8B%E7%BB%8D/">系统的整体逻辑是怎么样的？（系统业务逻辑介绍）</a></li>
+<li><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/">需要做那些准备工作？（实验环境和实验数据准备）</a></li>
+<li><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F4-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%A2%84%E5%A4%84%E7%90%86/">接收到用户的问题后需要怎么处理用户问题？（用户问题预处理）</a></li>
+<li><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F4-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%A2%84%E5%A4%84%E7%90%86/">怎么识别用户到底问的啥？（用户问题分类）</a></li>
+<li><p><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/">如果根据用户问题来查找答案？（答案获取）</a></p>
 <p>对于这个系统的前端页面，是以前搞得一个基于信息检索的问答系统的界面，源代码见<a href="https://github.com/IrvingBei/chatbot_with_IR" target="_blank" rel="noopener">github</a></p>
 </li>
 </ul>
@@ -772,12 +768,8 @@ NLP论文list:  ACL Anthology
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Experiment/" class="post-category">
-                                    Experiment
-                                </a>
-                            
-                            <a href="/categories/Experiment/Python/" class="post-category">
-                                    Python
+                            <a href="/categories/资料整理/" class="post-category">
+                                    资料整理
                                 </a>
                             
                             
@@ -787,12 +779,12 @@ NLP论文list:  ACL Anthology
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/知识图谱/">
-                        <span class="chip bg-color">知识图谱</span>
+                    <a href="/tags/科研工具/">
+                        <span class="chip bg-color">科研工具</span>
                     </a>
                     
-                    <a href="/tags/问答系统/">
-                        <span class="chip bg-color">问答系统</span>
+                    <a href="/tags/软件推荐/">
+                        <span class="chip bg-color">软件推荐</span>
                     </a>
                     
                 </div>
@@ -809,8 +801,7 @@ NLP论文list:  ACL Anthology
                 <a href="/2019/04/11/Beam search 算法的通俗理解/">
                     <div class="card-image">
                         
-                        
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Beam search 算法的通俗理解">
+                        <img src="https://raw.githubusercontent.com/xiongzongyang/hexo_photo/master/0618/00.jpg" class="responsive-img" alt="Beam search 算法的通俗理解">
                         
                         <span class="card-title">Beam search 算法的通俗理解</span>
                     </div>
@@ -829,8 +820,8 @@ NLP论文list:  ACL Anthology
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/NOTES/" class="post-category">
-                                    NOTES
+                            <a href="/categories/深度学习/" class="post-category">
+                                    深度学习
                                 </a>
                             
                             

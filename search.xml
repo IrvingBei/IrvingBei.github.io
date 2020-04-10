@@ -40,16 +40,16 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> 深度学习 </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> NLP </tag>
+            <tag> 记录 </tag>
+            
+            <tag> 分词 </tag>
             
             <tag> Bert </tag>
             
@@ -69,67 +69,7 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 知识图谱 </tag>
-            
-            <tag> 问答系统 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备</title>
-      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/"/>
-      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p>貌似很久没有写了，这段时间一直在忙着准备复试，就有点耽误了，好吧，今天继续写。<del>你们的魔鬼又来啦</del>  （什么鬼 </p></blockquote><p>在上一篇中，我对整个系统的业务逻辑啰里啰唆的梳理了一遍，如果你被我绕晕了，那也没关系，因为不用看上面那篇也能继续往下走，当你自己理清楚他的逻辑的时候，你就会有一种踏破铁鞋无觅处，柳暗花明又一村的感觉，好吧下面言归正传。</p><p>这一篇主要介绍实验的准备工作，也就是为后续工作铺平道路，主要包含实验环境和实验数据准备两部分，那么接下来就依次介绍这两个。</p><h3 id="1、实验环境的搭建"><a href="#1、实验环境的搭建" class="headerlink" title="1、实验环境的搭建"></a>1、实验环境的搭建</h3><h5 id="（1）python环境的安装"><a href="#（1）python环境的安装" class="headerlink" title="（1）python环境的安装"></a>（1）python环境的安装</h5><p>本教程是基于python实现的，所以最基本的python环境要有，我的python版本是3.6，建议直接下载对应版本的anaconda来安装python，python环境搭建的具体细节这里就不做过多的介绍了，网上有很多，也可以直接参考anaconda官网。<br>接下来是安装依赖库，我把本项目涉及到的<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/blob/master/requirements.txt" target="_blank" rel="noopener">依赖库</a>打包好了，可以直接使用下面的命令来安装：</p><pre><code>pip install -r requirements.txt</code></pre><p>哦，对了，这个项目基于webpy库来搭建的，上面的库里面已经包含了，但是这里安装可以会出错，那就等其他库装好了再来装他。</p><blockquote><p>2019年5月10日09:03:18更新：webpy安装方式：<br><img src="https://img-blog.csdnimg.cn/20190510090408838.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="webpy安装方式"></p></blockquote><p>通过上述步骤，那么基本的环境就搭建好了，这好比修一座房子，四面墙砌好了。</p><h5 id="（2）知识图谱基本介绍"><a href="#（2）知识图谱基本介绍" class="headerlink" title="（2）知识图谱基本介绍"></a>（2）知识图谱基本介绍</h5><p>关于知识图谱，我自己也没研究得多深，所以请大家移步机器之心科普性的文章→ <a href="https://www.jiqizhixin.com/articles/2018-06-20-4" target="_blank" rel="noopener">这是一份通俗易懂的知识图谱技术与应用指南</a>，读了这篇文章，相信你对知识图谱有了一个初步的印象，其实质就是利用三元组来表示实体的一些信息，而关于这些信息的存储，一种是基于RDF的存储；另一种是基于图数据库的存储。而本项目采用的是图数据库存储，主要是图数据库较简单，还直观，要是你搞了半天，一个像样一点的东西都没搞出来，你还有继续搞下去的信心吗？于是我就选择了图数据库neo4j，关于这个数据库的安装，请参照<a href="https://blog.csdn.net/qq_30843221/article/details/53306540" target="_blank" rel="noopener">关于ubuntu下neo4j的安装与使用</a>不管你是在win下安装，还是linux下安装都是可以的，因为这些坑我都踩过了，另外，我这里给出来的链接都是我之前实验时，成功了的教程，如果我再重复写一遍，貌似也没有多少意思，倒不如直接把他们的链接给出来，同时也我对这些文章的感谢。好了，到了现在，python的开发环境有了，知识图谱的存储环境有了，就差数据了，所谓万事俱备只欠东风。<br><img src="https://img-blog.csdnimg.cn/20190506201635126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="这是安装好的数据库界面"></p><h3 id="2、实验数据"><a href="#2、实验数据" class="headerlink" title="2、实验数据"></a>2、实验数据</h3><p>数据来源于IMDB数据库，这是一个关于电影演员、电影、电视节目、电视明星和电影制作的在线数据库。我们需要哪些数据呢？想想我们的目标是啥，我们要查询某部电影的信息，比如电影的评分，上映时间、大体讲了啥内容等，也可能查询某位演员的个人信息，演了那些电影等，好了，这里就出现了两个实体，$电影$，$人物$，然后人物和电影之间有着直接的关系：<strong>[act]</strong>，即某人出演了某部电影，于是可以用这个关系连链接演员和电影，此外，图数据库的好处在这里就凸显出来了，除了这种实体与实体的关系外，图数据库还可以链接实体和他的属性，所以，为了说明这种情况，单独构造了电影的类型，他是电影的属性，电影和他之间的关系是<strong>is</strong>。那么理下关系，主要有电影和人物这两个实体，他们之间的关系是出演，比如李连杰出演了《卧虎藏龙》，除此之外，实体还有自己的属性，特别的，对电影的类型这一属性单独处理。数据的格式如下：<br>全部数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204004599.png" alt="全部数据文件"><br>人物实体数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204109978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="人物实体数据文件"><br>人物和电影之间的关系链接：<br><img src="https://img-blog.csdnimg.cn/2019050620420781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这里的pid指的是personid，mid指的是movieid，是不是和传统的关系型数据库很像。</p><p>前面对数据的情况进行了介绍，那么怎么获取这样的数据呢？一种方法是爬去imdb上的数据，按照上面的说明来处理，另一种当然是直接下载我这处理好的数据啦，然后把数据csv文件放入neo4j安装目录下的import目录下，链接：<a href="https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ</a><br>提取码：7qv1<br>复制这段内容后打开百度网盘手机App，操作更方便哦我的路径是：</p><pre><code>E:\neo4j-community-3.5.3-windows\neo4j-community-3.5.3\import</code></pre><p>然后你们参照着这个来找吧。</p><p>上一篇中提到了问题分类的训练集怎么构造的，也提到了问题模板，<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/tree/master/movie_QA_with_KQ/data/question" target="_blank" rel="noopener">github</a>上也有相关数据，可以直接下载，其中A是问题分类的训练数据，B是问题模板。<br><img src="https://img-blog.csdnimg.cn/20190506205317373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="问题分类相关数据集"><br>好吧，今天就写到这里了，我感觉又是一大堆废话，才写没多久，哎，大家先讲究着看，如果实在看不下去了就去找其他教程吧。希望以后空闲时间多一点的时候，多一些干活，少一些废话，保质保量。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Experiment </category>
-          
-          <category> Python </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 知识图谱 </tag>
-            
-            <tag> 问答系统 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取</title>
-      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/"/>
-      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p>啦啦啦，终于快写完了，虽然我也知道并没有写什么实质性的东西，至少我坚持下来啦，后面再慢慢多拧拧，少一些水分。</p></blockquote><p>在上一篇中，主要介绍了如何从接收到的用户问题中抽取关键信息，以及如何识别用户的意图，那么接下来就将介绍在得到了这些信息后，如何在知识图谱中查询答案。我在处理这个问题时，想得很直接，简单来说，每个问题模板就对应了一个用户意图，那么就按照每个意图来写查询语句，这是一种简单粗暴的方法，优点就是就只有简单了，缺点当然很多了，比如不利于维护以及扩展等。现在要有维护扩展的意识，但是具体实现是，如果想快速实现一个demo的话，可以使用这种简单粗暴方法。下面就对获取答案进行介绍。</p><p>首先，我定义了一个问题模板的方法字典，每一个key对应模板的编号，value就是根据该模板来查询答案的方法，结构如下：</p><pre><code>self.q_template_dict={            0:self.get_movie_rating,            1:self.get_movie_releasedate,            2:self.get_movie_type,            3:self.get_movie_introduction,            4:self.get_movie_actor_list,            5:self.get_actor_info,            6:self.get_actor_act_type_movie,            7:self.get_actor_act_movie_list,            8:self.get_movie_rating_bigger,            9:self.get_movie_rating_smaller,            10:self.get_actor_movie_type,            11:self.get_cooperation_movie_list,            12:self.get_actor_movie_num,            13:self.get_actor_birthday        }</code></pre><p>当我们得到用户问题，以及该问题的模板后需要做那些工作呢？<br>首先时利用上一篇介绍的方法来获取问题的关键信息，然后就根据模板编号来调用相应的方法，整体框架的代码如下：</p><pre><code>    def get_question_answer(self,question,template):        # 如果问题模板的格式不正确则结束        assert len(str(template).strip().split(&quot;\t&quot;))==2        template_id,template_str=int(str(template).strip().split(&quot;\t&quot;)[0]),str(template).strip().split(&quot;\t&quot;)[1]        self.template_id=template_id        self.template_str2list=str(template_str).split()        # 预处理问题        question_word,question_flag=[],[]        for one in question:            word, flag = one.split(&quot;/&quot;)            question_word.append(str(word).strip())            question_flag.append(str(flag).strip())        assert len(question_flag)==len(question_word)        self.question_word=question_word        self.question_flag=question_flag        self.raw_question=question        # 根据问题模板来做对应的处理，获取答案        answer=self.q_template_dict[template_id]()        return answer</code></pre><p>进入到对应的方法中，利用Cypher语言来构建查询语句，其基本形式是：</p><pre><code>match(n)-[r] -(b)</code></pre><p>Cypher语言不太懂没关系，也可以直接使用python的库py2neo来操作图数据库neo4j。这里只涉及到查询操作，所以我直接构造了Cypher查询语句，然后使用py2neo库的run方法来查询，数据库的链接和查询我单独的写了一个类，在需要的时候调用即可：</p><pre><code>from py2neo import Graph,Node,Relationship,NodeMatcherclass Query():    def __init__(self):        self.graph=Graph(&quot;http://localhost:7474&quot;, username=&quot;neo4j&quot;,password=&quot;123456&quot;)    # 问题类型0，查询电影得分    def run(self,cql):        # find_rela  = test_graph.run(&quot;match (n:Person{name:&#39;张学友&#39;})-[actedin]-(m:Movie) return m.title&quot;)        result=[]        find_rela = self.graph.run(cql)        for i in find_rela:            result.append(i.items()[0][1])        return result</code></pre><p>比如这里以查询某部电影的演员列表为例，查询答案的代码为：</p><pre><code># 4:nm 演员列表    def get_movie_actor_list(self):        movie_name=self.get_movie_name()        cql = f&quot;match(n:Person)-[r:actedin]-&gt;(m:Movie) where m.title=&#39;{movie_name}&#39; return n.name&quot;        print(cql)        answer = self.graph.run(cql)        answer_set = set(answer)        answer_list = list(answer_set)        answer = &quot;、&quot;.join(answer_list)        final_answer = movie_name + &quot;由&quot; + str(answer) + &quot;等演员主演！&quot;        return final_answer</code></pre><p>主要是构造Cypher语句，然后调用py2neo的run方法，对得到的答案进行处理这几步，得到答案返回即可。</p><p>这个系列这里也就差不多了吧，除了目录，也只有4篇，所以这并不是一个很详细的教程，主要是想帮助大家对代码的理解，理清思路或者扰乱思路。在做试验的时候，我就是先理清思路再写的，这或许是一个不错的方法，由于这个教程不是很详细，大家有被我搅晕的地方，可以给我发邮件（irvingbei@qq.com ）或者直接评论，也可以去网上找找资料。最后，这也是一个python版本，很好上手，大家不妨试一试。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -156,9 +96,61 @@
       
       <categories>
           
-          <category> Experiment </category>
+          <category> 实验 </category>
           
-          <category> Python </category>
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 知识图谱 </tag>
+            
+            <tag> 问答系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>300行python代码从零开始构建基于知识图谱的电影问答系统3-实验环境和实验数据准备</title>
+      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/"/>
+      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>貌似很久没有写了，这段时间一直在忙着准备复试，就有点耽误了，好吧，今天继续写。<del>你们的魔鬼又来啦</del>  （什么鬼 </p></blockquote><p>在上一篇中，我对整个系统的业务逻辑啰里啰唆的梳理了一遍，如果你被我绕晕了，那也没关系，因为不用看上面那篇也能继续往下走，当你自己理清楚他的逻辑的时候，你就会有一种踏破铁鞋无觅处，柳暗花明又一村的感觉，好吧下面言归正传。</p><p>这一篇主要介绍实验的准备工作，也就是为后续工作铺平道路，主要包含实验环境和实验数据准备两部分，那么接下来就依次介绍这两个。</p><h3 id="1、实验环境的搭建"><a href="#1、实验环境的搭建" class="headerlink" title="1、实验环境的搭建"></a>1、实验环境的搭建</h3><h5 id="（1）python环境的安装"><a href="#（1）python环境的安装" class="headerlink" title="（1）python环境的安装"></a>（1）python环境的安装</h5><p>本教程是基于python实现的，所以最基本的python环境要有，我的python版本是3.6，建议直接下载对应版本的anaconda来安装python，python环境搭建的具体细节这里就不做过多的介绍了，网上有很多，也可以直接参考anaconda官网。<br>接下来是安装依赖库，我把本项目涉及到的<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/blob/master/requirements.txt" target="_blank" rel="noopener">依赖库</a>打包好了，可以直接使用下面的命令来安装：</p><pre><code>pip install -r requirements.txt</code></pre><p>哦，对了，这个项目基于webpy库来搭建的，上面的库里面已经包含了，但是这里安装可以会出错，那就等其他库装好了再来装他。</p><blockquote><p>2019年5月10日09:03:18更新：webpy安装方式：<br><img src="https://img-blog.csdnimg.cn/20190510090408838.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="webpy安装方式"></p></blockquote><p>通过上述步骤，那么基本的环境就搭建好了，这好比修一座房子，四面墙砌好了。</p><h5 id="（2）知识图谱基本介绍"><a href="#（2）知识图谱基本介绍" class="headerlink" title="（2）知识图谱基本介绍"></a>（2）知识图谱基本介绍</h5><p>关于知识图谱，我自己也没研究得多深，所以请大家移步机器之心科普性的文章→ <a href="https://www.jiqizhixin.com/articles/2018-06-20-4" target="_blank" rel="noopener">这是一份通俗易懂的知识图谱技术与应用指南</a>，读了这篇文章，相信你对知识图谱有了一个初步的印象，其实质就是利用三元组来表示实体的一些信息，而关于这些信息的存储，一种是基于RDF的存储；另一种是基于图数据库的存储。而本项目采用的是图数据库存储，主要是图数据库较简单，还直观，要是你搞了半天，一个像样一点的东西都没搞出来，你还有继续搞下去的信心吗？于是我就选择了图数据库neo4j，关于这个数据库的安装，请参照<a href="https://blog.csdn.net/qq_30843221/article/details/53306540" target="_blank" rel="noopener">关于ubuntu下neo4j的安装与使用</a>不管你是在win下安装，还是linux下安装都是可以的，因为这些坑我都踩过了，另外，我这里给出来的链接都是我之前实验时，成功了的教程，如果我再重复写一遍，貌似也没有多少意思，倒不如直接把他们的链接给出来，同时也我对这些文章的感谢。好了，到了现在，python的开发环境有了，知识图谱的存储环境有了，就差数据了，所谓万事俱备只欠东风。<br><img src="https://img-blog.csdnimg.cn/20190506201635126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="这是安装好的数据库界面"></p><h3 id="2、实验数据"><a href="#2、实验数据" class="headerlink" title="2、实验数据"></a>2、实验数据</h3><p>数据来源于IMDB数据库，这是一个关于电影演员、电影、电视节目、电视明星和电影制作的在线数据库。我们需要哪些数据呢？想想我们的目标是啥，我们要查询某部电影的信息，比如电影的评分，上映时间、大体讲了啥内容等，也可能查询某位演员的个人信息，演了那些电影等，好了，这里就出现了两个实体，$电影$，$人物$，然后人物和电影之间有着直接的关系：<strong>[act]</strong>，即某人出演了某部电影，于是可以用这个关系连链接演员和电影，此外，图数据库的好处在这里就凸显出来了，除了这种实体与实体的关系外，图数据库还可以链接实体和他的属性，所以，为了说明这种情况，单独构造了电影的类型，他是电影的属性，电影和他之间的关系是<strong>is</strong>。那么理下关系，主要有电影和人物这两个实体，他们之间的关系是出演，比如李连杰出演了《卧虎藏龙》，除此之外，实体还有自己的属性，特别的，对电影的类型这一属性单独处理。数据的格式如下：<br>全部数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204004599.png" alt="全部数据文件"><br>人物实体数据文件：<br><img src="https://img-blog.csdnimg.cn/20190506204109978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="人物实体数据文件"><br>人物和电影之间的关系链接：<br><img src="https://img-blog.csdnimg.cn/2019050620420781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这里的pid指的是personid，mid指的是movieid，是不是和传统的关系型数据库很像。</p><p>前面对数据的情况进行了介绍，那么怎么获取这样的数据呢？一种方法是爬去imdb上的数据，按照上面的说明来处理，另一种当然是直接下载我这处理好的数据啦，然后把数据csv文件放入neo4j安装目录下的import目录下，链接：<a href="https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1HgjZFQ7q4V_8EzzjNmMwwQ</a><br>提取码：7qv1<br>复制这段内容后打开百度网盘手机App，操作更方便哦我的路径是：</p><pre><code>E:\neo4j-community-3.5.3-windows\neo4j-community-3.5.3\import</code></pre><p>然后你们参照着这个来找吧。</p><p>上一篇中提到了问题分类的训练集怎么构造的，也提到了问题模板，<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG/tree/master/movie_QA_with_KQ/data/question" target="_blank" rel="noopener">github</a>上也有相关数据，可以直接下载，其中A是问题分类的训练数据，B是问题模板。<br><img src="https://img-blog.csdnimg.cn/20190506205317373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h5ejE1ODQxNzI4MDg=,size_16,color_FFFFFF,t_70" alt="问题分类相关数据集"><br>好吧，今天就写到这里了，我感觉又是一大堆废话，才写没多久，哎，大家先讲究着看，如果实在看不下去了就去找其他教程吧。希望以后空闲时间多一点的时候，多一些干活，少一些废话，保质保量。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 实验 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 知识图谱 </tag>
+            
+            <tag> 问答系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>300行python代码从零开始构建基于知识图谱的电影问答系统5-答案获取</title>
+      <link href="/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/"/>
+      <url>/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>啦啦啦，终于快写完了，虽然我也知道并没有写什么实质性的东西，至少我坚持下来啦，后面再慢慢多拧拧，少一些水分。</p></blockquote><p>在上一篇中，主要介绍了如何从接收到的用户问题中抽取关键信息，以及如何识别用户的意图，那么接下来就将介绍在得到了这些信息后，如何在知识图谱中查询答案。我在处理这个问题时，想得很直接，简单来说，每个问题模板就对应了一个用户意图，那么就按照每个意图来写查询语句，这是一种简单粗暴的方法，优点就是就只有简单了，缺点当然很多了，比如不利于维护以及扩展等。现在要有维护扩展的意识，但是具体实现是，如果想快速实现一个demo的话，可以使用这种简单粗暴方法。下面就对获取答案进行介绍。</p><p>首先，我定义了一个问题模板的方法字典，每一个key对应模板的编号，value就是根据该模板来查询答案的方法，结构如下：</p><pre><code>self.q_template_dict={            0:self.get_movie_rating,            1:self.get_movie_releasedate,            2:self.get_movie_type,            3:self.get_movie_introduction,            4:self.get_movie_actor_list,            5:self.get_actor_info,            6:self.get_actor_act_type_movie,            7:self.get_actor_act_movie_list,            8:self.get_movie_rating_bigger,            9:self.get_movie_rating_smaller,            10:self.get_actor_movie_type,            11:self.get_cooperation_movie_list,            12:self.get_actor_movie_num,            13:self.get_actor_birthday        }</code></pre><p>当我们得到用户问题，以及该问题的模板后需要做那些工作呢？<br>首先时利用上一篇介绍的方法来获取问题的关键信息，然后就根据模板编号来调用相应的方法，整体框架的代码如下：</p><pre><code>    def get_question_answer(self,question,template):        # 如果问题模板的格式不正确则结束        assert len(str(template).strip().split(&quot;\t&quot;))==2        template_id,template_str=int(str(template).strip().split(&quot;\t&quot;)[0]),str(template).strip().split(&quot;\t&quot;)[1]        self.template_id=template_id        self.template_str2list=str(template_str).split()        # 预处理问题        question_word,question_flag=[],[]        for one in question:            word, flag = one.split(&quot;/&quot;)            question_word.append(str(word).strip())            question_flag.append(str(flag).strip())        assert len(question_flag)==len(question_word)        self.question_word=question_word        self.question_flag=question_flag        self.raw_question=question        # 根据问题模板来做对应的处理，获取答案        answer=self.q_template_dict[template_id]()        return answer</code></pre><p>进入到对应的方法中，利用Cypher语言来构建查询语句，其基本形式是：</p><pre><code>match(n)-[r] -(b)</code></pre><p>Cypher语言不太懂没关系，也可以直接使用python的库py2neo来操作图数据库neo4j。这里只涉及到查询操作，所以我直接构造了Cypher查询语句，然后使用py2neo库的run方法来查询，数据库的链接和查询我单独的写了一个类，在需要的时候调用即可：</p><pre><code>from py2neo import Graph,Node,Relationship,NodeMatcherclass Query():    def __init__(self):        self.graph=Graph(&quot;http://localhost:7474&quot;, username=&quot;neo4j&quot;,password=&quot;123456&quot;)    # 问题类型0，查询电影得分    def run(self,cql):        # find_rela  = test_graph.run(&quot;match (n:Person{name:&#39;张学友&#39;})-[actedin]-(m:Movie) return m.title&quot;)        result=[]        find_rela = self.graph.run(cql)        for i in find_rela:            result.append(i.items()[0][1])        return result</code></pre><p>比如这里以查询某部电影的演员列表为例，查询答案的代码为：</p><pre><code># 4:nm 演员列表    def get_movie_actor_list(self):        movie_name=self.get_movie_name()        cql = f&quot;match(n:Person)-[r:actedin]-&gt;(m:Movie) where m.title=&#39;{movie_name}&#39; return n.name&quot;        print(cql)        answer = self.graph.run(cql)        answer_set = set(answer)        answer_list = list(answer_set)        answer = &quot;、&quot;.join(answer_list)        final_answer = movie_name + &quot;由&quot; + str(answer) + &quot;等演员主演！&quot;        return final_answer</code></pre><p>主要是构造Cypher语句，然后调用py2neo的run方法，对得到的答案进行处理这几步，得到答案返回即可。</p><p>这个系列这里也就差不多了吧，除了目录，也只有4篇，所以这并不是一个很详细的教程，主要是想帮助大家对代码的理解，理清思路或者扰乱思路。在做试验的时候，我就是先理清思路再写的，这或许是一个不错的方法，由于这个教程不是很详细，大家有被我搅晕的地方，可以给我发邮件（irvingbei@qq.com ）或者直接评论，也可以去网上找找资料。最后，这也是一个python版本，很好上手，大家不妨试一试。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 实验 </category>
           
       </categories>
       
@@ -185,18 +177,16 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 资料整理 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 知识图谱 </tag>
+            <tag> 科研工具 </tag>
             
-            <tag> 问答系统 </tag>
+            <tag> 软件推荐 </tag>
             
         </tags>
       
@@ -209,14 +199,12 @@
       <link href="/2019/04/15/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F-%E7%9B%AE%E5%BD%95/"/>
       <url>/2019/04/15/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F-%E7%9B%AE%E5%BD%95/</url>
       
-        <content type="html"><![CDATA[<blockquote><p>平时除了看论文还是看论文，感觉有点无聊，于是嘛就想着搞点东西来玩玩，然后就搞了一个非常简单的基于知识图谱的电影问答系统。系统是用python实现的，大概只花了1天吧，代码也仅有300多行，可以说是很容易上手了。然后在这里也简单的记录下整个搭建过程，梳理思路，给那些像我一样想玩玩的童鞋一些参考，大佬请自动跳过。</p></blockquote><p>首先给来看看我们要实现的是什么东西，效果图如下：<br><img src="https://img-blog.csdnimg.cn/20190415192606960.gif" alt="demo"><br>完成这个系统主要涉及到以下一些知识点，其实知识点说不上，只需要对这些概念有印象即可，这个系统本来就是做着玩的，还不需要用那些复杂的东西。</p><ul><li>网络爬虫</li><li>自然语言处理</li><li>知识图谱</li><li>图数据库</li><li><p>机器学习</p><p>看着这些点感觉内容挺多的，其实真正用到的只是一丢丢啦，比如说对于机器学习，其实我们就是用其中的一个分类器就可以了。这几部分我都写成了对应的处理类，代码也上传<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG" target="_blank" rel="noopener">github</a>了，想提前玩玩的可以去下载来试试<del>（要是能给我个star就更好了（我怎么也这么无耻的来要star了。。。。</del> </p></li></ul><blockquote><p>本系列教程除了目录只有4篇，或许这并不是一个很详细的教程，主要是想帮助大家对代码的理解，理清思路或者扰乱思路。在做试验的时候，我就是先理清思路再写的，这是一个不错的方法，由于这个教程不是很详细，大家有被我搅晕的地方，可以给我发邮件（irvingbei@qq.com<br>或者xiongzy@std.uestc.edu.cn），也可以去网上找找资料。</p></blockquote><p>接下来根据业务逻辑从以下几个问题入手来介绍整个构建过程：</p><ul><li><a href="https://blog.csdn.net/xyz1584172808/article/details/89336478" target="_blank" rel="noopener">系统的整体逻辑是怎么样的？（系统业务逻辑介绍）</a></li><li><a href="https://blog.csdn.net/xyz1584172808/article/details/89891248" target="_blank" rel="noopener">需要做那些准备工作？（实验环境和实验数据准备）</a></li><li><a href="https://blog.csdn.net/xyz1584172808/article/details/89914745" target="_blank" rel="noopener">接收到用户的问题后需要怎么处理用户问题？（用户问题预处理）</a></li><li><a href="https://blog.csdn.net/xyz1584172808/article/details/89914745" target="_blank" rel="noopener">怎么识别用户到底问的啥？（用户问题分类）</a></li><li><p><a href="https://blog.csdn.net/xyz1584172808/article/details/89947813" target="_blank" rel="noopener">如果根据用户问题来查找答案？（答案获取）</a></p><p>对于这个系统的前端页面，是以前搞得一个基于信息检索的问答系统的界面，源代码见<a href="https://github.com/IrvingBei/chatbot_with_IR" target="_blank" rel="noopener">github</a></p></li></ul><p>好啦，目录就这样吧，等后面把对应的部分写了就链接上。</p>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>平时除了看论文还是看论文，感觉有点无聊，于是嘛就想着搞点东西来玩玩，然后就搞了一个非常简单的基于知识图谱的电影问答系统。系统是用python实现的，大概只花了1天吧，代码也仅有300多行，可以说是很容易上手了。然后在这里也简单的记录下整个搭建过程，梳理思路，给那些像我一样想玩玩的童鞋一些参考，大佬请自动跳过。</p></blockquote><p>首先给来看看我们要实现的是什么东西，效果图如下：<br><img src="https://img-blog.csdnimg.cn/20190415192606960.gif" alt="demo"><br>完成这个系统主要涉及到以下一些知识点，其实知识点说不上，只需要对这些概念有印象即可，这个系统本来就是做着玩的，还不需要用那些复杂的东西。</p><ul><li>网络爬虫</li><li>自然语言处理</li><li>知识图谱</li><li>图数据库</li><li><p>机器学习</p><p>看着这些点感觉内容挺多的，其实真正用到的只是一丢丢啦，比如说对于机器学习，其实我们就是用其中的一个分类器就可以了。这几部分我都写成了对应的处理类，代码也上传<a href="https://github.com/IrvingBei/simple_movie_qa_with_KG" target="_blank" rel="noopener">github</a>了，想提前玩玩的可以去下载来试试<del>（要是能给我个star就更好了（我怎么也这么无耻的来要star了。。。。</del> </p></li></ul><blockquote><p>本系列教程除了目录只有4篇，或许这并不是一个很详细的教程，主要是想帮助大家对代码的理解，理清思路或者扰乱思路。在做试验的时候，我就是先理清思路再写的，这是一个不错的方法，由于这个教程不是很详细，大家有被我搅晕的地方，可以给我发邮件（irvingbei@qq.com<br>或者xiongzy@std.uestc.edu.cn），也可以去网上找找资料。</p></blockquote><p>接下来根据业务逻辑从以下几个问题入手来介绍整个构建过程：</p><ul><li><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F2-%E7%B3%BB%E7%BB%9F%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E4%BB%8B%E7%BB%8D/">系统的整体逻辑是怎么样的？（系统业务逻辑介绍）</a></li><li><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F3-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E5%92%8C%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87/">需要做那些准备工作？（实验环境和实验数据准备）</a></li><li><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F4-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%A2%84%E5%A4%84%E7%90%86/">接收到用户的问题后需要怎么处理用户问题？（用户问题预处理）</a></li><li><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F4-%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%A2%84%E5%A4%84%E7%90%86/">怎么识别用户到底问的啥？（用户问题分类）</a></li><li><p><a href="http://bei.dreamcykj.com/2019/04/16/300%E8%A1%8Cpython%E4%BB%A3%E7%A0%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%9E%84%E5%BB%BA%E5%9F%BA%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E7%9A%84%E7%94%B5%E5%BD%B1%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F5-%E7%AD%94%E6%A1%88%E8%8E%B7%E5%8F%96/">如果根据用户问题来查找答案？（答案获取）</a></p><p>对于这个系统的前端页面，是以前搞得一个基于信息检索的问答系统的界面，源代码见<a href="https://github.com/IrvingBei/chatbot_with_IR" target="_blank" rel="noopener">github</a></p></li></ul><p>好啦，目录就这样吧，等后面把对应的部分写了就链接上。</p>]]></content>
       
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -243,7 +231,7 @@
       
       <categories>
           
-          <category> NOTES </category>
+          <category> 深度学习 </category>
           
       </categories>
       
@@ -270,9 +258,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -299,9 +285,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -328,9 +312,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -357,9 +339,7 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -368,7 +348,7 @@
             
             <tag> python </tag>
             
-            <tag> 实验教程 </tag>
+            <tag> 实验笔记 </tag>
             
         </tags>
       
@@ -386,16 +366,14 @@
       
       <categories>
           
-          <category> Material </category>
-          
-          <category> DL </category>
+          <category> 资料整理 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 资料 </tag>
+            <tag> 论文list </tag>
             
         </tags>
       
@@ -413,9 +391,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -423,6 +399,8 @@
         <tags>
             
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
             <tag> 记忆网络 </tag>
             
@@ -442,9 +420,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -452,6 +428,8 @@
         <tags>
             
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
             <tag> 记忆网络 </tag>
             
@@ -471,9 +449,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -500,9 +476,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -510,6 +484,8 @@
         <tags>
             
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
             <tag> 记忆网络 </tag>
             
@@ -529,9 +505,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -558,9 +532,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -568,6 +540,8 @@
         <tags>
             
             <tag> 论文笔记 </tag>
+            
+            <tag> 阅读理解 </tag>
             
             <tag> 记忆网络 </tag>
             
@@ -587,9 +561,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -616,9 +588,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -645,9 +615,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Tensorflow </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -674,9 +642,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -703,9 +669,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -732,9 +696,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
@@ -761,18 +723,16 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Papers </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 自然语言处理 </tag>
-            
             <tag> 阅读理解 </tag>
+            
+            <tag> 论文翻译 </tag>
             
         </tags>
       
@@ -790,16 +750,14 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Chaotic </category>
+          <category> 论文阅读 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 笔记 </tag>
+            <tag> 论文笔记 </tag>
             
             <tag> 混沌神经网络 </tag>
             
@@ -810,7 +768,7 @@
     
     
     <entry>
-      <title>利用sklearn实现多分类实验demo</title>
+      <title>利用sklearn实现文本多分类实验demo</title>
       <link href="/2018/09/03/%E5%88%A9%E7%94%A8sklearn%E5%AE%9E%E7%8E%B0%E5%A4%9A%E5%88%86%E7%B1%BBdemo%20(1)/"/>
       <url>/2018/09/03/%E5%88%A9%E7%94%A8sklearn%E5%AE%9E%E7%8E%B0%E5%A4%9A%E5%88%86%E7%B1%BBdemo%20(1)/</url>
       
@@ -819,9 +777,7 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> Classification </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -848,9 +804,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Keras </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -877,20 +831,18 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 实验 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> python </tag>
-            
-            <tag> 实验教程 </tag>
+            <tag> 实验记录 </tag>
             
             <tag> 自然语言处理 </tag>
+            
+            <tag> 句法分析 </tag>
             
         </tags>
       
@@ -908,9 +860,7 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -919,7 +869,7 @@
             
             <tag> python </tag>
             
-            <tag> 实验教程 </tag>
+            <tag> 实验记录 </tag>
             
             <tag> 自然语言处理 </tag>
             
@@ -930,7 +880,7 @@
     
     
     <entry>
-      <title>ROC原理介绍及利用python实现二分类和多分类的ROC曲线</title>
+      <title>ROC原理介绍及基于python实现二分类和多分类的ROC曲线</title>
       <link href="/2018/08/19/ROC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%88%A9%E7%94%A8python%E5%AE%9E%E7%8E%B0%E4%BA%8C%E5%88%86%E7%B1%BB%E5%92%8C%E5%A4%9A%E5%88%86%E7%B1%BB%E7%9A%84ROC%E6%9B%B2%E7%BA%BF%20(1)/"/>
       <url>/2018/08/19/ROC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%88%A9%E7%94%A8python%E5%AE%9E%E7%8E%B0%E4%BA%8C%E5%88%86%E7%B1%BB%E5%92%8C%E5%A4%9A%E5%88%86%E7%B1%BB%E7%9A%84ROC%E6%9B%B2%E7%BA%BF%20(1)/</url>
       
@@ -939,9 +889,7 @@
       
       <categories>
           
-          <category> Material </category>
-          
-          <category> ML </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -968,9 +916,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Keras </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -997,9 +943,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Keras </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -1026,9 +970,7 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -1037,7 +979,7 @@
             
             <tag> python </tag>
             
-            <tag> 实验教程 </tag>
+            <tag> 实验记录 </tag>
             
         </tags>
       
@@ -1055,9 +997,7 @@
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Keras </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -1084,9 +1024,7 @@
       
       <categories>
           
-          <category> Kaggle </category>
-          
-          <category> nlp </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1113,9 +1051,7 @@
       
       <categories>
           
-          <category> Kaggle </category>
-          
-          <category> nlp </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1142,9 +1078,7 @@
       
       <categories>
           
-          <category> Kaggle </category>
-          
-          <category> nlp </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1171,18 +1105,16 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 实验 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> python </tag>
+            <tag> 实验记录 </tag>
             
-            <tag> 实验教程 </tag>
+            <tag> web服务 </tag>
             
         </tags>
       
@@ -1200,16 +1132,14 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> PHP </category>
+          <category> 实验 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 实验教程 </tag>
+            <tag> 实验记录 </tag>
             
             <tag> PHP </tag>
             
@@ -1229,14 +1159,14 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> Text similarity </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
       
         <tags>
+            
+            <tag> 自然语言处理 </tag>
             
             <tag> 文本相似度 </tag>
             
@@ -1256,16 +1186,16 @@
       
       <categories>
           
-          <category> Material </category>
-          
-          <category> DL </category>
+          <category> 资料整理 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 资料 </tag>
+            <tag> 深度学习 </tag>
+            
+            <tag> 机器学习 </tag>
             
         </tags>
       
@@ -1283,16 +1213,16 @@
       
       <categories>
           
-          <category> Material </category>
-          
-          <category> DL </category>
+          <category> 资料整理 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 资料 </tag>
+            <tag> 深度学习 </tag>
+            
+            <tag> 机器学习 </tag>
             
         </tags>
       
@@ -1310,9 +1240,7 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> NLTK </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1320,6 +1248,8 @@
         <tags>
             
             <tag> NLTK基础教程 </tag>
+            
+            <tag> 自然语言处理 </tag>
             
         </tags>
       
@@ -1337,9 +1267,7 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> NLTK </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1347,6 +1275,8 @@
         <tags>
             
             <tag> NLTK基础教程 </tag>
+            
+            <tag> 自然语言处理 </tag>
             
         </tags>
       
@@ -1364,9 +1294,7 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> NLTK </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1374,6 +1302,8 @@
         <tags>
             
             <tag> NLTK基础教程 </tag>
+            
+            <tag> 自然语言处理 </tag>
             
         </tags>
       
@@ -1391,14 +1321,14 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
           <category> leetcode </category>
           
       </categories>
       
       
         <tags>
+            
+            <tag> 笔记 </tag>
             
             <tag> leetcode </tag>
             
@@ -1418,9 +1348,7 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> MDCourse </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1428,6 +1356,8 @@
         <tags>
             
             <tag> 自然语言处理 </tag>
+            
+            <tag> 木豆课程 </tag>
             
         </tags>
       
@@ -1445,9 +1375,7 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> MDCourse </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1455,6 +1383,8 @@
         <tags>
             
             <tag> 自然语言处理 </tag>
+            
+            <tag> 木豆课程 </tag>
             
         </tags>
       
@@ -1472,18 +1402,18 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> C++ </category>
+          <category> 实验 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 实验教程 </tag>
+            <tag> 实验记录 </tag>
             
             <tag> C++ </tag>
+            
+            <tag> Python </tag>
             
         </tags>
       
@@ -1501,9 +1431,7 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> MDCourse </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1511,6 +1439,8 @@
         <tags>
             
             <tag> 自然语言处理 </tag>
+            
+            <tag> 木豆课程 </tag>
             
         </tags>
       
@@ -1528,9 +1458,7 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Scrapy </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -1538,6 +1466,8 @@
         <tags>
             
             <tag> scrapy </tag>
+            
+            <tag> 爬虫 </tag>
             
         </tags>
       
@@ -1555,9 +1485,7 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Scrapy </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -1565,6 +1493,8 @@
         <tags>
             
             <tag> scrapy </tag>
+            
+            <tag> 爬虫 </tag>
             
         </tags>
       
@@ -1577,14 +1507,12 @@
       <link href="/2017/12/13/%E3%80%8A%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E3%80%8B-%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
       <url>/2017/12/13/%E3%80%8A%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E3%80%8B-%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
       
-        <content type="html"><![CDATA[<p> 用简单的方法学习 ——北北</p><p><a id="more"></a><strong>感知机模型描述</strong><br>:   这一部分主要介绍感知机是什么？</p><blockquote><p>假设输入空间（输入空间即为特征空间，由实例的各种特征组成）是χ⊆R*，输出空间是Y={-1,+1}。当输入x∈χ表示实例的特征向量，对应于输入空间（特征向量）的点，输出y∈Y表示实例的类别。由输入空间到输出空间的如下函数：</p><script type="math/tex; mode=display">f(x) = sign(w·x+b)</script><p>其中，w和b为感知机模型，w∈R*叫做权值或权值向量（在多数情况下，w是一个列向量），b∈R叫做偏置。</p></blockquote><p><strong><em>Tips：</em></strong><br>（1）w·x表示w和x的内积，若w=（w1，w2，w3），x=（x1，x2，x3），则</p><pre><code>$$w·x=∑wi·xi=w1·x1+w2·x2+w3·x3$$</code></pre><p>（2）sign(x)是一个符号函数，它根据x的输出1或-1</p><blockquote><p>感知机是一种线性分类模型，属于判别模型，其几何解释是线性方程<script type="math/tex">w·x+b=0</script>对应于特征空间的一个超平面S（二维情况下，该线性方程退化为一条直线），其中，w是超平面的法向量，b是平面的截距（如果是二维情况下，b就是在坐标轴上的截距），这个超平面将特征空间分为两部分，位于两部分的点分别被分为正负两类。因此，超平面称之为分离超平面（二维情况下是分割线）。<br>    <img src="http://img.blog.csdn.net/20170916103921608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="感知机模型"></p></blockquote><p><strong>感知机学习策略</strong><br>:   这一部分主要介绍如何衡量模型中的参数的好坏。<br>感知机学习的目标是求得一个能够将训练集正实例和负实例完全正确分开的分离超平面，为在这个寻找超平面的过程中（即确定感知机模型参数w，b），就需要衡量每次得到的模型参数的好坏，那么如何衡量呢？而通常使用损失函数来度量预测值与真实值之间的差距。于是我们在求最好的模型参数就相当于求极小化的损失函数。<br>再想想感知机的学习目标（将正实例和负实例完全正确分开），如果把分错了类型的点（误分类点）的多少作为衡量呢？效果会怎么样？这样的话，如果模型参数差，那么分错的点就很多，如果模型参数好的话，分错的点就很少，貌似有点道理。但是把误分类点的总数作为损失函数的话，此时的损失函数不是参数w，b的连续可导函数，所以不能直接使用误分类点总数。有没有办法将误分类总数转化为其他的衡量方式呢？于是想到将误分类点到超平面的S的总距离作为损失函数，而就是感知机的学习策略。</p><p>首先，输入空间R*中任意一点x0到超平面S的距离可以表示成：</p><script type="math/tex; mode=display">d= \dfrac{1}{||w||} |w·x0+b|$$**Tips:**（1）对这个公式的理解可以来源于中学的点到平面的距离公式，$$d = \dfrac{|Ax0+By0+Cz0+D|}{\sqrt{A^2+B^2+C^2 }} $$公式中的平面方程为Ax+By+Cz+D=0，点P的坐标(x0,y0,z0)，d为点P到平面的距离。（2）||w||是w的l2范数，即：$$||w||={\sqrt{w1^2+w2^2+...+wn^2}}$$这个形式看着像传统点到平面公式的分母，实际上，它就是距离公式中的分母，在传统的公式中，分母是各个变量前面系数的平方和开根号，而现在对于超平面：w·x+b=0，变量前面的系数是w，且w是个向量，这就是公式中||w||的由来。同理，公式中的b相当于传统公式中的D。 接下来我们来想想如何打开绝对值得问题，对于误分类的数据（xi,yi)来说,$$-yi(w·xi+b)>0$$总是成立的，因为当w·xi+b>0时，yi=-1；当w·xi+b<0时，yi=1。故误分类点到超平面的距离是$$-\dfrac{1}{||w||}·yi· （w·xi+b）</script><p> 假设误分类点的集合为M，则所有误分类点到超平面S的总距离为<script type="math/tex">-\dfrac{1}{||w||}∑yi· （w·xi+b）</script>其中，xi∈M。若不考虑$\dfrac{1}{||w||}$，就得到来感知机学习的损失函数：<script type="math/tex">L(w,b)=-∑yi· （w·xi+b）</script><br>其中，xi∈M。</p><p><strong>感知机学习算法</strong><br>:   这一部分主要介绍如何找到最好的参数，主要有原始形式的算法和对偶形式的算法。<br><strong>原始形式</strong><br><img src="http://img.blog.csdn.net/20170916151514384?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><strong>对偶形式</strong>(未完待续)</p>]]></content>
+        <content type="html"><![CDATA[<p><a id="more"></a><strong>感知机模型描述</strong><br>:   这一部分主要介绍感知机是什么？</p><blockquote><p>假设输入空间（输入空间即为特征空间，由实例的各种特征组成）是χ⊆R*，输出空间是Y={-1,+1}。当输入x∈χ表示实例的特征向量，对应于输入空间（特征向量）的点，输出y∈Y表示实例的类别。由输入空间到输出空间的如下函数：</p><script type="math/tex; mode=display">f(x) = sign(w·x+b)</script><p>其中，w和b为感知机模型，w∈R*叫做权值或权值向量（在多数情况下，w是一个列向量），b∈R叫做偏置。</p></blockquote><p><strong><em>Tips：</em></strong><br>（1）w·x表示w和x的内积，若w=（w1，w2，w3），x=（x1，x2，x3），则</p><pre><code>$$w·x=∑wi·xi=w1·x1+w2·x2+w3·x3$$</code></pre><p>（2）sign(x)是一个符号函数，它根据x的输出1或-1</p><blockquote><p>感知机是一种线性分类模型，属于判别模型，其几何解释是线性方程<script type="math/tex">w·x+b=0</script>对应于特征空间的一个超平面S（二维情况下，该线性方程退化为一条直线），其中，w是超平面的法向量，b是平面的截距（如果是二维情况下，b就是在坐标轴上的截距），这个超平面将特征空间分为两部分，位于两部分的点分别被分为正负两类。因此，超平面称之为分离超平面（二维情况下是分割线）。<br>    <img src="http://img.blog.csdn.net/20170916103921608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="感知机模型"></p></blockquote><p><strong>感知机学习策略</strong><br>:   这一部分主要介绍如何衡量模型中的参数的好坏。<br>感知机学习的目标是求得一个能够将训练集正实例和负实例完全正确分开的分离超平面，为在这个寻找超平面的过程中（即确定感知机模型参数w，b），就需要衡量每次得到的模型参数的好坏，那么如何衡量呢？而通常使用损失函数来度量预测值与真实值之间的差距。于是我们在求最好的模型参数就相当于求极小化的损失函数。<br>再想想感知机的学习目标（将正实例和负实例完全正确分开），如果把分错了类型的点（误分类点）的多少作为衡量呢？效果会怎么样？这样的话，如果模型参数差，那么分错的点就很多，如果模型参数好的话，分错的点就很少，貌似有点道理。但是把误分类点的总数作为损失函数的话，此时的损失函数不是参数w，b的连续可导函数，所以不能直接使用误分类点总数。有没有办法将误分类总数转化为其他的衡量方式呢？于是想到将误分类点到超平面的S的总距离作为损失函数，而就是感知机的学习策略。</p><p>首先，输入空间R*中任意一点x0到超平面S的距离可以表示成：</p><script type="math/tex; mode=display">d= \dfrac{1}{||w||} |w·x0+b|$$**Tips:**（1）对这个公式的理解可以来源于中学的点到平面的距离公式，$$d = \dfrac{|Ax0+By0+Cz0+D|}{\sqrt{A^2+B^2+C^2 }} $$公式中的平面方程为Ax+By+Cz+D=0，点P的坐标(x0,y0,z0)，d为点P到平面的距离。（2）||w||是w的l2范数，即：$$||w||={\sqrt{w1^2+w2^2+...+wn^2}}$$这个形式看着像传统点到平面公式的分母，实际上，它就是距离公式中的分母，在传统的公式中，分母是各个变量前面系数的平方和开根号，而现在对于超平面：w·x+b=0，变量前面的系数是w，且w是个向量，这就是公式中||w||的由来。同理，公式中的b相当于传统公式中的D。 接下来我们来想想如何打开绝对值得问题，对于误分类的数据（xi,yi)来说,$$-yi(w·xi+b)>0$$总是成立的，因为当w·xi+b>0时，yi=-1；当w·xi+b<0时，yi=1。故误分类点到超平面的距离是$$-\dfrac{1}{||w||}·yi· （w·xi+b）</script><p> 假设误分类点的集合为M，则所有误分类点到超平面S的总距离为<script type="math/tex">-\dfrac{1}{||w||}∑yi· （w·xi+b）</script>其中，xi∈M。若不考虑$\dfrac{1}{||w||}$，就得到来感知机学习的损失函数：<script type="math/tex">L(w,b)=-∑yi· （w·xi+b）</script><br>其中，xi∈M。</p><p><strong>感知机学习算法</strong><br>:   这一部分主要介绍如何找到最好的参数，主要有原始形式的算法和对偶形式的算法。<br><strong>原始形式</strong><br><img src="http://img.blog.csdn.net/20170916151514384?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHl6MTU4NDE3MjgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><strong>对偶形式</strong>(未完待续)</p>]]></content>
       
       
       <categories>
           
-          <category> NOTES </category>
-          
-          <category> Statistical </category>
+          <category> 机器学习 </category>
           
       </categories>
       
@@ -1592,6 +1520,8 @@
         <tags>
             
             <tag> 笔记 </tag>
+            
+            <tag> 统计学习方法 </tag>
             
         </tags>
       
@@ -1609,9 +1539,7 @@
       
       <categories>
           
-          <category> NLP </category>
-          
-          <category> MDCourse </category>
+          <category> 自然语言处理 </category>
           
       </categories>
       
@@ -1619,6 +1547,8 @@
         <tags>
             
             <tag> 自然语言处理 </tag>
+            
+            <tag> 木豆课程 </tag>
             
         </tags>
       
@@ -1636,9 +1566,7 @@
       
       <categories>
           
-          <category> Experiment </category>
-          
-          <category> Python </category>
+          <category> 实验 </category>
           
       </categories>
       
@@ -1647,7 +1575,7 @@
             
             <tag> python </tag>
             
-            <tag> 实验教程 </tag>
+            <tag> 实验记录 </tag>
             
         </tags>
       
