@@ -4,26 +4,27 @@
   
     
     <entry>
-      <title>自动化测试</title>
-      <link href="/2020/04/12/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/"/>
-      <url>/2020/04/12/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/</url>
+      <title>利用bat批处理命令实现Hexo文章的自动创建和部署</title>
+      <link href="/2020/04/12/%E5%88%A9%E7%94%A8bat%E6%89%B9%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E5%92%8C%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/"/>
+      <url>/2020/04/12/%E5%88%A9%E7%94%A8bat%E6%89%B9%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E5%92%8C%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</url>
       
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>自动化保护书</title>
-      <link href="/2020/04/12/%E8%87%AA%E5%8A%A8%E5%8C%96%E4%BF%9D%E6%8A%A4%E4%B9%A6/"/>
-      <url>/2020/04/12/%E8%87%AA%E5%8A%A8%E5%8C%96%E4%BF%9D%E6%8A%A4%E4%B9%A6/</url>
-      
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p>之前每次写文章时都是手动的使用命令创建文件，写好后又通过相应的命令将其部署到github上，然后一直就在想，能不能通过bat命令来实现这些机械性的操作，本文就详细介绍这个过程。<br><a id="more"></a></p><h3 id="1-背景"><a href="#1-背景" class="headerlink" title="1 背景"></a>1 背景</h3><p>想要利用bat批处理命令实现每次写文章时那些机械性的重复敲命令的过程，然后在网上搜了下，还真有一些大佬用了这种方法来实现，然后就参照他们的代码进行了初步实验。发现真的可行。<br>下面就给出相应的脚步。</p><h3 id="2-具体实验过程"><a href="#2-具体实验过程" class="headerlink" title="2 具体实验过程"></a>2 具体实验过程</h3><p>（1）自动创建文章<br>这一部分主要是想实现自动创建md文件，这样每次就不用手动输入文件中的头部信息了。在创建这个文件后并用指定的编辑器打开这个文件。<br><strong>create,bat文件</strong></p><pre class=" language-lang-Bash"><code class="language-lang-Bash">@echo offset /p name=input name:echo name:%name%echo please waithexo new post %name% && call openIDE.bat %name%pause</code></pre><p>这个文件是自动创建文章的主文件，在成功创建文件后调用打开IDE的脚本。<br><strong>openIDE.bat</strong></p><pre class=" language-lang-Bash"><code class="language-lang-Bash">start /min /w mshta vbscript:setTimeout("window.close()",1000)echo the input is %1set name=%1echo %name%start /d "D:\Program Files (x86)\Notepad++" notepad++.exe "F:\研究生\hexo\blog\source\_posts\%name%.md"pause</code></pre><p>（2）自动部署<br>这个主要是把部署的三条命令写进文件里。<br><strong>deploy.bat</strong></p><pre class=" language-lang-Bash"><code class="language-lang-Bash">start clean.batstart /min /w mshta vbscript:setTimeout("window.close()",2000)start gd.batexit</code></pre><p>这个文件是部署的主文件，先是调用清理缓存的脚本，然后再调用生成和部署脚本。<br><strong>clean.bat</strong></p><pre class=" language-lang-Bash"><code class="language-lang-Bash">@echo offecho cleanecho please waithexo cleanexit</code></pre><p><strong>gd.bat</strong></p><pre class=" language-lang-Bash"><code class="language-lang-Bash">start /min /w mshta vbscript:setTimeout("window.close()",2000)hexo g -dexit</code></pre><p>基本上就是这样了，需要注意的有以下几点：</p><ul><li>bat文件的编码方式请采用ANSI编码，这样才能正常显示中文</li><li>这些bat文件需要放在博客目录下</li><li>记得把相关文件路径替换成自己的文件路径</li></ul><h3 id="3-后记"><a href="#3-后记" class="headerlink" title="3 后记"></a>3 后记</h3><p>后面想到可以将这些脚本适当的扩展成通用性更强的客户端：</p><ul><li>设置配置文件，把涉及到的文件路径写入配置文件，在初次运行客户端时提示用户指定这些路径，每次运行时只需读取配置文件即可；</li><li>设置文件监听，把自动创建和自动部署合并，在自动创建文件后对文件进行监听，等文件修改完成后再调用自动部署脚本；</li><li>设置IDE扩展，把自启动编辑器设置成可供用户选择的方式，用户想用那种IDE就用那种。</li></ul><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>（1）<a href="https://www.jianshu.com/p/c27fee631efd" target="_blank" rel="noopener">【Hexo】bat自动处理hexo命令</a><br>（2）<a href="http://www.manongjc.com/article/55860.html" target="_blank" rel="noopener">Hexo博客使用bat脚本自动部署和免密码部署</a><br>（3）<a href="https://www.jianshu.com/p/c27fee631efd" target="_blank" rel="noopener">Hexo，使用 bat 脚本部署文章</a></p>]]></content>
       
       
+      <categories>
+          
+          <category> 实验 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 实验记录 </tag>
+            
+            <tag> bat批处理 </tag>
+            
+        </tags>
       
     </entry>
     
