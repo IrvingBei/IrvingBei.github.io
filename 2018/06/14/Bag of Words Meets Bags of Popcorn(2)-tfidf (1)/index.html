@@ -452,7 +452,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>本篇是kaggle之电影评论文本情感分类（Bag of Words Meets Bags of Popcorn）实现的第二篇，语言模型选择的是TFIDF<br>主要参考：<a href="https://www.kaggle.com/rajathmc/bag-of-words-meets-bags-of-popcorn" target="_blank" rel="noopener">https://www.kaggle.com/rajathmc/bag-of-words-meets-bags-of-popcorn</a><br><a href="https://www.cnblogs.com/lijingpeng/p/5787549.html" target="_blank" rel="noopener">https://www.cnblogs.com/lijingpeng/p/5787549.html</a><br>这两篇文章，部分地方有修改。<br><a id="more"></a></p>
-<h4 id="0、主要思路"><a href="#0、主要思路" class="headerlink" title="0、主要思路"></a>0、主要思路</h4><p>（1）首先使用第一篇中数据清洗方法对训练集和测试集的数据进行清洗；前一篇<a href="http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn(1)-Bag%20of%20Words/#more">http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn(1)-Bag%20of%20Words/#more</a></p>
+<h4 id="0、主要思路"><a href="#0、主要思路" class="headerlink" title="0、主要思路"></a>0、主要思路</h4><p>（1）首先使用第一篇中数据清洗方法对训练集和测试集的数据进行清洗；前一篇<a href="http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn(1)-Bag%20of%20Words/#more" target="_blank" rel="noopener">http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn(1)-Bag%20of%20Words/#more</a></p>
 <p>（2）利用sklearn中文本特征提取方法将数据向量化，并对训练集和测试集提取tfidf特征；</p>
 <p>（3）选择适当的分类算法，在训练集上训练，并在测试集上进行测试，保存预测结果。</p>
 <pre class=" language-lang-python"><code class="language-lang-python">import pandas as pd
@@ -463,7 +463,7 @@ from nltk.corpus import stopwords
 <h4 id="1、读取数据"><a href="#1、读取数据" class="headerlink" title="1、读取数据"></a>1、读取数据</h4><pre class=" language-lang-python"><code class="language-lang-python">train=pd.read_csv("./data/labeledTrainData.tsv",header=0,delimiter="\t",quoting=3)
 test=pd.read_csv("./data/testData.tsv",header=0,delimiter="\t",quoting=3)
 </code></pre>
-<h4 id="2、数据清洗"><a href="#2、数据清洗" class="headerlink" title="2、数据清洗"></a>2、数据清洗</h4><p>这里直接给出数据清洗方法，分析过程见<a href="http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn(1)-Bag%20of%20Words/#more">http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn(1)-Bag%20of%20Words/#more</a></p>
+<h4 id="2、数据清洗"><a href="#2、数据清洗" class="headerlink" title="2、数据清洗"></a>2、数据清洗</h4><p>这里直接给出数据清洗方法，分析过程见<a href="http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn(1)-Bag%20of%20Words/#more" target="_blank" rel="noopener">http://bei.dreamcykj.com/2018/06/13/Bag%20of%20Words%20Meets%20Bags%20of%20Popcorn(1)-Bag%20of%20Words/#more</a></p>
 <pre class=" language-lang-python"><code class="language-lang-python">def review_to_words(raw_review):
     # 去掉html标签
     review_text=BeautifulSoup(raw_review).get_text()
